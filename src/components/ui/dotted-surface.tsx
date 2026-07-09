@@ -6,8 +6,6 @@ import * as THREE from 'three';
 type DottedSurfaceProps = Omit<React.ComponentProps<'div'>, 'ref'>;
 
 export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
-
-
 	const containerRef = useRef<HTMLDivElement>(null);
 	const sceneRef = useRef<{
 		scene: THREE.Scene;
@@ -182,7 +180,6 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			}
 		};
 	}, []);
-
 
 	return (
 		<div

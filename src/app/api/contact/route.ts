@@ -13,6 +13,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Email regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address." },
+        { status: 400 }
+      );
+    }
+
     // Create transporter using Gmail SMTP service
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -34,19 +43,64 @@ export async function POST(request: Request) {
             `Sender Email: ${email}\n\n` +
             `Message:\n${message}`,
       html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-          <div style="background-color: #2563eb; padding: 20px; color: white; text-align: center;">
-            <h2 style="margin: 0; font-size: 20px;">Portfolio Contact Message</h2>
-          </div>
-          <div style="padding: 24px;">
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}" style="color: #2563eb;">${email}</a></p>
-            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p><strong>Message:</strong></p>
-            <div style="background-color: #f9fafb; padding: 16px; border-left: 4px solid #2563eb; border-radius: 4px; white-space: pre-wrap;">${message}</div>
-          </div>
-          <div style="background-color: #f3f4f6; padding: 12px; text-align: center; font-size: 11px; color: #666;">
-            Sent from your portfolio contact form.
+        <div style="background-color: #07070a; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+          <div style="max-width: 560px; margin: 0 auto; background-color: #0e0e17; border: 1px solid #1f1f2e; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+            
+            <!-- Header Banner -->
+            <div style="background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%); padding: 30px 24px; text-align: center; border-bottom: 1px solid #1f1f2e;">
+              <span style="display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.2em; background-color: rgba(255,255,255,0.15); color: #93c5fd; padding: 6px 12px; border-radius: 99px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                Portfolio Inquiry
+              </span>
+              <h2 style="margin: 0; font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: -0.02em;">
+                New Message Received
+              </h2>
+            </div>
+            
+            <!-- Body Content -->
+            <div style="padding: 32px 24px; color: #e2e8f0;">
+              
+              <!-- Sender Info Cards -->
+              <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                <tr>
+                  <td style="width: 50%; padding-right: 8px;">
+                    <div style="background-color: #161622; border: 1px solid #27273a; padding: 14px; border-radius: 10px;">
+                      <p style="margin: 0 0 4px 0; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Sender Name</p>
+                      <p style="margin: 0; font-size: 14px; font-weight: 600; color: #f8fafc;">${name}</p>
+                    </div>
+                  </td>
+                  <td style="width: 50%; padding-left: 8px;">
+                    <div style="background-color: #161622; border: 1px solid #27273a; padding: 14px; border-radius: 10px;">
+                      <p style="margin: 0 0 4px 0; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Email Address</p>
+                      <p style="margin: 0; font-size: 14px; font-weight: 600; color: #3b82f6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        <a href="mailto:${email}" style="color: #3b82f6; text-decoration: none;">${email}</a>
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              
+              <!-- Message Text -->
+              <div style="margin-bottom: 32px;">
+                <p style="margin: 0 0 8px 0; font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">Message Body</p>
+                <div style="background-color: #161622; border: 1px solid #27273a; border-left: 4px solid #3b82f6; padding: 18px; border-radius: 4px 10px 10px 4px; font-size: 14px; line-height: 1.6; color: #cbd5e1; white-space: pre-wrap; min-height: 80px;">${message}</div>
+              </div>
+              
+              <!-- Action Button -->
+              <div style="text-align: center;">
+                <a href="mailto:${email}" style="display: inline-block; background-color: #2563eb; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 28px; border-radius: 99px; transition: background-color 0.2s; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">
+                  Reply Direct to Email
+                </a>
+              </div>
+
+            </div>
+            
+            <!-- Footer -->
+            <div style="background-color: #0b0b12; border-top: 1px solid #1f1f2e; padding: 16px 24px; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #475569; letter-spacing: 0.02em;">
+                Automated notification from your portfolio contact form.
+              </p>
+            </div>
+            
           </div>
         </div>
       `,

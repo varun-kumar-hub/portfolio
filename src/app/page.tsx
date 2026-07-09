@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIcons";
 import { DottedSurface } from "@/components/ui/dotted-surface";
+import { SpaceBackground } from "@/components/ui/space-background";
 import SkillsBento from "@/components/SkillsBento";
 import EducationTimeline from "@/components/EducationTimeline";
 import ExperienceBento from "@/components/ExperienceBento";
@@ -254,6 +255,14 @@ export default function Home() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Email regex validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const response = await fetch("/api/contact", {
@@ -308,11 +317,15 @@ export default function Home() {
       {/* Custom cursor animation */}
       <CustomCursor />
 
-      {/* Global WebGL animated particle background */}
-      <DottedSurface />
+      {/* Global Starfield Backgrounds */}
+      {!hasEntered ? (
+        <DottedSurface />
+      ) : (
+        <SpaceBackground />
+      )}
 
       {/* Root-mounted continuous Odyssey backgrounds */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
         {/* Subtle grid overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_80%,transparent_100%)] opacity-40" />
 
@@ -363,7 +376,7 @@ export default function Home() {
             onProgressChange={() => {}}
           />
         ) : (
-          <main id="top" key="portfolio" className="relative min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500">
+          <main id="top" key="portfolio" className="relative z-[2] min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500">
 
       {/* ─── Header ─── */}
       <Navbar onReturnToIntro={() => setHasEntered(false)} />
@@ -468,10 +481,6 @@ export default function Home() {
                       width={560}
                     />
                   </div>
-                </div>
-                {/* Orbiting accent dot */}
-                <div className="absolute -inset-3 rounded-full animate-[spin_12s_linear_infinite] pointer-events-none">
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.8)]" />
                 </div>
               </div>
             </motion.div>
