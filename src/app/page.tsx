@@ -24,7 +24,8 @@ import {
 import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIcons";
 import ThemeToggle from "@/components/ThemeToggle";
 import { DottedSurface } from "@/components/ui/dotted-surface";
-import SkillsMarquee from "@/components/SkillsMarquee";
+import SkillsBento from "@/components/SkillsBento";
+import EducationTimeline from "@/components/EducationTimeline";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -40,16 +41,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const navItems = ["Home", "Education", "Skills", "Projects", "Experience", "Contact"];
-
-const education = [
-  {
-    college: "Kalasalingam Academy of Research and Education",
-    degree: "Bachelor of Technology",
-    specialization: "Computer Science and Engineering (AI & ML)",
-    duration: "Aug 2024 - Present",
-    cgpa: "Current CGPA: 9.37/10",
-  },
-];
 
 const workExperience = [
   {
@@ -128,19 +119,20 @@ const projects = [
     live: "https://resume-a.vercel.app/",
   },
   {
-    name: "AI Research Agent",
+    name: "ResearchX AI",
     description:
-      "A neural network-based conversational system using NLP to deliver accurate, context-aware responses in real time.",
+      "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research.",
     longDescription:
-      "The AI Research Agent is an intelligent system built for researchers who need to navigate scientific publications. Leveraging advanced neural networks and deep NLP architectures, the agent parses query intents, queries research indexes, and extracts key insights. It features advanced sentiment and semantic analysis to synthesize cross-document findings, summarize literature landscapes, and deliver summarized context-aware reports.",
+      "ResearchX AI is a Multi-Agent Research & Verification Platform designed for autonomous research. It understands query intent, runs parallel multi-source searches, extracts and deduplicates data, cross-verifies facts, and generates comprehensive research reports with confidence scores. Features an interactive dashboard, personal API key management, and conversational follow-ups.",
     details: [
-      "Implemented advanced tokenization and sentiment analysis to improve response accuracy for learning and problem-solving.",
-      "Optimized interaction latency, making user assistance 30% faster and more efficient.",
+      "Engineered an autonomous multi-agent pipeline: Query Understanding, Research Planner, Discovery, Extraction, Deduplication, Verification, Report Generation, and AI Analyst.",
+      "Implemented parallel search across Google (Serper), Tavily, Wikipedia, LinkedIn, official directories with browser-only API key storage and auto-fallback.",
+      "Built validation mechanisms that cross-verify records, detect conflicts, resolve duplicate entities, and assign confidence scores.",
     ],
     stack: [
-      { category: "Core Development", items: ["Python", "Git"] },
-      { category: "NLP & AI Orchestration", items: ["NLP", "Google Gemini API", "Neural Networks", "TensorFlow", "LangChain"] },
-      { category: "Data Scraping", items: ["BeautifulSoup"] }
+      { category: "Frontend", items: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Framer Motion"] },
+      { category: "Backend & AI", items: ["Next.js API Routes", "Google Gemini 2.5 Flash", "Serper API", "Tavily Search"] },
+      { category: "Database", items: ["Supabase PostgreSQL"] }
     ],
     github: "https://github.com/varun-kumar-hub/research-agent.git",
     live: "https://research-agent-one-ruddy.vercel.app/",
@@ -430,23 +422,7 @@ export default function Home() {
         <SectionHeading eyebrow="Education" title="Academic Background" icon={<GraduationCap size={16} />}>
           Academic records and core computer science studies.
         </SectionHeading>
-        <div className="mx-auto max-w-3xl">
-          {education.map((item, idx) => (
-            <article className="rounded-2xl border border-gray-200/50 bg-white/70 p-7 shadow-sm backdrop-blur-md dark:border-gray-800/40 dark:bg-gray-900/40 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_0_20px_var(--accent-glow)]" key={idx}>
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-950 dark:text-white">{item.college}</h3>
-                  <p className="mt-2 font-medium text-gray-700 dark:text-gray-300">{item.degree}</p>
-                  <p className="mt-1 text-gray-500 dark:text-gray-400">{item.specialization}</p>
-                </div>
-                <div className="text-left sm:text-right shrink-0">
-                  <p className="text-sm font-semibold text-[var(--accent)]">{item.duration}</p>
-                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{item.cgpa}</p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        <EducationTimeline />
       </section>
 
       {/* ─── Skills ─── */}
@@ -455,7 +431,7 @@ export default function Home() {
           <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
             Languages, frameworks, database managers, and DevOps tools in my stack.
           </SectionHeading>
-          <SkillsMarquee />
+          <SkillsBento />
         </div>
       </section>
 
