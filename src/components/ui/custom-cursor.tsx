@@ -2,14 +2,53 @@
 
 import React, { useEffect, useRef } from "react";
 
+interface Satellite {
+  angle: number;
+  angularSpeed: number;
+  radius: number;
+  color: string;
+  size: number;
+  orbitPhase: number;
+}
+
+interface BurstParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  opacity: number;
+  color: string;
+  size: number;
+}
+
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
-  const trailCanvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const mousePos = useRef({ x: -100, y: -100 });
-  const ringPos = useRef({ x: -100, y: -100 });
   const trailPoints = useRef<{ x: number; y: number; age: number }[]>([]);
+  const satellites = useRef<Satellite[]>(
+    Array.from({ length: 10 }).map((_, i) => {
+      const angle = (i * Math.PI * 2) / 10;
+      const colors = [
+        "rgba(96, 165, 250, 0.8)",  // light blue
+        "rgba(129, 140, 248, 0.8)", // indigo
+        "rgba(59, 130, 246, 0.8)",  // blue
+        "rgba(147, 197, 253, 0.8)", // ice blue
+        "rgba(99, 102, 241, 0.8)",  // royal indigo
+        "rgba(196, 181, 253, 0.8)"  // pastel purple
+      ];
+      return {
+        angle: angle,
+        angularSpeed: 0.02 + Math.random() * 0.025, // varied speeds
+        radius: 15 + i * 1.6, // layered orbits
+        color: colors[i % colors.length],
+        size: Math.random() * 0.5 + 1.2, // varied sizes
+        orbitPhase: i * 36
+      };
+    })
+  );
+  const burstParticles = useRef<BurstParticle[]>([]);
 
   useEffect(() => {
     // Detect touch devices — disable custom cursor entirely
@@ -17,17 +56,16 @@ export default function CustomCursor() {
     if (isTouchDevice) return;
 
     const dot = dotRef.current;
-    const ring = ringRef.current;
-    const canvas = trailCanvasRef.current;
+    const canvas = canvasRef.current;
 
-    if (!dot || !ring) return;
+    if (!dot || !canvas) return;
 
-    // Track state without React re-renders
+    // Track states without React re-renders for max performance
     let isVisible = false;
     let isHovering = false;
     let isClicking = false;
 
-    // Setup canvas size once and handle resize performantly
+    // Handle high-DPI canvas resizing
     const handleResize = () => {
       if (canvas) {
         canvas.width = window.innerWidth;
@@ -43,13 +81,12 @@ export default function CustomCursor() {
       if (!isVisible) {
         isVisible = true;
         dot.classList.add("visible");
-        ring.classList.add("visible");
-        if (canvas) canvas.style.opacity = "1";
+        canvas.style.opacity = "1";
       }
 
       // Add trail point
       trailPoints.current.push({ x: e.clientX, y: e.clientY, age: 0 });
-      if (trailPoints.current.length > 25) {
+      if (trailPoints.current.length > 20) {
         trailPoints.current.shift();
       }
     };
@@ -57,30 +94,42 @@ export default function CustomCursor() {
     const handleMouseDown = () => {
       isClicking = true;
       dot.classList.add("clicking");
-      ring.classList.add("clicking");
+
+      // Spawn satellite burst particles on click!
+      const colors = ["#60a5fa", "#818cf8", "#3b82f6", "#ffffff"];
+      for (let i = 0; i < 12; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 4 + 3; // explosive speed
+        burstParticles.current.push({
+          x: mousePos.current.x,
+          y: mousePos.current.y,
+          vx: Math.cos(angle) * velocity,
+          vy: Math.sin(angle) * velocity,
+          opacity: 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 1.8 + 1,
+        });
+      }
     };
 
     const handleMouseUp = () => {
       isClicking = false;
       dot.classList.remove("clicking");
-      ring.classList.remove("clicking");
     };
 
     const handleMouseLeave = () => {
       isVisible = false;
       dot.classList.remove("visible");
-      ring.classList.remove("visible");
-      if (canvas) canvas.style.opacity = "0";
+      canvas.style.opacity = "0";
     };
 
     const handleMouseEnter = () => {
       isVisible = true;
       dot.classList.add("visible");
-      ring.classList.add("visible");
-      if (canvas) canvas.style.opacity = "1";
+      canvas.style.opacity = "1";
     };
 
-    // Performance-friendly event delegation to detect interactive element hovering
+    // Listen for hovering over interactive targets
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
@@ -95,7 +144,6 @@ export default function CustomCursor() {
             cursorPointer = true;
             break;
           }
-          // Detect hover structures (cards/timelines/bento/swiper)
           const className = curr.className;
           if (
             typeof className === 'string' &&
@@ -118,13 +166,11 @@ export default function CustomCursor() {
         if (!isHovering) {
           isHovering = true;
           dot.classList.add("hovering");
-          ring.classList.add("hovering");
         }
       } else {
         if (isHovering) {
           isHovering = false;
           dot.classList.remove("hovering");
-          ring.classList.remove("hovering");
         }
       }
     };
@@ -136,36 +182,21 @@ export default function CustomCursor() {
     document.addEventListener("mouseenter", handleMouseEnter);
     document.addEventListener("mouseover", handleMouseOver);
 
-    // Animation loop (hardware accelerated)
+    // Animation Loop
     let animFrame: number;
-    let rotationAngle = 0;
     
     const animate = () => {
       animFrame = requestAnimationFrame(animate);
 
-      // Smooth ring follow (elastic lag)
-      const lag = 0.18;
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * lag;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * lag;
-
-      // Rotate when hovering
-      if (isHovering) {
-        rotationAngle = (rotationAngle + 1.5) % 360;
-      } else {
-        rotationAngle = 0;
-      }
-
-      // Apply positions directly to styling (Zero React overhead)
+      // Core dot translate (Follow mouse immediately)
       dot.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
-      ring.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate3d(-50%, -50%, 0) rotate3d(0, 0, 1, ${rotationAngle}deg)`;
 
-      // Render custom trail on canvas
       if (canvas && isVisible) {
         const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          // Age trail points
+          // 1. Draw Mouse Motion Dust Trail
           for (let i = trailPoints.current.length - 1; i >= 0; i--) {
             trailPoints.current[i].age += 1;
             if (trailPoints.current[i].age > 16) {
@@ -173,22 +204,88 @@ export default function CustomCursor() {
             }
           }
 
-          // Draw trailing dots
           trailPoints.current.forEach((point) => {
-            const alpha = Math.max(0, 1 - point.age / 16) * 0.25;
+            const alpha = Math.max(0, 1 - point.age / 16) * 0.2;
             const size = Math.max(0.4, (1 - point.age / 16) * 1.5);
             ctx.beginPath();
             ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
             ctx.fillStyle = `rgba(96, 165, 250, ${alpha})`;
             ctx.fill();
           });
+
+          // 2. Render and Orbit Satellites
+          let targetRadius = 18;
+          let speedMultiplier = 1;
+
+          if (isClicking) {
+            targetRadius = 4; // collapse tight on click core
+            speedMultiplier = 1.8;
+          } else if (isHovering) {
+            targetRadius = 3; // charge up core on hover
+            speedMultiplier = 3.6; // spin hyper fast!
+          } else {
+            // Subtle breathing radius expansion
+            targetRadius = 18 + Math.sin(Date.now() * 0.003) * 2;
+          }
+
+          satellites.current.forEach((sat) => {
+            // Smoothly ease current radius to target state
+            sat.radius += (targetRadius - sat.radius) * 0.12;
+
+            // Increment angle
+            sat.angle += sat.angularSpeed * speedMultiplier;
+
+            // Calculate 3D-like elliptical coordinates centered at mousePos
+            const satX = mousePos.current.x + Math.cos(sat.angle) * sat.radius;
+            // Compress Y coordinate slightly to create an angled orbital plane perspective
+            const satY = mousePos.current.y + Math.sin(sat.angle) * sat.radius * 0.85;
+
+            // Orbit path lines (draw fine faint orbital connection ring)
+            if (sat.radius > 6 && !isHovering) {
+              ctx.beginPath();
+              ctx.ellipse(
+                mousePos.current.x, mousePos.current.y,
+                sat.radius, sat.radius * 0.85,
+                0, 0, Math.PI * 2
+              );
+              ctx.strokeStyle = `rgba(96, 165, 250, 0.025)`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+
+            // Draw satellite
+            ctx.beginPath();
+            ctx.arc(satX, satY, sat.size, 0, Math.PI * 2);
+            ctx.fillStyle = sat.color;
+            ctx.shadowColor = sat.color;
+            ctx.shadowBlur = isHovering ? 4 : 2;
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+          });
+
+          // 3. Render and animate Click Burst Particles
+          for (let i = burstParticles.current.length - 1; i >= 0; i--) {
+            const p = burstParticles.current[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.opacity -= 0.038; // quick decay
+
+            if (p.opacity <= 0) {
+              burstParticles.current.splice(i, 1);
+            } else {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+              ctx.fillStyle = p.color + Math.floor(p.opacity * 255).toString(16).padStart(2, '0');
+              ctx.fill();
+            }
+          }
         }
       }
     };
 
     animate();
 
-    // Hide default system cursor
+    // Disable default system cursor
     document.body.style.cursor = "none";
 
     const style = document.createElement("style");
@@ -217,49 +314,14 @@ export default function CustomCursor() {
       }
       
       .custom-cursor-dot.hovering {
-        width: 6px;
-        height: 6px;
-        box-shadow: 0 0 10px rgba(96, 165, 250, 0.8), 0 0 20px rgba(96, 165, 250, 0.3);
+        width: 6.5px;
+        height: 6.5px;
+        box-shadow: 0 0 10px rgba(96, 165, 250, 0.8), 0 0 20px rgba(96, 165, 250, 0.4);
       }
       
       .custom-cursor-dot.clicking {
-        width: 3px;
-        height: 3px;
-      }
-      
-      .custom-cursor-ring {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9998;
-        pointer-events: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 1px solid rgba(96, 165, 250, 0.2);
-        background-color: transparent;
-        opacity: 0;
-        will-change: transform;
-        transition: width 0.2s ease-out, height 0.2s ease-out, border-color 0.2s ease-out, background-color 0.2s ease-out, opacity 0.2s ease-out;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .custom-cursor-ring.visible {
-        opacity: 1;
-      }
-      
-      .custom-cursor-ring.hovering {
-        width: 40px;
-        height: 40px;
-        border: 1px dashed rgba(96, 165, 250, 0.65);
-        background-color: rgba(96, 165, 250, 0.03);
-      }
-      
-      .custom-cursor-ring.clicking {
-        width: 18px;
-        height: 18px;
+        width: 2.5px;
+        height: 2.5px;
       }
     `;
     document.head.appendChild(style);
@@ -279,27 +341,22 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // Don't render on touch devices (SSR safe)
+  // SSR Safe Check
   if (typeof window !== "undefined" && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
     return null;
   }
 
   return (
     <>
-      {/* Trail canvas */}
+      {/* Canvas for motion trail, satellite orbits and click burst particles */}
       <canvas
-        ref={trailCanvasRef}
+        ref={canvasRef}
         className="fixed inset-0 z-[9998] pointer-events-none transition-opacity duration-300"
         style={{ opacity: 0 }}
       />
 
-      {/* Dot (main cursor) */}
+      {/* Main Cursor Core Dot */}
       <div ref={dotRef} className="custom-cursor-dot" />
-
-      {/* Ring (trailing circle) */}
-      <div ref={ringRef} className="custom-cursor-ring">
-        <div className="inner-radar absolute inset-1 rounded-full border border-dotted border-blue-400/0 transition-all duration-200" />
-      </div>
     </>
   );
 }
