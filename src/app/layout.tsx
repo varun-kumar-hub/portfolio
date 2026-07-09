@@ -42,23 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth antialiased ${spaceGrotesk.variable} ${plusJakartaSans.variable}`} suppressHydrationWarning>
-      <head>
-        {/* Prevent flash of wrong theme before JS loads */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('theme');
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                if (theme === 'dark' || (!theme && prefersDark)) {
-                  document.documentElement.classList.add('dark');
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={`dark scroll-smooth antialiased ${spaceGrotesk.variable} ${plusJakartaSans.variable}`}>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
       </body>

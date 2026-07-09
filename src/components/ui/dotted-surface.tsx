@@ -1,13 +1,12 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/components/ThemeProvider';
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 type DottedSurfaceProps = Omit<React.ComponentProps<'div'>, 'ref'>;
 
 export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
-	const { theme } = useTheme();
+
 
 	const containerRef = useRef<HTMLDivElement>(null);
 	const sceneRef = useRef<{
@@ -54,8 +53,8 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			const z = (Math.random() - 0.5) * 2000;
 			positions.push(x, y, z);
 			
-			// Initial colors
-			colors.push(0.9, 0.9, 0.95);
+			// Bright white stars
+			colors.push(0.95, 0.95, 1.0);
 		}
 
 		const originalPositions = new Float32Array(positions);
@@ -184,36 +183,12 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 		};
 	}, []);
 
-	// React to Theme Changes — Updates colors dynamically
-	useEffect(() => {
-		if (!sceneRef.current) return;
-
-		const points = sceneRef.current.points;
-		const colorAttribute = points.geometry.attributes.color;
-		const colorsArray = colorAttribute.array as Float32Array;
-
-		for (let idx = 0; idx < colorsArray.length; idx += 3) {
-			if (theme === 'dark') {
-				// Bright white stars in dark mode
-				colorsArray[idx] = 0.95;
-				colorsArray[idx + 1] = 0.95;
-				colorsArray[idx + 2] = 1.0;
-			} else {
-				// Contrast dark slate stars in light mode
-				colorsArray[idx] = 0.1;
-				colorsArray[idx + 1] = 0.15;
-				colorsArray[idx + 2] = 0.2;
-			}
-		}
-
-		colorAttribute.needsUpdate = true;
-	}, [theme]);
 
 	return (
 		<div
 			ref={containerRef}
 			className={cn(
-				'pointer-events-none fixed inset-0 z-0 opacity-80 dark:opacity-75',
+				'pointer-events-none fixed inset-0 z-0 opacity-75',
 				className
 			)}
 			{...props}

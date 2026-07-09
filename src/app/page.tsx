@@ -30,7 +30,7 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
 import { Lightning, ElasticHueSlider } from "@/components/ui/hero-odyssey";
-import { useTheme } from "@/components/ThemeProvider";
+
 import ProjectDetailModal from "@/components/ui/project-detail-modal";
 import CustomCursor from "@/components/ui/custom-cursor";
 
@@ -122,6 +122,27 @@ const projects = [
     ],
     github: "https://github.com/varun-kumar-hub/research-agent.git",
     live: "https://research-agent-one-ruddy.vercel.app/",
+  },
+  {
+    name: "TripCrafter Pro",
+    description:
+      "An AI-powered travel planning app using Google Gemini to generate personalized day-by-day itineraries with interactive maps, expense tracking, and a built-in AI concierge.",
+    longDescription:
+      "TripCrafter Pro is an intelligent trip planning application that uses Google's Gemini AI to generate personalized, day-by-day travel itineraries in seconds. Users enter their destination, travel dates, budget, and interests — and the AI crafts a detailed plan complete with activities, timings, cost estimates, insider tips, and geo-coordinates. Features include an interactive Google Maps view with markers and directions, drag-and-drop activity reordering, a real-time AI Travel Concierge chat, photo memories upload, visual expense tracking with pie charts, trip pacing analysis, live weather forecasts, and calendar export.",
+    details: [
+      "Integrated Google Gemini 2.5 Flash to generate tailored multi-day itineraries based on budget, interests (Food, Adventure, History, etc.), and travel dates.",
+      "Built interactive trip view with expandable day-by-day timeline, Google Maps with markers/directions, and drag-and-drop activity reordering.",
+      "Engineered AI Travel Concierge chat assistant for real-time trip Q&A, local customs, and hidden gems discovery.",
+      "Implemented expense tracking with visual pie charts, trip pacing score analysis, live weather forecasts, and .ics calendar export.",
+    ],
+    stack: [
+      { category: "Frontend", items: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Framer Motion"] },
+      { category: "AI & APIs", items: ["Google Gemini AI", "Google Maps API", "Open-Meteo Weather API"] },
+      { category: "Backend & Auth", items: ["Supabase Auth", "Supabase PostgreSQL", "Supabase Storage"] },
+      { category: "Mobile & Deploy", items: ["Capacitor", "Recharts", "Vercel"] },
+    ],
+    github: "https://github.com/varun-kumar-hub/trip-crafter-pro-56.git",
+    live: "https://trip-crafter-pro-56.vercel.app/",
   },
   {
     name: "AI Tools Tracker",
@@ -223,8 +244,7 @@ export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
   const [lightningHue, setLightningHue] = useState(220); // Default to blue
   const [selectedProject, setSelectedProject] = useState<any>(null);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+
 
   // Contact Form & Clipboard States
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -235,11 +255,28 @@ export default function Home() {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate dynamic API latency
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert(data.error || "Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Contact form error:", error);
+      alert("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const copyEmailToClipboard = () => {
@@ -261,10 +298,10 @@ export default function Home() {
         (window as any).holdProgress = 0;
       }
     } else {
-      document.documentElement.style.setProperty("--sphere-opacity", isDark ? "0.25" : "0.45");
-      document.documentElement.style.setProperty("--lightning-opacity", isDark ? "0.85" : "0.95");
+      document.documentElement.style.setProperty("--sphere-opacity", "0.25");
+      document.documentElement.style.setProperty("--lightning-opacity", "0.85");
     }
-  }, [hasEntered, isDark]);
+  }, [hasEntered]);
 
   return (
     <>
@@ -309,13 +346,11 @@ export default function Home() {
 
         {/* Planet/Sphere Core */}
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full border border-white/5 dark:border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.06)] dark:shadow-[0_0_80px_rgba(0,0,0,0.4)] pointer-events-none transition-all duration-500"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.4)] pointer-events-none transition-all duration-500"
           style={{
             transform: "translate(-50%, -50%) scale(calc(1 + var(--hold-progress, 0) * 0.12))",
             opacity: "var(--sphere-opacity, 0.25)",
-            background: isDark
-              ? `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, 15%) 0%, #050508ee 60%, #000000 100%)`
-              : `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 80%, 93%) 0%, #f8fafcee 65%, #e2e8f0 100%)`,
+            background: `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, 15%) 0%, #050508ee 60%, #000000 100%)`,
           }}
         />
       </div>

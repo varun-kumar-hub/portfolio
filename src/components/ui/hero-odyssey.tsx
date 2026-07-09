@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { useTheme } from "@/components/ThemeProvider";
+
 import { cn } from "@/lib/utils";
 
 
@@ -347,8 +347,7 @@ export const Lightning: React.FC<LightningProps> = ({
 };
 
 export function HeroSection() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
+
 
   // State for lightning hue
   const [lightningHue, setLightningHue] = useState(220); // Default to blue
@@ -411,11 +410,9 @@ export function HeroSection() {
 
         {/* Futuristic Planet/Sphere Core */}
         <div
-          className="absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full transition-all duration-500 border border-white/5 dark:border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.1)] dark:shadow-[0_0_80px_rgba(0,0,0,0.4)]"
+          className="absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full transition-all duration-500 border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.4)]"
           style={{
-            background: isDark
-              ? `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, 15%) 0%, #050508ee 60%, #000000 100%)`
-              : `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 80%, 93%) 0%, #f8fafcee 65%, #e2e8f0 100%)`,
+            background: `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, 15%) 0%, #050508ee 60%, #000000 100%)`,
           }}
         />
       </motion.div>
