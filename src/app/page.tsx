@@ -26,6 +26,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { DottedSurface } from "@/components/ui/dotted-surface";
 import SkillsBento from "@/components/SkillsBento";
 import EducationTimeline from "@/components/EducationTimeline";
+import ExperienceBento from "@/components/ExperienceBento";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -41,21 +42,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const navItems = ["Home", "Education", "Skills", "Projects", "Experience", "Contact"];
-
-const workExperience = [
-  {
-    role: "Web Development Team Member",
-    organization: "OWASP Student Chapter",
-    location: "Kalasalingam Academy of Research and Education",
-    duration: "Aug 2024 - Present",
-    bullets: [
-      "Optimized frontend performance for 3+ secure web applications, reducing page load times by 20% using React and Tailwind CSS.",
-      "Architected and implemented responsive UI components for chapter projects, improving user engagement and accessibility for 500+ campus members.",
-      "Coordinated a large-scale technical examination for students, managing logistics and execution to ensure a 100% smooth event delivery.",
-      "Spearheaded web security workshops and awareness campaigns, educating the community on OWASP Top 10 vulnerabilities and secure coding practices.",
-    ],
-  },
-];
 
 const skillGroups = [
   {
@@ -548,29 +534,7 @@ export default function Home() {
           <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
             Professional contributions and developer roles in tech groups.
           </SectionHeading>
-          <div className="mx-auto max-w-3xl space-y-8">
-            {workExperience.map((exp, idx) => (
-              <article key={idx} className="rounded-2xl border border-gray-200/50 bg-white/70 p-7 shadow-sm backdrop-blur-md dark:border-gray-800/40 dark:bg-gray-900/40 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_0_20px_var(--accent-glow)]">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between border-b border-gray-100 dark:border-gray-700 pb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-950 dark:text-white">{exp.role}</h3>
-                    <p className="mt-1 font-medium text-gray-700 dark:text-gray-300">{exp.organization}</p>
-                    <p className="text-sm text-gray-400 dark:text-gray-500">{exp.location}</p>
-                  </div>
-                  <div className="text-left sm:text-right shrink-0">
-                    <span className="inline-block rounded-full bg-[var(--accent-glow)] px-3.5 py-1.5 text-xs font-semibold text-[var(--accent)]">
-                      {exp.duration}
-                    </span>
-                  </div>
-                </div>
-                <ul className="mt-5 space-y-3 list-disc pl-5 text-sm sm:text-base leading-7 text-gray-500 dark:text-gray-400">
-                  {exp.bullets.map((bullet, bIdx) => (
-                    <li key={bIdx}>{bullet}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+          <ExperienceBento />
         </div>
       </section>
 
