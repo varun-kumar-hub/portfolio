@@ -4,6 +4,7 @@ import React from "react";
 import { motion, Variants } from "framer-motion";
 import { Monitor, Shield, Users, Briefcase, Calendar, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { MotionSpotlightCard } from "@/components/ui/spotlight-card";
 
 // Experience breakdown data
 const contributionCards = [
@@ -66,7 +67,7 @@ export default function ExperienceBento() {
       className="grid grid-cols-1 md:grid-cols-3 gap-6 py-12 max-w-5xl mx-auto"
     >
       {/* 1. Main Executive Summary Card - Spans all 3 columns */}
-      <motion.div
+      <MotionSpotlightCard
         variants={cardVariants}
         whileHover={{ y: -3 }}
         transition={{ duration: 0.3 }}
@@ -103,11 +104,11 @@ export default function ExperienceBento() {
             <span>Krishnankoil, TN, India</span>
           </div>
         </div>
-      </motion.div>
+      </MotionSpotlightCard>
 
       {/* 2. Specialized Contribution Cards - 1 column each */}
       {contributionCards.map((card, idx) => (
-        <motion.div
+        <MotionSpotlightCard
           key={idx}
           variants={cardVariants}
           whileHover={{ y: -4 }}
@@ -143,7 +144,7 @@ export default function ExperienceBento() {
           <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
             {card.details}
           </p>
-        </motion.div>
+        </MotionSpotlightCard>
       ))}
     </motion.div>
   );

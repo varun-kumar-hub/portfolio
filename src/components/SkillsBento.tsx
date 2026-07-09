@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Monitor, Server, Terminal, Brain, GitBranch } from "lucide-react";
 import { getSkillMeta } from "./icons/SkillIcons";
 import { cn } from "@/lib/utils";
+import { MotionSpotlightCard } from "@/components/ui/spotlight-card";
 
 // Categorized skills data
 const skillCategories = [
@@ -78,17 +79,25 @@ function SkillChip({ name }: SkillChipProps) {
       whileHover={{ y: -2, scale: 1.02 }}
       transition={{ duration: 0.2 }}
       style={{
-        borderColor: isHovered ? color : "rgba(229, 231, 235, 0.2)",
-        boxShadow: isHovered ? `0 0 16px ${color}` : "none",
-        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.25)",
+        borderColor: isHovered ? color : "rgba(255, 255, 255, 0.08)",
+        boxShadow: isHovered ? `0 0 15px ${color}` : "none",
       }}
       className={cn(
-        "flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
-        "text-gray-800 dark:text-gray-200 border-gray-200/20 dark:border-gray-800/20 dark:bg-gray-900/10 dark:hover:bg-gray-900/40"
+        "flex items-center gap-2.5 rounded-xl border px-3 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300 group/chip",
+        isHovered
+          ? "bg-white/90 text-gray-900 dark:bg-[#07070f] dark:text-white"
+          : "bg-white/30 text-gray-800 border-gray-200/30 dark:bg-[#05050a]/40 dark:text-gray-300 dark:border-gray-800/40 backdrop-blur-sm"
       )}
     >
-      <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
-        {icon}
+      <div
+        className="flex h-6 w-6 items-center justify-center rounded-lg shrink-0 transition-all duration-300"
+        style={{
+          backgroundColor: isHovered ? 'transparent' : 'rgba(255, 255, 255, 0.05)',
+        }}
+      >
+        <div className="transition-transform duration-300 group-hover/chip:scale-110">
+          {icon}
+        </div>
       </div>
       <span>{name}</span>
     </motion.div>
@@ -101,40 +110,18 @@ interface BentoCardProps {
 }
 
 function BentoCard({ category, index }: BentoCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setCoords({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
   return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <MotionSpotlightCard
       variants={cardVariants}
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3 }}
-      style={{
-        backgroundImage: isHovered
-          ? `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${category.glowColor}, transparent 80%)`
-          : undefined,
-      }}
       className={cn(
         "relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/5 dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-700/80 group",
         category.colSpan
       )}
     >
       {/* Decorative Large Index Number */}
-      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-gray-900/[0.03] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-gray-900/[0.05] dark:group-hover:text-white/[0.05]">
+      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-gray-900/[0.03] dark:text-white/[0.03] select-none pointer-events-none tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-gray-900/[0.05] dark:group-hover:text-white/[0.05]">
         0{index + 1}
       </div>
 
@@ -163,7 +150,7 @@ function BentoCard({ category, index }: BentoCardProps) {
           <SkillChip key={skill} name={skill} />
         ))}
       </div>
-    </motion.div>
+    </MotionSpotlightCard>
   );
 }
 

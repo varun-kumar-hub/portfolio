@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { Lightning } from "@/components/ui/hero-odyssey";
 
 interface PortfolioIntroProps {
@@ -12,9 +12,11 @@ interface PortfolioIntroProps {
 export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProps) {
   const [progress, setProgress] = useState(0);
   const [isPressing, setIsPressing] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const lightningHue = 220; // Pure electric sapphire blue
   const progressRef = useRef(0);
   const pressingRef = useRef(false);
+  const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
 
@@ -22,6 +24,10 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   useEffect(() => {
     pressingRef.current = isPressing;
   }, [isPressing]);
+
+  useEffect(() => {
+    completedRef.current = isCompleted;
+  }, [isCompleted]);
 
   useEffect(() => {
     onProgressChange(progress);
@@ -37,15 +43,16 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       lastTimeRef.current = timestamp;
 
       let current = progressRef.current;
-      if (pressingRef.current) {
+      if (completedRef.current) {
+        current = 1;
+      } else if (pressingRef.current) {
         // Increment progress over 1.4 seconds
         current += delta / 1400;
         if (current >= 1) {
           current = 1;
           setProgress(1);
           progressRef.current = 1;
-          onEnter(); // Completed hold! Trigger entry!
-          return;
+          setIsCompleted(true);
         }
       } else {
         // Decrement progress (smooth return) over 800ms
@@ -75,6 +82,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   }, [onEnter]);
 
   const handleStart = () => {
+    if (completedRef.current) return;
     lastTimeRef.current = null;
     setIsPressing(true);
   };
@@ -107,10 +115,6 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     },
   };
 
-  // Easing function for text fade-in (creates a cinematic delay)
-  const textOpacity = Math.max(0, (progress - 0.15) / 0.85);
-  const tagOpacity = Math.pow(textOpacity, 1.8);
-
   return (
     <motion.div
       initial={{ opacity: 1 }}
@@ -121,12 +125,12 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       onMouseLeave={handleEnd}
       onTouchStart={handleStart}
       onTouchEnd={handleEnd}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white cursor-pointer select-none"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-transparent text-white cursor-pointer select-none"
     >
       {/* Background elements */}
       <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/90"></div>
+        {/* Dark overlay — semi-transparent so DottedSurface dots show through */}
+        <div className="absolute inset-0 bg-[#030303]/40"></div>
 
         {/* Ambient Glow centered behind the planet - Reactive to progress */}
         <div
@@ -150,11 +154,38 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
           />
         </div>
 
-        {/* Planet/Sphere core centered in the background */}
+        {/* Outer Rotating Orbit Ring 1 (Dashed) */}
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[320px] md:w-[500px] h-[320px] md:h-[500px] rounded-full border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.3)] transition-all duration-300"
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed transition-all duration-500 animate-[spin_80s_linear_infinite] pointer-events-none"
           style={{
-            background: `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, ${10 + progress * 8}%) 0%, #050508ee 60%, #000000 100%)`,
+            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 25px)`,
+            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 25px)`,
+            borderColor: `hsla(220, 85%, 65%, ${0.05 + progress * 0.15})`
+          }}
+        />
+
+        {/* Outer Rotating Orbit Ring 2 (Double) */}
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-double transition-all duration-500 animate-[spin_120s_linear_infinite_reverse] pointer-events-none"
+          style={{
+            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 50px)`,
+            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 50px)`,
+            borderColor: `hsla(220, 85%, 65%, ${0.03 + progress * 0.07})`
+          }}
+        />
+
+        {/* Planet/Sphere core centered in the background - Upgraded to frosted glass refractive core */}
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border backdrop-blur-[16px] transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.6)]"
+          style={{
+            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px)`,
+            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px)`,
+            borderColor: `hsla(220, 85%, 65%, ${0.08 + progress * 0.22})`,
+            background: `radial-gradient(circle at 35% 25%, rgba(10, 25, 50, ${0.4 + progress * 0.25}) 0%, rgba(2, 6, 12, ${0.75 + progress * 0.1}) 70%, rgba(0, 0, 0, 0.95) 100%)`,
+            boxShadow: `
+              0 0 50px rgba(0,0,0,0.6),
+              inset 0 0 30px hsla(220, 85%, 65%, ${0.05 + progress * 0.22})
+            `
           }}
         />
       </div>
@@ -165,49 +196,64 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         {/* Top Spacer */}
         <div className="h-10" />
 
-        {/* Middle content: Name & Tagline + Hold Button */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="flex flex-col items-center justify-center space-y-8 w-full"
-        >
-          {/* Header titles & Tagline grouped inside a single container to prevent Framer Motion override */}
-          <div 
-            className="space-y-8 flex flex-col items-center justify-center transition-all duration-150"
-            style={{ 
-              opacity: tagOpacity, 
-              transform: `scale(${0.96 + 0.04 * progress})` 
-            }}
-          >
-            {/* Header titles */}
-            <div className="space-y-4">
-              <motion.h1
-                variants={itemVariants}
-                className="text-5xl sm:text-7xl font-extralight tracking-tight text-white"
-              >
-                C. Varun Kumar
-              </motion.h1>
-
+        {/* Middle content: Name & Tagline revealed ONLY when completed */}
+        <div className="flex flex-col items-center justify-center space-y-8 w-full min-h-[300px]">
+          <AnimatePresence>
+            {isCompleted && (
               <motion.div
-                variants={itemVariants}
-                className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-gray-400"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="space-y-8 flex flex-col items-center justify-center w-full"
               >
-                <span>Tech Innovator</span>
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `hsl(${lightningHue}, 85%, 65%)` }} />
-                <span>AI & Machine Learning Enthusiast</span>
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: `hsl(${lightningHue}, 85%, 65%)` }} />
-                <span>Full Stack Developer</span>
+                {/* Header titles */}
+                <motion.div variants={itemVariants} className="space-y-5">
+                  <h1
+                    className="text-3xl xs:text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-wide uppercase bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent select-none transition-all duration-150 whitespace-nowrap"
+                    style={{
+                      filter: "drop-shadow(0 0 20px hsla(220, 85%, 65%, 0.8))"
+                    }}
+                  >
+                    C. Varun Kumar
+                  </h1>
+
+                  {/* Subtitles: Modern tag capsules with glowing borders */}
+                  <div className="flex flex-wrap items-center justify-center gap-3 max-w-xl mx-auto">
+                    {["Tech Innovator", "AI & Machine Learning Enthusiast", "Full Stack Developer"].map((role, idx) => (
+                      <span 
+                        key={idx} 
+                        className="px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-blue-950/20 border border-blue-500/35 text-blue-300 shadow-[0_0_12px_hsla(220,80%,60%,0.2)] backdrop-blur-md"
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+
+                {/* Tagline: Custom blue highlights (no slashes) */}
+                <motion.p 
+                  variants={itemVariants}
+                  className="text-base sm:text-lg text-gray-400 max-w-xl font-light leading-relaxed tracking-wide"
+                >
+                  &ldquo;Transforming ideas into <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>intelligent digital experiences</span> through <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>innovation</span>, creativity, and code.&rdquo;
+                </motion.p>
+
+                {/* Enter Portfolio Button */}
+                <motion.div
+                  variants={itemVariants}
+                  className="pt-4"
+                >
+                  <button
+                    onClick={onEnter}
+                    className="relative px-8 py-3.5 rounded-xl text-white font-bold text-sm uppercase tracking-[0.2em] border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 backdrop-blur-md shadow-[0_0_30px_hsla(220,85%,60%,0.3)] hover:shadow-[0_0_50px_hsla(220,85%,60%,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50"
+                  >
+                    Enter Portfolio
+                  </button>
+                </motion.div>
               </motion.div>
-            </div>
-
-            {/* Tagline */}
-            <p className="text-base sm:text-lg text-gray-400 max-w-xl font-light leading-relaxed tracking-wide">
-              &ldquo;Transforming ideas into intelligent digital experiences through innovation, creativity, and code.&rdquo;
-            </p>
-          </div>
-
-        </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Bottom content: Interactive Mainframe Boot Status */}
         <div 
@@ -217,7 +263,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
             color: progress === 0 ? "rgba(156, 163, 175, 0.6)" : `hsl(${lightningHue}, 85%, 65%)`
           }}
         >
-          {progress === 0 ? (
+          {isCompleted ? (
+            <span className="font-extrabold" style={{ color: `hsl(${lightningHue}, 85%, 65%)`, textShadow: "0 0 8px hsla(220, 85%, 60%, 0.5)" }}>
+              Quantum Alignment Complete
+            </span>
+          ) : progress === 0 ? (
             <span className="animate-pulse">Press and hold anywhere to unlock</span>
           ) : (
             <span className="font-extrabold">Syncing Quantum Core: {Math.round(progress * 100)}%</span>

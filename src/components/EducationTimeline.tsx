@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, Variants } from "framer-motion";
 import { GraduationCap, Calendar, MapPin, Award, CheckCircle2 } from "lucide-react";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
 
 // Academic Data
 const educationData = [
@@ -81,7 +82,7 @@ export default function EducationTimeline() {
             </span>
 
             {/* Timeline Card */}
-            <div className="relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-700/80 group">
+            <SpotlightCard className="relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-700/80 group">
               
               {/* Top Row: Degree & Duration */}
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">
@@ -131,7 +132,7 @@ export default function EducationTimeline() {
                 </ul>
               </div>
 
-            </div>
+            </SpotlightCard>
           </motion.div>
         ))}
       </motion.div>
