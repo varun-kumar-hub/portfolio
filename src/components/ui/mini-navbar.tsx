@@ -6,17 +6,33 @@ interface NavbarProps {
   onReturnToIntro: () => void;
 }
 
-const AnimatedNavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-  const defaultTextColor = 'text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white';
+const AnimatedNavLink = ({
+  href,
+  children,
+  isActive = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  isActive?: boolean;
+}) => {
+  const defaultTextColor = isActive
+    ? 'text-[var(--accent)]'
+    : 'text-gray-500 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white';
   const hoverTextColor = 'text-[var(--accent)]';
   const textSizeClass = 'text-xs font-semibold tracking-wide';
 
   return (
     <a href={href} className={`group relative inline-block overflow-hidden h-[18px] leading-[18px] ${textSizeClass}`}>
       <div className="flex flex-col transition-transform duration-300 ease-out transform group-hover:-translate-y-[18px]">
-        <span className={`${defaultTextColor} h-[18px] leading-[18px] block`}>{children}</span>
+        <span className={`${defaultTextColor} h-[18px] leading-[18px] block transition-colors duration-300`}>{children}</span>
         <span className={`${hoverTextColor} h-[18px] leading-[18px] block`}>{children}</span>
       </div>
+      {isActive && (
+        <span
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent)] transition-all duration-300"
+          style={{ boxShadow: '0 0 6px var(--accent-glow)' }}
+        />
+      )}
     </a>
   );
 };
@@ -24,12 +40,42 @@ const AnimatedNavLink = ({ href, children }: { href: string; children: React.Rea
 export function Navbar({ onReturnToIntro }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [headerShapeClass, setHeaderShapeClass] = useState('rounded-full');
+  const [activeSection, setActiveSection] = useState('home');
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  // Track active section via IntersectionObserver
+  useEffect(() => {
+    const sectionIds = ['home', 'education', 'skills', 'projects', 'experience', 'contact'];
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(id);
+            }
+          });
+        },
+        { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((obs) => obs.disconnect());
+    };
+  }, []);
 
   // Close mobile menu on outside click
   useEffect(() => {
