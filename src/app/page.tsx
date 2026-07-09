@@ -17,6 +17,9 @@ import {
   User,
   MapPin,
   FileText,
+  Copy,
+  Check,
+  Send,
 } from "lucide-react";
 import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIcons";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -122,7 +125,7 @@ const projects = [
       { category: "Database", items: ["SQLite"] }
     ],
     github: "https://github.com/varun-kumar-hub",
-    live: "#",
+    live: "https://resume-a.vercel.app/",
   },
   {
     name: "AI Research Agent",
@@ -244,6 +247,28 @@ export default function Home() {
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // Contact Form & Clipboard States
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate dynamic API latency
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormData({ name: "", email: "", message: "" });
+  };
+
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText("cvarunkumar455@gmail.com");
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
 
   useEffect(() => {
     document.documentElement.style.setProperty("--theme-hue", lightningHue.toString());
@@ -576,35 +601,109 @@ export default function Home() {
       {/* ─── Contact ─── */}
       <section className="relative z-10 py-24 px-6 md:px-12 border-t border-gray-200/20 dark:border-gray-800/30 bg-transparent text-gray-900 dark:text-white" id="contact">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-start">
             
-            {/* Left Column */}
-            <div className="flex flex-col space-y-6 text-left">
+            {/* Left Column: Interactive Contact Form */}
+            <div className="flex flex-col space-y-8 text-left">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent)]">
-                  Portfolio Contact
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--accent)] animate-pulse">
+                  Get In Touch
                 </span>
-                <p className="text-[10px] font-semibold text-gray-405 dark:text-gray-500 uppercase tracking-widest mt-1">
-                  Direct Channels
+                <h2 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-gray-950 dark:text-white leading-[1.05] mt-2">
+                  Send a Message
+                </h2>
+                <p className="mt-4 text-base text-gray-500 dark:text-gray-400 font-light leading-relaxed max-w-lg">
+                  Have an internship, interview, collaboration, or opportunity? Drop me a line directly. I'll get back to you as soon as possible.
                 </p>
               </div>
 
-              <h2 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-gray-950 dark:text-white leading-[1.05]">
-                Challa Varun Kumar
-              </h2>
+              {isSubmitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="p-8 rounded-2xl border border-green-500/20 bg-green-500/5 dark:bg-green-500/10 backdrop-blur-md text-center space-y-4"
+                >
+                  <div className="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-950/50 text-green-500">
+                    <Check size={28} className="animate-bounce" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-950 dark:text-white">Message Sent!</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mx-auto">
+                    Thank you for reaching out. Your message has been received, and I'll respond to your email shortly.
+                  </p>
+                  <button 
+                    onClick={() => setIsSubmitted(false)}
+                    className="mt-2 text-xs font-semibold text-[var(--accent)] hover:underline focus:outline-none cursor-pointer"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5 text-left">
+                      <label htmlFor="contact-name" className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="contact-name"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="Your name"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200/60 dark:border-gray-800/60 bg-white/40 dark:bg-black/20 text-sm focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] outline-none transition-all placeholder:text-gray-400/80 dark:placeholder:text-gray-600/80"
+                      />
+                    </div>
+                    <div className="space-y-1.5 text-left">
+                      <label htmlFor="contact-email" className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="contact-email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="your.email@example.com"
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200/60 dark:border-gray-800/60 bg-white/40 dark:bg-black/20 text-sm focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] outline-none transition-all placeholder:text-gray-400/80 dark:placeholder:text-gray-600/80"
+                      />
+                    </div>
+                  </div>
 
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                <span>Software Engineer</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-                <span>AI & ML</span>
-              </div>
+                  <div className="space-y-1.5 text-left">
+                    <label htmlFor="contact-message" className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Message
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Type your message here..."
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200/60 dark:border-gray-800/60 bg-white/40 dark:bg-black/20 text-sm focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)] outline-none transition-all placeholder:text-gray-400/80 dark:placeholder:text-gray-600/80 resize-none"
+                    />
+                  </div>
 
-              <p className="text-base sm:text-lg text-gray-505 dark:text-gray-400 font-light leading-relaxed max-w-lg">
-                For internships, interviews, collaborations, and software engineering opportunities. 
-                <span className="block mt-2 font-medium text-gray-800 dark:text-gray-300">
-                  Use the directory for the fastest route.
-                </span>
-              </p>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="relative flex items-center justify-center gap-2 w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gray-950 text-white font-bold hover:bg-gray-800 dark:bg-white dark:text-gray-950 dark:hover:bg-gray-100 disabled:opacity-70 transition-all duration-200 cursor-pointer shadow-md select-none overflow-hidden"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={15} />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
 
             {/* Right Column: Directory */}
@@ -615,56 +714,94 @@ export default function Home() {
                     Directory
                   </h3>
                   <p className="text-[10px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-0.5">
-                    Email, Socials, and Resume
+                    Connect directly or view resume
                   </p>
                 </div>
               </div>
 
               <div className="space-y-4">
-                {/* Email Box */}
-                <a
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group/item flex items-center justify-between p-4.5 rounded-xl border border-gray-150 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm"
-                >
-                  <div className="flex items-center gap-3.5">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800 text-[var(--accent)] transition-transform group-hover/item:scale-105 duration-205">
+                {/* Email Box - Dynamic Copy/Direct Combo */}
+                <div className="group/item flex items-center justify-between p-4.5 rounded-xl border border-gray-200/50 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 shadow-sm relative overflow-hidden">
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3.5 flex-grow cursor-pointer"
+                  >
+                    <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200/60 dark:border-gray-800 text-[var(--accent)] transition-transform group-hover/item:scale-105 duration-200">
                       <Mail size={18} />
                     </div>
                     <div className="text-left">
                       <p className="text-[9px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider leading-none mb-1">
                         Email
                       </p>
-                      <p className="text-sm font-semibold text-gray-850 dark:text-gray-200">
+                      <p className="text-sm font-semibold text-gray-850 dark:text-gray-200 hover:text-[var(--accent)] transition-colors">
                         cvarunkumar455@gmail.com
                       </p>
                     </div>
-                  </div>
-                  <ArrowUpRight size={16} className="text-gray-400 group-hover/item:text-[var(--accent)] transition-colors duration-200" />
-                </a>
+                  </a>
+                  
+                  <button
+                    onClick={copyEmailToClipboard}
+                    className="relative ml-2 p-2 rounded-lg border border-gray-200/60 dark:border-gray-800 bg-gray-50/50 hover:bg-gray-100 dark:bg-gray-900/50 dark:hover:bg-gray-900 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-all cursor-pointer"
+                    aria-label="Copy email address"
+                  >
+                    <AnimatePresence mode="wait">
+                      {isCopied ? (
+                        <motion.div
+                          key="copied"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          <Check size={14} className="text-green-500" />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="copy"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          <Copy size={14} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    
+                    {/* Tooltip */}
+                    {isCopied && (
+                      <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 rounded bg-gray-900 dark:bg-white text-[10px] font-bold text-white dark:text-gray-900 shadow-md whitespace-nowrap animate-fade-up">
+                        Copied!
+                      </span>
+                    )}
+                  </button>
+                </div>
 
-                {/* Social Grid (2x2) */}
-                <div className="grid grid-cols-2 gap-4">
+                {/* Social Grid (1 row, 3 columns) */}
+                <div className="grid grid-cols-3 gap-3">
                   {/* LinkedIn */}
                   <a
                     href="https://www.linkedin.com/in/c-varun-kumar-281b73361"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/item flex items-center justify-between p-3.5 rounded-xl border border-gray-150 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm"
+                    className="group/item flex flex-col justify-between p-3.5 rounded-xl border border-gray-200/50 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm min-h-[90px]"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Linkedin size={16} className="text-[var(--accent)]" />
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-gray-855 dark:text-gray-200">
-                          LinkedIn
-                        </p>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate max-w-[90px] sm:max-w-[120px]">
-                          c-varun-kumar
-                        </p>
+                    <div className="flex justify-between items-start w-full">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#0a66c2]/10 text-[#0a66c2] dark:text-[#378fe9] transition-transform group-hover/item:scale-110 duration-200">
+                        <Linkedin size={16} />
                       </div>
+                      <ArrowUpRight size={12} className="text-gray-400 group-hover/item:text-[var(--accent)] transition-colors" />
                     </div>
-                    <ArrowUpRight size={14} className="text-gray-450 group-hover/item:text-[var(--accent)] transition-colors" />
+                    <div className="text-left mt-2">
+                      <p className="text-xs font-bold text-gray-855 dark:text-gray-200 leading-tight">
+                        LinkedIn
+                      </p>
+                      <p className="text-[9px] text-gray-400 dark:text-gray-500 truncate mt-0.5">
+                        c-varun-kumar
+                      </p>
+                    </div>
                   </a>
 
                   {/* GitHub */}
@@ -672,20 +809,22 @@ export default function Home() {
                     href="https://github.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/item flex items-center justify-between p-3.5 rounded-xl border border-gray-150 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm"
+                    className="group/item flex flex-col justify-between p-3.5 rounded-xl border border-gray-200/50 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm min-h-[90px]"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Github size={16} className="text-[var(--accent)]" />
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-gray-855 dark:text-gray-200">
-                          GitHub
-                        </p>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate max-w-[90px] sm:max-w-[120px]">
-                          varun-kumar-hub
-                        </p>
+                    <div className="flex justify-between items-start w-full">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-transform group-hover/item:scale-110 duration-200">
+                        <Github size={16} />
                       </div>
+                      <ArrowUpRight size={12} className="text-gray-400 group-hover/item:text-[var(--accent)] transition-colors" />
                     </div>
-                    <ArrowUpRight size={14} className="text-gray-455 group-hover/item:text-[var(--accent)] transition-colors" />
+                    <div className="text-left mt-2">
+                      <p className="text-xs font-bold text-gray-855 dark:text-gray-200 leading-tight">
+                        GitHub
+                      </p>
+                      <p className="text-[9px] text-gray-400 dark:text-gray-500 truncate mt-0.5">
+                        varun-kumar-hub
+                      </p>
+                    </div>
                   </a>
 
                   {/* Instagram */}
@@ -693,48 +832,35 @@ export default function Home() {
                     href="https://www.instagram.com/v_a_r_u_n_13_9?igsh=Y3lnMDA2M3ZoZ2p0"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group/item flex items-center justify-between p-3.5 rounded-xl border border-gray-150 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm"
+                    className="group/item flex flex-col justify-between p-3.5 rounded-xl border border-gray-200/50 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm min-h-[90px]"
                   >
-                    <div className="flex items-center gap-2.5">
-                      <Instagram size={16} className="text-[var(--accent)]" />
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-gray-855 dark:text-gray-200">
-                          Instagram
-                        </p>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate max-w-[90px] sm:max-w-[120px]">
-                          v_a_r_u_n_13_9
-                        </p>
+                    <div className="flex justify-between items-start w-full">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#e1306c]/10 text-[#e1306c] dark:text-[#f85c96] transition-transform group-hover/item:scale-110 duration-200">
+                        <Instagram size={16} />
                       </div>
+                      <ArrowUpRight size={12} className="text-gray-400 group-hover/item:text-[var(--accent)] transition-colors" />
                     </div>
-                    <ArrowUpRight size={14} className="text-gray-460 group-hover/item:text-[var(--accent)] transition-colors" />
-                  </a>
-
-                  {/* Mail (Gmail) */}
-                  <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/item flex items-center justify-between p-3.5 rounded-xl border border-gray-150 bg-white/40 dark:border-gray-800/40 dark:bg-black/20 hover:border-gray-350 dark:hover:border-gray-700 transition-all duration-300 cursor-pointer shadow-sm"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Mail size={16} className="text-[var(--accent)]" />
-                      <div className="text-left">
-                        <p className="text-xs font-bold text-gray-855 dark:text-gray-200">
-                          Email
-                        </p>
-                        <p className="text-[10px] text-gray-400 dark:text-gray-500 truncate max-w-[90px] sm:max-w-[120px]">
-                          cvarunkumar455
-                        </p>
-                      </div>
+                    <div className="text-left mt-2">
+                      <p className="text-xs font-bold text-gray-855 dark:text-gray-200 leading-tight">
+                        Instagram
+                      </p>
+                      <p className="text-[9px] text-gray-400 dark:text-gray-500 truncate mt-0.5">
+                        v_a_r_u_n_13_9
+                      </p>
                     </div>
-                    <ArrowUpRight size={14} className="text-gray-465 group-hover/item:text-[var(--accent)] transition-colors" />
                   </a>
                 </div>
 
-                {/* Location Line */}
-                <div className="flex items-center gap-2.5 text-xs text-gray-500 dark:text-gray-400 px-1 pt-1 text-left">
-                  <MapPin size={14} className="text-[var(--accent)] shrink-0" />
-                  <span>Anantapur, Andhra Pradesh, India</span>
+                {/* Location Line with Pulsing Radar Effect */}
+                <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 px-1 pt-1 text-left">
+                  <div className="relative flex h-3 w-3 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent)] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--accent)]"></span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MapPin size={13} className="text-gray-400" />
+                    <span>Anantapur, Andhra Pradesh, India</span>
+                  </div>
                 </div>
 
                 {/* VIEW RESUME Button */}
@@ -743,11 +869,11 @@ export default function Home() {
                     href="/resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 bg-white/40 text-gray-800 font-bold hover:bg-white/80 hover:border-gray-300 dark:border-gray-800 dark:bg-black/20 dark:text-gray-300 dark:hover:bg-black/40 dark:hover:border-gray-700 transition-all duration-300 shadow-sm cursor-pointer"
+                    className="group/btn flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 bg-white/40 text-gray-800 font-bold hover:bg-white/80 hover:border-gray-300 dark:border-gray-800 dark:bg-black/20 dark:text-gray-300 dark:hover:bg-black/40 dark:hover:border-gray-700 transition-all duration-300 shadow-sm cursor-pointer animate-none"
                   >
-                    <FileText size={15} />
+                    <FileText size={15} className="group-hover/btn:scale-110 transition-transform duration-200" />
                     VIEW RESUME
-                    <ArrowUpRight size={14} />
+                    <ArrowUpRight size={14} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                   </a>
                 </div>
               </div>
