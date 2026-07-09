@@ -158,8 +158,8 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed transition-all duration-500 animate-[spin_80s_linear_infinite] pointer-events-none"
           style={{
-            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 25px)`,
-            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 25px)`,
+            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
+            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.05 + progress * 0.15})`
           }}
         />
@@ -168,8 +168,8 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-double transition-all duration-500 animate-[spin_120s_linear_infinite_reverse] pointer-events-none"
           style={{
-            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 50px)`,
-            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px + 50px)`,
+            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
+            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.03 + progress * 0.07})`
           }}
         />
@@ -178,8 +178,8 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border backdrop-blur-[16px] transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.6)]"
           style={{
-            width: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px)`,
-            height: `calc(clamp(320px, 45vw, 500px) + ${progress * 150}px)`,
+            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
+            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.08 + progress * 0.22})`,
             background: `radial-gradient(circle at 35% 25%, rgba(10, 25, 50, ${0.4 + progress * 0.25}) 0%, rgba(2, 6, 12, ${0.75 + progress * 0.1}) 70%, rgba(0, 0, 0, 0.95) 100%)`,
             boxShadow: `
@@ -209,9 +209,9 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 {/* Header titles */}
                 <motion.div variants={itemVariants} className="space-y-5">
                   <h1
-                    className="text-3xl xs:text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-wide uppercase bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent select-none transition-all duration-150 whitespace-nowrap"
+                    className="text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide uppercase bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent select-none transition-all duration-150"
                     style={{
-                      filter: "drop-shadow(0 0 20px hsla(220, 85%, 65%, 0.8))"
+                      filter: "drop-shadow(0 0 15px hsla(220, 85%, 65%, 0.7))"
                     }}
                   >
                     C. Varun Kumar
@@ -233,7 +233,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 {/* Tagline: Custom blue highlights (no slashes) */}
                 <motion.p 
                   variants={itemVariants}
-                  className="text-base sm:text-lg text-gray-400 max-w-xl font-light leading-relaxed tracking-wide"
+                  className="text-xs sm:text-base text-gray-400 max-w-xl font-light leading-relaxed tracking-wide px-2"
                 >
                   &ldquo;Transforming ideas into <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>intelligent digital experiences</span> through <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>innovation</span>, creativity, and code.&rdquo;
                 </motion.p>

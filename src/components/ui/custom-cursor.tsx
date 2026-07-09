@@ -2,15 +2,6 @@
 
 import React, { useEffect, useRef } from "react";
 
-interface Satellite {
-  angle: number;
-  angularSpeed: number;
-  radius: number;
-  color: string;
-  size: number;
-  orbitPhase: number;
-}
-
 interface BurstParticle {
   x: number;
   y: number;
@@ -21,34 +12,27 @@ interface BurstParticle {
   size: number;
 }
 
+interface GravityRipple {
+  x: number;
+  y: number;
+  radius: number;
+  maxRadius: number;
+  opacity: number;
+  color: string;
+  speed: number;
+}
+
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const mousePos = useRef({ x: -100, y: -100 });
   const trailPoints = useRef<{ x: number; y: number; age: number }[]>([]);
-  const satellites = useRef<Satellite[]>(
-    Array.from({ length: 10 }).map((_, i) => {
-      const angle = (i * Math.PI * 2) / 10;
-      const colors = [
-        "rgba(96, 165, 250, 0.8)",  // light blue
-        "rgba(129, 140, 248, 0.8)", // indigo
-        "rgba(59, 130, 246, 0.8)",  // blue
-        "rgba(147, 197, 253, 0.8)", // ice blue
-        "rgba(99, 102, 241, 0.8)",  // royal indigo
-        "rgba(196, 181, 253, 0.8)"  // pastel purple
-      ];
-      return {
-        angle: angle,
-        angularSpeed: 0.02 + Math.random() * 0.025, // varied speeds
-        radius: 15 + i * 1.6, // layered orbits
-        color: colors[i % colors.length],
-        size: Math.random() * 0.5 + 1.2, // varied sizes
-        orbitPhase: i * 36
-      };
-    })
-  );
   const burstParticles = useRef<BurstParticle[]>([]);
+  
+  // Gravity ripples list
+  const ripples = useRef<GravityRipple[]>([]);
+  const lastRipplePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     // Detect touch devices — disable custom cursor entirely
@@ -64,6 +48,7 @@ export default function CustomCursor() {
     let isVisible = false;
     let isHovering = false;
     let isClicking = false;
+    let hoverPulseCounter = 0;
 
     // Handle high-DPI canvas resizing
     const handleResize = () => {
@@ -84,9 +69,27 @@ export default function CustomCursor() {
         canvas.style.opacity = "1";
       }
 
-      // Add trail point
+      // Spawn motion-based ripple if mouse moves past distance threshold
+      const dx = e.clientX - lastRipplePos.current.x;
+      const dy = e.clientY - lastRipplePos.current.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > 22) { // Ripple spawned every 22px of movement
+        ripples.current.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 3,
+          maxRadius: 38,
+          opacity: 0.45,
+          color: "rgba(148, 163, 184, 0.4)", // Slate grey ripples
+          speed: 1.1,
+        });
+        lastRipplePos.current = { x: e.clientX, y: e.clientY };
+      }
+
+      // Add motion dust trail points
       trailPoints.current.push({ x: e.clientX, y: e.clientY, age: 0 });
-      if (trailPoints.current.length > 20) {
+      if (trailPoints.current.length > 12) {
         trailPoints.current.shift();
       }
     };
@@ -95,8 +98,8 @@ export default function CustomCursor() {
       isClicking = true;
       dot.classList.add("clicking");
 
-      // Spawn satellite burst particles on click!
-      const colors = ["#60a5fa", "#818cf8", "#3b82f6", "#ffffff"];
+      // Spawn satellite burst particles on click! (UNTOUCHED - Monochrome shades)
+      const colors = ["#cbd5e1", "#94a3b8", "#64748b", "#ffffff"];
       for (let i = 0; i < 12; i++) {
         const angle = Math.random() * Math.PI * 2;
         const velocity = Math.random() * 4 + 3; // explosive speed
@@ -206,64 +209,50 @@ export default function CustomCursor() {
 
           trailPoints.current.forEach((point) => {
             const alpha = Math.max(0, 1 - point.age / 16) * 0.2;
-            const size = Math.max(0.4, (1 - point.age / 16) * 1.5);
+            const size = Math.max(0.4, (1 - point.age / 16) * 1.4);
             ctx.beginPath();
             ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(96, 165, 250, ${alpha})`;
+            ctx.fillStyle = `rgba(148, 163, 184, ${alpha})`;
             ctx.fill();
           });
 
-          // 2. Render and Orbit Satellites
-          let targetRadius = 18;
-          let speedMultiplier = 1;
-
-          if (isClicking) {
-            targetRadius = 4; // collapse tight on click core
-            speedMultiplier = 1.8;
-          } else if (isHovering) {
-            targetRadius = 3; // charge up core on hover
-            speedMultiplier = 3.6; // spin hyper fast!
-          } else {
-            // Subtle breathing radius expansion
-            targetRadius = 18 + Math.sin(Date.now() * 0.003) * 2;
+          // 2. Pulse Gravity Ripples on Hover (Active wave emission)
+          if (isHovering && !isClicking) {
+            hoverPulseCounter++;
+            if (hoverPulseCounter % 16 === 0) { // every 16 frames (~260ms)
+              ripples.current.push({
+                x: mousePos.current.x,
+                y: mousePos.current.y,
+                radius: 4,
+                maxRadius: 44,
+                opacity: 0.5,
+                color: "rgba(100, 116, 139, 0.45)", // Slate pulse aura
+                speed: 1.3,
+              });
+            }
           }
 
-          satellites.current.forEach((sat) => {
-            // Smoothly ease current radius to target state
-            sat.radius += (targetRadius - sat.radius) * 0.12;
+          // 3. Render and animate Gravity ripples
+          for (let i = ripples.current.length - 1; i >= 0; i--) {
+            const r = ripples.current[i];
+            r.radius += r.speed;
+            
+            // Linear fade out based on progress
+            const fade = Math.max(0, 1 - r.radius / r.maxRadius);
+            r.opacity = fade * 0.45;
 
-            // Increment angle
-            sat.angle += sat.angularSpeed * speedMultiplier;
-
-            // Calculate 3D-like elliptical coordinates centered at mousePos
-            const satX = mousePos.current.x + Math.cos(sat.angle) * sat.radius;
-            // Compress Y coordinate slightly to create an angled orbital plane perspective
-            const satY = mousePos.current.y + Math.sin(sat.angle) * sat.radius * 0.85;
-
-            // Orbit path lines (draw fine faint orbital connection ring)
-            if (sat.radius > 6 && !isHovering) {
+            if (r.radius >= r.maxRadius || r.opacity <= 0) {
+              ripples.current.splice(i, 1);
+            } else {
               ctx.beginPath();
-              ctx.ellipse(
-                mousePos.current.x, mousePos.current.y,
-                sat.radius, sat.radius * 0.85,
-                0, 0, Math.PI * 2
-              );
-              ctx.strokeStyle = `rgba(96, 165, 250, 0.025)`;
-              ctx.lineWidth = 0.5;
+              ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+              ctx.strokeStyle = r.color.replace(/[\d.]+\)$/, `${r.opacity})`);
+              ctx.lineWidth = 1;
               ctx.stroke();
             }
+          }
 
-            // Draw satellite
-            ctx.beginPath();
-            ctx.arc(satX, satY, sat.size, 0, Math.PI * 2);
-            ctx.fillStyle = sat.color;
-            ctx.shadowColor = sat.color;
-            ctx.shadowBlur = isHovering ? 4 : 2;
-            ctx.fill();
-            ctx.shadowBlur = 0; // reset
-          });
-
-          // 3. Render and animate Click Burst Particles
+          // 4. Render and animate Click Burst Particles (UNTOUCHED)
           for (let i = burstParticles.current.length - 1; i >= 0; i--) {
             const p = burstParticles.current[i];
             p.x += p.vx;
@@ -299,11 +288,11 @@ export default function CustomCursor() {
         left: 0;
         z-index: 9999;
         pointer-events: none;
-        width: 4.5px;
-        height: 4.5px;
+        width: 5px;
+        height: 5px;
         border-radius: 50%;
-        background-color: rgb(96, 165, 250);
-        box-shadow: 0 0 6px rgba(96, 165, 250, 0.6), 0 0 15px rgba(96, 165, 250, 0.15);
+        background-color: rgb(241, 245, 249);
+        box-shadow: 0 0 6px rgba(148, 163, 184, 0.7), 0 0 15px rgba(71, 85, 105, 0.35);
         opacity: 0;
         will-change: transform;
         transition: width 0.15s ease-out, height 0.15s ease-out, opacity 0.15s ease-out, box-shadow 0.15s ease-out;
@@ -314,14 +303,14 @@ export default function CustomCursor() {
       }
       
       .custom-cursor-dot.hovering {
-        width: 6.5px;
-        height: 6.5px;
-        box-shadow: 0 0 10px rgba(96, 165, 250, 0.8), 0 0 20px rgba(96, 165, 250, 0.4);
+        width: 8px;
+        height: 8px;
+        box-shadow: 0 0 12px rgba(241, 245, 249, 0.95), 0 0 25px rgba(148, 163, 184, 0.5);
       }
       
       .custom-cursor-dot.clicking {
-        width: 2.5px;
-        height: 2.5px;
+        width: 3px;
+        height: 3px;
       }
     `;
     document.head.appendChild(style);
@@ -348,7 +337,7 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Canvas for motion trail, satellite orbits and click burst particles */}
+      {/* Canvas for motion trail, ripples and click burst particles */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 z-[9998] pointer-events-none transition-opacity duration-300"

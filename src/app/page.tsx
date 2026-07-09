@@ -464,24 +464,28 @@ export default function Home() {
               <div className="relative">
                 {/* Outer glow aura */}
                 <div
-                  className="absolute -inset-4 rounded-full opacity-30 blur-2xl pointer-events-none"
+                  className="absolute -inset-4 rounded-3xl opacity-30 blur-2xl pointer-events-none"
                   style={{
                     background: 'radial-gradient(circle, rgba(96, 165, 250, 0.3) 0%, transparent 70%)',
                   }}
                 />
-                {/* Neon ring border */}
-                <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[280px] md:h-[280px] rounded-full p-[2px] bg-gradient-to-br from-blue-500/40 via-blue-400/20 to-indigo-500/40 shadow-[0_0_30px_rgba(96,165,250,0.12)]">
-                  <div className="w-full h-full rounded-full overflow-hidden bg-gray-950">
+                {/* Neon border wrapper (Portrait Rectangle aspect-[4/5]) */}
+                <div className="relative w-[180px] sm:w-[220px] md:w-[280px] aspect-[4/5] rounded-3xl p-[2.5px] bg-gradient-to-br from-blue-500/40 via-blue-400/20 to-indigo-500/40 shadow-[0_0_30px_rgba(96,165,250,0.12)]">
+                  <div className="w-full h-full rounded-[22px] overflow-hidden bg-gray-950">
                     <Image
                       alt="Varun Kumar"
                       className="w-full h-full object-cover"
-                      height={560}
+                      height={700}
                       priority
                       src="/profile-varun.png"
                       width={560}
                     />
                   </div>
                 </div>
+                 {/* Orbiting shiny and charming magical light orb (Perfect square wrapper for stable circular orbit around rectangle) */}
+                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[calc(100%_+_24px)] aspect-square rounded-full animate-[spin_10s_linear_infinite] pointer-events-none">
+                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-blue-400/90 shadow-[0_0_6px_rgba(96,165,250,0.6),0_0_12px_rgba(59,130,246,0.3)]" />
+                 </div>
               </div>
             </motion.div>
 
@@ -518,14 +522,19 @@ export default function Home() {
               width: 100%;
               padding-top: 10px;
               padding-bottom: 50px;
+              perspective: 1200px;
+            }
+            .projects-swiper .swiper-wrapper {
+              transform-style: preserve-3d;
             }
             .projects-swiper .swiper-slide {
               background-position: center;
               background-size: cover;
               width: 300px;
               height: auto;
-              opacity: 0.3;
-              transition: opacity 0.3s ease, transform 0.3s ease;
+              opacity: 0.55;
+              transform-style: preserve-3d; /* Ensure slide contents support 3D rendering */
+              transition: opacity 0.3s ease;
             }
             .projects-swiper .swiper-slide-active {
               opacity: 1;
@@ -557,11 +566,11 @@ export default function Home() {
               loop={true}
               slidesPerView={"auto"}
               coverflowEffect={{
-                rotate: 10,
-                stretch: 0,
-                depth: 100,
-                modifier: 1.8,
-                slideShadows: false,
+                rotate: 35,       // Rotate side cards inward (3D cylinder angle)
+                stretch: -45,     // Bring cards closer together to form a ring shape
+                depth: 250,       // Push inactive cards back into 3D space
+                modifier: 1,      // Scale multiplier
+                slideShadows: true, // Realistic shadow overlays
               }}
               pagination={{ clickable: true }}
               navigation={true}
@@ -888,12 +897,22 @@ export default function Home() {
             >
               <Instagram size={20} />
             </a>
+            {/* Cybernetic Capsule Back to Top Button */}
             <a
-              className="ml-2 inline-flex items-center gap-1.5 rounded-md border border-gray-200 px-3.5 py-2 font-semibold text-gray-700 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800 text-sm"
+              className="group ml-2 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/5 px-5 py-2 font-bold text-blue-300 transition-all duration-300 hover:bg-blue-500/15 hover:border-blue-400/60 hover:text-blue-200 hover:shadow-[0_0_20px_rgba(96,165,250,0.25)] text-xs uppercase tracking-wider relative overflow-hidden"
               href="#top"
             >
-              Back to Top
-              <MoveUp aria-hidden="true" size={15} />
+              <span>Back to Top</span>
+              <div className="relative overflow-hidden w-3 h-3 flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center absolute transition-transform duration-300 group-hover:-translate-y-[100%]" style={{ height: "200%" }}>
+                  <div className="h-3 flex items-center justify-center">
+                    <MoveUp size={12} strokeWidth={2.8} />
+                  </div>
+                  <div className="h-3 flex items-center justify-center">
+                    <MoveUp size={12} strokeWidth={2.8} />
+                  </div>
+                </div>
+              </div>
             </a>
           </div>
         </div>
