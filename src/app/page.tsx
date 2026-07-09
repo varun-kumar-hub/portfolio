@@ -482,9 +482,27 @@ export default function Home() {
                     />
                   </div>
                 </div>
-                 {/* Orbiting shiny and charming magical light orb (Perfect square wrapper for stable circular orbit around rectangle) */}
-                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[calc(100%_+_24px)] aspect-square rounded-full animate-[spin_10s_linear_infinite] pointer-events-none">
-                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-blue-400/90 shadow-[0_0_6px_rgba(96,165,250,0.6),0_0_12px_rgba(59,130,246,0.3)]" />
+                 {/* CSS Motion Path style for orbiting along the exact rounded rectangle border shape */}
+                 <style>{`
+                   @keyframes orbitRectTravel {
+                     0% { offset-distance: 0%; }
+                     100% { offset-distance: 100%; }
+                   }
+                 `}</style>
+                 <div className="absolute -inset-[6px] rounded-[28px] pointer-events-none">
+                   <div
+                     style={{
+                       position: 'absolute',
+                       width: '10px',
+                       height: '10px',
+                       borderRadius: '50%',
+                       backgroundColor: 'rgba(96, 165, 250, 0.95)',
+                       boxShadow: '0 0 6px rgba(96, 165, 250, 0.6), 0 0 12px rgba(59, 130, 246, 0.3)',
+                       offsetPath: 'border-box',
+                       offsetAnchor: 'center',
+                       animation: 'orbitRectTravel 10s linear infinite',
+                     }}
+                   />
                  </div>
               </div>
             </motion.div>
