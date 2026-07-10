@@ -90,7 +90,7 @@ export const Component = () => {
                         <motion.div 
                             className="relative z-10 p-2"
                             whileHover={{ scale: 1.03 }}
-                            transition={{ type: "easeInOut" }}
+                            transition={{ ease: "easeInOut" }}
                         >
                             <Image 
                                 src="https://hblimg.mmtcdn.com/content/hubble/img/julydestimg/mmt/activities/m_Bali_1destimg_l_902_1352.jpg" 

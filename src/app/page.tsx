@@ -20,6 +20,8 @@ import {
   Copy,
   Check,
   Send,
+  Cpu,
+  Terminal,
 } from "lucide-react";
 import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIcons";
 import { DottedSurface } from "@/components/ui/dotted-surface";
@@ -32,8 +34,9 @@ import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
 import { Lightning, ElasticHueSlider } from "@/components/ui/hero-odyssey";
 
-import ProjectDetailModal from "@/components/ui/project-detail-modal";
 import CustomCursor from "@/components/ui/custom-cursor";
+import Link from "next/link";
+import { projects } from "@/lib/projects";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";
@@ -67,122 +70,7 @@ const skillGroups = [
   },
 ];
 
-const projects = [
-  {
-    name: "LearnX",
-    description:
-      "An AI-driven educational platform using the Google Gemini API that served 200+ users, improving concept retention by 30% through automated visual knowledge graphs.",
-    longDescription:
-      "LearnX is an interactive, AI-powered learning environment engineered to help students grasp complex subjects faster. By parsing dynamic course materials with the Google Gemini API, the platform builds responsive, visual knowledge graphs that reveal connections between concepts. The application includes a dashboard with gamified learning streaks, dynamic quiz generation, and collaborative card decks for seamless peer study.",
-    details: [
-      "Generated dynamic quizzes with instant feedback and performance tracking.",
-      "Engineered interactive dashboards tracking progress, daily activity, and learning streaks.",
-      "Supported community sharing, allowing users to publish and clone learning content.",
-    ],
-    stack: [
-      { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-      { category: "AI & APIs", items: ["Google Gemini API"] },
-      { category: "Backend & DevOps", items: ["Node.js", "Lucide React", "Vercel"] }
-    ],
-    github: "https://github.com/dinesh6473/WONDERS-OF-AI-3.0.git",
-    live: "https://wonders-of-ai-3-0.vercel.app/dashboard",
-  },
-  {
-    name: "Resume Analyzer",
-    description:
-      "A resume parsing tool using Python and NLP that identifies key skill gaps, helping users improve their ATS match rate by an average of 25%.",
-    longDescription:
-      "Resume Analyzer is a high-performance NLP application designed to streamline the job application process. Built with Python and NLTK, it parses complex PDF and Word resumes to extract structured skill representations. The system uses a specialized ATS optimization algorithm to cross-reference resume files against job listings, highlighting missing keywords, advising on word choice, and generating structural suggestions.",
-    details: [
-      "Integrated Natural Language Toolkit (NLTK) to extract and categorize skills, education, and experience from PDF/DOCX files.",
-      "Engineered keyword-matching algorithm comparing candidate profiles against job requirements for automated optimization suggestions.",
-    ],
-    stack: [
-      { category: "Core Development", items: ["Python", "Pandas", "Tkinter"] },
-      { category: "NLP & AI", items: ["NLP", "NLTK", "PyPDF2", "Regex"] },
-      { category: "Database", items: ["SQLite"] }
-    ],
-    github: "https://github.com/varun-kumar-hub",
-    live: "https://resume-a.vercel.app/",
-  },
-  {
-    name: "ResearchX AI",
-    description:
-      "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research.",
-    longDescription:
-      "ResearchX AI is a Multi-Agent Research & Verification Platform designed for autonomous research. It understands query intent, runs parallel multi-source searches, extracts and deduplicates data, cross-verifies facts, and generates comprehensive research reports with confidence scores. Features an interactive dashboard, personal API key management, and conversational follow-ups.",
-    details: [
-      "Engineered an autonomous multi-agent pipeline: Query Understanding, Research Planner, Discovery, Extraction, Deduplication, Verification, Report Generation, and AI Analyst.",
-      "Implemented parallel search across Google (Serper), Tavily, Wikipedia, LinkedIn, official directories with browser-only API key storage and auto-fallback.",
-      "Built validation mechanisms that cross-verify records, detect conflicts, resolve duplicate entities, and assign confidence scores.",
-    ],
-    stack: [
-      { category: "Frontend", items: ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-      { category: "Backend & AI", items: ["Next.js API Routes", "Google Gemini 2.5 Flash", "Serper API", "Tavily Search"] },
-      { category: "Database", items: ["Supabase PostgreSQL"] }
-    ],
-    github: "https://github.com/varun-kumar-hub/research-agent.git",
-    live: "https://research-agent-one-ruddy.vercel.app/",
-  },
-  {
-    name: "TripCrafter Pro",
-    description:
-      "An AI-powered travel planning app using Google Gemini to generate personalized day-by-day itineraries with interactive maps, expense tracking, and a built-in AI concierge.",
-    longDescription:
-      "TripCrafter Pro is an intelligent trip planning application that uses Google's Gemini AI to generate personalized, day-by-day travel itineraries in seconds. Users enter their destination, travel dates, budget, and interests — and the AI crafts a detailed plan complete with activities, timings, cost estimates, insider tips, and geo-coordinates. Features include an interactive Google Maps view with markers and directions, drag-and-drop activity reordering, a real-time AI Travel Concierge chat, photo memories upload, visual expense tracking with pie charts, trip pacing analysis, live weather forecasts, and calendar export.",
-    details: [
-      "Integrated Google Gemini 2.5 Flash to generate tailored multi-day itineraries based on budget, interests (Food, Adventure, History, etc.), and travel dates.",
-      "Built interactive trip view with expandable day-by-day timeline, Google Maps with markers/directions, and drag-and-drop activity reordering.",
-      "Engineered AI Travel Concierge chat assistant for real-time trip Q&A, local customs, and hidden gems discovery.",
-      "Implemented expense tracking with visual pie charts, trip pacing score analysis, live weather forecasts, and .ics calendar export.",
-    ],
-    stack: [
-      { category: "Frontend", items: ["React", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui", "Framer Motion"] },
-      { category: "AI & APIs", items: ["Google Gemini AI", "Google Maps API", "Open-Meteo Weather API"] },
-      { category: "Backend & Auth", items: ["Supabase Auth", "Supabase PostgreSQL", "Supabase Storage"] },
-      { category: "Mobile & Deploy", items: ["Capacitor", "Recharts", "Vercel"] },
-    ],
-    github: "https://github.com/varun-kumar-hub/trip-crafter-pro-56.git",
-    live: "https://trip-crafter-pro-56.vercel.app/",
-  },
-  {
-    name: "AI Tools Tracker",
-    description:
-      "Automated web scraping and data collection engine gathering data from major tech channels to reduce manual research by 10+ hours weekly.",
-    longDescription:
-      "AI Tools Tracker is a data-aggregation dashboard designed to monitor the fast-moving landscape of artificial intelligence software. It utilizes an automated scraping engine built on BeautifulSoup daily. A PostgreSQL database stores cataloged features, pricing tiers, and tags, enabling a highly-responsive comparisons system.",
-    details: [
-      "Aggregated features and classifications in structured formats using PostgreSQL.",
-      "Built a comparison engine that allows users to explore and filter 500+ AI resources based on specific use cases.",
-    ],
-    stack: [
-      { category: "Database & APIs", items: ["PostgreSQL", "SQLAlchemy", "Requests"] },
-      { category: "Scraping Engine", items: ["Python", "Web Scraping", "BeautifulSoup"] },
-      { category: "DevOps & Data", items: ["Cron Jobs", "Pandas"] }
-    ],
-    github: "https://github.com/varun-kumar-hub/AI-Tools.git",
-    live: "https://ai-tools-two-swart.vercel.app/",
-  },
-  {
-    name: "Smart Irrigation System",
-    description:
-      "An AI-driven smart irrigation system integrating soil moisture sensors with Firebase, enabling real-time monitoring and reducing water wastage by ~40%.",
-    longDescription:
-      "The Smart Irrigation System is a production-grade IoT solution that automates agricultural water management. The system interfaces physical moisture, temperature, and rainfall sensors with a central microprocessor, feeding telemetry data to a Firebase Realtime Database. By evaluating real-time local conditions alongside weather forecast APIs, its decision-making algorithm optimizes irrigation cycles, preventing overwatering.",
-    details: [
-      "Automated motor control based on sensor data, eliminating manual intervention.",
-      "Designed data-driven decision logic to dynamically adjust irrigation schedules based on environmental conditions.",
-      "Serves as the basis for a filed patent application with the Government for AI-based decision making.",
-    ],
-    stack: [
-      { category: "IoT & Hardware", items: ["IoT", "Arduino C++", "ESP8266 Wi-Fi", "Soil Moisture Sensors", "Relay Modules"] },
-      { category: "Cloud & Database", items: ["Firebase Realtime DB"] },
-      { category: "System Architecture", items: ["Embedded Systems"] }
-    ],
-    github: "https://github.com/varun-kumar-hub",
-    live: "#",
-  },
-];
+// Projects dataset is imported from '@/lib/projects'
 
 const publications = [
   {
@@ -241,10 +129,134 @@ function ProjectVisual({ index }: { index: number }) {
   );
 }
 
+const projectIconMap: Record<string, React.ReactNode> = {
+  "learnx": <GraduationCap className="w-5 h-5 text-blue-400" />,
+  "resume-analyzer": <FileText className="w-5 h-5 text-emerald-400" />,
+  "researchx-ai": <Cpu className="w-5 h-5 text-purple-400" />,
+  "tripcrafter-pro": <MapPin className="w-5 h-5 text-amber-400" />,
+  "ai-tools-tracker": <Wrench className="w-5 h-5 text-cyan-400" />
+};
+
+function ProjectCard({ project, index }: { project: any; index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const Icon = projectIconMap[project.slug] || <FolderGit2 className="w-5 h-5 text-blue-400" />;
+
+  return (
+    <Link 
+      href={`/projects/${project.slug}`} 
+      onClick={() => {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("portfolio-scroll-y", window.scrollY.toString());
+        }
+      }}
+      className="block w-full max-w-[320px] select-none text-left"
+    >
+      <motion.div 
+        className='w-full min-h-[460px] bg-black/80 backdrop-blur-sm rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col p-3 gap-3 overflow-hidden border border-gray-800 hover:border-blue-500/20 transition-colors duration-300 relative'
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: index * 0.08 }}
+        whileHover={{ 
+          y: -4,
+          scale: 1.005,
+          boxShadow: "0 25px 50px rgba(59,130,246,0.08)",
+        }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+      >
+        {/* Top action row */}
+        <div className='flex justify-between items-center px-1'>
+          <div className="flex items-center gap-2">
+            {Icon}
+            <span className="text-[9px] uppercase tracking-widest text-neutral-500 font-semibold font-mono">
+              Project {index + 1}
+            </span>
+          </div>
+        </div>
+
+        {/* Title & brief */}
+        <div className='flex flex-col gap-2 flex-1'>
+          <h3 className="title text-lg font-bold tracking-tight text-white leading-tight min-h-[40px] flex items-center">
+            {project.name}
+          </h3>
+          
+          {/* Image with cool blurred background glow */}
+          <div className="image relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-neutral-950 border border-neutral-900">
+            <div className="absolute inset-0 rounded-xl opacity-20 z-0">
+              <motion.div
+                animate={{ scale: isHovered ? 1.05 : 1 }}
+                transition={{ duration: 3, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Image 
+                  src={project.image} 
+                  alt={`${project.name} background`} 
+                  className="w-full h-full object-cover blur-md scale-120"
+                  width={360}
+                  height={200}
+                  unoptimized
+                />
+              </motion.div>
+            </div>
+            <motion.div 
+              className="relative z-10 w-full h-full p-1"
+              whileHover={{ scale: 1.015 }}
+              transition={{ ease: "easeInOut" }}
+            >
+              <Image 
+                src={project.image} 
+                alt={project.name} 
+                className="rounded-lg w-full h-full object-cover shadow-inner"
+                width={360}
+                height={200}
+                unoptimized
+              />
+            </motion.div>
+          </div>
+
+          {/* Small brief description */}
+          <p className="desc text-xs text-neutral-400 font-light leading-relaxed mt-2.5 flex-1">
+            {project.description}
+          </p>
+
+          {/* Tech stack capsules */}
+          <div className="flex flex-wrap gap-1 mt-auto pt-3 border-t border-neutral-800/50">
+            {project.stack.flatMap((s: any) => s.items).slice(0, 3).map((tech: string) => (
+              <span 
+                className="rounded-full bg-blue-500/5 border border-blue-500/10 px-2 py-0.5 text-[8.5px] font-semibold text-blue-300/80 backdrop-blur-sm" 
+                key={tech}
+              >
+                {tech}
+              </span>
+            ))}
+            {project.stack.flatMap((s: any) => s.items).length > 3 && (
+              <span className="rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[8.5px] font-semibold text-neutral-400">
+                +{project.stack.flatMap((s: any) => s.items).length - 3} more
+              </span>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </Link>
+  );
+}
+
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);
+  const [isIntroReady, setIsIntroReady] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authParams, setAuthParams] = useState("");
+  const [isScrollPositioning, setIsScrollPositioning] = useState(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const entered = urlParams.get("entered");
+      const hash = window.location.hash;
+      return (entered === "true" || hash === "#projects" || hash.length > 1);
+    }
+    return false;
+  });
   const [lightningHue, setLightningHue] = useState(220); // Default to blue
-  const [selectedProject, setSelectedProject] = useState<any>(null);
 
 
   // Contact Form & Clipboard States
@@ -299,12 +311,52 @@ export default function Home() {
   }, [lightningHue]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const entered = urlParams.get("entered");
+      const code = urlParams.get("code") || urlParams.get("state") || urlParams.get("error");
+      const hash = window.location.hash;
+      const storedScrollY = sessionStorage.getItem("portfolio-scroll-y");
+
+      if (code) {
+        setHasEntered(true);
+        setAuthParams(window.location.search);
+        setShowAuthModal(true);
+      } else if (storedScrollY !== null || entered === "true" || hash === "#projects" || hash.length > 1) {
+        setHasEntered(true);
+      }
+      setIsIntroReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (hasEntered) {
       document.documentElement.style.setProperty("--hold-progress", "0");
       document.documentElement.style.setProperty("--sphere-opacity", "0");
       document.documentElement.style.setProperty("--lightning-opacity", "0");
       if (typeof window !== "undefined") {
         (window as any).holdProgress = 0;
+        
+        const storedScrollY = sessionStorage.getItem("portfolio-scroll-y");
+        if (storedScrollY !== null) {
+          const scrollY = parseInt(storedScrollY, 10);
+          setTimeout(() => {
+            window.scrollTo(0, scrollY);
+            setIsScrollPositioning(false);
+            sessionStorage.removeItem("portfolio-scroll-y");
+          }, 0);
+        } else if (window.location.hash) {
+          const targetId = window.location.hash.substring(1);
+          setTimeout(() => {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: "auto", block: "start" });
+            }
+            setIsScrollPositioning(false);
+          }, 0);
+        } else {
+          setIsScrollPositioning(false);
+        }
       }
     } else {
       document.documentElement.style.setProperty("--sphere-opacity", "0.25");
@@ -318,20 +370,26 @@ export default function Home() {
       <CustomCursor />
 
       {/* Global Starfield Backgrounds */}
-      {!hasEntered ? (
-        <DottedSurface />
-      ) : (
-        <SpaceBackground />
+      {isIntroReady && (
+        !hasEntered ? (
+          <DottedSurface />
+        ) : (
+          <SpaceBackground />
+        )
       )}
       <AnimatePresence mode="wait">
-        {!hasEntered ? (
+        {!hasEntered && isIntroReady ? (
           <PortfolioIntro
             key="intro"
             onEnter={() => setHasEntered(true)}
             onProgressChange={() => {}}
           />
-        ) : (
-          <main id="top" key="portfolio" className="relative z-[2] min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500">
+        ) : isIntroReady ? (
+          <motion.main 
+            id="top" 
+            key="portfolio" 
+            className={`relative z-[2] min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
+          >
 
       {/* ─── Header ─── */}
       <Navbar onReturnToIntro={() => setHasEntered(false)} />
@@ -489,7 +547,7 @@ export default function Home() {
         <SectionHeading eyebrow="Projects" title="Featured Work" icon={<FolderGit2 size={16} />}>
           Practical implementations demonstrating AI engineering, IoT systems, and full-stack development.
         </SectionHeading>
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-center mt-12">
           <style>{`
             .projects-swiper {
               width: 100%;
@@ -503,19 +561,13 @@ export default function Home() {
             .projects-swiper .swiper-slide {
               background-position: center;
               background-size: cover;
-              width: 300px;
               height: auto;
-              opacity: 0.55;
-              transform-style: preserve-3d; /* Ensure slide contents support 3D rendering */
+              opacity: 0.45;
+              transform-style: preserve-3d;
               transition: opacity 0.3s ease;
             }
             .projects-swiper .swiper-slide-active {
               opacity: 1;
-            }
-            @media (min-width: 640px) {
-              .projects-swiper .swiper-slide {
-                width: 440px;
-              }
             }
             .projects-swiper .swiper-pagination-bullet-active {
               background: var(--accent) !important;
@@ -528,7 +580,7 @@ export default function Home() {
           <div className="w-full max-w-5xl">
             <Swiper
               className="projects-swiper"
-              spaceBetween={30}
+              spaceBetween={20}
               autoplay={{
                 delay: 3500,
                 disableOnInteraction: false,
@@ -537,58 +589,35 @@ export default function Home() {
               grabCursor={true}
               centeredSlides={true}
               loop={true}
-              slidesPerView={"auto"}
+              slidesPerView={1.2}
+              breakpoints={{
+                640: {
+                  slidesPerView: 1.8,
+                  spaceBetween: 25,
+                },
+                768: {
+                  slidesPerView: 2.4,
+                  spaceBetween: 30,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 30,
+                }
+              }}
               coverflowEffect={{
-                rotate: 35,       // Rotate side cards inward (3D cylinder angle)
-                stretch: -45,     // Bring cards closer together to form a ring shape
-                depth: 250,       // Push inactive cards back into 3D space
-                modifier: 1,      // Scale multiplier
-                slideShadows: true, // Realistic shadow overlays
+                rotate: 25,
+                stretch: -15,
+                depth: 150,
+                modifier: 1,
+                slideShadows: false,
               }}
               pagination={{ clickable: true }}
               navigation={true}
               modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
             >
-              {projects.map((project, index) => (
-                <SwiperSlide key={project.name}>
-                  <article
-                    className="overflow-hidden rounded-2xl border border-gray-200/50 bg-white/70 shadow-md backdrop-blur-md dark:border-gray-800/40 dark:bg-gray-900/30 flex flex-col justify-between h-full select-none text-left"
-                  >
-                    <div>
-                      <ProjectVisual index={index} />
-                      <div className="p-5 sm:p-6">
-                        <h3 className="text-lg font-bold text-gray-950 dark:text-white">{project.name}</h3>
-                        <p className="mt-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                          {project.description}
-                        </p>
-                        
-                        {/* Specific bullets for projects from resume */}
-                        <ul className="mt-3 space-y-1.5 list-disc pl-4 text-xs text-gray-500 dark:text-gray-400 leading-relaxed border-t border-gray-100 dark:border-gray-800 pt-3">
-                          {project.details.map((detail, dIdx) => (
-                            <li key={dIdx}>{detail}</li>
-                          ))}
-                        </ul>
-
-                        <div className="mt-4 flex flex-wrap gap-1.5">
-                          {project.stack.flatMap(s => s.items).map((tech) => (
-                            <span className="rounded bg-gray-100 dark:bg-gray-800 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:text-gray-400" key={tech}>
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-5 sm:p-6 pt-0">
-                      <button
-                        className="w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-[var(--accent)] px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)] hover:shadow-[0_0_15px_var(--accent-glow)] cursor-pointer"
-                        onClick={() => setSelectedProject(project)}
-                      >
-                        View Details
-                        <ArrowUpRight aria-hidden="true" size={15} />
-                      </button>
-                    </div>
-                  </article>
+              {[...projects, ...projects].map((project, idx) => (
+                <SwiperSlide key={`${project.slug}-${idx}`}>
+                  <ProjectCard project={project} index={idx % projects.length} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -890,18 +919,110 @@ export default function Home() {
           </div>
         </div>
       </footer>
-        </main>
+        </motion.main>
+      ) : null}
+    </AnimatePresence>
+
+    {/* ─── Holographic Auth Router Modal ─── */}
+    <AnimatePresence>
+      {showAuthModal && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          {/* Modal Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", duration: 0.5 }}
+            className="relative w-full max-w-lg bg-black/90 border border-blue-500/25 rounded-3xl p-6 md:p-8 shadow-[0_0_50px_rgba(59,130,246,0.15)] overflow-hidden"
+          >
+            {/* Cyber Grid Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.01)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+
+            {/* Corner Brackets */}
+            <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-blue-500/40 pointer-events-none" />
+            <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-blue-500/40 pointer-events-none" />
+            <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 pointer-events-none" />
+            <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 pointer-events-none" />
+
+            {/* Title & Info */}
+            <div className="relative z-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(59,130,246,0.15)]">
+                <Terminal className="w-6 h-6 text-blue-400" />
+              </div>
+              <h3 className="text-xl font-bold tracking-tight text-white uppercase font-mono">
+                Holographic Auth Router
+              </h3>
+              <p className="text-xs text-neutral-400 mt-2 max-w-sm leading-relaxed">
+                We detected a security callback redirect. This happens when an external project (like Resume AI) is configured to redirect authorization requests to <code className="text-blue-400 bg-blue-500/5 px-1.5 py-0.5 rounded font-mono">localhost:3000</code>.
+              </p>
+            </div>
+
+            {/* Action Routes List */}
+            <div className="relative z-10 flex flex-col gap-3 mt-6">
+              <span className="text-[9px] uppercase tracking-widest text-neutral-500 font-bold font-mono text-center">
+                Select destination project
+              </span>
+
+              <button
+                onClick={() => {
+                  window.location.href = `https://resume-a.vercel.app/${authParams}`;
+                }}
+                className="group flex items-center justify-between p-3.5 rounded-xl border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-400 text-left transition-all duration-300"
+              >
+                <div>
+                  <p className="text-sm font-bold text-white leading-tight">Resume AI</p>
+                  <p className="text-[10px] text-neutral-400 mt-1">Route login to resume-a.vercel.app</p>
+                </div>
+                <ArrowUpRight size={16} className="text-blue-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+
+              <button
+                onClick={() => {
+                  window.location.href = `https://research-agent-one-ruddy.vercel.app/${authParams}`;
+                }}
+                className="group flex items-center justify-between p-3.5 rounded-xl border border-purple-500/20 bg-purple-500/5 hover:bg-purple-500/10 hover:border-purple-400 text-left transition-all duration-300"
+              >
+                <div>
+                  <p className="text-sm font-bold text-white leading-tight">ResearchX AI</p>
+                  <p className="text-[10px] text-neutral-400 mt-1">Route login to research-agent-one-ruddy.vercel.app</p>
+                </div>
+                <ArrowUpRight size={16} className="text-purple-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+
+              <button
+                onClick={() => {
+                  window.location.href = `https://trip-crafter-pro-56.vercel.app/${authParams}`;
+                }}
+                className="group flex items-center justify-between p-3.5 rounded-xl border border-amber-500/20 bg-amber-500/5 hover:bg-amber-500/10 hover:border-amber-400 text-left transition-all duration-300"
+              >
+                <div>
+                  <p className="text-sm font-bold text-white leading-tight">TripCrafter Pro</p>
+                  <p className="text-[10px] text-neutral-400 mt-1">Route login to trip-crafter-pro-56.vercel.app</p>
+                </div>
+                <ArrowUpRight size={16} className="text-amber-400 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </div>
+
+            {/* Close / Dismiss */}
+            <div className="relative z-10 flex gap-3 mt-6 pt-4 border-t border-neutral-800">
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  if (typeof window !== "undefined" && window.history.replaceState) {
+                    window.history.replaceState({}, document.title, "/");
+                  }
+                }}
+                className="w-full py-2.5 rounded-xl border border-neutral-800 text-xs font-bold text-neutral-400 hover:text-white hover:border-neutral-700 hover:bg-white/[0.02] text-center transition-all duration-200 cursor-pointer"
+              >
+                STAY ON PORTFOLIO (DISMISS)
+              </button>
+            </div>
+
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
 
-    <AnimatePresence>
-      {selectedProject && (
-        <ProjectDetailModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
-      )}
-    </AnimatePresence>
     </>
   );
 }

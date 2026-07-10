@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, GraduationCap, Cpu, Code2, Briefcase, Mail, ChevronRight, FileText, Sparkles, Terminal } from 'lucide-react';
+import { Home, GraduationCap, Cpu, Code2, Briefcase, Mail, ChevronRight, FileText, Sparkles, Terminal, X, Globe } from 'lucide-react';
 
 
 interface NavbarProps {
@@ -235,68 +235,105 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
         </div>
       </header>
 
-      {/* ─── Mobile Dropdown Menu ─── */}
+      {/* ─── Mobile Fullscreen HUD Overlay Menu ─── */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0, scale: 0.95, y: -8 }}
-            animate={{ 
-              opacity: 1, 
-              height: "auto", 
-              scale: 1,
-              y: 0,
-              transition: {
-                height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-                opacity: { duration: 0.25, ease: "linear" },
-                scale: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
-                y: { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
-              }
-            }}
-            exit={{ 
-              opacity: 0, 
-              height: 0, 
-              scale: 0.95,
-              y: -8,
-              transition: {
-                height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-                opacity: { duration: 0.2, ease: "linear" },
-                scale: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
-                y: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
-              }
-            }}
-            className="sm:hidden w-[calc(100%-1rem)] mt-2 rounded-2xl overflow-hidden border border-blue-500/10 bg-white/95 dark:border-blue-500/15 dark:bg-[#07070af2] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.15),_0_0_20px_rgba(59,130,246,0.06)]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="sm:hidden fixed inset-0 z-[9990] bg-[#030305f6]/95 backdrop-blur-3xl flex flex-col justify-between p-6 overflow-y-auto"
           >
-            <div className="p-4">
-              {/* Nav links grid — 2 columns for compact layout */}
-              <nav className="grid grid-cols-2 gap-2">
-                {navLinksData.map((link) => {
-                  const Icon = iconMap[link.label] || Code2;
+            {/* Cyber Grid Backdrop */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.015)_1px,transparent_1px)] bg-[size:35px_35px] pointer-events-none" />
+
+            {/* Holographic scanning line */}
+            <div 
+              className="absolute left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent pointer-events-none" 
+              style={{
+                animation: "scan 4s linear infinite",
+                position: "absolute"
+              }}
+            />
+
+            {/* HUD Corner Brackets */}
+            <div className="absolute top-6 left-6 w-8 h-8 border-t-2 border-l-2 border-blue-500/30 pointer-events-none" />
+            <div className="absolute top-6 right-6 w-8 h-8 border-t-2 border-r-2 border-blue-500/30 pointer-events-none" />
+            <div className="absolute bottom-6 left-6 w-8 h-8 border-b-2 border-l-2 border-blue-500/30 pointer-events-none" />
+            <div className="absolute bottom-6 right-6 w-8 h-8 border-b-2 border-r-2 border-blue-500/30 pointer-events-none" />
+
+            {/* Style injection for animations */}
+            <style>{`
+              @keyframes scan {
+                0% { top: 0%; opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { top: 100%; opacity: 0; }
+              }
+            `}</style>
+
+            {/* Top Bar inside Menu */}
+            <div className="relative z-10 flex justify-between items-center w-full pb-4 border-b border-white/[0.05]">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 shadow-[0_0_10px_rgba(59,130,246,0.1)]">
+                  <Terminal className="w-4 h-4 text-blue-400" />
+                </div>
+                <span className="text-sm font-black tracking-wider text-white">VARUN // HUD_V1</span>
+              </div>
+
+              {/* Circular Close Button */}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-9 h-9 rounded-full border border-white/10 hover:border-blue-500/40 bg-white/[0.02] hover:bg-blue-500/10 text-gray-400 hover:text-white flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer shadow-[0_0_15px_rgba(0,0,0,0.3)]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Core Navigation Links */}
+            <div className="relative z-10 flex-1 flex flex-col justify-center my-8 pl-4">
+              <nav className="flex flex-col gap-6">
+                {navLinksData.map((link, idx) => {
                   const isActive = activeSection === link.href.slice(1);
+                  const numStr = String(idx + 1).padStart(2, '0');
+
                   return (
-                    <a
+                    <motion.div
                       key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center justify-between p-3 rounded-xl border transition-all duration-200 group
-                        ${isActive 
-                          ? 'bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400 font-bold shadow-[0_0_12px_rgba(59,130,246,0.15)]' 
-                          : 'bg-gray-50/20 dark:bg-white/[0.02] border-gray-150/10 dark:border-white/[0.03] text-gray-600 dark:text-gray-400 hover:bg-gray-50/50 dark:hover:bg-white/[0.05] hover:text-gray-950 dark:hover:text-white'
-                        }`}
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.06, duration: 0.4 }}
                     >
-                      <div className="flex items-center gap-2.5">
-                        <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-blue-500' : 'text-gray-400 dark:text-gray-500'}`} />
-                        <span className="text-[13px] tracking-wide font-medium">{link.label}</span>
-                      </div>
-                      <ChevronRight className={`w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-all duration-200 ${isActive ? 'text-blue-500 opacity-100' : 'text-gray-400'}`} />
-                    </a>
+                      <a
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`inline-flex items-baseline gap-4 group transition-colors duration-300
+                          ${isActive 
+                            ? 'text-blue-400 font-extrabold shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+                            : 'text-gray-400 hover:text-white font-medium'
+                          }`}
+                      >
+                        <span className="text-[11px] font-mono tracking-widest text-blue-500/50 font-bold">
+                          {numStr} //
+                        </span>
+                        <span className="text-3xl tracking-wide uppercase font-black font-heading transition-transform duration-300 group-hover:translate-x-2">
+                          {link.label}
+                        </span>
+                        {isActive && (
+                          <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping shadow-[0_0_8px_rgba(59,130,246,0.8)] self-center ml-2" />
+                        )}
+                      </a>
+                    </motion.div>
                   );
                 })}
               </nav>
+            </div>
 
-              {/* Divider */}
-              <div className="my-4 h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800/30 to-transparent" />
-
-              {/* Action buttons row */}
+            {/* Bottom Section inside Menu */}
+            <div className="relative z-10 w-full pt-4 border-t border-white/[0.05] flex flex-col gap-5">
+              
+              {/* Quick Actions Row */}
               <div className="flex items-center gap-3">
                 <div className="flex-1">
                   <button
@@ -304,10 +341,10 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                       onReturnToIntro();
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-xs font-bold border border-gray-250/30 dark:border-white/10 bg-gray-50/20 dark:bg-white/[0.02] hover:bg-gray-50/40 dark:hover:bg-white/[0.05] text-gray-800 dark:text-gray-300 rounded-full hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-950 dark:hover:text-white transition-all duration-200 cursor-pointer animate-none"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-xs font-bold border border-white/10 bg-white/[0.02] hover:bg-blue-500/10 hover:border-blue-500/30 text-gray-300 hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-blue-500" />
-                    Intro
+                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                    Intro Portal
                   </button>
                 </div>
                 <div className="flex-1">
@@ -318,14 +355,24 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                        target="_blank"
                        rel="noopener noreferrer"
                        onClick={() => setIsOpen(false)}
-                       className="relative z-10 flex items-center justify-center gap-2 px-4.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-full transition-all duration-200 cursor-pointer shadow-sm"
+                       className="relative z-10 flex items-center justify-center gap-2 px-4.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-full transition-all duration-300 cursor-pointer shadow-md"
                      >
                        <FileText className="w-3.5 h-3.5 text-white" />
-                       Resume
+                       Resume.PDF
                      </a>
                   </div>
                 </div>
               </div>
+
+              {/* Status footer bar */}
+              <div className="flex justify-between items-center text-[10px] text-gray-500 font-mono tracking-wider">
+                <span>COORD // GRID_ACTIVE</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  SYSTEMS ONLINE
+                </span>
+              </div>
+
             </div>
           </motion.div>
         )}

@@ -25,11 +25,9 @@ interface GravityRipple {
 export default function CustomCursor() {
   const [mounted, setMounted] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const mousePos = useRef({ x: -100, y: -100 });
-  const ringPos = useRef({ x: -100, y: -100 });
   const trailPoints = useRef<{ x: number; y: number; age: number }[]>([]);
   const burstParticles = useRef<BurstParticle[]>([]);
   const ripples = useRef<GravityRipple[]>([]);
@@ -47,10 +45,9 @@ export default function CustomCursor() {
     if (isTouchDevice) return;
 
     const dot = dotRef.current;
-    const ring = ringRef.current;
     const canvas = canvasRef.current;
 
-    if (!dot || !ring || !canvas) return;
+    if (!dot || !canvas) return;
 
     let isVisible = false;
     let isHovering = false;
@@ -73,7 +70,6 @@ export default function CustomCursor() {
       if (!isVisible) {
         isVisible = true;
         dot.classList.add("visible");
-        ring.classList.add("visible");
         canvas.style.opacity = "1";
       }
 
@@ -105,7 +101,6 @@ export default function CustomCursor() {
     const handleMouseDown = () => {
       isClicking = true;
       dot.classList.add("clicking");
-      ring.classList.add("clicking");
 
       // Spawn satellite burst particles on click!
       const colors = ["#cbd5e1", "#94a3b8", "#64748b", "#ffffff"];
@@ -127,20 +122,17 @@ export default function CustomCursor() {
     const handleMouseUp = () => {
       isClicking = false;
       dot.classList.remove("clicking");
-      ring.classList.remove("clicking");
     };
 
     const handleMouseLeave = () => {
       isVisible = false;
       dot.classList.remove("visible");
-      ring.classList.remove("visible");
       canvas.style.opacity = "0";
     };
 
     const handleMouseEnter = () => {
       isVisible = true;
       dot.classList.add("visible");
-      ring.classList.add("visible");
       canvas.style.opacity = "1";
     };
 
@@ -181,13 +173,11 @@ export default function CustomCursor() {
         if (!isHovering) {
           isHovering = true;
           dot.classList.add("hovering");
-          ring.classList.add("hovering");
         }
       } else {
         if (isHovering) {
           isHovering = false;
           dot.classList.remove("hovering");
-          ring.classList.remove("hovering");
         }
       }
     };
@@ -211,7 +201,7 @@ export default function CustomCursor() {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 9999;
+        z-index: 99999;
         pointer-events: none;
         width: 7px;
         height: 7px;
@@ -239,39 +229,7 @@ export default function CustomCursor() {
         height: 4px;
       }
 
-      .custom-cursor-ring {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9998;
-        pointer-events: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        border: 1px solid rgba(148, 163, 184, 0.45);
-        opacity: 0;
-        will-change: transform;
-        transform: translate3d(-100px, -100px, 0);
-        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease-out, border-color 0.15s ease-out, background-color 0.15s ease-out;
-      }
-      
-      .custom-cursor-ring.visible {
-        opacity: 1;
-      }
-      
-      .custom-cursor-ring.hovering {
-        width: 38px;
-        height: 38px;
-        border-color: rgba(96, 165, 250, 0.6);
-        background-color: rgba(96, 165, 250, 0.05);
-        box-shadow: 0 0 10px rgba(96, 165, 250, 0.15);
-      }
-      
-      .custom-cursor-ring.clicking {
-        width: 14px;
-        height: 14px;
-        border-color: rgba(96, 165, 250, 0.8);
-      }
+
     `;
     document.head.appendChild(style);
 
@@ -281,20 +239,8 @@ export default function CustomCursor() {
     const animate = () => {
       animFrame = requestAnimationFrame(animate);
 
-      // Lerp ring position for trailing motion
-      const lerpFactor = 0.16;
-      if (ringPos.current.x === -100 && mousePos.current.x !== -100) {
-        ringPos.current = { ...mousePos.current };
-      } else {
-        ringPos.current.x += (mousePos.current.x - ringPos.current.x) * lerpFactor;
-        ringPos.current.y += (mousePos.current.y - ringPos.current.y) * lerpFactor;
-      }
-
       // Core dot translate
       dot.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
-
-      // Ring translate
-      ring.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
 
       if (canvas && isVisible) {
         const ctx = canvas.getContext("2d");
@@ -399,10 +345,9 @@ export default function CustomCursor() {
     <>
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 z-[9997] pointer-events-none transition-opacity duration-300"
+        className="fixed inset-0 z-[99997] pointer-events-none transition-opacity duration-300"
         style={{ opacity: 0 }}
       />
-      <div ref={ringRef} className="custom-cursor-ring" />
       <div ref={dotRef} className="custom-cursor-dot" />
     </>
   );

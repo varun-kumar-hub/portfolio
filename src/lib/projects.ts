@@ -44,7 +44,7 @@ export const projects: Project[] = [
       { category: "NLP & AI", items: ["NLP", "NLTK", "PyPDF2", "Regex"] },
       { category: "Database", items: ["SQLite"] }
     ],
-    github: "https://github.com/varun-kumar-hub",
+    github: "https://github.com/varun-kumar-hub/Resume-AI.git",
     live: "https://resume-a.vercel.app/",
     image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop"
   },
@@ -105,24 +105,5 @@ export const projects: Project[] = [
     github: "https://github.com/varun-kumar-hub/AI-Tools.git",
     live: "https://ai-tools-two-swart.vercel.app/",
     image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"
-  },
-  {
-    slug: "smart-irrigation-system",
-    name: "Smart Irrigation System",
-    description: "An AI-driven smart irrigation system integrating soil moisture sensors with Firebase, enabling real-time monitoring and reducing water wastage by ~40%.",
-    longDescription: "The Smart Irrigation System is a production-grade IoT solution that automates agricultural water management. The central microprocessor feeds telemetry data to a Firebase database. By evaluating real-time local conditions alongside weather forecast APIs, its decision-making algorithm optimizes irrigation cycles, preventing water wastage.",
-    details: [
-      "Automated motor control based on sensor data, eliminating manual intervention.",
-      "Designed data-driven decision logic to dynamically adjust irrigation schedules based on environmental conditions.",
-      "Serves as the basis for a filed patent application with the Government for AI-based decision making."
-    ],
-    stack: [
-      { category: "IoT & Hardware", items: ["IoT", "Arduino C++", "ESP8266 Wi-Fi", "Soil Moisture Sensors", "Relay Modules"] },
-      { category: "Cloud & Database", items: ["Firebase Realtime DB"] },
-      { category: "System Architecture", items: ["Embedded Systems"] }
-    ],
-    github: "https://github.com/varun-kumar-hub",
-    live: "",
-    image: "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?q=80&w=600&auto=format&fit=crop"
   }
 ];
