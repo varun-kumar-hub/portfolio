@@ -76,8 +76,8 @@ export function SpaceBackground({ ...props }: SpaceBackgroundProps) {
     const stars: Star[] = [];
 
     for (let i = 0; i < starCount; i++) {
-      const rx = Math.random() * window.innerWidth;
-      const ry = Math.random() * window.innerHeight;
+      const rx = Math.random(); // 0 to 1
+      const ry = Math.random(); // 0 to 1
       
       // Determine depth layer (1: distant, 2: mid, 3: close)
       const rand = Math.random();
@@ -111,37 +111,37 @@ export function SpaceBackground({ ...props }: SpaceBackgroundProps) {
       });
     }
 
-    // Generate Shifting Cosmic Nebulae (Ambient color dust)
-    const nebulae: Nebula[] = [
+    // Generate Shifting Cosmic Nebulae (Ambient color dust) with percentage coordinates
+    const nebulae = [
       {
-        x: window.innerWidth * 0.25,
-        y: window.innerHeight * 0.3,
-        radius: Math.min(window.innerWidth, window.innerHeight) * 0.45,
+        xPercent: 0.25,
+        yPercent: 0.3,
+        radiusPercent: 0.45,
         color: 'rgba(79, 70, 229, 0.04)', // soft indigo
-        dx: 0.1,
-        dy: 0.05,
-        targetX: window.innerWidth * 0.25,
-        targetY: window.innerHeight * 0.3,
-      },
-      {
-        x: window.innerWidth * 0.75,
-        y: window.innerHeight * 0.65,
-        radius: Math.min(window.innerWidth, window.innerHeight) * 0.5,
-        color: 'rgba(59, 130, 246, 0.035)', // soft cyan/blue
-        dx: -0.08,
-        dy: 0.07,
-        targetX: window.innerWidth * 0.75,
-        targetY: window.innerHeight * 0.65,
-      },
-      {
-        x: window.innerWidth * 0.5,
-        y: window.innerHeight * 0.45,
-        radius: Math.min(window.innerWidth, window.innerHeight) * 0.6,
-        color: 'rgba(124, 58, 237, 0.025)', // soft purple
         dx: 0.05,
-        dy: -0.06,
-        targetX: window.innerWidth * 0.5,
-        targetY: window.innerHeight * 0.45,
+        dy: 0.03,
+        offsetX: 0,
+        offsetY: 0,
+      },
+      {
+        xPercent: 0.75,
+        yPercent: 0.65,
+        radiusPercent: 0.5,
+        color: 'rgba(59, 130, 246, 0.035)', // soft cyan/blue
+        dx: -0.04,
+        dy: 0.05,
+        offsetX: 0,
+        offsetY: 0,
+      },
+      {
+        xPercent: 0.5,
+        yPercent: 0.45,
+        radiusPercent: 0.6,
+        color: 'rgba(124, 58, 237, 0.025)', // soft purple
+        dx: 0.03,
+        dy: -0.04,
+        offsetX: 0,
+        offsetY: 0,
       }
     ];
 
@@ -189,18 +189,20 @@ export function SpaceBackground({ ...props }: SpaceBackgroundProps) {
       // 1. Draw Cosmic Nebulae Gas Clouds
       nebulae.forEach((neb) => {
         // Slow float
-        neb.x += neb.dx;
-        neb.y += neb.dy;
+        neb.offsetX += neb.dx;
+        neb.offsetY += neb.dy;
         
         // Bounce bounds
-        if (Math.abs(neb.x - neb.targetX) > 100) neb.dx *= -1;
-        if (Math.abs(neb.y - neb.targetY) > 100) neb.dy *= -1;
+        if (Math.abs(neb.offsetX) > 50) neb.dx *= -1;
+        if (Math.abs(neb.offsetY) > 50) neb.dy *= -1;
 
-
+        const x = neb.xPercent * width + neb.offsetX;
+        const y = neb.yPercent * height + neb.offsetY;
+        const radius = Math.min(width, height) * neb.radiusPercent;
 
         const radialGlow = ctx.createRadialGradient(
-          neb.x, neb.y, 0,
-          neb.x, neb.y, neb.radius
+          x, y, 0,
+          x, y, radius
         );
         radialGlow.addColorStop(0, neb.color);
         radialGlow.addColorStop(0.5, neb.color.replace(/[\d.]+\)$/, '0.005)'));
@@ -208,24 +210,24 @@ export function SpaceBackground({ ...props }: SpaceBackgroundProps) {
 
         ctx.fillStyle = radialGlow;
         ctx.beginPath();
-        ctx.arc(neb.x, neb.y, neb.radius, 0, Math.PI * 2);
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
       });
 
       // 2. Render and animate Stars
       stars.forEach((star) => {
-        // Slow idle drift
-        star.originX += star.speedX;
-        star.originY += star.speedY;
+        // Slow idle drift (convert pixel speed to percentage offset)
+        star.originX += star.speedX / width;
+        star.originY += star.speedY / height;
 
-        // Wrap edges
-        if (star.originX < 0) star.originX = width;
-        if (star.originX > width) star.originX = 0;
-        if (star.originY < 0) star.originY = height;
-        if (star.originY > height) star.originY = 0;
+        // Wrap edges (0 to 1)
+        if (star.originX < 0) star.originX = 1;
+        if (star.originX > 1) star.originX = 0;
+        if (star.originY < 0) star.originY = 1;
+        if (star.originY > 1) star.originY = 0;
 
-        const drawX = star.originX;
-        const drawY = star.originY;
+        const drawX = star.originX * width;
+        const drawY = star.originY * height;
 
         // Twinkling animation (Breathe opacity)
         star.twinklePhase += star.twinkleSpeed;

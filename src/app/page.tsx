@@ -323,51 +323,6 @@ export default function Home() {
       ) : (
         <SpaceBackground />
       )}
-
-      {/* Root-mounted continuous Odyssey backgrounds */}
-      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_80%,transparent_100%)] opacity-40" />
-
-        {/* Dynamic Glow Center Backdrop */}
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[700px] md:w-[1000px] h-[700px] md:h-[1000px] rounded-full blur-[100px] transition-all duration-300 pointer-events-none"
-          style={{
-            opacity: "var(--sphere-opacity, 0.25)",
-            background: `radial-gradient(circle, hsla(${lightningHue}, 75%, 55%, 0.15) 0%, hsla(${lightningHue}, 60%, 45%, 0.05) 50%, transparent 100%)`,
-          }}
-        />
-
-        {/* Central WebGL Lightning Canvas */}
-        <div
-          className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full pointer-events-none transition-opacity duration-300"
-          style={{ opacity: "var(--lightning-opacity, 0.85)" }}
-        >
-          {/* Main central bolt */}
-          <Lightning hue={lightningHue} xOffset={0} speed={1.0} intensity={0.75} size={1.8} />
-          
-          {/* Secondary left bolt */}
-          <div className="absolute inset-0 opacity-40">
-            <Lightning hue={lightningHue} xOffset={-0.5} speed={0.65} intensity={0.5} size={1.4} />
-          </div>
-          
-          {/* Secondary right bolt */}
-          <div className="absolute inset-0 opacity-40">
-            <Lightning hue={lightningHue} xOffset={0.5} speed={0.8} intensity={0.5} size={1.4} />
-          </div>
-        </div>
-
-        {/* Planet/Sphere Core */}
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.4)] pointer-events-none transition-all duration-500"
-          style={{
-            transform: "translate(-50%, -50%) scale(calc(1 + var(--hold-progress, 0) * 0.12))",
-            opacity: "var(--sphere-opacity, 0.25)",
-            background: `radial-gradient(circle at 35% 25%, hsl(${lightningHue}, 40%, 15%) 0%, #050508ee 60%, #000000 100%)`,
-          }}
-        />
-      </div>
-
       <AnimatePresence mode="wait">
         {!hasEntered ? (
           <PortfolioIntro

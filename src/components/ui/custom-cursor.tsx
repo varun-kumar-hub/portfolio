@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface BurstParticle {
   x: number;
@@ -23,28 +23,35 @@ interface GravityRipple {
 }
 
 export default function CustomCursor() {
+  const [mounted, setMounted] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   const mousePos = useRef({ x: -100, y: -100 });
+  const ringPos = useRef({ x: -100, y: -100 });
   const trailPoints = useRef<{ x: number; y: number; age: number }[]>([]);
   const burstParticles = useRef<BurstParticle[]>([]);
-  
-  // Gravity ripples list
   const ripples = useRef<GravityRipple[]>([]);
   const lastRipplePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     // Detect touch devices — disable custom cursor entirely
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
     const dot = dotRef.current;
+    const ring = ringRef.current;
     const canvas = canvasRef.current;
 
-    if (!dot || !canvas) return;
+    if (!dot || !ring || !canvas) return;
 
-    // Track states without React re-renders for max performance
     let isVisible = false;
     let isHovering = false;
     let isClicking = false;
@@ -66,6 +73,7 @@ export default function CustomCursor() {
       if (!isVisible) {
         isVisible = true;
         dot.classList.add("visible");
+        ring.classList.add("visible");
         canvas.style.opacity = "1";
       }
 
@@ -74,14 +82,14 @@ export default function CustomCursor() {
       const dy = e.clientY - lastRipplePos.current.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist > 22) { // Ripple spawned every 22px of movement
+      if (dist > 22) {
         ripples.current.push({
           x: e.clientX,
           y: e.clientY,
           radius: 3,
           maxRadius: 38,
           opacity: 0.45,
-          color: "rgba(148, 163, 184, 0.4)", // Slate grey ripples
+          color: "rgba(148, 163, 184, 0.4)",
           speed: 1.1,
         });
         lastRipplePos.current = { x: e.clientX, y: e.clientY };
@@ -97,12 +105,13 @@ export default function CustomCursor() {
     const handleMouseDown = () => {
       isClicking = true;
       dot.classList.add("clicking");
+      ring.classList.add("clicking");
 
-      // Spawn satellite burst particles on click! (UNTOUCHED - Monochrome shades)
+      // Spawn satellite burst particles on click!
       const colors = ["#cbd5e1", "#94a3b8", "#64748b", "#ffffff"];
       for (let i = 0; i < 12; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const velocity = Math.random() * 4 + 3; // explosive speed
+        const velocity = Math.random() * 4 + 3;
         burstParticles.current.push({
           x: mousePos.current.x,
           y: mousePos.current.y,
@@ -118,17 +127,20 @@ export default function CustomCursor() {
     const handleMouseUp = () => {
       isClicking = false;
       dot.classList.remove("clicking");
+      ring.classList.remove("clicking");
     };
 
     const handleMouseLeave = () => {
       isVisible = false;
       dot.classList.remove("visible");
+      ring.classList.remove("visible");
       canvas.style.opacity = "0";
     };
 
     const handleMouseEnter = () => {
       isVisible = true;
       dot.classList.add("visible");
+      ring.classList.add("visible");
       canvas.style.opacity = "1";
     };
 
@@ -169,11 +181,13 @@ export default function CustomCursor() {
         if (!isHovering) {
           isHovering = true;
           dot.classList.add("hovering");
+          ring.classList.add("hovering");
         }
       } else {
         if (isHovering) {
           isHovering = false;
           dot.classList.remove("hovering");
+          ring.classList.remove("hovering");
         }
       }
     };
@@ -185,14 +199,102 @@ export default function CustomCursor() {
     document.addEventListener("mouseenter", handleMouseEnter);
     document.addEventListener("mouseover", handleMouseOver);
 
+    // Disable default system cursor
+    document.body.style.cursor = "none";
+
+    const style = document.createElement("style");
+    style.id = "custom-cursor-style";
+    style.textContent = `
+      *, *::before, *::after { cursor: none !important; }
+      
+      .custom-cursor-dot {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        pointer-events: none;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: rgb(241, 245, 249);
+        box-shadow: 0 0 6px rgba(148, 163, 184, 0.7), 0 0 15px rgba(71, 85, 105, 0.35);
+        opacity: 0;
+        will-change: transform;
+        transform: translate3d(-100px, -100px, 0);
+        transition: width 0.15s ease-out, height 0.15s ease-out, opacity 0.15s ease-out, background-color 0.15s ease-out;
+      }
+      
+      .custom-cursor-dot.visible {
+        opacity: 1;
+      }
+      
+      .custom-cursor-dot.hovering {
+        width: 10px;
+        height: 10px;
+        background-color: rgb(96, 165, 250);
+      }
+      
+      .custom-cursor-dot.clicking {
+        width: 4px;
+        height: 4px;
+      }
+
+      .custom-cursor-ring {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9998;
+        pointer-events: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        opacity: 0;
+        will-change: transform;
+        transform: translate3d(-100px, -100px, 0);
+        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.15s ease-out, border-color 0.15s ease-out, background-color 0.15s ease-out;
+      }
+      
+      .custom-cursor-ring.visible {
+        opacity: 1;
+      }
+      
+      .custom-cursor-ring.hovering {
+        width: 38px;
+        height: 38px;
+        border-color: rgba(96, 165, 250, 0.6);
+        background-color: rgba(96, 165, 250, 0.05);
+        box-shadow: 0 0 10px rgba(96, 165, 250, 0.15);
+      }
+      
+      .custom-cursor-ring.clicking {
+        width: 14px;
+        height: 14px;
+        border-color: rgba(96, 165, 250, 0.8);
+      }
+    `;
+    document.head.appendChild(style);
+
     // Animation Loop
     let animFrame: number;
     
     const animate = () => {
       animFrame = requestAnimationFrame(animate);
 
-      // Core dot translate (Follow mouse immediately)
+      // Lerp ring position for trailing motion
+      const lerpFactor = 0.16;
+      if (ringPos.current.x === -100 && mousePos.current.x !== -100) {
+        ringPos.current = { ...mousePos.current };
+      } else {
+        ringPos.current.x += (mousePos.current.x - ringPos.current.x) * lerpFactor;
+        ringPos.current.y += (mousePos.current.y - ringPos.current.y) * lerpFactor;
+      }
+
+      // Core dot translate
       dot.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
+
+      // Ring translate
+      ring.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
 
       if (canvas && isVisible) {
         const ctx = canvas.getContext("2d");
@@ -216,17 +318,17 @@ export default function CustomCursor() {
             ctx.fill();
           });
 
-          // 2. Pulse Gravity Ripples on Hover (Active wave emission)
+          // 2. Pulse Gravity Ripples on Hover
           if (isHovering && !isClicking) {
             hoverPulseCounter++;
-            if (hoverPulseCounter % 16 === 0) { // every 16 frames (~260ms)
+            if (hoverPulseCounter % 16 === 0) {
               ripples.current.push({
                 x: mousePos.current.x,
                 y: mousePos.current.y,
                 radius: 4,
                 maxRadius: 44,
                 opacity: 0.5,
-                color: "rgba(100, 116, 139, 0.45)", // Slate pulse aura
+                color: "rgba(100, 116, 139, 0.45)",
                 speed: 1.3,
               });
             }
@@ -236,8 +338,6 @@ export default function CustomCursor() {
           for (let i = ripples.current.length - 1; i >= 0; i--) {
             const r = ripples.current[i];
             r.radius += r.speed;
-            
-            // Linear fade out based on progress
             const fade = Math.max(0, 1 - r.radius / r.maxRadius);
             r.opacity = fade * 0.45;
 
@@ -252,12 +352,12 @@ export default function CustomCursor() {
             }
           }
 
-          // 4. Render and animate Click Burst Particles (UNTOUCHED)
+          // 4. Render and animate Click Burst Particles
           for (let i = burstParticles.current.length - 1; i >= 0; i--) {
             const p = burstParticles.current[i];
             p.x += p.vx;
             p.y += p.vy;
-            p.opacity -= 0.038; // quick decay
+            p.opacity -= 0.038;
 
             if (p.opacity <= 0) {
               burstParticles.current.splice(i, 1);
@@ -274,47 +374,6 @@ export default function CustomCursor() {
 
     animate();
 
-    // Disable default system cursor
-    document.body.style.cursor = "none";
-
-    const style = document.createElement("style");
-    style.id = "custom-cursor-style";
-    style.textContent = `
-      *, *::before, *::after { cursor: none !important; }
-      
-      .custom-cursor-dot {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 9999;
-        pointer-events: none;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background-color: rgb(241, 245, 249);
-        box-shadow: 0 0 6px rgba(148, 163, 184, 0.7), 0 0 15px rgba(71, 85, 105, 0.35);
-        opacity: 0;
-        will-change: transform;
-        transition: width 0.15s ease-out, height 0.15s ease-out, opacity 0.15s ease-out, box-shadow 0.15s ease-out;
-      }
-      
-      .custom-cursor-dot.visible {
-        opacity: 1;
-      }
-      
-      .custom-cursor-dot.hovering {
-        width: 8px;
-        height: 8px;
-        box-shadow: 0 0 12px rgba(241, 245, 249, 0.95), 0 0 25px rgba(148, 163, 184, 0.5);
-      }
-      
-      .custom-cursor-dot.clicking {
-        width: 3px;
-        height: 3px;
-      }
-    `;
-    document.head.appendChild(style);
-
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mousedown", handleMouseDown);
@@ -328,23 +387,22 @@ export default function CustomCursor() {
       const el = document.getElementById("custom-cursor-style");
       if (el) el.remove();
     };
-  }, []);
+  }, [mounted]);
 
-  // SSR Safe Check
-  if (typeof window !== "undefined" && ('ontouchstart' in window || navigator.maxTouchPoints > 0)) {
-    return null;
-  }
+  // Client-side render check
+  if (!mounted) return null;
+
+  const isTouchDevice = typeof window !== "undefined" && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  if (isTouchDevice) return null;
 
   return (
     <>
-      {/* Canvas for motion trail, ripples and click burst particles */}
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 z-[9998] pointer-events-none transition-opacity duration-300"
+        className="fixed inset-0 z-[9997] pointer-events-none transition-opacity duration-300"
         style={{ opacity: 0 }}
       />
-
-      {/* Main Cursor Core Dot */}
+      <div ref={ringRef} className="custom-cursor-ring" />
       <div ref={dotRef} className="custom-cursor-dot" />
     </>
   );

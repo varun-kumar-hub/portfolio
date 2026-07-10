@@ -164,8 +164,14 @@ export const Lightning: React.FC<LightningProps> = ({
     if (!canvas) return;
 
     const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const scale = isMobile ? 0.55 : 1.0;
+      const targetWidth = Math.floor(canvas.clientWidth * scale);
+      const targetHeight = Math.floor(canvas.clientHeight * scale);
+      if (canvas.width !== targetWidth || canvas.height !== targetHeight) {
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+      }
     };
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);

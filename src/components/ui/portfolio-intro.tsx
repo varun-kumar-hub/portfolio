@@ -13,12 +13,22 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   const [progress, setProgress] = useState(0);
   const [isPressing, setIsPressing] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const lightningHue = 220; // Pure electric sapphire blue
   const progressRef = useRef(0);
   const pressingRef = useRef(false);
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Sync state values to refs for the animation loop
   useEffect(() => {
@@ -134,11 +144,13 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
         {/* Ambient Glow centered behind the planet - Reactive to progress */}
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full blur-[100px] transition-all duration-300"
+          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ${
+            isMobile ? "blur-[40px]" : "blur-[100px]"
+          }`}
           style={{
             opacity: 0.12 + progress * 0.48,
-            width: `${700 + progress * 600}px`,
-            height: `${700 + progress * 600}px`,
+            width: isMobile ? `${280 + progress * 220}px` : `${700 + progress * 600}px`,
+            height: isMobile ? `${280 + progress * 220}px` : `${700 + progress * 600}px`,
             background: `radial-gradient(circle, hsla(${lightningHue}, 75%, 55%, 0.18) 0%, hsla(${lightningHue}, 60%, 45%, 0.06) 50%, transparent 100%)`,
           }}
         />
@@ -158,8 +170,12 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed transition-all duration-500 animate-[spin_80s_linear_infinite] pointer-events-none"
           style={{
-            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
-            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
+            width: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 20px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
+            height: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 20px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.05 + progress * 0.15})`
           }}
         />
@@ -168,18 +184,28 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         <div
           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-double transition-all duration-500 animate-[spin_120s_linear_infinite_reverse] pointer-events-none"
           style={{
-            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
-            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
+            width: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 40px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
+            height: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 40px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.03 + progress * 0.07})`
           }}
         />
 
         {/* Planet/Sphere core centered in the background - Upgraded to frosted glass refractive core */}
         <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border backdrop-blur-[16px] transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.6)]"
+          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.6)] ${
+            isMobile ? "backdrop-blur-[4px]" : "backdrop-blur-[16px]"
+          }`}
           style={{
-            width: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
-            height: `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
+            width: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
+            height: isMobile 
+              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px)` 
+              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
             borderColor: `hsla(220, 85%, 65%, ${0.08 + progress * 0.22})`,
             background: `radial-gradient(circle at 35% 25%, rgba(10, 25, 50, ${0.4 + progress * 0.25}) 0%, rgba(2, 6, 12, ${0.75 + progress * 0.1}) 70%, rgba(0, 0, 0, 0.95) 100%)`,
             boxShadow: `

@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Home, GraduationCap, Cpu, Code2, Briefcase, Mail, ChevronRight, FileText, Sparkles, Terminal } from 'lucide-react';
+
 
 interface NavbarProps {
   onReturnToIntro: () => void;
@@ -43,6 +46,15 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('home');
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const iconMap: Record<string, React.ComponentType<any>> = {
+    'Home': Home,
+    'Education': GraduationCap,
+    'Skills': Cpu,
+    'Projects': Code2,
+    'Experience': Briefcase,
+    'Contact': Mail,
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -119,12 +131,10 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   }, [isOpen]);
 
   const logoElement = (
-    <div className="relative w-5 h-5 flex items-center justify-center">
-      <span className="absolute w-2 h-2 rounded-full bg-blue-500 opacity-95 filter blur-[1px]"></span>
-      <span className="absolute w-1 h-1 rounded-full bg-white opacity-100"></span>
-      {/* Outer spinning radar tracks */}
-      <span className="absolute inset-0 rounded-full border border-blue-500/30 animate-[spin_8s_linear_infinite]" />
-      <span className="absolute inset-[3px] rounded-full border border-dashed border-blue-400/40 animate-[spin_4s_linear_infinite_reverse]" />
+    <div className="relative w-6 h-6 flex items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)] dark:bg-blue-500/5">
+      <Terminal className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" strokeWidth={2.5} />
+      {/* Subtle pulsing background glow */}
+      <span className="absolute inset-0 rounded-lg bg-blue-500/15 animate-pulse" />
     </div>
   );
 
@@ -226,48 +236,100 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
       </header>
 
       {/* ─── Mobile Dropdown Menu ─── */}
-      <div
-        className={`sm:hidden w-[calc(100%-1rem)] mt-2 rounded-2xl overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
-                     border border-blue-500/10 bg-white/90 dark:border-blue-500/15 dark:bg-[#0a0a12]/90
-                     backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.15),_0_0_20px_rgba(59,130,246,0.06)]
-                     ${isOpen ? 'max-h-[500px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none border-transparent shadow-none'}`}
-      >
-        <div className="p-4">
-          {/* Nav links grid — 2 columns for compact layout */}
-          <nav className="grid grid-cols-2 gap-1">
-            {navLinksData.map((link, idx) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-gray-600 dark:text-gray-400 hover:text-gray-950 dark:hover:text-white hover:bg-gray-100/60 dark:hover:bg-white/5 transition-all duration-200"
-                style={{
-                  transitionDelay: isOpen ? `${idx * 40}ms` : '0ms',
-                  opacity: isOpen ? 1 : 0,
-                  transform: isOpen ? 'translateY(0)' : 'translateY(-8px)',
-                }}
-              >
-                {/* Link icon indicator */}
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] opacity-50" />
-                {link.label}
-              </a>
-            ))}
-          </nav>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, scale: 0.95, y: -8 }}
+            animate={{ 
+              opacity: 1, 
+              height: "auto", 
+              scale: 1,
+              y: 0,
+              transition: {
+                height: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                opacity: { duration: 0.25, ease: "linear" },
+                scale: { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+                y: { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
+              }
+            }}
+            exit={{ 
+              opacity: 0, 
+              height: 0, 
+              scale: 0.95,
+              y: -8,
+              transition: {
+                height: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                opacity: { duration: 0.2, ease: "linear" },
+                scale: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                y: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+              }
+            }}
+            className="sm:hidden w-[calc(100%-1rem)] mt-2 rounded-2xl overflow-hidden border border-blue-500/10 bg-white/95 dark:border-blue-500/15 dark:bg-[#07070af2] backdrop-blur-xl shadow-[0_16px_48px_rgba(0,0,0,0.15),_0_0_20px_rgba(59,130,246,0.06)]"
+          >
+            <div className="p-4">
+              {/* Nav links grid — 2 columns for compact layout */}
+              <nav className="grid grid-cols-2 gap-2">
+                {navLinksData.map((link) => {
+                  const Icon = iconMap[link.label] || Code2;
+                  const isActive = activeSection === link.href.slice(1);
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center justify-between p-3 rounded-xl border transition-all duration-200 group
+                        ${isActive 
+                          ? 'bg-blue-500/10 border-blue-500/30 text-blue-600 dark:text-blue-400 font-bold shadow-[0_0_12px_rgba(59,130,246,0.15)]' 
+                          : 'bg-gray-50/20 dark:bg-white/[0.02] border-gray-150/10 dark:border-white/[0.03] text-gray-600 dark:text-gray-400 hover:bg-gray-50/50 dark:hover:bg-white/[0.05] hover:text-gray-950 dark:hover:text-white'
+                        }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-blue-500' : 'text-gray-400 dark:text-gray-500'}`} />
+                        <span className="text-[13px] tracking-wide font-medium">{link.label}</span>
+                      </div>
+                      <ChevronRight className={`w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-all duration-200 ${isActive ? 'text-blue-500 opacity-100' : 'text-gray-400'}`} />
+                    </a>
+                  );
+                })}
+              </nav>
 
-          {/* Divider */}
-          <div className="my-3 h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700/50 to-transparent" />
+              {/* Divider */}
+              <div className="my-4 h-[1px] bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800/30 to-transparent" />
 
-          {/* Action buttons row */}
-          <div className="flex items-center gap-2">
-            <div className="flex-1">
-              {introButtonElement}
+              {/* Action buttons row */}
+              <div className="flex items-center gap-3">
+                <div className="flex-1">
+                  <button
+                    onClick={() => {
+                      onReturnToIntro();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-xs font-bold border border-gray-250/30 dark:border-white/10 bg-gray-50/20 dark:bg-white/[0.02] hover:bg-gray-50/40 dark:hover:bg-white/[0.05] text-gray-800 dark:text-gray-300 rounded-full hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-950 dark:hover:text-white transition-all duration-200 cursor-pointer animate-none"
+                  >
+                    <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+                    Intro
+                  </button>
+                </div>
+                <div className="flex-1">
+                  <div className="relative group w-full overflow-hidden rounded-full p-[1px]">
+                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-40 filter blur-md pointer-events-none transition-all duration-300 group-hover:opacity-75" />
+                     <a
+                       href="/resume.pdf"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       onClick={() => setIsOpen(false)}
+                       className="relative z-10 flex items-center justify-center gap-2 px-4.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-full transition-all duration-200 cursor-pointer shadow-sm"
+                     >
+                       <FileText className="w-3.5 h-3.5 text-white" />
+                       Resume
+                     </a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex-1">
-              {resumeButtonElement}
-            </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
