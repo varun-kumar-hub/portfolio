@@ -67,6 +67,11 @@ export default function CustomCursor() {
     const handleMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
       
+      // Update dot position instantly in mousemove handler to decouple from render loops
+      if (dot) {
+        dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate3d(-50%, -50%, 0)`;
+      }
+      
       if (!isVisible) {
         isVisible = true;
         dot.classList.add("visible");
@@ -239,8 +244,7 @@ export default function CustomCursor() {
     const animate = () => {
       animFrame = requestAnimationFrame(animate);
 
-      // Core dot translate
-      dot.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
+
 
       if (canvas && isVisible) {
         const ctx = canvas.getContext("2d");

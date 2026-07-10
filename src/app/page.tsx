@@ -257,6 +257,18 @@ export default function Home() {
     return false;
   });
   const [lightningHue, setLightningHue] = useState(220); // Default to blue
+  const [showDotted, setShowDotted] = useState(true);
+
+  useEffect(() => {
+    if (hasEntered) {
+      setShowDotted(false);
+    } else {
+      const timer = setTimeout(() => {
+        setShowDotted(true);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [hasEntered]);
 
 
   // Contact Form & Clipboard States
@@ -371,7 +383,7 @@ export default function Home() {
 
       {/* Global Starfield Backgrounds */}
       {isIntroReady && (
-        !hasEntered ? (
+        showDotted ? (
           <DottedSurface />
         ) : (
           <SpaceBackground />
@@ -525,7 +537,7 @@ export default function Home() {
       </section>
 
       {/* ─── Education ─── */}
-      <section className="border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="education">
+      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="education">
         <SectionHeading eyebrow="Education" title="Academic Background" icon={<GraduationCap size={16} />}>
           Academic records and core computer science studies.
         </SectionHeading>
@@ -533,7 +545,7 @@ export default function Home() {
       </section>
 
       {/* ─── Skills ─── */}
-      <section className="border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
+      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
             Languages, frameworks, database managers, and DevOps tools in my stack.
@@ -543,7 +555,7 @@ export default function Home() {
       </section>
 
       {/* ─── Projects ─── */}
-      <section className="border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
+      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
         <SectionHeading eyebrow="Projects" title="Featured Work" icon={<FolderGit2 size={16} />}>
           Practical implementations demonstrating AI engineering, IoT systems, and full-stack development.
         </SectionHeading>
@@ -626,7 +638,7 @@ export default function Home() {
       </section>
 
       {/* ─── Experience ─── */}
-      <section className="border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
+      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
         <div className="mx-auto max-w-6xl">
           <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
             Professional contributions and developer roles in tech groups.
@@ -636,7 +648,7 @@ export default function Home() {
       </section>
 
       {/* ─── Contact ─── */}
-      <section className="relative z-10 py-24 px-5 sm:px-6 lg:px-8 border-t border-gray-800/30 bg-transparent" id="contact">
+      <section className="lazy-section relative z-10 py-24 px-5 sm:px-6 lg:px-8 border-t border-gray-800/30 bg-transparent" id="contact">
         <div className="max-w-5xl mx-auto">
 
           {/* Section header — centered */}

@@ -270,4 +270,10 @@ a.group\/btn:active,
   transform: translateY(0) scale(0.97) !important;
 }
 
+/* Lazy rendering for sections below the fold to boost mounting performance */
+.lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
 
