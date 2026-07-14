@@ -60,34 +60,31 @@ export default function SkillsBento() {
         .skills-swiper {
           width: 100%;
           overflow: visible !important;
-          padding-top: 0.75rem;
-          padding-bottom: 0.75rem;
+          padding-top: 1.25rem;
+          padding-bottom: 1.25rem;
         }
 
         .skills-swiper .swiper-slide {
           display: flex;
           justify-content: center;
           align-items: center;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
-          transform: scale(0.85);
-          opacity: 0.22;
-          filter: blur(1px);
+          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+          transform: scale(0.9);
+          opacity: 0.55;
         }
 
         /* ── Center Active Slide Popout ── */
         .skills-swiper .swiper-slide-active {
-          transform: scale(1.2) !important;
+          transform: scale(1.25) !important;
           opacity: 1 !important;
-          filter: blur(0px) !important;
           z-index: 10;
         }
 
         /* ── Adjacent Next/Prev Slides ── */
         .skills-swiper .swiper-slide-next,
         .skills-swiper .swiper-slide-prev {
-          transform: scale(1.0) !important;
-          opacity: 0.6 !important;
-          filter: blur(0px) !important;
+          transform: scale(1.05) !important;
+          opacity: 0.75 !important;
           z-index: 5;
         }
 
@@ -109,7 +106,7 @@ export default function SkillsBento() {
         .skills-swiper .skill-tooltip {
           transform: translateX(-50%) scale(0);
           opacity: 0;
-          transform-origin: bottom center;
+          transform-origin: top center;
           transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
         }
 
@@ -126,22 +123,24 @@ export default function SkillsBento() {
         }
       `}</style>
 
-      <div className="grid grid-cols-1 gap-4 skills-swiper-container overflow-hidden max-w-6xl mx-auto px-4 relative">
+      <div className="grid grid-cols-1 gap-10 skills-swiper-container overflow-hidden max-w-6xl mx-auto px-4 relative">
         
         {/* Soft edge fade shadows */}
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#07070a] to-transparent pointer-events-none z-25" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#07070a] to-transparent pointer-events-none z-25" />
 
         {categories.map((cat, idx) => {
-          // Double or triple skills array to prevent loops from having empty gaps
-          const repeatedSkills = [...cat.skills, ...cat.skills, ...cat.skills, ...cat.skills];
+          // Repeat enough times to ensure seamless looping (need at least 2x slidesPerView)
+          const minSlides = 40;
+          const repeatCount = Math.ceil(minSlides / cat.skills.length);
+          const repeatedSkills = Array.from({ length: repeatCount }, () => cat.skills).flat();
 
           return (
-            <div key={idx} className="space-y-0.5">
+            <div key={idx} className="space-y-1">
               {/* Category Header Label */}
-              <div className="flex items-center gap-3 px-4 mb-0.5">
+              <div className="flex items-center justify-center gap-2 mb-1">
                 <span className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
-                <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-neutral-500 font-sans">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 font-sans">
                   {cat.title}
                 </h3>
               </div>
@@ -153,7 +152,7 @@ export default function SkillsBento() {
                 loop={true}
                 speed={cat.speed}
                 slidesPerView={6}
-                spaceBetween={6}
+                spaceBetween={4}
                 centeredSlides={true}
                 grabCursor={false}
                 allowTouchMove={true}
@@ -164,24 +163,24 @@ export default function SkillsBento() {
                 }}
                 breakpoints={{
                   480: {
+                    slidesPerView: 7,
+                    spaceBetween: 4,
+                  },
+                  640: {
                     slidesPerView: 8,
                     spaceBetween: 6,
                   },
-                  640: {
+                  768: {
+                    slidesPerView: 9,
+                    spaceBetween: 6,
+                  },
+                  1024: {
                     slidesPerView: 10,
                     spaceBetween: 8,
                   },
-                  768: {
+                  1280: {
                     slidesPerView: 12,
                     spaceBetween: 8,
-                  },
-                  1024: {
-                    slidesPerView: 14,
-                    spaceBetween: 8,
-                  },
-                  1280: {
-                    slidesPerView: 16,
-                    spaceBetween: 10,
                   }
                 }}
               >
@@ -190,19 +189,19 @@ export default function SkillsBento() {
                   return (
                     <SwiperSlide key={`${skillName}-${skillIdx}`}>
                       <div
-                        className="skill-circle flex flex-col items-center justify-center rounded-full bg-[#0d0d11]/45 border border-white/[0.05] w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 transition-all duration-300 relative group cursor-default"
+                        className="skill-circle flex flex-col items-center justify-center rounded-full bg-[#0d0d11]/60 border border-white/[0.06] w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 transition-all duration-300 relative group cursor-default"
                         style={{
                           "--brand-color": color.replace("0.4", "0.95"),
                           "--brand-color-dim": color.replace("0.4", "0.35"),
                         } as React.CSSProperties}
                       >
                         {/* Custom Brand / Concept Icon */}
-                        <div className="scale-65 sm:scale-75 md:scale-[0.85] transition-transform duration-300 text-white shrink-0 flex items-center justify-center">
+                        <div className="scale-75 sm:scale-85 md:scale-100 transition-transform duration-300 text-white shrink-0 flex items-center justify-center">
                           {icon}
                         </div>
 
                         {/* Hover & Active Tooltip Label */}
-                        <div className="skill-tooltip absolute -top-7 left-1/2 bg-neutral-950/95 border border-white/10 px-2 py-0.5 rounded text-[8px] font-bold text-white pointer-events-none whitespace-nowrap tracking-wide z-50 shadow-md shadow-black/60">
+                        <div className="skill-tooltip absolute -bottom-6 left-1/2 bg-neutral-950/95 border border-white/10 px-2 py-0.5 rounded text-[8px] font-bold text-white pointer-events-none whitespace-nowrap tracking-wide z-50 shadow-md shadow-black/60">
                           {skillName}
                         </div>
                       </div>
