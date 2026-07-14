@@ -35,6 +35,17 @@ import { Navbar } from "@/components/ui/mini-navbar";
 import { Lightning, ElasticHueSlider } from "@/components/ui/hero-odyssey";
 
 import CustomCursor from "@/components/ui/custom-cursor";
+import { CometCard } from "@/components/ui/comet-card";
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { TextRevealCard } from "@/components/ui/text-reveal-card";
+import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconBrandInstagram,
+  IconMail,
+  IconFileText,
+} from "@tabler/icons-react";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
 
@@ -243,6 +254,34 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
 }
 
 export default function Home() {
+  const socialDockItems = [
+    {
+      title: "GitHub",
+      icon: <IconBrandGithub className="w-5 h-5" />,
+      href: "https://github.com/varun-kumar-hub",
+    },
+    {
+      title: "LinkedIn",
+      icon: <IconBrandLinkedin className="w-5 h-5 text-[#378fe9]" />,
+      href: "https://www.linkedin.com/in/c-varun-kumar-281b73361",
+    },
+    {
+      title: "Instagram",
+      icon: <IconBrandInstagram className="w-5 h-5 text-[#f85c96]" />,
+      href: "https://www.instagram.com/v_a_r_u_n_13_9?igsh=Y3lnMDA2M3ZoZ2p0",
+    },
+    {
+      title: "Email",
+      icon: <IconMail className="w-5 h-5 text-red-400" />,
+      href: "mailto:cvarunkumar455@gmail.com",
+    },
+    {
+      title: "Resume",
+      icon: <IconFileText className="w-5 h-5 text-emerald-400" />,
+      href: "/resume.pdf",
+    },
+  ];
+
   const [hasEntered, setHasEntered] = useState(false);
   const [isIntroReady, setIsIntroReady] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -413,14 +452,14 @@ export default function Home() {
       >
         {/* Main Content — floating on the starfield */}
         <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 md:gap-16 items-center">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
 
             {/* ── Text Side ── */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col space-y-5 sm:space-y-6 order-2 md:order-1 text-center md:text-left"
+              className="flex flex-col space-y-5 sm:space-y-6 w-full text-center md:text-left"
             >
               {/* Specialization tag */}
               <div className="flex justify-center md:justify-start">
@@ -430,33 +469,26 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Name — floating with glow */}
-              <h1
-                className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1]"
-                style={{
-                  textShadow: '0 0 40px rgba(96, 165, 250, 0.15), 0 0 80px rgba(96, 165, 250, 0.05)',
-                }}
-              >
-                Challa Varun{' '}
-                <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-indigo-400 bg-clip-text text-transparent">
-                  Kumar
-                </span>
-              </h1>
+              {/* Animated Flipping Subtitles (Moved UP) */}
+              <div className="flex justify-center md:justify-start w-full mt-2 -mb-2">
+                <ContainerTextFlip
+                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech CSE (AI & ML) Student", "Full Stack Developer"]}
+                  interval={2500}
+                />
+              </div>
 
-              {/* Tagline */}
-              <h2 className="text-base sm:text-lg md:text-2xl font-medium text-gray-400 tracking-wide">
-                Engineering the{' '}
-                <span className="text-blue-400/90" style={{ textShadow: '0 0 12px rgba(96, 165, 250, 0.3)' }}>
-                  AI-Driven
-                </span>{' '}
-                Future
-              </h2>
+              {/* Name & Title in TextRevealCard */}
+              <div className="flex justify-center md:justify-start w-full -my-4 sm:-my-6 overflow-x-hidden">
+                <TextRevealCard
+                  text="Challa Varun Kumar"
+                  revealText="Engineering the AI-Driven Future"
+                  className="bg-transparent border-none p-0 w-full shadow-none max-w-4xl"
+                />
+              </div>
 
               {/* Bio */}
-              <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-lg mx-auto md:mx-0">
-                Dedicated Computer Science student at Kalasalingam Academy of Research and Education.
-                Skilled in developing complex full-stack web products with React & Next.js, implementing
-                machine learning models, and configuring scalable DevOps pipelines.
+              <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-3xl mx-auto md:mx-0">
+                As a Tech Innovator, AI & ML Enthusiast, and a 3rd-year B.Tech CSE (AI & ML) student at Kalasalingam Academy of Research and Education, I explore the limitless potential of Artificial Intelligence and Machine Learning. I combine academic principles with practical engineering, building modern full-stack web applications and intelligent algorithms to create impactful, real-world solutions.
               </p>
 
               {/* Ghost-style CTA buttons */}
@@ -476,59 +508,6 @@ export default function Home() {
                 >
                   Get in Touch
                 </a>
-              </div>
-            </motion.div>
-
-            {/* ── Photo Side — Floating with neon ring ── */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="flex justify-center order-1 md:order-2"
-            >
-              <div className="relative">
-                {/* Outer glow aura */}
-                <div
-                  className="absolute -inset-4 rounded-3xl opacity-30 blur-2xl pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(circle, rgba(96, 165, 250, 0.3) 0%, transparent 70%)',
-                  }}
-                />
-                {/* Neon border wrapper (Portrait Rectangle aspect-[4/5]) */}
-                <div className="relative w-[180px] sm:w-[220px] md:w-[280px] aspect-[4/5] rounded-3xl p-[2.5px] bg-gradient-to-br from-blue-500/40 via-blue-400/20 to-indigo-500/40 shadow-[0_0_30px_rgba(96,165,250,0.12)]">
-                  <div className="w-full h-full rounded-[22px] overflow-hidden bg-gray-950">
-                    <Image
-                      alt="Varun Kumar"
-                      className="w-full h-full object-cover"
-                      height={700}
-                      priority
-                      src="/profile-varun.png"
-                      width={560}
-                    />
-                  </div>
-                </div>
-                 {/* CSS Motion Path style for orbiting along the exact rounded rectangle border shape */}
-                 <style>{`
-                   @keyframes orbitRectTravel {
-                     0% { offset-distance: 0%; }
-                     100% { offset-distance: 100%; }
-                   }
-                 `}</style>
-                 <div className="absolute -inset-[6px] rounded-[28px] pointer-events-none">
-                   <div
-                     style={{
-                       position: 'absolute',
-                       width: '10px',
-                       height: '10px',
-                       borderRadius: '50%',
-                       backgroundColor: 'rgba(96, 165, 250, 0.95)',
-                       boxShadow: '0 0 6px rgba(96, 165, 250, 0.6), 0 0 12px rgba(59, 130, 246, 0.3)',
-                       offsetPath: 'border-box',
-                       offsetAnchor: 'center',
-                       animation: 'orbitRectTravel 10s linear infinite',
-                     }}
-                   />
-                 </div>
               </div>
             </motion.div>
 
@@ -873,44 +852,11 @@ export default function Home() {
       <footer className="px-5 py-10 sm:px-6 lg:px-8 relative z-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 border-t border-gray-200 pt-8 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400 md:flex-row">
           <p>Copyright {new Date().getFullYear()} Challa Varun Kumar. All rights reserved.</p>
-          <div className="flex items-center gap-3">
-            <a
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#24292e] text-white hover:scale-110 active:scale-95 transition-all shadow-md"
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0a66c2] text-white hover:scale-110 active:scale-95 transition-all shadow-md"
-              href="https://www.linkedin.com/in/c-varun-kumar-281b73361"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#ea4335] text-white hover:scale-110 active:scale-95 transition-all shadow-md"
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Email via Gmail"
-            >
-              <Mail size={20} />
-            </a>
-
-            <a
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#e1306c] text-white hover:scale-110 active:scale-95 transition-all shadow-md"
-              href="https://www.instagram.com/v_a_r_u_n_13_9?igsh=Y3lnMDA2M3ZoZ2p0"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <Instagram size={20} />
-            </a>
+          <div className="flex items-center gap-4">
+            <FloatingDock
+              items={socialDockItems}
+              desktopClassName="mx-0 h-14 pb-2 bg-transparent border-none shadow-none"
+            />
             {/* Cybernetic Capsule Back to Top Button */}
             <a
               className="group ml-2 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/5 px-5 py-2 font-bold text-blue-300 transition-all duration-300 hover:bg-blue-500/15 hover:border-blue-400/60 hover:text-blue-200 hover:shadow-[0_0_20px_rgba(96,165,250,0.25)] text-xs uppercase tracking-wider relative overflow-hidden"

@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
-import { Lightning } from "@/components/ui/hero-odyssey";
+import { AnimatePresence, motion } from "framer-motion";
+import { EncryptedText } from "@/components/ui/encrypted-text";
+import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 
 interface PortfolioIntroProps {
   onEnter: () => void;
@@ -11,15 +12,12 @@ interface PortfolioIntroProps {
 
 export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProps) {
   const [progress, setProgress] = useState(0);
-  const [isPressing, setIsPressing] = useState(false);
+  const [isDecrypting, setIsDecrypting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const lightningHue = 220; // Pure electric sapphire blue
   const progressRef = useRef(0);
-  const pressingRef = useRef(false);
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -30,11 +28,6 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Sync state values to refs for the animation loop
-  useEffect(() => {
-    pressingRef.current = isPressing;
-  }, [isPressing]);
-
   useEffect(() => {
     completedRef.current = isCompleted;
   }, [isCompleted]);
@@ -43,86 +36,51 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     onProgressChange(progress);
   }, [progress, onProgressChange]);
 
-  // Animation Loop (Synchronized with Hold Progress)
+  // Automatic Decryption animation loop when triggered
   useEffect(() => {
+    if (!isDecrypting || completedRef.current) return;
+
+    let startTimestamp: number | null = null;
+    let isCancelled = false;
+
     const loop = (timestamp: number) => {
-      if (lastTimeRef.current === null) {
-        lastTimeRef.current = timestamp;
+      if (isCancelled) return;
+      if (startTimestamp === null) {
+        startTimestamp = timestamp;
       }
-      const delta = timestamp - lastTimeRef.current;
-      lastTimeRef.current = timestamp;
+      const elapsed = timestamp - startTimestamp;
+      
+      // Decrypt over 1.8 seconds (1800ms)
+      const nextProgress = Math.min(1, elapsed / 1800);
+      
+      progressRef.current = nextProgress;
+      setProgress(nextProgress);
 
-      let current = progressRef.current;
-      if (completedRef.current) {
-        current = 1;
-      } else if (pressingRef.current) {
-        // Increment progress over 1.4 seconds
-        current += delta / 1400;
-        if (current >= 1) {
-          current = 1;
-          setProgress(1);
-          progressRef.current = 1;
-          setIsCompleted(true);
-        }
-      } else {
-        // Decrement progress (smooth return) over 800ms
-        current -= delta / 800;
-        if (current < 0) {
-          current = 0;
-        }
-      }
-
-      progressRef.current = current;
-      setProgress(current);
-
-      document.documentElement.style.setProperty("--hold-progress", current.toString());
+      document.documentElement.style.setProperty("--hold-progress", nextProgress.toString());
       if (typeof window !== "undefined") {
-        (window as unknown as { holdProgress: number }).holdProgress = current;
+        (window as any).holdProgress = nextProgress;
       }
+
+      if (nextProgress >= 1) {
+        setIsCompleted(true);
+        return;
+      }
+
       animationFrameRef.current = requestAnimationFrame(loop);
     };
 
     animationFrameRef.current = requestAnimationFrame(loop);
 
     return () => {
+      isCancelled = true;
       if (animationFrameRef.current !== null) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [onEnter]);
+  }, [isDecrypting]);
 
-  const handleStart = () => {
-    if (completedRef.current) return;
-    lastTimeRef.current = null;
-    setIsPressing(true);
-  };
-
-  const handleEnd = () => {
-    lastTimeRef.current = null;
-    setIsPressing(false);
-  };
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.25,
-        delayChildren: 0.35,
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: { y: 25, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.9,
-        ease: [0.16, 1, 0.3, 1], // easeOutExpo
-      },
-    },
+  const handleStartDecryption = () => {
+    setIsDecrypting(true);
   };
 
   return (
@@ -130,174 +88,144 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -40, scale: 0.98 }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-      onMouseDown={handleStart}
-      onMouseUp={handleEnd}
-      onMouseLeave={handleEnd}
-      onTouchStart={handleStart}
-      onTouchEnd={handleEnd}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-transparent text-white cursor-pointer select-none"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#07070a] text-white select-none p-6 overflow-hidden"
+      style={{
+        // Studio spotlight glow from the top center
+        background: "radial-gradient(circle at top, rgba(255, 255, 255, 0.035) 0%, transparent 65%), #07070a",
+      }}
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden select-none pointer-events-none">
-        {/* Dark overlay — semi-transparent so DottedSurface dots show through */}
-        <div className="absolute inset-0 bg-[#030303]/40"></div>
+      {/* Drifting subtle blue/indigo ambient glow in the back */}
+      <motion.div 
+        animate={{
+          x: [0, 20, -20, 0],
+          y: [0, -30, 30, 0],
+        }}
+        transition={{
+          duration: 25,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] blur-[120px] rounded-full pointer-events-none z-0" 
+      />
 
-        {/* Ambient Glow centered behind the planet - Reactive to progress */}
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-300 ${
-            isMobile ? "blur-[40px]" : "blur-[100px]"
-          }`}
-          style={{
-            opacity: 0.12 + progress * 0.48,
-            width: isMobile ? `${280 + progress * 220}px` : `${700 + progress * 600}px`,
-            height: isMobile ? `${280 + progress * 220}px` : `${700 + progress * 600}px`,
-            background: `radial-gradient(circle, hsla(${lightningHue}, 75%, 55%, 0.18) 0%, hsla(${lightningHue}, 60%, 45%, 0.06) 50%, transparent 100%)`,
-          }}
-        />
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-between h-full py-10 sm:py-16">
+        
+        {/* Simple top spacer to balance layout */}
+        <div className="h-6" />
 
-        {/* Central WebGL Lightning Canvas - Speed, intensity and size reactive to progress to spread out */}
-        <div className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full">
-          <Lightning
-            hue={lightningHue}
-            xOffset={0}
-            speed={0.4 + progress * 2.2}
-            intensity={0.08 + progress * 1.62}
-            size={1.8 - progress * 1.4}
-          />
+        {/* Central Display Area: Proactiv-like Premium Typography */}
+        <div className="flex-1 flex flex-col items-center justify-center space-y-6 sm:space-y-8 w-full max-w-4xl text-center">
+          
+          {/* Top Flipping Badge */}
+          <div className="h-8 flex items-center justify-center mb-2">
+            {isCompleted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <ContainerTextFlip
+                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
+                  interval={2500}
+                  className="py-1 px-4 text-[11px] border border-blue-500/20 bg-blue-950/10 text-blue-300 font-sans rounded-full tracking-wide shadow-none"
+                />
+              </motion.div>
+            ) : (
+              <span className="text-[10px] font-sans text-neutral-600 tracking-[0.2em] uppercase animate-pulse">
+                INITIALIZING CONNECTION...
+              </span>
+            )}
+          </div>
+
+          {/* Heading Lines */}
+          <div className="flex flex-col space-y-2 sm:space-y-3 font-sans max-w-3xl">
+            {/* Line 1: Name (Gray-to-white gradient) */}
+            <div className="min-h-[50px] sm:min-h-[75px] md:min-h-[85px] lg:min-h-[105px] flex items-center justify-center">
+              <EncryptedText
+                text="Challa Varun Kumar"
+                progress={Math.min(1, progress * 1.5)}
+                className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-neutral-500 select-none block leading-[1.05]"
+                encryptedClassName="text-neutral-800 font-bold"
+                revealedClassName="text-neutral-100"
+              />
+            </div>
+
+            {/* Line 2: Role (White) */}
+            <div className="min-h-[50px] sm:min-h-[75px] md:min-h-[85px] lg:min-h-[105px] flex items-center justify-center">
+              <EncryptedText
+                text="AI & ML Engineer"
+                progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
+                className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white select-none block leading-[1.05]"
+                encryptedClassName="text-neutral-900 font-bold"
+                revealedClassName="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+              />
+            </div>
+          </div>
+
+          {/* Subtitle / Description Text */}
+          <div className="min-h-[45px] sm:min-h-[60px] max-w-2xl px-4 pt-2">
+            <EncryptedText
+              text="Exploring the limitless potential of Artificial Intelligence while building modern web applications to create impactful solutions."
+              progress={Math.max(0, Math.min(1, (progress - 0.6) * 2.5))}
+              className="text-sm sm:text-base md:text-lg text-neutral-450 leading-relaxed font-sans font-normal block"
+              encryptedClassName="text-neutral-800/40"
+              revealedClassName="text-neutral-400"
+            />
+          </div>
+
         </div>
 
-        {/* Outer Rotating Orbit Ring 1 (Dashed) */}
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed transition-all duration-500 animate-[spin_80s_linear_infinite] pointer-events-none"
-          style={{
-            width: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 20px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
-            height: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 20px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 20px)`,
-            borderColor: `hsla(220, 85%, 65%, ${0.05 + progress * 0.15})`
-          }}
-        />
-
-        {/* Outer Rotating Orbit Ring 2 (Double) */}
-        <div
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border border-double transition-all duration-500 animate-[spin_120s_linear_infinite_reverse] pointer-events-none"
-          style={{
-            width: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 40px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
-            height: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px + 40px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px + 40px)`,
-            borderColor: `hsla(220, 85%, 65%, ${0.03 + progress * 0.07})`
-          }}
-        />
-
-        {/* Planet/Sphere core centered in the background - Upgraded to frosted glass refractive core */}
-        <div
-          className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.6)] ${
-            isMobile ? "backdrop-blur-[4px]" : "backdrop-blur-[16px]"
-          }`}
-          style={{
-            width: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
-            height: isMobile 
-              ? `calc(clamp(180px, 50vw, 300px) + ${progress * 60}px)` 
-              : `calc(clamp(240px, 40vw, 450px) + ${progress * 100}px)`,
-            borderColor: `hsla(220, 85%, 65%, ${0.08 + progress * 0.22})`,
-            background: `radial-gradient(circle at 35% 25%, rgba(10, 25, 50, ${0.4 + progress * 0.25}) 0%, rgba(2, 6, 12, ${0.75 + progress * 0.1}) 70%, rgba(0, 0, 0, 0.95) 100%)`,
-            boxShadow: `
-              0 0 50px rgba(0,0,0,0.6),
-              inset 0 0 30px hsla(220, 85%, 65%, ${0.05 + progress * 0.22})
-            `
-          }}
-        />
-      </div>
-
-      {/* Main UI Overlay */}
-      <div className="relative z-10 max-w-2xl mx-auto px-6 text-center select-none w-full h-full flex flex-col items-center justify-between py-12 md:py-16">
-        
-        {/* Top Spacer */}
-        <div className="h-10" />
-
-        {/* Middle content: Name & Tagline revealed ONLY when completed */}
-        <div className="flex flex-col items-center justify-center space-y-8 w-full min-h-[300px]">
-          <AnimatePresence>
-            {isCompleted && (
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="space-y-8 flex flex-col items-center justify-center w-full"
+        {/* Bottom Interactive Area */}
+        <div className="w-full flex flex-col items-center justify-center min-h-[100px] mt-4">
+          <AnimatePresence mode="wait">
+            {!isDecrypting && !isCompleted && (
+              <motion.button
+                key="decrypt-btn"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                onClick={handleStartDecryption}
+                className="px-8 py-3.5 rounded-full text-blue-400 font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50 font-sans shadow-[0_0_15px_rgba(59,130,246,0.05)]"
               >
-                {/* Header titles */}
-                <motion.div variants={itemVariants} className="space-y-5">
-                  <h1
-                    className="text-2xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide uppercase bg-gradient-to-r from-white via-blue-100 to-blue-400 bg-clip-text text-transparent select-none transition-all duration-150"
-                    style={{
-                      filter: "drop-shadow(0 0 15px hsla(220, 85%, 65%, 0.7))"
-                    }}
-                  >
-                    C. Varun Kumar
-                  </h1>
+                DECRYPT CREDENTIALS
+              </motion.button>
+            )}
 
-                  {/* Subtitles: Modern tag capsules with glowing borders */}
-                  <div className="flex flex-wrap items-center justify-center gap-3 max-w-xl mx-auto">
-                    {["Tech Innovator", "AI & Machine Learning Enthusiast", "Full Stack Developer"].map((role, idx) => (
-                      <span 
-                        key={idx} 
-                        className="px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-blue-950/20 border border-blue-500/35 text-blue-300 shadow-[0_0_12px_hsla(220,80%,60%,0.2)] backdrop-blur-md"
-                      >
-                        {role}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-
-                {/* Tagline: Custom blue highlights (no slashes) */}
-                <motion.p 
-                  variants={itemVariants}
-                  className="text-xs sm:text-base text-gray-400 max-w-xl font-light leading-relaxed tracking-wide px-2"
-                >
-                  &ldquo;Transforming ideas into <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>intelligent digital experiences</span> through <span className="text-blue-300 font-medium" style={{ textShadow: "0 0 6px hsla(220, 85%, 65%, 0.4)" }}>innovation</span>, creativity, and code.&rdquo;
-                </motion.p>
-
-                {/* Enter Portfolio Button */}
-                <motion.div
-                  variants={itemVariants}
-                  className="pt-4"
-                >
-                  <button
-                    onClick={onEnter}
-                    className="relative px-8 py-3.5 rounded-xl text-white font-bold text-sm uppercase tracking-[0.2em] border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 backdrop-blur-md shadow-[0_0_30px_hsla(220,85%,60%,0.3)] hover:shadow-[0_0_50px_hsla(220,85%,60%,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50"
-                  >
-                    Enter Portfolio
-                  </button>
-                </motion.div>
+            {isDecrypting && !isCompleted && (
+              <motion.div
+                key="progress-bar"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="flex flex-col items-center space-y-3"
+              >
+                {/* Horizontal Progress Bar */}
+                <div className="w-56 sm:w-64 h-[3px] bg-neutral-900 rounded-full overflow-hidden relative">
+                  <div 
+                    className="absolute top-0 left-0 h-full bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)] transition-all duration-75"
+                    style={{ width: `${progress * 100}%` }}
+                  />
+                </div>
+                <div className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-blue-400 animate-pulse">
+                  DECRYPTING: {Math.round(progress * 100)}%
+                </div>
               </motion.div>
             )}
-          </AnimatePresence>
-        </div>
 
-        {/* Bottom content: Interactive Mainframe Boot Status */}
-        <div 
-          className="h-10 text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-150 flex flex-col items-center justify-center select-none pointer-events-none gap-2"
-          style={{ 
-            opacity: 0.35 + progress * 0.65,
-            color: progress === 0 ? "rgba(156, 163, 175, 0.6)" : `hsl(${lightningHue}, 85%, 65%)`
-          }}
-        >
-          {isCompleted ? (
-            <span className="font-extrabold" style={{ color: `hsl(${lightningHue}, 85%, 65%)`, textShadow: "0 0 8px hsla(220, 85%, 60%, 0.5)" }}>
-              Quantum Alignment Complete
-            </span>
-          ) : progress === 0 ? (
-            <span className="animate-pulse">Press and hold anywhere to unlock</span>
-          ) : (
-            <span className="font-extrabold">Syncing Quantum Core: {Math.round(progress * 100)}%</span>
-          )}
+            {isCompleted && (
+              <motion.button
+                key="enter-btn"
+                initial={{ opacity: 0, scale: 0.9, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                onClick={onEnter}
+                className="relative px-8 py-3.5 rounded-full text-white font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 backdrop-blur-md shadow-[0_0_30px_rgba(96,165,250,0.25)] hover:shadow-[0_0_50px_rgba(96,165,250,0.55)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50 font-sans"
+              >
+                ENTER PORTFOLIO
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
 
       </div>
