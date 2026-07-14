@@ -36,7 +36,8 @@ export const TextRevealCard = ({
     const { clientX } = event;
     if (cardRef.current) {
       const relativeX = clientX - left;
-      setWidthPercentage((relativeX / localWidth) * 100);
+      const percentage = (relativeX / localWidth) * 100;
+      setWidthPercentage(Math.min(112, Math.max(0, percentage)));
     }
   }
 
@@ -52,7 +53,8 @@ export const TextRevealCard = ({
     const clientX = event.touches[0]!.clientX;
     if (cardRef.current) {
       const relativeX = clientX - left;
-      setWidthPercentage((relativeX / localWidth) * 100);
+      const percentage = (relativeX / localWidth) * 100;
+      setWidthPercentage(Math.min(112, Math.max(0, percentage)));
     }
   }
 
@@ -73,7 +75,7 @@ export const TextRevealCard = ({
     >
       {children}
 
-      <div className="h-28 sm:h-36 md:h-48 relative flex items-center overflow-hidden">
+      <div className="h-16 sm:h-24 md:h-32 relative flex items-center overflow-hidden">
         <motion.div
           style={{
             width: "100%",
@@ -82,10 +84,10 @@ export const TextRevealCard = ({
             isMouseOver
               ? {
                   opacity: widthPercentage > 0 ? 1 : 0,
-                  clipPath: `inset(0 ${100 - widthPercentage}% 0 0)`,
+                  clipPath: `inset(0 ${Math.max(0, 100 - widthPercentage)}% 0 0)`,
                 }
               : {
-                  clipPath: `inset(0 ${100 - widthPercentage}% 0 0)`,
+                  clipPath: `inset(0 ${Math.max(0, 100 - widthPercentage)}% 0 0)`,
                 }
           }
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
@@ -95,7 +97,7 @@ export const TextRevealCard = ({
             style={{
               textShadow: "4px 4px 15px rgba(0,0,0,0.5)",
             }}
-            className="text-xl sm:text-3xl md:text-5xl lg:text-6xl py-4 sm:py-6 md:py-10 font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent select-none whitespace-nowrap font-heading tracking-tight leading-none"
+            className="text-lg sm:text-2xl md:text-4xl lg:text-5xl py-2 sm:py-4 md:py-6 font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent select-none whitespace-nowrap font-heading tracking-tight leading-none"
           >
             {revealText}
           </p>
@@ -107,7 +109,7 @@ export const TextRevealCard = ({
             opacity: widthPercentage > 0 ? 1 : 0,
           }}
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-          className="h-28 sm:h-36 md:h-48 w-[8px] bg-gradient-to-b from-transparent via-neutral-800 to-transparent absolute z-50 will-change-transform"
+          className="h-16 sm:h-24 md:h-32 w-[8px] bg-gradient-to-b from-transparent via-neutral-800 to-transparent absolute z-50 will-change-transform"
         ></motion.div>
 
         <motion.div
@@ -117,7 +119,7 @@ export const TextRevealCard = ({
           transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
           className="overflow-hidden w-full [mask-image:linear-gradient(to_bottom,transparent,white,transparent)]"
         >
-          <p className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl py-4 sm:py-6 md:py-10 font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-200 select-none whitespace-nowrap font-heading tracking-tight leading-none">
+          <p className="text-xl sm:text-3xl md:text-5xl lg:text-6xl py-2 sm:py-4 md:py-6 font-extrabold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-200 select-none whitespace-nowrap font-heading tracking-tight leading-none">
             {text}
           </p>
         </motion.div>

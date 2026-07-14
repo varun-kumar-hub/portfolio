@@ -12,7 +12,7 @@ interface PortfolioIntroProps {
 
 export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProps) {
   const [progress, setProgress] = useState(0);
-  const [isDecrypting, setIsDecrypting] = useState(false);
+  const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const progressRef = useRef(0);
@@ -36,23 +36,30 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     onProgressChange(progress);
   }, [progress, onProgressChange]);
 
-  // Automatic Decryption animation loop when triggered
+  // Hold-to-Decrypt animation loop
   useEffect(() => {
-    if (!isDecrypting || completedRef.current) return;
+    if (completedRef.current) return;
 
-    let startTimestamp: number | null = null;
+    let lastTimestamp: number | null = null;
     let isCancelled = false;
 
     const loop = (timestamp: number) => {
       if (isCancelled) return;
-      if (startTimestamp === null) {
-        startTimestamp = timestamp;
+      if (lastTimestamp === null) {
+        lastTimestamp = timestamp;
       }
-      const elapsed = timestamp - startTimestamp;
-      
-      // Decrypt over 1.8 seconds (1800ms)
-      const nextProgress = Math.min(1, elapsed / 1800);
-      
+      const deltaTime = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      let nextProgress = progressRef.current;
+      if (isHolding) {
+        // Fills up in 1.5 seconds (1500ms)
+        nextProgress = Math.min(1, nextProgress + deltaTime / 1500);
+      } else {
+        // Drains down in 500ms
+        nextProgress = Math.max(0, nextProgress - deltaTime / 500);
+      }
+
       progressRef.current = nextProgress;
       setProgress(nextProgress);
 
@@ -61,8 +68,13 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         (window as any).holdProgress = nextProgress;
       }
 
+      // If progress reaches 100%, trigger completion and transition immediately
       if (nextProgress >= 1) {
         setIsCompleted(true);
+        // Wait 300ms to let the user see the 100% completion state, then enter
+        setTimeout(() => {
+          onEnter();
+        }, 300);
         return;
       }
 
@@ -77,10 +89,15 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isDecrypting]);
+  }, [isHolding, onEnter]);
 
-  const handleStartDecryption = () => {
-    setIsDecrypting(true);
+  const handleHoldStart = () => {
+    if (isCompleted) return;
+    setIsHolding(true);
+  };
+
+  const handleHoldEnd = () => {
+    setIsHolding(false);
   };
 
   return (
@@ -88,11 +105,18 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -40, scale: 0.98 }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#07070a] text-white select-none p-6 overflow-hidden"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#07070a] text-white select-none p-6 overflow-hidden cursor-pointer"
       style={{
-        // Studio spotlight glow from the top center
-        background: "radial-gradient(circle at top, rgba(255, 255, 255, 0.035) 0%, transparent 65%), #07070a",
+        // Studio spotlight glow from the top center - changes color/strength when holding!
+        background: isHolding
+          ? "radial-gradient(circle at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%), radial-gradient(circle at top, rgba(255, 255, 255, 0.045) 0%, transparent 65%), #07070a"
+          : "radial-gradient(circle at top, rgba(255, 255, 255, 0.035) 0%, transparent 65%), #07070a",
       }}
+      onMouseDown={handleHoldStart}
+      onMouseUp={handleHoldEnd}
+      onMouseLeave={handleHoldEnd}
+      onTouchStart={handleHoldStart}
+      onTouchEnd={handleHoldEnd}
     >
       {/* Drifting subtle blue/indigo ambient glow in the back */}
       <motion.div 
@@ -109,7 +133,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       />
 
       {/* Main Container */}
-      <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-between h-full py-10 sm:py-16">
+      <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-between h-full py-10 sm:py-16 pointer-events-none">
         
         {/* Simple top spacer to balance layout */}
         <div className="h-6" />
@@ -117,9 +141,43 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         {/* Central Display Area: Proactiv-like Premium Typography */}
         <div className="flex-1 flex flex-col items-center justify-center space-y-6 sm:space-y-8 w-full max-w-4xl text-center">
           
-          {/* Top Flipping Badge */}
+          {/* Top spacer / loading status */}
           <div className="h-8 flex items-center justify-center mb-2">
-            {isCompleted ? (
+            {!isCompleted && (
+              <span className="text-[10px] font-sans text-neutral-600 tracking-[0.2em] uppercase animate-pulse">
+                {isHolding ? "DECRYPTING IDENTITY..." : "CLICK & HOLD ANYWHERE"}
+              </span>
+            )}
+          </div>
+
+          {/* Heading Lines */}
+          <div className="flex flex-col space-y-2 sm:space-y-3 font-sans max-w-3xl">
+            {/* Line 1: Name (Gray-to-white gradient) */}
+            <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
+              <EncryptedText
+                text="Challa Varun Kumar"
+                progress={Math.min(1, progress * 1.5)}
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-neutral-500 select-none block leading-[1.05] whitespace-nowrap"
+                encryptedClassName="text-neutral-800 font-bold"
+                revealedClassName="text-neutral-100"
+              />
+            </div>
+
+            {/* Line 2: Role (White) */}
+            <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
+              <EncryptedText
+                text="AI & ML Engineer"
+                progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white select-none block leading-[1.05] whitespace-nowrap"
+                encryptedClassName="text-neutral-900 font-bold"
+                revealedClassName="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+              />
+            </div>
+          </div>
+
+          {/* Flipping Tags (Below Role) */}
+          <div className="h-8 flex items-center justify-center mt-2">
+            {isCompleted && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 5 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -128,39 +186,10 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 <ContainerTextFlip
                   words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
                   interval={2500}
-                  className="py-1 px-4 text-[11px] border border-blue-500/20 bg-blue-950/10 text-blue-300 font-sans rounded-full tracking-wide shadow-none"
+                  className="py-1 px-4 text-[11px] border border-blue-500/20 bg-blue-500/5 text-blue-300 font-sans rounded-full tracking-wide shadow-none"
                 />
               </motion.div>
-            ) : (
-              <span className="text-[10px] font-sans text-neutral-600 tracking-[0.2em] uppercase animate-pulse">
-                INITIALIZING CONNECTION...
-              </span>
             )}
-          </div>
-
-          {/* Heading Lines */}
-          <div className="flex flex-col space-y-2 sm:space-y-3 font-sans max-w-3xl">
-            {/* Line 1: Name (Gray-to-white gradient) */}
-            <div className="min-h-[50px] sm:min-h-[75px] md:min-h-[85px] lg:min-h-[105px] flex items-center justify-center">
-              <EncryptedText
-                text="Challa Varun Kumar"
-                progress={Math.min(1, progress * 1.5)}
-                className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-neutral-500 select-none block leading-[1.05]"
-                encryptedClassName="text-neutral-800 font-bold"
-                revealedClassName="text-neutral-100"
-              />
-            </div>
-
-            {/* Line 2: Role (White) */}
-            <div className="min-h-[50px] sm:min-h-[75px] md:min-h-[85px] lg:min-h-[105px] flex items-center justify-center">
-              <EncryptedText
-                text="AI & ML Engineer"
-                progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
-                className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white select-none block leading-[1.05]"
-                encryptedClassName="text-neutral-900 font-bold"
-                revealedClassName="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
-              />
-            </div>
           </div>
 
           {/* Subtitle / Description Text */}
@@ -176,54 +205,30 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
         </div>
 
-        {/* Bottom Interactive Area */}
+        {/* Bottom Interactive Area: Hold Status Indicator */}
         <div className="w-full flex flex-col items-center justify-center min-h-[100px] mt-4">
           <AnimatePresence mode="wait">
-            {!isDecrypting && !isCompleted && (
-              <motion.button
-                key="decrypt-btn"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                onClick={handleStartDecryption}
-                className="px-8 py-3.5 rounded-full text-blue-400 font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50 font-sans shadow-[0_0_15px_rgba(59,130,246,0.05)]"
-              >
-                DECRYPT CREDENTIALS
-              </motion.button>
-            )}
-
-            {isDecrypting && !isCompleted && (
+            {!isCompleted ? (
               <motion.div
-                key="progress-bar"
+                key="hold-indicator"
+                initial={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 5 }}
+                className="text-center select-none"
+              >
+                <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${progress > 0 ? "text-blue-400 animate-pulse font-semibold" : "text-neutral-600"}`}>
+                  {progress > 0 ? `DECRYPTING IDENTITY... [${Math.round(progress * 100)}%]` : "HOLD ANYWHERE TO START DECRYPTION"}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="complete-status"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                className="flex flex-col items-center space-y-3"
+                className="text-emerald-500/80 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] flex items-center gap-2"
               >
-                {/* Horizontal Progress Bar */}
-                <div className="w-56 sm:w-64 h-[3px] bg-neutral-900 rounded-full overflow-hidden relative">
-                  <div 
-                    className="absolute top-0 left-0 h-full bg-blue-500 shadow-[0_0_12px_rgba(59,130,246,0.6)] transition-all duration-75"
-                    style={{ width: `${progress * 100}%` }}
-                  />
-                </div>
-                <div className="text-[10px] font-sans font-medium uppercase tracking-[0.25em] text-blue-400 animate-pulse">
-                  DECRYPTING: {Math.round(progress * 100)}%
-                </div>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                ACCESS GRANTED. ENTERING PORTFOLIO...
               </motion.div>
-            )}
-
-            {isCompleted && (
-              <motion.button
-                key="enter-btn"
-                initial={{ opacity: 0, scale: 0.9, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                onClick={onEnter}
-                className="relative px-8 py-3.5 rounded-full text-white font-semibold text-xs sm:text-sm uppercase tracking-[0.2em] border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 backdrop-blur-md shadow-[0_0_30px_rgba(96,165,250,0.25)] hover:shadow-[0_0_50px_rgba(96,165,250,0.55)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer z-50 font-sans"
-              >
-                ENTER PORTFOLIO
-              </motion.button>
             )}
           </AnimatePresence>
         </div>

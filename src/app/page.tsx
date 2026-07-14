@@ -27,6 +27,7 @@ import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIc
 import { DottedSurface } from "@/components/ui/dotted-surface";
 import { SpaceBackground } from "@/components/ui/space-background";
 import SkillsBento from "@/components/SkillsBento";
+import MacbookContact from "@/components/MacbookContact";
 import EducationTimeline from "@/components/EducationTimeline";
 import ExperienceBento from "@/components/ExperienceBento";
 import { AnimatePresence, motion, Variants } from "framer-motion";
@@ -273,7 +274,7 @@ export default function Home() {
     {
       title: "Email",
       icon: <IconMail className="w-5 h-5 text-red-400" />,
-      href: "mailto:cvarunkumar455@gmail.com",
+      href: "https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com",
     },
     {
       title: "Resume",
@@ -469,20 +470,20 @@ export default function Home() {
                 </span>
               </div>
 
-              {/* Animated Flipping Subtitles (Moved UP) */}
-              <div className="flex justify-center md:justify-start w-full mt-2 -mb-2">
-                <ContainerTextFlip
-                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech CSE (AI & ML) Student", "Full Stack Developer"]}
-                  interval={2500}
-                />
-              </div>
-
               {/* Name & Title in TextRevealCard */}
-              <div className="flex justify-center md:justify-start w-full -my-4 sm:-my-6 overflow-x-hidden">
+              <div className="flex justify-center md:justify-start w-full my-2 overflow-x-hidden">
                 <TextRevealCard
                   text="Challa Varun Kumar"
                   revealText="Engineering the AI-Driven Future"
                   className="bg-transparent border-none p-0 w-full shadow-none max-w-4xl"
+                />
+              </div>
+
+              {/* Animated Flipping Subtitles */}
+              <div className="flex justify-center md:justify-start w-full my-2">
+                <ContainerTextFlip
+                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech CSE (AI & ML) Student", "Full Stack Developer"]}
+                  interval={2500}
                 />
               </div>
 
@@ -649,95 +650,9 @@ export default function Home() {
 
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-start">
 
-            {/* Left Column: Contact Form */}
-            <div className="space-y-6">
-              {isSubmitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="p-8 rounded-2xl border border-green-500/20 bg-green-500/5 backdrop-blur-sm text-center space-y-4"
-                >
-                  <div className="mx-auto flex items-center justify-center w-16 h-16 rounded-full bg-green-950/50 text-green-400 shadow-[0_0_20px_rgba(74,222,128,0.15)]">
-                    <Check size={28} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Message Sent!</h3>
-                  <p className="text-sm text-gray-400 max-w-sm mx-auto">
-                    Thank you for reaching out. I&apos;ll respond to your email shortly.
-                  </p>
-                  <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="mt-2 text-xs font-semibold text-blue-400 hover:underline focus:outline-none cursor-pointer"
-                  >
-                    Send another message
-                  </button>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1.5 text-left">
-                      <label htmlFor="contact-name" className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="contact-name"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="Your name"
-                        className="w-full px-4 py-3 rounded-xl border border-gray-800/60 bg-white/[0.03] text-sm text-white focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 focus:bg-white/[0.05] outline-none transition-all placeholder:text-gray-600"
-                      />
-                    </div>
-                    <div className="space-y-1.5 text-left">
-                      <label htmlFor="contact-email" className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        id="contact-email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="your.email@example.com"
-                        className="w-full px-4 py-3 rounded-xl border border-gray-800/60 bg-white/[0.03] text-sm text-white focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 focus:bg-white/[0.05] outline-none transition-all placeholder:text-gray-600"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 text-left">
-                    <label htmlFor="contact-message" className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider">
-                      Message
-                    </label>
-                    <textarea
-                      id="contact-message"
-                      required
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Type your message here..."
-                      className="w-full px-4 py-3 rounded-xl border border-gray-800/60 bg-white/[0.03] text-sm text-white focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 focus:bg-white/[0.05] outline-none transition-all placeholder:text-gray-600 resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-sm hover:from-blue-600 hover:to-indigo-700 hover:shadow-[0_0_30px_rgba(96,165,250,0.25)] disabled:opacity-60 transition-all duration-300 cursor-pointer shadow-md active:scale-95"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
-                        Send Message
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+            {/* Left Column: 3D Laptop Contact Form */}
+            <div className="flex items-center justify-center lg:pt-4 w-full overflow-hidden">
+              <MacbookContact />
             </div>
 
             {/* Right Column: Directory */}
