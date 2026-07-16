@@ -1,10 +1,88 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EncryptedText } from "@/components/ui/encrypted-text";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
 
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+    holdProgress?: number;
+  }
+}
+
+// ─── Web Audio API Sound Engine ──────────────────────────────────
+function useSoundEngine() {
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const lastTickRef = useRef(0);
+
+  const getCtx = useCallback(() => {
+    if (!audioCtxRef.current) {
+      const AudioContextCtor = window.AudioContext ?? window.webkitAudioContext;
+      if (!AudioContextCtor) {
+        throw new Error("Web Audio API is not supported in this browser.");
+      }
+      audioCtxRef.current = new AudioContextCtor();
+    }
+    if (audioCtxRef.current.state === "suspended") {
+      audioCtxRef.current.resume();
+    }
+    return audioCtxRef.current;
+  }, []);
+
+  const playGlitchTick = useCallback(() => {
+    const now = performance.now();
+    if (now - lastTickRef.current < 80) return;
+    lastTickRef.current = now;
+
+    try {
+      const ctx = getCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "square";
+      osc.frequency.setValueAtTime(1800 + Math.random() * 2400, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.04);
+
+      gain.gain.setValueAtTime(0.03, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.05);
+    } catch { /* Silently fail */ }
+  }, [getCtx]);
+
+  const playSuccessChime = useCallback(() => {
+    try {
+      const ctx = getCtx();
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+
+        const startTime = ctx.currentTime + i * 0.1;
+        gain.gain.setValueAtTime(0, startTime);
+        gain.gain.linearRampToValueAtTime(0.08, startTime + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.6);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + 0.65);
+      });
+    } catch { /* Silently fail */ }
+  }, [getCtx]);
+
+  return { playGlitchTick, playSuccessChime };
+}
+
+// ─── Main Intro Component ────────────────────────────────────────
 interface PortfolioIntroProps {
   onEnter: () => void;
   onProgressChange: (progress: number) => void;
@@ -14,19 +92,12 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   const [progress, setProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const progressRef = useRef(0);
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
+  const hasPlayedChimeRef = useRef(false);
 
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  const { playGlitchTick, playSuccessChime } = useSoundEngine();
 
   useEffect(() => {
     completedRef.current = isCompleted;
@@ -42,6 +113,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
     let lastTimestamp: number | null = null;
     let isCancelled = false;
+    let tickAccumulator = 0;
 
     const loop = (timestamp: number) => {
       if (isCancelled) return;
@@ -53,10 +125,14 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
       let nextProgress = progressRef.current;
       if (isHolding) {
-        // Fills up in 1.5 seconds (1500ms)
         nextProgress = Math.min(1, nextProgress + deltaTime / 1500);
+
+        tickAccumulator += deltaTime;
+        if (tickAccumulator > 60 + Math.random() * 80) {
+          playGlitchTick();
+          tickAccumulator = 0;
+        }
       } else {
-        // Drains down in 500ms
         nextProgress = Math.max(0, nextProgress - deltaTime / 500);
       }
 
@@ -65,13 +141,17 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
       document.documentElement.style.setProperty("--hold-progress", nextProgress.toString());
       if (typeof window !== "undefined") {
-        (window as any).holdProgress = nextProgress;
+        window.holdProgress = nextProgress;
       }
 
-      // If progress reaches 100%, trigger completion and transition immediately
       if (nextProgress >= 1) {
         setIsCompleted(true);
-        // Wait 300ms to let the user see the 100% completion state, then enter
+
+        if (!hasPlayedChimeRef.current) {
+          hasPlayedChimeRef.current = true;
+          playSuccessChime();
+        }
+
         setTimeout(() => {
           onEnter();
         }, 300);
@@ -89,7 +169,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isHolding, onEnter]);
+  }, [isHolding, onEnter, playGlitchTick, playSuccessChime]);
 
   const handleHoldStart = () => {
     if (isCompleted) return;
@@ -105,12 +185,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -40, scale: 0.98 }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#07070a] text-white select-none p-6 overflow-hidden cursor-pointer"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050607] text-white select-none p-6 overflow-hidden cursor-pointer"
       style={{
-        // Studio spotlight glow from the top center - changes color/strength when holding!
         background: isHolding
-          ? "radial-gradient(circle at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%), radial-gradient(circle at top, rgba(255, 255, 255, 0.045) 0%, transparent 65%), #07070a"
-          : "radial-gradient(circle at top, rgba(255, 255, 255, 0.035) 0%, transparent 65%), #07070a",
+          ? "radial-gradient(circle at center, rgba(96, 165, 250, 0.035) 0%, transparent 32rem), #050607"
+          : "#050607",
       }}
       onMouseDown={handleHoldStart}
       onMouseUp={handleHoldEnd}
@@ -118,30 +197,29 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       onTouchStart={handleHoldStart}
       onTouchEnd={handleHoldEnd}
     >
-      {/* Drifting subtle blue/indigo ambient glow in the back */}
-      <motion.div 
-        animate={{
-          x: [0, 20, -20, 0],
-          y: [0, -30, 30, 0],
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none opacity-[0.14] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.78'/%3E%3C/svg%3E")`,
+          backgroundSize: "220px 220px",
         }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-        className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/[0.03] blur-[120px] rounded-full pointer-events-none z-0" 
       />
+      <div
+        className="absolute inset-0 z-[1] pointer-events-none opacity-[0.09] mix-blend-soft-light"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 520 520' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mottle'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.55'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mottle)'/%3E%3C/svg%3E")`,
+          backgroundSize: "520px 520px",
+        }}
+      />
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.18)_70%,rgba(0,0,0,0.48)_100%)]" />
 
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-between h-full py-10 sm:py-16 pointer-events-none">
         
-        {/* Simple top spacer to balance layout */}
         <div className="h-6" />
 
-        {/* Central Display Area: Proactiv-like Premium Typography */}
         <div className="flex-1 flex flex-col items-center justify-center space-y-6 sm:space-y-8 w-full max-w-4xl text-center">
           
-          {/* Top spacer / loading status */}
           <div className="h-8 flex items-center justify-center mb-2">
             {!isCompleted && (
               <span className="text-[10px] font-sans text-neutral-600 tracking-[0.2em] uppercase animate-pulse">
@@ -150,9 +228,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
             )}
           </div>
 
-          {/* Heading Lines */}
           <div className="flex flex-col space-y-2 sm:space-y-3 font-sans max-w-3xl">
-            {/* Line 1: Name (Gray-to-white gradient) */}
             <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
               <EncryptedText
                 text="Challa Varun Kumar"
@@ -163,7 +239,6 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               />
             </div>
 
-            {/* Line 2: Role (White) */}
             <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
               <EncryptedText
                 text="AI & ML Engineer"
@@ -175,7 +250,6 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
             </div>
           </div>
 
-          {/* Flipping Tags (Below Role) */}
           <div className="h-8 flex items-center justify-center mt-2">
             {isCompleted && (
               <motion.div
@@ -192,7 +266,6 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
             )}
           </div>
 
-          {/* Subtitle / Description Text */}
           <div className="min-h-[45px] sm:min-h-[60px] max-w-2xl px-4 pt-2">
             <EncryptedText
               text="Exploring the limitless potential of Artificial Intelligence while building modern web applications to create impactful solutions."
@@ -205,7 +278,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
         </div>
 
-        {/* Bottom Interactive Area: Hold Status Indicator */}
+        {/* Bottom: Progress Ring + Status */}
         <div className="w-full flex flex-col items-center justify-center min-h-[100px] mt-4">
           <AnimatePresence mode="wait">
             {!isCompleted ? (
@@ -213,10 +286,31 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 key="hold-indicator"
                 initial={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 5 }}
-                className="text-center select-none"
+                className="text-center select-none space-y-3"
               >
+                <div className="flex items-center justify-center">
+                  <svg width="48" height="48" viewBox="0 0 48 48" className="transform -rotate-90">
+                    <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+                    <circle
+                      cx="24" cy="24" r="20"
+                      fill="none"
+                      stroke={progress > 0 ? "rgba(96, 165, 250, 0.7)" : "transparent"}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeDasharray={`${2 * Math.PI * 20}`}
+                      strokeDashoffset={`${2 * Math.PI * 20 * (1 - progress)}`}
+                      style={{
+                        transition: "stroke-dashoffset 0.1s linear",
+                        filter: progress > 0 ? "drop-shadow(0 0 4px rgba(96, 165, 250, 0.5))" : "none",
+                      }}
+                    />
+                  </svg>
+                  <span className="absolute text-[9px] font-bold text-blue-400/80 tabular-nums">
+                    {progress > 0 ? `${Math.round(progress * 100)}%` : ""}
+                  </span>
+                </div>
                 <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${progress > 0 ? "text-blue-400 animate-pulse font-semibold" : "text-neutral-600"}`}>
-                  {progress > 0 ? `DECRYPTING IDENTITY... [${Math.round(progress * 100)}%]` : "HOLD ANYWHERE TO START DECRYPTION"}
+                  {progress > 0 ? "DECRYPTING IDENTITY..." : "HOLD ANYWHERE TO START DECRYPTION"}
                 </p>
               </motion.div>
             ) : (

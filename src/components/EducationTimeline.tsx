@@ -4,35 +4,7 @@ import React from "react";
 import { motion, Variants } from "framer-motion";
 import { GraduationCap, Calendar, MapPin, Award, CheckCircle2 } from "lucide-react";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
-
-// Academic Data
-const educationData = [
-  {
-    institution: "Kalasalingam Academy of Research and Education",
-    degree: "Bachelor of Technology",
-    specialization: "Computer Science and Engineering (AI & ML)",
-    duration: "Aug 2024 - Present",
-    score: "Current CGPA: 9.37 / 10",
-    location: "Krishnankoil, Tamil Nadu, India",
-    highlights: [
-      "Specializing in Artificial Intelligence and Machine Learning core methodologies.",
-      "Active Web Development Team Member at OWASP Student Chapter, optimizing secure apps.",
-      "Gaining hands-on experience in full-stack web applications and multi-agent AI platforms."
-    ]
-  },
-  {
-    institution: "Sri Chaitanya Junior College",
-    degree: "Intermediate Education (Class 11 & 12)",
-    specialization: "MPC Stream (Mathematics, Physics, Chemistry)",
-    duration: "2022 - 2024",
-    score: "Score: 975 / 1000 (~97.5%)",
-    location: "Andhra Pradesh, India",
-    highlights: [
-      "Achieved a highly competitive board examination score of 975 out of 1000.",
-      "Built rigorous foundations in advanced algebra, calculus, physics mechanics, and physical chemistry."
-    ]
-  }
-];
+import { education } from "@/lib/education";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -67,7 +39,7 @@ export default function EducationTimeline() {
         viewport={{ once: true, amount: 0.1 }}
         className="relative border-l border-gray-200/60 dark:border-gray-800/60 ml-4 sm:ml-6 pl-8 sm:pl-10 space-y-12"
       >
-        {educationData.map((item, idx) => (
+        {education.map((item, idx) => (
           <motion.div
             key={idx}
             variants={itemVariants}

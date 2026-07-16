@@ -1,218 +1,194 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef } from "react";
+import { motion, Variants } from "framer-motion";
+import { Monitor, Server, Terminal, Brain, GitBranch } from "lucide-react";
 import { getSkillMeta } from "./icons/SkillIcons";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
+import { cn } from "@/lib/utils";
 
-const frontendSkills = [
-  "React",
-  "Next.js",
-  "Tailwind CSS",
-  "HTML5",
-  "CSS3",
-  "TypeScript"
+// Categorized skills data
+const skillCategories = [
+  {
+    title: "Frontend Development",
+    icon: <Monitor className="w-5 h-5 text-blue-500" />,
+    colSpan: "md:col-span-3",
+    description: "Building responsive, modern, and fluid interfaces with smooth client-side interactions.",
+    skills: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
+    glowColor: "rgba(59, 130, 246, 0.07)",
+  },
+  {
+    title: "Backend & Databases",
+    icon: <Server className="w-5 h-5 text-emerald-500" />,
+    colSpan: "md:col-span-3",
+    description: "Designing structured relational databases, cloud synchronization pipelines, and robust APIs.",
+    skills: ["Node.js", "PostgreSQL", "Supabase", "Relational Databases", "Big Data", "Data Warehousing"],
+    glowColor: "rgba(16, 185, 129, 0.07)",
+  },
+  {
+    title: "Programming Languages",
+    icon: <Terminal className="w-5 h-5 text-indigo-500" />,
+    colSpan: "md:col-span-2",
+    description: "Writing compiled and interpreted high-performance systems logic.",
+    skills: ["Python", "Java", "C Programming"],
+    glowColor: "rgba(99, 102, 241, 0.07)",
+  },
+  {
+    title: "AI & IoT Engineering",
+    icon: <Brain className="w-5 h-5 text-purple-500" />,
+    colSpan: "md:col-span-2",
+    description: "Autonomous agent pipelines, semantic search engines, and integrated hardware networks.",
+    skills: ["Artificial Intelligence (AI)", "Machine Learning (ML)", "Internet of Things (IoT)"],
+    glowColor: "rgba(168, 85, 247, 0.07)",
+  },
+  {
+    title: "DevOps & Tooling",
+    icon: <GitBranch className="w-5 h-5 text-amber-500" />,
+    colSpan: "md:col-span-2",
+    description: "Continuous integration pipelines, version control workflows, and container runtimes.",
+    skills: ["Git", "GitHub", "Docker", "CI/CD Pipelines"],
+    glowColor: "rgba(245, 158, 11, 0.07)",
+  },
 ];
 
-const backendSkills = [
-  "Node.js",
-  "Python",
-  "Java",
-  "C Programming"
-];
+const cardVariants: Variants = {
+  hidden: { y: 30, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
 
-const databaseSkills = [
-  "PostgreSQL",
-  "Supabase",
-  "Relational Databases",
-  "Big Data",
-  "Data Warehousing"
-];
+interface SkillChipProps {
+  name: string;
+}
 
-const otherSkills = [
-  "Git",
-  "GitHub",
-  "Docker",
-  "CI/CD Pipelines",
-  "Artificial Intelligence (AI)",
-  "Machine Learning (ML)",
-  "Internet of Things (IoT)"
-];
+function SkillChip({ name }: SkillChipProps) {
+  const { icon, color } = getSkillMeta(name);
+  const [isHovered, setIsHovered] = useState(false);
 
-const categories = [
-  { title: "Frontend Stack", skills: frontendSkills, reverse: false, speed: 3000 },
-  { title: "Backend Systems", skills: backendSkills, reverse: true, speed: 3400 },
-  { title: "Database Architecture", skills: databaseSkills, reverse: false, speed: 3200 },
-  { title: "DevOps & Intelligent Systems", skills: otherSkills, reverse: true, speed: 3800 }
-];
+  return (
+    <motion.div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ y: -2, scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+      style={{
+        borderColor: isHovered ? color : "rgba(229, 231, 235, 0.2)",
+        boxShadow: isHovered ? `0 0 16px ${color}` : "none",
+        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.25)",
+      }}
+      className={cn(
+        "flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
+        "text-gray-800 dark:text-gray-200 border-gray-200/20 dark:border-gray-800/20 dark:bg-gray-900/10 dark:hover:bg-gray-900/40"
+      )}
+    >
+      <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
+        {icon}
+      </div>
+      <span>{name}</span>
+    </motion.div>
+  );
+}
+
+interface BentoCardProps {
+  category: typeof skillCategories[number];
+  index: number;
+}
+
+function BentoCard({ category, index }: BentoCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setCoords({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      variants={cardVariants}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3 }}
+      style={{
+        backgroundImage: isHovered
+          ? `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${category.glowColor}, transparent 80%)`
+          : undefined,
+      }}
+      className={cn(
+        "relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/5 dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-700/80 group",
+        category.colSpan
+      )}
+    >
+      {/* Decorative Large Index Number */}
+      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-gray-900/[0.03] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-gray-900/[0.05] dark:group-hover:text-white/[0.05]">
+        0{index + 1}
+      </div>
+
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_60%,rgba(0,0,0,0.015))] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0)_60%,rgba(255,255,255,0.008))] pointer-events-none" />
+
+      <div className="relative z-10">
+        {/* Category Header */}
+        <div className="flex items-center gap-3.5 mb-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/80 dark:bg-gray-950/80 border border-gray-200/40 dark:border-gray-800/40 shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105">
+            {category.icon}
+          </div>
+          <h3 className="text-lg font-extrabold text-gray-900 dark:text-white tracking-tight">
+            {category.title}
+          </h3>
+        </div>
+        
+        <p className="text-xs text-gray-400 dark:text-gray-500 font-medium mb-6 max-w-xs leading-relaxed">
+          {category.description}
+        </p>
+      </div>
+
+      {/* Skills Grid */}
+      <div className="relative z-10 flex flex-wrap gap-2">
+        {category.skills.map((skill) => (
+          <SkillChip key={skill} name={skill} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function SkillsBento() {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
-    <div className="w-full py-8 space-y-12">
-      {/* CSS Styles for Continuous Smooth Scrolling & 3D Center Popout */}
-      <style>{`
-        /* Smooth continuous linear transition */
-        .skills-swiper-container .swiper-wrapper {
-          transition-timing-function: linear !important;
-        }
-        
-        .skills-swiper {
-          width: 100%;
-          overflow: visible !important;
-          padding-top: 1.25rem;
-          padding-bottom: 1.25rem;
-        }
-
-        .skills-swiper .swiper-slide {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
-          transform: scale(0.9);
-          opacity: 0.55;
-        }
-
-        /* ── Center Active Slide Popout ── */
-        .skills-swiper .swiper-slide-active {
-          transform: scale(1.25) !important;
-          opacity: 1 !important;
-          z-index: 10;
-        }
-
-        /* ── Adjacent Next/Prev Slides ── */
-        .skills-swiper .swiper-slide-next,
-        .skills-swiper .swiper-slide-prev {
-          transform: scale(1.05) !important;
-          opacity: 0.75 !important;
-          z-index: 5;
-        }
-
-        /* ── Active Glow and Colors ── */
-        .skills-swiper .swiper-slide-active .skill-circle {
-          border-color: var(--brand-color) !important;
-          box-shadow: 0 0 20px var(--brand-color), inset 0 0 6px rgba(255,255,255,0.02);
-          background-color: rgba(10, 10, 14, 0.95);
-        }
-
-        .skills-swiper .swiper-slide-next .skill-circle,
-        .skills-swiper .swiper-slide-prev .skill-circle {
-          border-color: var(--brand-color-dim) !important;
-          box-shadow: 0 0 8px var(--brand-color-dim);
-          background-color: rgba(10, 10, 14, 0.6);
-        }
-
-        /* ── Tooltip Show/Hide Logic ── */
-        .skills-swiper .skill-tooltip {
-          transform: translateX(-50%) scale(0);
-          opacity: 0;
-          transform-origin: top center;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-        }
-
-        /* Show when parent slide is active */
-        .skills-swiper .swiper-slide-active .skill-tooltip {
-          transform: translateX(-50%) scale(1) !important;
-          opacity: 1 !important;
-        }
-
-        /* Show on hover of the circle */
-        .skills-swiper .skill-circle:hover .skill-tooltip {
-          transform: translateX(-50%) scale(1) !important;
-          opacity: 1 !important;
-        }
-      `}</style>
-
-      <div className="grid grid-cols-1 gap-10 skills-swiper-container overflow-hidden max-w-6xl mx-auto px-4 relative">
-        
-        {/* Soft edge fade shadows */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#07070a] to-transparent pointer-events-none z-25" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#07070a] to-transparent pointer-events-none z-25" />
-
-        {categories.map((cat, idx) => {
-          // Repeat enough times to ensure seamless looping (need at least 2x slidesPerView)
-          const minSlides = 40;
-          const repeatCount = Math.ceil(minSlides / cat.skills.length);
-          const repeatedSkills = Array.from({ length: repeatCount }, () => cat.skills).flat();
-
-          return (
-            <div key={idx} className="space-y-1">
-              {/* Category Header Label */}
-              <div className="flex items-center justify-center gap-2 mb-1">
-                <span className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_6px_rgba(59,130,246,0.6)]" />
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500 font-sans">
-                  {cat.title}
-                </h3>
-              </div>
-
-              {/* Swiper Marquee Row */}
-              <Swiper
-                modules={[Autoplay]}
-                className="skills-swiper"
-                loop={true}
-                speed={cat.speed}
-                slidesPerView={6}
-                spaceBetween={4}
-                centeredSlides={true}
-                grabCursor={false}
-                allowTouchMove={true}
-                autoplay={{
-                  delay: 0,
-                  disableOnInteraction: false,
-                  reverseDirection: cat.reverse,
-                }}
-                breakpoints={{
-                  480: {
-                    slidesPerView: 7,
-                    spaceBetween: 4,
-                  },
-                  640: {
-                    slidesPerView: 8,
-                    spaceBetween: 6,
-                  },
-                  768: {
-                    slidesPerView: 9,
-                    spaceBetween: 6,
-                  },
-                  1024: {
-                    slidesPerView: 10,
-                    spaceBetween: 8,
-                  },
-                  1280: {
-                    slidesPerView: 12,
-                    spaceBetween: 8,
-                  }
-                }}
-              >
-                {repeatedSkills.map((skillName, skillIdx) => {
-                  const { icon, color } = getSkillMeta(skillName);
-                  return (
-                    <SwiperSlide key={`${skillName}-${skillIdx}`}>
-                      <div
-                        className="skill-circle flex flex-col items-center justify-center rounded-full bg-[#0d0d11]/60 border border-white/[0.06] w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 transition-all duration-300 relative group cursor-default"
-                        style={{
-                          "--brand-color": color.replace("0.4", "0.95"),
-                          "--brand-color-dim": color.replace("0.4", "0.35"),
-                        } as React.CSSProperties}
-                      >
-                        {/* Custom Brand / Concept Icon */}
-                        <div className="scale-75 sm:scale-85 md:scale-100 transition-transform duration-300 text-white shrink-0 flex items-center justify-center">
-                          {icon}
-                        </div>
-
-                        {/* Hover & Active Tooltip Label */}
-                        <div className="skill-tooltip absolute -bottom-6 left-1/2 bg-neutral-950/95 border border-white/10 px-2 py-0.5 rounded text-[8px] font-bold text-white pointer-events-none whitespace-nowrap tracking-wide z-50 shadow-md shadow-black/60">
-                          {skillName}
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.05 }}
+      className="grid grid-cols-1 md:grid-cols-6 gap-6 py-12"
+    >
+      {skillCategories.map((category, index) => (
+        <BentoCard key={index} category={category} index={index} />
+      ))}
+    </motion.div>
   );
 }

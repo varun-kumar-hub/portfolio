@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, GraduationCap, Cpu, Code2, Briefcase, Mail, ChevronRight, FileText, Sparkles, Terminal, X, Globe } from 'lucide-react';
+import { FileText, Sparkles, Terminal, X } from 'lucide-react';
 
 
 interface NavbarProps {
@@ -47,22 +47,13 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const iconMap: Record<string, React.ComponentType<any>> = {
-    'Home': Home,
-    'Education': GraduationCap,
-    'Skills': Cpu,
-    'Projects': Code2,
-    'Experience': Briefcase,
-    'Contact': Mail,
-  };
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   // Track active section via IntersectionObserver
   useEffect(() => {
-    const sectionIds = ['home', 'education', 'skills', 'projects', 'experience', 'contact'];
+    const sectionIds = ['home', 'skills', 'projects', 'experience', 'contact'];
     const observers: IntersectionObserver[] = [];
 
     sectionIds.forEach((id) => {
@@ -116,7 +107,9 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
     if (isOpen) {
       // On desktop the shape change is irrelevant since the mobile menu is hidden
-      setHeaderShapeClass('rounded-2xl sm:rounded-full');
+      shapeTimeoutRef.current = setTimeout(() => {
+        setHeaderShapeClass('rounded-2xl sm:rounded-full');
+      }, 0);
     } else {
       shapeTimeoutRef.current = setTimeout(() => {
         setHeaderShapeClass('rounded-full');
@@ -140,7 +133,6 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
   const navLinksData = [
     { label: 'Home', href: '#home' },
-    { label: 'Education', href: '#education' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
     { label: 'Experience', href: '#experience' },
@@ -315,7 +307,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                           }`}
                       >
                         <span className="text-[11px] font-mono tracking-widest text-blue-500/50 font-bold">
-                          {numStr} //
+                          {numStr} {"//"}
                         </span>
                         <span className="text-3xl tracking-wide uppercase font-black font-heading transition-transform duration-300 group-hover:translate-x-2">
                           {link.label}

@@ -4,39 +4,29 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   ArrowUpRight,
-  Download,
   Mail,
   MoveUp,
   Briefcase,
   GraduationCap,
   Wrench,
   FolderGit2,
-  Award,
-  ExternalLink,
-  BookOpen,
-  User,
   MapPin,
   FileText,
   Copy,
   Check,
-  Send,
   Cpu,
   Terminal,
 } from "lucide-react";
-import { Github, Linkedin, Twitter, Instagram } from "@/components/icons/BrandIcons";
-import { DottedSurface } from "@/components/ui/dotted-surface";
+import { Github, Linkedin, Instagram } from "@/components/icons/BrandIcons";
 import { SpaceBackground } from "@/components/ui/space-background";
 import SkillsBento from "@/components/SkillsBento";
 import MacbookContact from "@/components/MacbookContact";
-import EducationTimeline from "@/components/EducationTimeline";
 import ExperienceBento from "@/components/ExperienceBento";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
-import { Lightning, ElasticHueSlider } from "@/components/ui/hero-odyssey";
 
 import CustomCursor from "@/components/ui/custom-cursor";
-import { CometCard } from "@/components/ui/comet-card";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { TextRevealCard } from "@/components/ui/text-reveal-card";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
@@ -48,7 +38,8 @@ import {
   IconFileText,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { projects } from "@/lib/projects";
+import { Project, projects } from "@/lib/projects";
+import { profile } from "@/lib/profile";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";
@@ -57,41 +48,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-const navItems = ["Home", "Education", "Skills", "Projects", "Experience", "Contact"];
-
-const skillGroups = [
-  {
-    title: "Programming Languages",
-    skills: ["Java", "Python", "C Programming", "HTML5", "CSS3"],
-  },
-  {
-    title: "Disruptive Technologies",
-    skills: ["Artificial Intelligence (AI)", "Machine Learning (ML)", "Internet of Things (IoT)"],
-  },
-  {
-    title: "Web Frameworks & Libraries",
-    skills: ["React", "Next.js", "Node.js", "Tailwind CSS"],
-  },
-  {
-    title: "Database Management",
-    skills: ["PostgreSQL", "Supabase", "Relational Databases", "Big Data", "Data Warehousing"],
-  },
-  {
-    title: "Tools & DevOps",
-    skills: ["Git", "GitHub", "Docker", "CI/CD Pipelines"],
-  },
-];
-
 // Projects dataset is imported from '@/lib/projects'
-
-const publications = [
-  {
-    title: "Smart Irrigation System featuring AI-based decision making",
-    type: "Government Patent Application (Filed)",
-    description:
-      "Filed a patent application with the Government for a Smart Irrigation System featuring AI-based decision making, soil moisture sensors, and automated irrigation control.",
-  },
-];
 
 function SectionHeading({
   eyebrow,
@@ -122,25 +79,6 @@ function SectionHeading({
   );
 }
 
-function ProjectVisual({ index }: { index: number }) {
-  return (
-    <div className="flex aspect-[16/6] items-center justify-center border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800/50">
-      <div className="w-[90%] rounded-md border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <div className="mb-2 flex items-center gap-1.5 border-b border-gray-100 pb-1.5 dark:border-gray-700">
-          <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
-          <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
-          <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
-        </div>
-        <div className="space-y-2">
-          <div className="h-2.5 w-1/3 rounded-full bg-gray-900 dark:bg-gray-200" />
-          <div className="h-1.5 w-full rounded-full bg-gray-200 dark:bg-gray-600" />
-          <div className="h-1.5 w-5/6 rounded-full bg-gray-200 dark:bg-gray-600" />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const projectIconMap: Record<string, React.ReactNode> = {
   "learnx": <GraduationCap className="w-5 h-5 text-blue-400" />,
   "resume-analyzer": <FileText className="w-5 h-5 text-emerald-400" />,
@@ -149,9 +87,10 @@ const projectIconMap: Record<string, React.ReactNode> = {
   "ai-tools-tracker": <Wrench className="w-5 h-5 text-cyan-400" />
 };
 
-function ProjectCard({ project, index }: { project: any; index: number }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [isHovered, setIsHovered] = useState(false);
   const Icon = projectIconMap[project.slug] || <FolderGit2 className="w-5 h-5 text-blue-400" />;
+  const stackItems = project.stack.flatMap((group) => group.items);
 
   return (
     <Link 
@@ -234,7 +173,7 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
 
           {/* Tech stack capsules */}
           <div className="flex flex-wrap gap-1 mt-auto pt-3 border-t border-neutral-800/50">
-            {project.stack.flatMap((s: any) => s.items).slice(0, 3).map((tech: string) => (
+            {stackItems.slice(0, 3).map((tech) => (
               <span 
                 className="rounded-full bg-blue-500/5 border border-blue-500/10 px-2 py-0.5 text-[8.5px] font-semibold text-blue-300/80 backdrop-blur-sm" 
                 key={tech}
@@ -242,9 +181,9 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
                 {tech}
               </span>
             ))}
-            {project.stack.flatMap((s: any) => s.items).length > 3 && (
+            {stackItems.length > 3 && (
               <span className="rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[8.5px] font-semibold text-neutral-400">
-                +{project.stack.flatMap((s: any) => s.items).length - 3} more
+                +{stackItems.length - 3} more
               </span>
             )}
           </div>
@@ -257,29 +196,29 @@ function ProjectCard({ project, index }: { project: any; index: number }) {
 export default function Home() {
   const socialDockItems = [
     {
-      title: "GitHub",
+      title: profile.socials.github.label,
       icon: <IconBrandGithub className="w-5 h-5" />,
-      href: "https://github.com/varun-kumar-hub",
+      href: profile.socials.github.href,
     },
     {
-      title: "LinkedIn",
+      title: profile.socials.linkedin.label,
       icon: <IconBrandLinkedin className="w-5 h-5 text-[#378fe9]" />,
-      href: "https://www.linkedin.com/in/c-varun-kumar-281b73361",
+      href: profile.socials.linkedin.href,
     },
     {
-      title: "Instagram",
+      title: profile.socials.instagram.label,
       icon: <IconBrandInstagram className="w-5 h-5 text-[#f85c96]" />,
-      href: "https://www.instagram.com/v_a_r_u_n_13_9?igsh=Y3lnMDA2M3ZoZ2p0",
+      href: profile.socials.instagram.href,
     },
     {
       title: "Email",
       icon: <IconMail className="w-5 h-5 text-red-400" />,
-      href: "https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com",
+      href: `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.contact.email}`,
     },
     {
       title: "Resume",
       icon: <IconFileText className="w-5 h-5 text-emerald-400" />,
-      href: "/resume.pdf",
+      href: profile.contact.resumeHref,
     },
   ];
 
@@ -296,64 +235,14 @@ export default function Home() {
     }
     return false;
   });
-  const [lightningHue, setLightningHue] = useState(220); // Default to blue
-  const [showDotted, setShowDotted] = useState(true);
-
-  useEffect(() => {
-    if (hasEntered) {
-      setShowDotted(false);
-    } else {
-      const timer = setTimeout(() => {
-        setShowDotted(true);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
-  }, [hasEntered]);
+  const lightningHue = 220; // Default to blue
 
 
-  // Contact Form & Clipboard States
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Clipboard state
   const [isCopied, setIsCopied] = useState(false);
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Email regex validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email.trim())) {
-      alert("Please enter a valid email address.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-      if (response.ok && data.success) {
-        setIsSubmitted(true);
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        alert(data.error || "Failed to send message. Please try again.");
-      }
-    } catch (error) {
-      console.error("Contact form error:", error);
-      alert("Something went wrong. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const copyEmailToClipboard = () => {
-    navigator.clipboard.writeText("cvarunkumar455@gmail.com");
+    navigator.clipboard.writeText(profile.contact.email);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
@@ -370,14 +259,16 @@ export default function Home() {
       const hash = window.location.hash;
       const storedScrollY = sessionStorage.getItem("portfolio-scroll-y");
 
-      if (code) {
-        setHasEntered(true);
-        setAuthParams(window.location.search);
-        setShowAuthModal(true);
-      } else if (storedScrollY !== null || entered === "true" || hash === "#projects" || hash.length > 1) {
-        setHasEntered(true);
-      }
-      setIsIntroReady(true);
+      window.setTimeout(() => {
+        if (code) {
+          setHasEntered(true);
+          setAuthParams(window.location.search);
+          setShowAuthModal(true);
+        } else if (storedScrollY !== null || entered === "true" || hash === "#projects" || hash.length > 1) {
+          setHasEntered(true);
+        }
+        setIsIntroReady(true);
+      }, 0);
     }
   }, []);
 
@@ -387,7 +278,7 @@ export default function Home() {
       document.documentElement.style.setProperty("--sphere-opacity", "0");
       document.documentElement.style.setProperty("--lightning-opacity", "0");
       if (typeof window !== "undefined") {
-        (window as any).holdProgress = 0;
+        window.holdProgress = 0;
         
         const storedScrollY = sessionStorage.getItem("portfolio-scroll-y");
         if (storedScrollY !== null) {
@@ -407,7 +298,9 @@ export default function Home() {
             setIsScrollPositioning(false);
           }, 0);
         } else {
-          setIsScrollPositioning(false);
+          setTimeout(() => {
+            setIsScrollPositioning(false);
+          }, 0);
         }
       }
     } else {
@@ -421,14 +314,8 @@ export default function Home() {
       {/* Custom cursor animation */}
       <CustomCursor />
 
-      {/* Global Starfield Backgrounds */}
-      {isIntroReady && (
-        showDotted ? (
-          <DottedSurface />
-        ) : (
-          <SpaceBackground />
-        )
-      )}
+      {/* Global dark surface background */}
+      {isIntroReady && <SpaceBackground />}
       <AnimatePresence mode="wait">
         {!hasEntered && isIntroReady ? (
           <PortfolioIntro
@@ -452,44 +339,44 @@ export default function Home() {
         className="relative w-full min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:py-24"
       >
         {/* Main Content — floating on the starfield */}
-        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-6">
+          <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
 
             {/* ── Text Side ── */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col space-y-5 sm:space-y-6 w-full text-center md:text-left"
+              className="flex w-full flex-col space-y-5 text-center sm:space-y-6 md:text-left"
             >
               {/* Specialization tag */}
               <div className="flex justify-center md:justify-start">
                 <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-blue-300/80 backdrop-blur-sm">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(96,165,250,0.6)]" />
-                  AI & Machine Learning Specialization
+                  {profile.specialization}
                 </span>
               </div>
 
               {/* Name & Title in TextRevealCard */}
               <div className="flex justify-center md:justify-start w-full my-2 overflow-x-hidden">
                 <TextRevealCard
-                  text="Challa Varun Kumar"
-                  revealText="Engineering the AI-Driven Future"
-                  className="bg-transparent border-none p-0 w-full shadow-none max-w-4xl"
+                  text={profile.name.short}
+                  revealText={profile.role}
+                  className="bg-transparent border-none p-0 w-full shadow-none max-w-4xl lg:max-w-5xl"
                 />
               </div>
 
               {/* Animated Flipping Subtitles */}
               <div className="flex justify-center md:justify-start w-full my-2">
                 <ContainerTextFlip
-                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech CSE (AI & ML) Student", "Full Stack Developer"]}
+                  words={profile.subtitles}
                   interval={2500}
                 />
               </div>
 
               {/* Bio */}
               <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-3xl mx-auto md:mx-0">
-                As a Tech Innovator, AI & ML Enthusiast, and a 3rd-year B.Tech CSE (AI & ML) student at Kalasalingam Academy of Research and Education, I explore the limitless potential of Artificial Intelligence and Machine Learning. I combine academic principles with practical engineering, building modern full-stack web applications and intelligent algorithms to create impactful, real-world solutions.
+                {profile.bio}
               </p>
 
               {/* Ghost-style CTA buttons */}
@@ -512,16 +399,67 @@ export default function Home() {
               </div>
             </motion.div>
 
+            <motion.aside
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto w-full max-w-sm rounded-2xl border border-white/10 bg-black/35 p-5 text-left shadow-[0_24px_80px_rgba(0,0,0,0.32)] backdrop-blur-md lg:mx-0"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-300/70">
+                    Current Status
+                  </p>
+                  <h2 className="mt-1 text-lg font-bold tracking-tight text-white">
+                    {profile.status.headline}
+                  </h2>
+                </div>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-400/10">
+                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,0.55)]" />
+                </span>
+              </div>
+
+              <div className="space-y-4 py-5">
+                {[
+                  { label: "Focus", value: profile.status.focus, icon: <Cpu size={15} /> },
+                  { label: "Location", value: profile.status.location, icon: <MapPin size={15} /> },
+                  { label: "Availability", value: profile.status.availability, icon: <Briefcase size={15} /> },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-blue-300">
+                      {item.icon}
+                    </span>
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-neutral-200">
+                        {item.value}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-white/10 pt-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                  Core Stack
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {profile.status.coreStack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-full border border-blue-400/15 bg-blue-400/5 px-2.5 py-1 text-[10px] font-semibold text-blue-200/80"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.aside>
+
           </div>
         </div>
-      </section>
-
-      {/* ─── Education ─── */}
-      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="education">
-        <SectionHeading eyebrow="Education" title="Academic Background" icon={<GraduationCap size={16} />}>
-          Academic records and core computer science studies.
-        </SectionHeading>
-        <EducationTimeline />
       </section>
 
       {/* ─── Skills ─── */}
@@ -667,7 +605,7 @@ export default function Home() {
               {/* Email */}
               <div className="group flex items-center justify-between p-4 rounded-xl border border-gray-800/40 bg-white/[0.02] hover:border-blue-500/30 hover:bg-blue-500/[0.03] transition-all duration-300">
                 <a
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=cvarunkumar455@gmail.com"
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${profile.contact.email}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-3.5 flex-grow"
@@ -678,7 +616,7 @@ export default function Home() {
                   <div className="text-left">
                     <p className="text-[9px] font-bold text-gray-600 uppercase tracking-wider leading-none mb-1">Email</p>
                     <p className="text-sm font-semibold text-gray-300 group-hover:text-blue-400 transition-colors">
-                      cvarunkumar455@gmail.com
+                      {profile.contact.email}
                     </p>
                   </div>
                 </a>
@@ -709,9 +647,9 @@ export default function Home() {
               {/* Social Grid */}
               <div className="grid grid-cols-3 gap-3">
                 {[
-                  { name: "LinkedIn", handle: "c-varun-kumar", href: "https://www.linkedin.com/in/c-varun-kumar-281b73361", Icon: Linkedin, color: "text-[#378fe9]", glow: "rgba(56, 143, 233, 0.15)" },
-                  { name: "GitHub", handle: "varun-kumar-hub", href: "https://github.com", Icon: Github, color: "text-gray-300", glow: "rgba(255, 255, 255, 0.08)" },
-                  { name: "Instagram", handle: "v_a_r_u_n_13_9", href: "https://www.instagram.com/v_a_r_u_n_13_9?igsh=Y3lnMDA2M3ZoZ2p0", Icon: Instagram, color: "text-[#f85c96]", glow: "rgba(248, 92, 150, 0.15)" },
+                  { name: profile.socials.linkedin.label, handle: profile.socials.linkedin.handle, href: profile.socials.linkedin.href, Icon: Linkedin, color: "text-[#378fe9]", glow: "rgba(56, 143, 233, 0.15)" },
+                  { name: profile.socials.github.label, handle: profile.socials.github.handle, href: profile.socials.github.href, Icon: Github, color: "text-gray-300", glow: "rgba(255, 255, 255, 0.08)" },
+                  { name: profile.socials.instagram.label, handle: profile.socials.instagram.handle, href: profile.socials.instagram.href, Icon: Instagram, color: "text-[#f85c96]", glow: "rgba(248, 92, 150, 0.15)" },
                 ].map((social) => (
                   <a
                     key={social.name}
@@ -742,13 +680,13 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <MapPin size={13} className="text-gray-600" />
-                  <span>Anantapur, Andhra Pradesh, India</span>
+                  <span>{profile.contact.location}</span>
                 </div>
               </div>
 
               {/* View Resume */}
               <a
-                href="/resume.pdf"
+                href={profile.contact.resumeHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/btn flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-800/40 bg-white/[0.02] text-gray-400 font-bold hover:border-blue-500/30 hover:text-blue-400 hover:bg-blue-500/[0.03] hover:shadow-[0_0_20px_rgba(96,165,250,0.06)] transition-all duration-300 cursor-pointer"
@@ -766,7 +704,7 @@ export default function Home() {
       {/* ─── Footer ─── */}
       <footer className="px-5 py-10 sm:px-6 lg:px-8 relative z-10">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 border-t border-gray-200 pt-8 text-sm text-gray-500 dark:border-gray-800 dark:text-gray-400 md:flex-row">
-          <p>Copyright {new Date().getFullYear()} Challa Varun Kumar. All rights reserved.</p>
+          <p>Copyright {new Date().getFullYear()} {profile.name.full}. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <FloatingDock
               items={socialDockItems}
