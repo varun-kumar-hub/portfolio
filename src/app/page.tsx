@@ -339,8 +339,8 @@ export default function Home() {
         className="relative w-full min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:py-24"
       >
         {/* Main Content — floating on the starfield */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-5 sm:px-6">
-          <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-16">
+        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
 
             {/* ── Text Side ── */}
             <motion.div
@@ -399,76 +399,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.aside
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-              className="mx-auto w-full max-w-sm rounded-2xl border border-white/10 bg-black/35 p-5 text-left shadow-[0_24px_80px_rgba(0,0,0,0.32)] backdrop-blur-md lg:mx-0"
-            >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-300/70">
-                    Current Status
-                  </p>
-                  <h2 className="mt-1 text-lg font-bold tracking-tight text-white">
-                    {profile.status.headline}
-                  </h2>
-                </div>
-                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/20 bg-emerald-400/10">
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-300 shadow-[0_0_14px_rgba(110,231,183,0.55)]" />
-                </span>
-              </div>
-
-              <div className="space-y-4 py-5">
-                {[
-                  { label: "Focus", value: profile.status.focus, icon: <Cpu size={15} /> },
-                  { label: "Location", value: profile.status.location, icon: <MapPin size={15} /> },
-                  { label: "Availability", value: profile.status.availability, icon: <Briefcase size={15} /> },
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03] text-blue-300">
-                      {item.icon}
-                    </span>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
-                        {item.label}
-                      </p>
-                      <p className="mt-0.5 text-sm font-semibold text-neutral-200">
-                        {item.value}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
-                  Core Stack
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {profile.status.coreStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-full border border-blue-400/15 bg-blue-400/5 px-2.5 py-1 text-[10px] font-semibold text-blue-200/80"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.aside>
-
           </div>
-        </div>
-      </section>
-
-      {/* ─── Skills ─── */}
-      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
-            Languages, frameworks, database managers, and DevOps tools in my stack.
-          </SectionHeading>
-          <SkillsBento />
         </div>
       </section>
 
@@ -552,6 +483,16 @@ export default function Home() {
               ))}
             </Swiper>
           </div>
+        </div>
+      </section>
+
+      {/* ─── Skills ─── */}
+      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
+        <div className="mx-auto max-w-6xl">
+          <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
+            Languages, frameworks, database managers, and DevOps tools in my stack.
+          </SectionHeading>
+          <SkillsBento />
         </div>
       </section>
 
