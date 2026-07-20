@@ -259,7 +259,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               >
                 <ContainerTextFlip
                   words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
-                  interval={2500}
+                  interval={4000}
                   className="py-1 px-4 text-[11px] border border-blue-500/20 bg-blue-500/5 text-blue-300 font-sans rounded-full tracking-wide shadow-none"
                 />
               </motion.div>

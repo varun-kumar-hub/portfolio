@@ -370,7 +370,7 @@ export default function Home() {
               <div className="flex justify-center md:justify-start w-full my-2">
                 <ContainerTextFlip
                   words={profile.subtitles}
-                  interval={2500}
+                  interval={4000}
                 />
               </div>
 

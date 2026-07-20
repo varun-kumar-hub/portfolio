@@ -22,19 +22,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create transporter using Gmail SMTP service
+    // Ensure env vars are set
+    const gmailUser = process.env.GMAIL_USER?.trim();
+    const gmailPass = process.env.GMAIL_PASS?.trim();
+
+    if (!gmailUser || !gmailPass) {
+      console.error("Missing GMAIL_USER or GMAIL_PASS environment variables");
+      return NextResponse.json(
+        { error: "Email service is not configured. Please contact the site owner." },
+        { status: 500 }
+      );
+    }
+
+    // Create transporter using explicit Gmail SMTP settings
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
-        user: process.env.GMAIL_USER,
+        user: gmailUser,
         // This must be a Gmail 16-character App Password, NOT your regular password
-        pass: process.env.GMAIL_PASS,
+        pass: gmailPass,
       },
     });
 
     // Email options
     const mailOptions = {
-      from: process.env.GMAIL_USER, // Sender address (must be your Gmail address)
+      from: gmailUser, // Sender address (must be your Gmail address)
       to: "cvarunkumar455@gmail.com", // Destination email
       replyTo: email, // Reply directly to the sender's email
       subject: `💼 Portfolio Contact: Message from ${name}`,

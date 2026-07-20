@@ -14,6 +14,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Submit Handler connecting to `/api/contact`
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,6 +27,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
     }
 
     setIsSubmitting(true);
+    setStatusMessage(null);
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -38,19 +40,24 @@ export default function MacbookContact({ className }: MacbookContactProps) {
       const data = await response.json();
       if (response.ok && data.success) {
         setIsSubmitted(true);
+        setStatusMessage({ type: "success", text: "Message sent successfully!" });
         setFormData({ name: "", email: "", message: "" });
         // Automatically close lid after successful submission
         setTimeout(() => {
           setIsSubmitted(false);
           setIsFocused(false);
           setIsHovered(false);
+          setStatusMessage(null);
         }, 3000);
       } else {
-        alert(data.error || "Failed to send message. Please try again.");
+        setStatusMessage({ type: "error", text: data.error || "Failed to send message. Please try again." });
+        // Auto-clear error after 5s
+        setTimeout(() => setStatusMessage(null), 5000);
       }
     } catch (error) {
       console.error("Contact form error:", error);
-      alert("Something went wrong. Please try again later.");
+      setStatusMessage({ type: "error", text: "Something went wrong. Please try again later." });
+      setTimeout(() => setStatusMessage(null), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -255,6 +262,24 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                     )}
                   </button>
                 </form>
+
+                {/* Status Toast */}
+                <AnimatePresence>
+                  {statusMessage && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      className={`absolute bottom-2 left-2 right-2 z-40 rounded-md px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider text-center border backdrop-blur-sm ${
+                        statusMessage.type === "success"
+                          ? "bg-emerald-950/80 border-emerald-500/30 text-emerald-300"
+                          : "bg-red-950/80 border-red-500/30 text-red-300"
+                      }`}
+                    >
+                      {statusMessage.text}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>

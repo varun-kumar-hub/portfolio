@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Portfolio - Varun Kumar",
+  title: "Resume - Varun Kumar",
   description:
     "A clean, professional software engineer portfolio focused on web development, AI, projects, and contact information.",
   keywords: [
