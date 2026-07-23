@@ -236,7 +236,6 @@ export default function Home() {
     return false;
   });
   const lightningHue = 220; // Default to blue
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Clipboard state
   const [isCopied, setIsCopied] = useState(false);
@@ -409,25 +408,6 @@ export default function Home() {
           Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
         </SectionHeading>
 
-        {/* Category Filter Tabs */}
-        <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
-          {["All", "AI & EdTech", "NLP & Resume Intelligence", "Multi-Agent Autonomous AI", "AI Travel & Full-Stack", "Data Engineering & Scraping"].map((cat) => {
-            const isActive = selectedCategory === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
-                  isActive
-                    ? "bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-blue-400"
-                    : "bg-neutral-900/60 border border-gray-800 text-neutral-400 hover:text-white hover:border-gray-700"
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
 
         {/* Horizontal Swiper Carousel for Project Cards */}
         <div className="w-full flex justify-center items-center">
@@ -459,7 +439,6 @@ export default function Home() {
           `}</style>
           <div className="w-full max-w-5xl">
             <Swiper
-              key={selectedCategory}
               className="projects-swiper"
               spaceBetween={25}
               autoplay={{
@@ -469,7 +448,7 @@ export default function Home() {
               effect={"coverflow"}
               grabCursor={true}
               centeredSlides={true}
-              loop={projects.filter((p) => selectedCategory === "All" || p.category.toLowerCase().includes(selectedCategory.toLowerCase())).length > 1}
+              loop={projects.length > 1}
               slidesPerView={1.1}
               breakpoints={{
                 640: {
@@ -496,9 +475,7 @@ export default function Home() {
               navigation={true}
               modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
             >
-              {projects
-                .filter((p) => selectedCategory === "All" || p.category.toLowerCase().includes(selectedCategory.toLowerCase()))
-                .map((project, idx) => (
+              {projects.map((project, idx) => (
                   <SwiperSlide key={project.slug}>
                     <ProjectCard project={project} index={idx} />
                   </SwiperSlide>
