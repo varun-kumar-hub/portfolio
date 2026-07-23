@@ -24,6 +24,8 @@ import { Github } from "@/components/icons/BrandIcons";
 import { projects, Project } from "@/lib/projects";
 import { SpaceBackground } from "@/components/ui/space-background";
 import CustomCursor from "@/components/ui/custom-cursor";
+import { getSkillMeta } from "@/components/icons/SkillIcons";
+import { cn } from "@/lib/utils";
 
 /* ─── Tab Definitions ─── */
 interface TabDef {
@@ -85,6 +87,11 @@ export default function ProjectDetailsPage() {
 
   const galleryImages = project.gallery && project.gallery.length > 0 ? project.gallery : [project.image];
   const currentImage = galleryImages[activeImgIndex] || project.image;
+
+  const activeCaption = project.galleryDescriptions?.[currentImage] || {
+    title: `${project.name} Feature Overview 0${activeImgIndex + 1}`,
+    description: `Detailed visual walkthrough showing key user interface elements of ${project.name}.`
+  };
 
   // Find next project for bottom navigation
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
@@ -251,15 +258,12 @@ export default function ProjectDetailsPage() {
             className="px-6 sm:px-10 lg:px-12 pt-8 pb-8"
           >
             <div className="flex items-center justify-between gap-4 mb-2">
-              <div className="hidden md:flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
                   <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
                   Featured Case Study
                 </div>
               </div>
-              <span className="hidden md:block text-xs uppercase font-mono font-bold tracking-widest text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
-                {project.category}
-              </span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight mb-4">
@@ -362,6 +366,30 @@ export default function ProjectDetailsPage() {
               )}
             </div>
 
+            {/* Screenshot Caption & Detailed Description Banner */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImage}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className="mt-3.5 p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-gray-800/80 backdrop-blur-md flex flex-col justify-between gap-1.5 shadow-lg"
+              >
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest">
+                    SCREENSHOT 0{activeImgIndex + 1} OF 0{galleryImages.length}
+                  </span>
+                  <h4 className="text-sm sm:text-base font-bold text-white tracking-tight">
+                    {activeCaption.title}
+                  </h4>
+                </div>
+                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
+                  {activeCaption.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
             {/* Mobile-only horizontal thumbnail strip */}
             {galleryImages.length > 1 && (
               <div className="flex md:hidden items-center gap-3 overflow-x-auto pb-2 pt-3 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
@@ -453,186 +481,270 @@ export default function ProjectDetailsPage() {
 
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* ─── TAB PANEL COMPONENTS ─── */
+/* ─── TAB PANEL COMPONENTS (Structured Executive Brief Format) ─── */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ─── TAB PANEL COMPONENTS (Clean Case Study Article Format) ─── */
+/* ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* ─── TAB PANEL COMPONENTS (Pure Unboxed Clean Typography) ─── */
 /* ═══════════════════════════════════════════════════════════════ */
 
 function OverviewPanel({ project }: { project: Project }) {
-  return (
-    <div className="space-y-10">
-      {/* Executive Summary */}
-      <section className="space-y-4">
-        <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
-          <Sparkles className="w-5 h-5 text-blue-400" />
-          <h2 className="text-2xl font-bold text-white tracking-tight">Executive Summary</h2>
-        </div>
-        <p className="text-base text-neutral-300 leading-relaxed font-light max-w-4xl">
-          {project.longDescription}
-        </p>
-      </section>
+  const paragraphs = project.longDescription
+    ? project.longDescription.split("\n\n").filter(Boolean)
+    : [project.description];
 
-      {/* Problem & Solution */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-3xl bg-neutral-900/40 border border-gray-800/80 space-y-3 relative overflow-hidden group hover:border-red-500/30 transition-colors duration-300">
-          {/* Subtle corner glow */}
-          <div className="absolute -top-10 -left-10 w-32 h-32 bg-red-500/5 rounded-full blur-2xl group-hover:bg-red-500/10 transition-all duration-500" />
-          <div className="flex items-center gap-2 text-red-400 font-mono font-bold text-xs uppercase tracking-wider">
+  return (
+    <article className="space-y-10 max-w-4xl font-sans">
+      {/* Executive Overview Header */}
+      <header className="space-y-3 border-b border-gray-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <Sparkles className="w-4 h-4" />
+          Overview
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          {project.name}
+        </h2>
+      </header>
+
+      {/* Main Paragraphs */}
+      <div className="space-y-6 text-base sm:text-lg text-neutral-300 leading-relaxed font-light">
+        {paragraphs.map((para, idx) => (
+          <p key={idx} className="leading-relaxed">
+            {para}
+          </p>
+        ))}
+      </div>
+
+      {/* Problem & Solution Unboxed Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-gray-800/60">
+        {/* Problem Section */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-mono font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
             <AlertCircle className="w-4 h-4" />
-            The Challenge & Problem Statement
-          </div>
-          <p className="text-sm text-neutral-300 leading-relaxed font-light relative z-10">
+            The Challenge
+          </h3>
+          <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
             {project.problemStatement}
           </p>
         </div>
 
-        <div className="p-6 rounded-3xl bg-neutral-900/40 border border-gray-800/80 space-y-3 relative overflow-hidden group hover:border-emerald-500/30 transition-colors duration-300">
-          <div className="absolute -top-10 -right-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/10 transition-all duration-500" />
-          <div className="flex items-center gap-2 text-emerald-400 font-mono font-bold text-xs uppercase tracking-wider">
+        {/* Solution Section */}
+        <div className="space-y-2">
+          <h3 className="text-sm font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4" />
             The Engineering Solution
-          </div>
-          <p className="text-sm text-neutral-300 leading-relaxed font-light relative z-10">
+          </h3>
+          <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
             {project.solutionOverview}
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* Key Performance Metrics */}
+      {/* Key Outcomes Unboxed */}
       {project.metrics && project.metrics.length > 0 && (
-        <section className="space-y-6">
-          <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
-            <TrendingUp className="w-5 h-5 text-blue-400" />
-            <h2 className="text-2xl font-bold text-white tracking-tight">Key Performance Outcomes</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="pt-6 border-t border-gray-800/60 space-y-4">
+          <h3 className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
+            <TrendingUp className="w-4 h-4" />
+            Key Outcomes
+          </h3>
+          <div className="flex flex-wrap gap-x-12 gap-y-6 pt-2">
             {project.metrics.map((metric, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, duration: 0.4 }}
-                className="p-6 rounded-3xl bg-blue-500/5 border border-blue-500/15 text-center space-y-2 hover:border-blue-500/30 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)] transition-all duration-300"
-              >
-                <p className="text-4xl font-extrabold text-blue-400 font-mono tracking-tight">{metric.value}</p>
-                <p className="text-sm font-bold text-white">{metric.label}</p>
-                {metric.description && (
-                  <p className="text-xs text-neutral-400 font-light">{metric.description}</p>
-                )}
-              </motion.div>
+              <div key={idx} className="space-y-1">
+                <p className="text-4xl font-extrabold text-white font-mono">{metric.value}</p>
+                <p className="text-xs font-bold text-blue-400">{metric.label}</p>
+              </div>
             ))}
           </div>
-        </section>
+        </div>
       )}
-    </div>
+    </article>
   );
 }
 
 function ArchitecturePanel({ project }: { project: Project }) {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
-        <Code2 className="w-5 h-5 text-blue-400" />
-        <h2 className="text-2xl font-bold text-white tracking-tight">System Architecture & Core Modules</h2>
-      </div>
+    <article className="space-y-8 max-w-4xl font-sans">
+      <header className="space-y-2 border-b border-gray-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <Code2 className="w-4 h-4" />
+          Technical Design
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          System Architecture
+        </h2>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-8">
         {project.architecture.map((mod, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.08, duration: 0.4 }}
-            className="group p-6 rounded-3xl border border-gray-800/80 bg-neutral-900/40 space-y-3 hover:border-blue-500/40 transition-all duration-300 relative overflow-hidden"
-          >
-            {/* Hover glow */}
-            <div className="absolute -bottom-8 -right-8 w-24 h-24 bg-blue-500/0 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-all duration-500" />
-            
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-full border border-blue-500/20">
-                Module 0{idx + 1}
-              </span>
-            </div>
-            <h3 className="text-lg font-bold text-white">{mod.title}</h3>
-            <p className="text-xs text-neutral-400 leading-relaxed font-light relative z-10">
+          <div key={idx} className="space-y-2 pb-6 border-b border-gray-800/40 last:border-0">
+            <span className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
+              Module 0{idx + 1}
+            </span>
+            <h3 className="text-xl font-bold text-white">{mod.title}</h3>
+            <p className="text-base text-neutral-300 font-light leading-relaxed">
               {mod.description}
             </p>
-          </motion.div>
+          </div>
         ))}
       </div>
-
-      {/* Connection diagram hint */}
-      <div className="flex items-center gap-3 pt-4">
-        <Compass className="w-4 h-4 text-neutral-500" />
-        <p className="text-xs text-neutral-500 font-mono">
-          {project.architecture.length} core modules working in concert
-        </p>
-      </div>
-    </div>
+    </article>
   );
 }
 
 function DeliverablesPanel({ project }: { project: Project }) {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
-        <Award className="w-5 h-5 text-blue-400" />
-        <h2 className="text-2xl font-bold text-white tracking-tight">Key Deliverables & Capabilities</h2>
+    <article className="space-y-8 max-w-4xl font-sans">
+      <header className="space-y-2 border-b border-gray-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <Award className="w-4 h-4" />
+          Features & Capabilities
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Key Deliverables
+        </h2>
+      </header>
+
+      <ul className="space-y-5">
+        {project.details.map((detail, idx) => {
+          const parts = detail.split(":");
+          const hasTitle = parts.length > 1;
+          const title = hasTitle ? parts[0].trim() : "";
+          const body = hasTitle ? parts.slice(1).join(":").trim() : detail;
+
+          return (
+            <li key={idx} className="flex items-start gap-4 text-neutral-300 text-base font-light leading-relaxed">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2.5 shrink-0" />
+              <div>
+                {hasTitle ? (
+                  <span>
+                    <strong className="font-bold text-white mr-2">{title}:</strong>
+                    <span>{body}</span>
+                  </span>
+                ) : (
+                  <span>{detail}</span>
+                )}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </article>
+  );
+}
+
+function ProjectSkillChip({ name }: { name: string }) {
+  const { icon, color } = getSkillMeta(name);
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <motion.div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ y: -2, scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+      style={{
+        borderColor: isHovered ? color : "rgba(255, 255, 255, 0.1)",
+        boxShadow: isHovered ? `0 0 16px ${color}` : "none",
+        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.03)",
+      }}
+      className={cn(
+        "flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
+        "text-gray-200 border-gray-800/40 bg-gray-900/40"
+      )}
+    >
+      <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
+        {icon}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {project.details.map((detail, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, x: -15 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.08, duration: 0.35 }}
-            className="flex items-start gap-3.5 p-5 rounded-2xl border border-gray-800/60 bg-neutral-900/30 text-sm text-neutral-300 leading-relaxed group hover:border-blue-500/30 hover:bg-blue-500/[0.03] transition-all duration-300"
-          >
-            <div className="shrink-0 mt-0.5 w-7 h-7 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-              <CheckCircle2 className="w-4 h-4 text-blue-400" />
-            </div>
-            <span>{detail}</span>
-          </motion.div>
+      <span>{name}</span>
+    </motion.div>
+  );
+}
+
+function BentoTechCard({ group, index }: { group: { category: string; items: string[] }; index: number }) {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setCoords({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const categoryGlowColors: Record<number, string> = {
+    0: "rgba(59, 130, 246, 0.08)",
+    1: "rgba(168, 85, 247, 0.08)",
+    2: "rgba(16, 185, 129, 0.08)",
+    3: "rgba(245, 158, 11, 0.08)",
+  };
+  const glowColor = categoryGlowColors[index % 4] || "rgba(59, 130, 246, 0.08)";
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3 }}
+      style={{
+        backgroundImage: isHovered
+          ? `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${glowColor}, transparent 80%)`
+          : undefined,
+      }}
+      className="relative overflow-hidden rounded-3xl border border-gray-800/40 bg-black/25 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:border-gray-700/80 group"
+    >
+      {/* Decorative Large Index Number */}
+      <div className="absolute bottom-[-16px] right-3 text-8xl font-black text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-white/[0.06]">
+        0{index + 1}
+      </div>
+
+      <div className="relative z-10 mb-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-950/80 border border-gray-800/40 shadow-sm shrink-0">
+            <Code2 className="w-5 h-5 text-blue-400" />
+          </div>
+          <h3 className="text-lg font-extrabold text-white tracking-tight">
+            {group.category}
+          </h3>
+        </div>
+      </div>
+
+      {/* Skills Chip Grid */}
+      <div className="relative z-10 flex flex-wrap gap-2.5">
+        {group.items.map((tech) => (
+          <ProjectSkillChip key={tech} name={tech} />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function TechStackPanel({ project }: { project: Project }) {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-2 border-b border-gray-800 pb-3">
-        <Layers className="w-5 h-5 text-blue-400" />
-        <h2 className="text-2xl font-bold text-white tracking-tight">Technology Stack Breakdown</h2>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {project.stack.map((group, gIdx) => (
-          <motion.div
-            key={gIdx}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: gIdx * 0.1, duration: 0.4 }}
-            className="p-6 rounded-3xl border border-gray-800/80 bg-neutral-900/40 space-y-4 hover:border-blue-500/30 transition-all duration-300"
-          >
-            <h3 className="text-xs uppercase font-mono font-bold tracking-widest text-blue-400 flex items-center gap-2">
-              <Code2 className="w-4 h-4" />
-              {group.category}
-            </h3>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {group.items.map((tech, tIdx) => (
-                <motion.span
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: gIdx * 0.1 + tIdx * 0.04, duration: 0.3 }}
-                  className="rounded-full bg-blue-500/10 border border-blue-500/20 px-3.5 py-1.5 text-xs font-semibold text-blue-300 hover:bg-blue-500/20 hover:border-blue-500/30 transition-all duration-200"
-                >
-                  {tech}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
+    <article className="space-y-8 max-w-4xl font-sans">
+      <header className="space-y-2 border-b border-gray-800/80 pb-6">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <Layers className="w-4 h-4" />
+          Technologies
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Technology Stack
+        </h2>
+      </header>
+
+      <div className="grid grid-cols-1 gap-6">
+        {project.stack.map((group, idx) => (
+          <BentoTechCard key={idx} group={group} index={idx} />
         ))}
       </div>
-    </div>
+    </article>
   );
 }

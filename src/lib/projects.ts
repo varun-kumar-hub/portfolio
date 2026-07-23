@@ -26,6 +26,7 @@ export interface Project {
   live: string;
   image: string;
   gallery: string[];
+  galleryDescriptions?: Record<string, { title: string; description: string }>;
 }
 
 export const projects: Project[] = [
@@ -97,9 +98,18 @@ export const projects: Project[] = [
       "/projects/learnx/img-5.png",
       "/projects/learnx/img-6.png",
       "/projects/learnx/img-7.png",
-      "/projects/learnx/img-8.png",
-      "/projects/learnx/img-9.png"
-    ]
+      "/projects/learnx/img-8.png"
+    ],
+    galleryDescriptions: {
+      "/projects/learnx/img-1.png": { title: "LearnX Landing Page & Hero Header", description: "Landing hero featuring the tagline 'Turn Any Topic Into a Structured Knowledge Graph', platform navigation, 'Go to Dashboard' CTA, and PWA mobile app install prompt." },
+      "/projects/learnx/img-2.png": { title: "My Subjects Dashboard & Learning Library", description: "User dashboard organizing active learning subjects ('Curriculum SDG Mapping', 'predictive analysis', 'Software engineering', 'Binomial theorem', 'sql') with public visibility toggles and 'Ask AI Tutor' widget." },
+      "/projects/learnx/img-3.png": { title: "Subject Analytics & Learning Overview", description: "Detailed Subject Overview for 'Curriculum SDG Mapping' tracking unlocked topics (12 total), learning status, weekly study activity chart, and 'Up Next' recommended modules." },
+      "/projects/learnx/img-4.png": { title: "Structured Learning Topic Reader", description: "In-depth concept lesson reader featuring numbered sub-sections ('1. Understanding SDGs', '2. What is Curriculum SDG Mapping?'), highlighted callouts, real-world examples, and AI assistant." },
+      "/projects/learnx/img-5.png": { title: "Comparative Matrix & Analytical Content", description: "Lesson reader comparison table contrasting 'Traditional Curriculum' vs 'SDG-Mapped Curriculum' across Primary Focus, Relevance, Outcomes, and Student Role." },
+      "/projects/learnx/img-6.png": { title: "Interactive Flashcard Revision Deck", description: "Flip-to-reveal flashcard revision mode for active recall, card counter ('Card 2 / 7'), and instant self-assessment controls." },
+      "/projects/learnx/img-7.png": { title: "Quiz Performance Analytics & Score Hub", description: "Comprehensive Quiz Dashboard showing recorded attempts (5), average score (43%), best score (60%), difficulty rating (2.8/5), recent score bar chart, and 'Attempt Quiz' trigger." },
+      "/projects/learnx/img-8.png": { title: "Community Sharing & Knowledge Path Cloning", description: "Public Community Hub where users search, explore, and clone public knowledge graphs shared by peer learners ('DBMS', 'HTML', 'Software Engineering')." }
+    }
   },
   {
     slug: "resume-analyzer",
@@ -151,7 +161,18 @@ export const projects: Project[] = [
       "/projects/resume-analyzer/img-7.png",
       "/projects/resume-analyzer/img-8.png",
       "/projects/resume-analyzer/img-9.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/resume-analyzer/img-1.png": { title: "Resume AI Landing Page", description: "Landing hero featuring the tagline 'Optimize your resume for ATS & Humans', feature callouts ('ATS Parsing', 'Skill Gap Analysis', 'Instant Feedback'), and 'Analyze My Resume' CTA." },
+      "/projects/resume-analyzer/img-2.png": { title: "Resume AI Dashboard & Upload Portal", description: "User dashboard displaying total parsed resumes (11), average ATS score (73%), drag-and-drop file upload interface supporting PDF and DOCX formats." },
+      "/projects/resume-analyzer/img-3.png": { title: "ATS Compatibility Score & Improvement Areas", description: "ATS Compatibility Score report (75/100) detailing completeness, keywords, formatting rating, improvement warnings (missing phone number/LinkedIn), and section highlights." },
+      "/projects/resume-analyzer/img-4.png": { title: "Extracted Resume Sections & Skill Tags", description: "NLP text extraction breakdown showing Summary, Experience, Education, and parsed skill badges with character counts." },
+      "/projects/resume-analyzer/img-5.png": { title: "My Resumes Library & Scan History", description: "Grid view of saved user resume scans ('varun resume.pdf', 'Professional_Resume', 'Sample_AI_ML_Resume') showing ATS score badges and scan timestamps." },
+      "/projects/resume-analyzer/img-6.png": { title: "Job Application Kanban Tracker", description: "Job Application Tracker categorizing applications into Applied, Interviewing, Offer, and Rejected columns with salary target markers." },
+      "/projects/resume-analyzer/img-7.png": { title: "AI Resume Tailor & Cover Letter Generator", description: "AI Resume Tailor comparing candidate resume against a target job description to generate bullet point rewrites and AI cover letters." },
+      "/projects/resume-analyzer/img-8.png": { title: "Generative AI Cover Letter Synthesis", description: "Cover letter generator crafting a custom application cover letter tailored specifically to the target role's key technical requirements." },
+      "/projects/resume-analyzer/img-9.png": { title: "Target Job Description Match & Missing Keywords", description: "Job Description Vector Matcher detailing JD Match Score (31%), Matched Skills (5), Missing Skills (11), and explicit missing keyword tags ('adobe', 'backend', 'html', 'javascript', 'sql')." }
+    }
   },
   {
     slug: "researchx-ai",
@@ -224,9 +245,17 @@ export const projects: Project[] = [
       "/projects/researchx-ai/img-4.png",
       "/projects/researchx-ai/img-5.png",
       "/projects/researchx-ai/img-6.png",
-      "/projects/researchx-ai/img-7.png",
-      "/projects/researchx-ai/img-8.png"
-    ]
+      "/projects/researchx-ai/img-7.png"
+    ],
+    galleryDescriptions: {
+      "/projects/researchx-ai/img-1.png": { title: "ResearchX Landing Command Center", description: "Landing interface featuring 'What will you research today?', Gemini 2.5 Flash active model badge, sample query prompts, and research launcher." },
+      "/projects/researchx-ai/img-2.png": { title: "Executive Intelligence Brief & Metrics", description: "Research Campaign Intelligence Brief for 'OSI layers of computer network' showing 140 Facts Found, 136 High Confidence facts, 98% Average Confidence, and Pexels reference image gallery." },
+      "/projects/researchx-ai/img-3.png": { title: "Verified Fact Overview Matrix", description: "Grid breakdown of verified atomic facts extracted from multi-source web scraping with deduplication tags." },
+      "/projects/researchx-ai/img-4.png": { title: "Structured Analytical Categorization", description: "Research breakdown organized by 'Purpose & Significance', 'Comparison with TCP/IP Model', and 'Advantages & Disadvantages'." },
+      "/projects/researchx-ai/img-5.png": { title: "Verification Consensus Audit & Confidence Gauges", description: "Verification Consensus Audit showing overall 98% Score Consensus Gauge, individual verified claims, 95% Confidence rating badges, and citation links." },
+      "/projects/researchx-ai/img-6.png": { title: "Source Verification & Citation Index", description: "Directory of external sources (GeeksforGeeks, Cloudflare, Imperva, AWS, IBM) with domain reliability scores (95%-100%) and direct link triggers." },
+      "/projects/researchx-ai/img-7.png": { title: "Real-Time Agent Execution Console & Pipeline Status", description: "Multi-agent pipeline status window showing 5-step progress (Query → Search → Scrape → Merge → Verify), active campaign target parameters, and live console terminal execution log." }
+    }
   },
   {
     slug: "tripcrafter-pro",
@@ -283,7 +312,16 @@ export const projects: Project[] = [
       "/projects/tripcrafter-pro/img-5.png",
       "/projects/tripcrafter-pro/img-6.png",
       "/projects/tripcrafter-pro/img-7.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/tripcrafter-pro/img-1.png": { title: "TripCrafter Hero & Travel Architect Landing", description: "Immersive landing hero featuring 'Explore the World Your Way' tagline, mountain background visual, and 'Start Planning' quick trigger." },
+      "/projects/tripcrafter-pro/img-2.png": { title: "AI-Powered Smart Planner Form", description: "Smart trip planner input form taking destination ('Kodaikanal'), start/end dates, currency (INR), budget level ('Medium'), group size ('Group of Friends'), and activity interests." },
+      "/projects/tripcrafter-pro/img-3.png": { title: "Custom Generated Trip Itinerary Header", description: "AI-generated trip title ('Misty Peaks & Culinary Heights: Kodaikanal Friends' Escape'), estimated cost range (INR 12,000-18,000/person), pacing info, and Day 1 weather preview." },
+      "/projects/tripcrafter-pro/img-4.png": { title: "Day-by-Day Hour Schedule & Activity Timelines", description: "Hourly breakdown view with time tags (11:30 AM Check-in, 1:00 PM South Indian Lunch, 2:30 PM Boating & Cycling at Kodaikanal Lake), cost estimates, location markers, and photo upload memory capture." },
+      "/projects/tripcrafter-pro/img-5.png": { title: "Interactive Route Map & Multi-Day Geospatial Pinning", description: "Interactive Mapbox route view displaying color-coded pins for each day's route ('Day 1: Lakeside Charm', 'Day 2: Trekking Thrills', 'Day 3: Wilderness Waterfalls')." },
+      "/projects/tripcrafter-pro/img-6.png": { title: "Live Destination Weather & Travel Forecast Widget", description: "Weather Forecast overlay presenting live conditions (12° Sunny/Partly Cloudy), 3-day temperature preview, and AI Travel Tips." },
+      "/projects/tripcrafter-pro/img-7.png": { title: "AI Trip Concierge & Smart Packing Checklist", description: "Trip Concierge floating assistant for on-the-go queries, Smart Packing Suggestions checklist (warm layers, rain gear, trekking shoes, power bank), and multi-day accordion schedule." }
+    }
   },
   {
     slug: "ai-tools-tracker",
@@ -331,7 +369,14 @@ export const projects: Project[] = [
       "/projects/ai-tools-tracker/img-3.png",
       "/projects/ai-tools-tracker/img-4.png",
       "/projects/ai-tools-tracker/img-5.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/ai-tools-tracker/img-1.png": { title: "FutureTech AI Tools Hero & Metrics Dashboard", description: "Landing hero featuring 'Discover the Best AI Tools Daily', real-time statistics (15,327 Total Tools, 9+ Categories, 105 Added Today, 324+ Tags Tracked), search bar, and Latest Arrivals feed." },
+      "/projects/ai-tools-tracker/img-2.png": { title: "Scraped Latest Arrivals Directory", description: "Grid view of freshly scraped tools and articles across Data & Analytics, Code & Development, Productivity & Automation with source domain badges ('Dev.to')." },
+      "/projects/ai-tools-tracker/img-3.png": { title: "Detailed Tool Metadata & External Source Inspector", description: "Individual Tool Details modal for 'a RAG Chatbot with FastAPI and ChromaDB' displaying parsed tags (#ai, #python, #tutorial), category, date added, and 'Visit Website' outbound link." },
+      "/projects/ai-tools-tracker/img-4.png": { title: "Direct Source Web Redirection (Dev.to / ProductHunt)", description: "Seamless web routing directly launching the original publisher page ('Dev.to - Building a RAG Chatbot with FastAPI and ChromaDB') upon clicking." },
+      "/projects/ai-tools-tracker/img-5.png": { title: "Category Navigation Hub & Tool Counts", description: "Explore AI Tools grid organizing tools by category ('Productivity' 42 tools, 'Marketing & Sales' 247, 'Code & Development' 249, 'Design & Creative' 78)." }
+    }
   }
 ];
 
