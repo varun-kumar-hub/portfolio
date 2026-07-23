@@ -29,13 +29,20 @@ export default function MacbookContact({ className }: MacbookContactProps) {
     setIsSubmitting(true);
     setStatusMessage(null);
     try {
+      // 15s timeout so the button doesn't spin forever if SMTP hangs
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       const data = await response.json();
       if (response.ok && data.success) {

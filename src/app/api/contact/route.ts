@@ -35,16 +35,23 @@ export async function POST(request: Request) {
     }
 
     // Create transporter using explicit Gmail SMTP settings
+    // Using port 587 + STARTTLS (more widely allowed through firewalls than port 465)
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+      port: 587,
+      secure: false, // use STARTTLS
       auth: {
         user: gmailUser,
         // This must be a Gmail 16-character App Password, NOT your regular password
         pass: gmailPass,
       },
+      connectionTimeout: 10000, // 10s to establish connection
+      greetingTimeout: 10000,   // 10s for SMTP greeting
+      socketTimeout: 10000,     // 10s for socket inactivity
     });
+
+    console.log("Nodemailer: Attempting to send email...");
+    console.log("Nodemailer: GMAIL_USER =", gmailUser);
 
     // Email options
     const mailOptions = {

@@ -100,89 +100,89 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           sessionStorage.setItem("portfolio-scroll-y", window.scrollY.toString());
         }
       }}
-      className="block w-full max-w-[320px] select-none text-left"
+      className="block w-full select-none text-left"
     >
       <motion.div 
-        className='w-full min-h-[460px] bg-black/80 backdrop-blur-sm rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] flex flex-col p-3 gap-3 overflow-hidden border border-gray-800 hover:border-blue-500/20 transition-colors duration-300 relative'
+        className='w-full min-h-[480px] bg-black/80 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col p-4 gap-3 overflow-hidden border border-gray-800/80 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300 relative group'
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.08 }}
-        whileHover={{ 
-          y: -4,
-          scale: 1.005,
-          boxShadow: "0 25px 50px rgba(59,130,246,0.08)",
-        }}
+        transition={{ duration: 0.4, delay: index * 0.08 }}
+        whileHover={{ y: -6, scale: 1.01 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
       >
-        {/* Top action row */}
+        {/* Top header row */}
         <div className='flex justify-between items-center px-1'>
           <div className="flex items-center gap-2">
             {Icon}
-            <span className="text-[9px] uppercase tracking-widest text-neutral-500 font-semibold font-mono">
-              Project {index + 1}
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+              {project.category}
             </span>
+          </div>
+          <div className="flex items-center gap-1 text-xs text-neutral-400 group-hover:text-blue-400 font-bold transition-colors">
+            <span>Explore</span>
+            <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
         </div>
 
-        {/* Title & brief */}
-        <div className='flex flex-col gap-2 flex-1'>
-          <h3 className="title text-lg font-bold tracking-tight text-white leading-tight min-h-[40px] flex items-center">
+        {/* Title & Image */}
+        <div className='flex flex-col gap-2.5 flex-1 mt-1'>
+          <h3 className="title text-xl font-bold tracking-tight text-white leading-tight flex items-center group-hover:text-blue-300 transition-colors">
             {project.name}
           </h3>
           
-          {/* Image with cool blurred background glow */}
-          <div className="image relative aspect-[16/10] w-full rounded-xl overflow-hidden bg-neutral-950 border border-neutral-900">
-            <div className="absolute inset-0 rounded-xl opacity-20 z-0">
+          {/* Image with ambient background glow */}
+          <div className="image relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-900 shadow-md">
+            <div className="absolute inset-0 rounded-2xl opacity-30 z-0">
               <motion.div
-                animate={{ scale: isHovered ? 1.05 : 1 }}
-                transition={{ duration: 3, ease: "easeInOut" }}
+                animate={{ scale: isHovered ? 1.08 : 1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="w-full h-full"
               >
                 <Image 
                   src={project.image} 
                   alt={`${project.name} background`} 
-                  className="w-full h-full object-cover blur-md scale-120"
-                  width={360}
-                  height={200}
+                  className="w-full h-full object-cover blur-md scale-110"
+                  width={400}
+                  height={250}
                   unoptimized
                 />
               </motion.div>
             </div>
             <motion.div 
               className="relative z-10 w-full h-full p-1"
-              whileHover={{ scale: 1.015 }}
-              transition={{ ease: "easeInOut" }}
+              animate={{ scale: isHovered ? 1.02 : 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <Image 
                 src={project.image} 
                 alt={project.name} 
-                className="rounded-lg w-full h-full object-cover shadow-inner"
-                width={360}
-                height={200}
+                className="rounded-xl w-full h-full object-cover shadow-inner"
+                width={400}
+                height={250}
                 unoptimized
               />
             </motion.div>
           </div>
 
-          {/* Small brief description */}
-          <p className="desc text-xs text-neutral-400 font-light leading-relaxed mt-2.5 flex-1">
+          {/* Brief tagline */}
+          <p className="desc text-xs text-neutral-400 font-light leading-relaxed line-clamp-2 mt-1">
             {project.description}
           </p>
 
           {/* Tech stack capsules */}
-          <div className="flex flex-wrap gap-1 mt-auto pt-3 border-t border-neutral-800/50">
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-neutral-800/60">
             {stackItems.slice(0, 3).map((tech) => (
               <span 
-                className="rounded-full bg-blue-500/5 border border-blue-500/10 px-2 py-0.5 text-[8.5px] font-semibold text-blue-300/80 backdrop-blur-sm" 
+                className="rounded-full bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 text-[9px] font-semibold text-blue-300 backdrop-blur-sm" 
                 key={tech}
               >
                 {tech}
               </span>
             ))}
             {stackItems.length > 3 && (
-              <span className="rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[8.5px] font-semibold text-neutral-400">
+              <span className="rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[9px] font-semibold text-neutral-500">
                 +{stackItems.length - 3} more
               </span>
             )}
@@ -236,7 +236,7 @@ export default function Home() {
     return false;
   });
   const lightningHue = 220; // Default to blue
-
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   // Clipboard state
   const [isCopied, setIsCopied] = useState(false);
@@ -403,12 +403,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── Projects ─── */}
+      {/* ─── Projects Directory Portal ─── */}
       <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
-        <SectionHeading eyebrow="Projects" title="Featured Work" icon={<FolderGit2 size={16} />}>
-          Practical implementations demonstrating AI engineering, IoT systems, and full-stack development.
+        <SectionHeading eyebrow="Project Directory" title="Categorized Engineering Work" icon={<FolderGit2 size={16} />}>
+          Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
         </SectionHeading>
-        <div className="w-full flex justify-center items-center mt-12">
+
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap justify-center items-center gap-2 mb-12">
+          {["All", "AI & EdTech", "NLP & Resume Intelligence", "Multi-Agent Autonomous AI", "AI Travel & Full-Stack", "Data Engineering & Scraping"].map((cat) => {
+            const isActive = selectedCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
+                  isActive
+                    ? "bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-blue-400"
+                    : "bg-neutral-900/60 border border-gray-800 text-neutral-400 hover:text-white hover:border-gray-700"
+                }`}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Horizontal Swiper Carousel for Project Cards */}
+        <div className="w-full flex justify-center items-center">
           <style>{`
             .projects-swiper {
               width: 100%;
@@ -420,11 +442,8 @@ export default function Home() {
               transform-style: preserve-3d;
             }
             .projects-swiper .swiper-slide {
-              background-position: center;
-              background-size: cover;
               height: auto;
               opacity: 0.45;
-              transform-style: preserve-3d;
               transition: opacity 0.3s ease;
             }
             .projects-swiper .swiper-slide-active {
@@ -440,8 +459,9 @@ export default function Home() {
           `}</style>
           <div className="w-full max-w-5xl">
             <Swiper
+              key={selectedCategory}
               className="projects-swiper"
-              spaceBetween={20}
+              spaceBetween={25}
               autoplay={{
                 delay: 3500,
                 disableOnInteraction: false,
@@ -449,26 +469,26 @@ export default function Home() {
               effect={"coverflow"}
               grabCursor={true}
               centeredSlides={true}
-              loop={true}
-              slidesPerView={1.2}
+              loop={projects.filter((p) => selectedCategory === "All" || p.category.toLowerCase().includes(selectedCategory.toLowerCase())).length > 1}
+              slidesPerView={1.1}
               breakpoints={{
                 640: {
-                  slidesPerView: 1.8,
+                  slidesPerView: 1.6,
                   spaceBetween: 25,
                 },
                 768: {
-                  slidesPerView: 2.4,
+                  slidesPerView: 2.2,
                   spaceBetween: 30,
                 },
                 1024: {
-                  slidesPerView: 3,
+                  slidesPerView: 2.8,
                   spaceBetween: 30,
                 }
               }}
               coverflowEffect={{
-                rotate: 25,
-                stretch: -15,
-                depth: 150,
+                rotate: 15,
+                stretch: -10,
+                depth: 120,
                 modifier: 1,
                 slideShadows: false,
               }}
@@ -476,11 +496,13 @@ export default function Home() {
               navigation={true}
               modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
             >
-              {[...projects, ...projects].map((project, idx) => (
-                <SwiperSlide key={`${project.slug}-${idx}`}>
-                  <ProjectCard project={project} index={idx % projects.length} />
-                </SwiperSlide>
-              ))}
+              {projects
+                .filter((p) => selectedCategory === "All" || p.category.toLowerCase().includes(selectedCategory.toLowerCase()))
+                .map((project, idx) => (
+                  <SwiperSlide key={project.slug}>
+                    <ProjectCard project={project} index={idx} />
+                  </SwiperSlide>
+                ))}
             </Swiper>
           </div>
         </div>
