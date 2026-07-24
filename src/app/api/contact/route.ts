@@ -34,105 +34,124 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create transporter using explicit Gmail SMTP settings
-    // Using port 587 + STARTTLS (more widely allowed through firewalls than port 465)
+    // Create transporter using service: "gmail"
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false, // use STARTTLS
+      service: "gmail",
       auth: {
         user: gmailUser,
-        // This must be a Gmail 16-character App Password, NOT your regular password
         pass: gmailPass,
       },
-      connectionTimeout: 10000, // 10s to establish connection
-      greetingTimeout: 10000,   // 10s for SMTP greeting
-      socketTimeout: 10000,     // 10s for socket inactivity
     });
 
-    console.log("Nodemailer: Attempting to send email...");
-    console.log("Nodemailer: GMAIL_USER =", gmailUser);
+    console.log("Nodemailer: Processing message submission...");
+    console.log(`Sender: ${name} <${email}>`);
 
-    // Email options
-    const mailOptions = {
-      from: gmailUser, // Sender address (must be your Gmail address)
-      to: "cvarunkumar455@gmail.com", // Destination email
-      replyTo: email, // Reply directly to the sender's email
+    // 1. Notification Email sent to Site Owner
+    const ownerMailOptions = {
+      from: `"${name} (Portfolio Inquiry)" <${gmailUser}>`,
+      to: gmailUser,
+      replyTo: email,
       subject: `💼 Portfolio Contact: Message from ${name}`,
-      text: `You have received a new contact form message from your portfolio.\n\n` +
+      text: `You received a new portfolio message.\n\n` +
             `Sender Name: ${name}\n` +
             `Sender Email: ${email}\n\n` +
             `Message:\n${message}`,
       html: `
-        <div style="background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #0f172a;">
+        <div style="background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0f172a;">
           <div style="max-width: 540px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.035);">
-            
-            <!-- Top Decorative line -->
             <div style="height: 4px; background: linear-gradient(90deg, #3b82f6 0%, #4f46e5 100%);"></div>
-            
-            <!-- Content wrapper -->
             <div style="padding: 36px 32px;">
-              
-              <!-- Logo / Header -->
               <div style="margin-bottom: 28px;">
                 <span style="display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: #4f46e5; background-color: #eeebff; padding: 4px 10px; border-radius: 6px;">
                   Portfolio Inquiry
                 </span>
-                <h1 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 16px 0 0 0; letter-spacing: -0.01em;">
+                <h1 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 16px 0 0 0;">
                   New Message Received
                 </h1>
               </div>
-              
-              <!-- Sender Info Cards -->
               <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 28px;">
                 <table style="width: 100%; border-collapse: collapse;">
                   <tr>
                     <td style="padding-bottom: 12px;">
-                      <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; display: block; margin-bottom: 2px;">Sender Name</span>
+                      <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; display: block;">Sender Name</span>
                       <span style="font-size: 14px; font-weight: 600; color: #0f172a;">${name}</span>
                     </td>
                   </tr>
                   <tr>
                     <td style="border-top: 1px solid #e2e8f0; padding-top: 12px;">
-                      <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; display: block; margin-bottom: 2px;">Email Address</span>
+                      <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; display: block;">Email Address</span>
                       <span style="font-size: 14px; font-weight: 600;">
-                        <a href="mailto:${email}" style="color: #2563eb; text-decoration: none; word-break: break-all;">${email}</a>
+                        <a href="mailto:${email}" style="color: #2563eb; text-decoration: none;">${email}</a>
                       </span>
                     </td>
                   </tr>
                 </table>
               </div>
-              
-              <!-- Message Text -->
               <div style="margin-bottom: 32px;">
-                <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; display: block; margin-bottom: 8px;">Message Body</span>
-                <div style="font-size: 14px; line-height: 1.6; color: #334155; white-space: pre-wrap; background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #4f46e5; padding: 16px 20px; border-radius: 8px; min-height: 80px;">${message}</div>
+                <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 8px;">Message Body</span>
+                <div style="font-size: 14px; line-height: 1.6; color: #334155; white-space: pre-wrap; background-color: #ffffff; border: 1px solid #e2e8f0; border-left: 3px solid #4f46e5; padding: 16px 20px; border-radius: 8px;">${message}</div>
               </div>
-              
-              <!-- Action Button -->
               <div style="text-align: center;">
-                <a href="mailto:${email}" style="display: inline-block; background-color: #4f46e5; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); transition: background-color 0.2s;">
-                  Reply Direct to Email
+                <a href="mailto:${email}" style="display: inline-block; background-color: #4f46e5; color: #ffffff; font-size: 14px; font-weight: 600; text-decoration: none; padding: 12px 24px; border-radius: 8px;">
+                  Reply Direct to ${email}
                 </a>
               </div>
-        
             </div>
-            
-            <!-- Footer -->
             <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 32px; text-align: center;">
               <p style="margin: 0; font-size: 11px; color: #64748b;">
                 Automated notification sent from your portfolio website contact form.
               </p>
             </div>
-            
           </div>
         </div>
       `,
     };
 
-    // Send the email
-    await transporter.sendMail(mailOptions);
+    // 2. Automated Confirmation Email sent to the Visitor (the entered email)
+    const visitorMailOptions = {
+      from: `"Varun Kumar" <${gmailUser}>`,
+      to: email,
+      replyTo: gmailUser,
+      subject: `Thank you for reaching out, ${name}!`,
+      text: `Hi ${name},\n\nThank you for reaching out via my portfolio! I have received your message and will get back to you shortly.\n\nYour message:\n"${message}"\n\nBest regards,\nVarun Kumar`,
+      html: `
+        <div style="background-color: #f8fafc; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #0f172a;">
+          <div style="max-width: 540px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.035);">
+            <div style="height: 4px; background: linear-gradient(90deg, #10b981 0%, #3b82f6 100%);"></div>
+            <div style="padding: 36px 32px;">
+              <div style="margin-bottom: 24px;">
+                <h1 style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">
+                  Message Received!
+                </h1>
+                <p style="font-size: 14px; color: #475569; margin: 0; line-height: 1.5;">
+                  Hi <strong>${name}</strong>, thank you for reaching out through my portfolio. I have received your message and will get back to you as soon as possible.
+                </p>
+              </div>
+              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 28px;">
+                <span style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; display: block; margin-bottom: 6px;">Copy of Your Message</span>
+                <p style="font-size: 13px; line-height: 1.6; color: #334155; margin: 0; white-space: pre-wrap; font-style: italic;">"${message}"</p>
+              </div>
+              <p style="font-size: 14px; color: #0f172a; font-weight: 600; margin: 0;">
+                Best regards,<br/>Varun Kumar
+              </p>
+            </div>
+            <div style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 16px 32px; text-align: center;">
+              <p style="margin: 0; font-size: 11px; color: #64748b;">
+                This is an automated confirmation sent to ${email}.
+              </p>
+            </div>
+          </div>
+        </div>
+      `,
+    };
 
+    // Send both emails simultaneously
+    await Promise.all([
+      transporter.sendMail(ownerMailOptions),
+      transporter.sendMail(visitorMailOptions),
+    ]);
+
+    console.log(`Nodemailer: Successfully sent notification to owner and confirmation to ${email}`);
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Nodemailer contact error:", error);
