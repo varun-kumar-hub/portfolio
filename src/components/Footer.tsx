@@ -331,17 +331,17 @@ export default function Footer({ profileName }: FooterProps = {}) {
           </div>
 
           {/* 2. Main Section Content - Dual Column Clean Layout */}
-          <div className="relative z-20 flex-1 flex flex-col justify-start pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 w-full max-w-6xl mx-auto overflow-hidden">
+          <div className="relative z-20 flex-1 flex flex-col justify-start pt-4 sm:pt-8 px-4 sm:px-6 lg:px-8 w-full max-w-6xl mx-auto overflow-y-auto lg:overflow-hidden pb-8 lg:pb-0">
             
             <div ref={contentRef} className="w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-12 items-center">
               
-              {/* Left Column: Standalone 3D Laptop Contact Form */}
-              <div className="flex flex-col items-center justify-center w-full">
+              {/* Standalone 3D Laptop Contact Form */}
+              <div className="flex flex-col items-center justify-center w-full order-2 lg:order-1">
                 <MacbookContact />
               </div>
 
-              {/* Right Column: Section Heading + Directory Cards & Social Pills */}
-              <div className="flex flex-col gap-3.5">
+              {/* Section Heading + Directory Cards & Social Pills */}
+              <div className="flex flex-col gap-3.5 order-1 lg:order-2">
                 
                 {/* Header inside Right Column */}
                 <div>
