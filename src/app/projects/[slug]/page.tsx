@@ -35,10 +35,11 @@ interface TabDef {
 }
 
 const TABS: TabDef[] = [
-  { id: "overview",      label: "Overview",      icon: <Sparkles className="w-4 h-4" /> },
-  { id: "architecture",  label: "Architecture",  icon: <Code2 className="w-4 h-4" /> },
-  { id: "deliverables",  label: "Deliverables",  icon: <Award className="w-4 h-4" /> },
-  { id: "stack",         label: "Tech Stack",    icon: <Layers className="w-4 h-4" /> },
+  { id: "overview",      label: "Overview",           icon: <Sparkles className="w-4 h-4" /> },
+  { id: "visuals",       label: "Visual Highlights",  icon: <Compass className="w-4 h-4" /> },
+  { id: "architecture",  label: "Architecture",       icon: <Code2 className="w-4 h-4" /> },
+  { id: "deliverables",  label: "Deliverables",       icon: <Award className="w-4 h-4" /> },
+  { id: "stack",         label: "Tech Stack",         icon: <Layers className="w-4 h-4" /> },
 ];
 
 /* ─── Panel animation variants ─── */
@@ -305,90 +306,96 @@ export default function ProjectDetailsPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="px-6 sm:px-10 lg:px-12 pb-6"
           >
-            <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-900 shadow-[0_0_50px_rgba(0,0,0,0.7)] group">
-              {/* Ambient background glow */}
-              <div className="absolute inset-0 opacity-25">
-                <Image
-                  src={currentImage}
-                  alt={`${project.name} background`}
-                  className="w-full h-full object-cover blur-2xl scale-110"
-                  width={1920}
-                  height={1080}
-                  unoptimized
-                />
-              </div>
-
-              {/* Main crisp display */}
-              <div className="relative z-10 w-full h-full p-2.5">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentImage}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.25 }}
-                    className="w-full h-full"
-                  >
-                    <Image
-                      src={currentImage}
-                      alt={`${project.name} screenshot ${activeImgIndex + 1}`}
-                      className="rounded-xl w-full h-full object-contain bg-black/50"
-                      width={1920}
-                      height={1080}
-                      unoptimized
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Prev / Next Controls */}
-              {galleryImages.length > 1 && (
-                <>
-                  <button
-                    onClick={handlePrevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl"
-                    aria-label="Previous screenshot"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={handleNextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl"
-                    aria-label="Next screenshot"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-
-                  <div className="absolute bottom-3 right-3 z-20 px-3 py-1 rounded-full bg-black/85 border border-white/10 text-xs font-mono font-bold text-blue-400 backdrop-blur-md">
-                    {activeImgIndex + 1} / {galleryImages.length}
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Screenshot Caption & Detailed Description Banner */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentImage}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.25 }}
-                className="mt-3.5 p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-gray-800/80 backdrop-blur-md flex flex-col justify-between gap-1.5 shadow-lg"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-md bg-blue-500/10 border border-blue-500/20 text-[10px] font-mono font-bold text-blue-400 uppercase tracking-widest">
-                    SCREENSHOT 0{activeImgIndex + 1} OF 0{galleryImages.length}
-                  </span>
-                  <h4 className="text-sm sm:text-base font-bold text-white tracking-tight">
-                    {activeCaption.title}
-                  </h4>
+            {/* macOS Application Window Frame Showcase */}
+            <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-800/80 shadow-[0_0_50px_rgba(0,0,0,0.8)] group flex flex-col">
+              {/* macOS Window Header Bar */}
+              <div className="flex items-center justify-between px-4 py-2.5 bg-neutral-900/90 border-b border-gray-800/80 z-20 shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors" />
                 </div>
-                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                  {activeCaption.description}
-                </p>
-              </motion.div>
-            </AnimatePresence>
+                <div className="flex-1 max-w-sm mx-4 px-3 py-1 rounded-md bg-neutral-950/80 border border-gray-800 text-[11px] font-mono text-neutral-400 truncate text-center">
+                  app.varunkumar.dev / projects / {project.slug}
+                </div>
+                <div className="text-[10px] font-mono text-blue-400 font-bold px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">
+                  LIVE DEMO
+                </div>
+              </div>
+
+              {/* Window Content */}
+              <div className="relative flex-1 w-full h-full overflow-hidden bg-neutral-950">
+                {/* Ambient background glow */}
+                <div className="absolute inset-0 opacity-25">
+                  <Image
+                    src={currentImage}
+                    alt={`${project.name} background`}
+                    className="w-full h-full object-cover blur-2xl scale-110"
+                    width={1920}
+                    height={1080}
+                    unoptimized
+                  />
+                </div>
+
+                {/* Main crisp display */}
+                <div className="relative z-10 w-full h-full p-2">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentImage}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.25 }}
+                      className="w-full h-full"
+                    >
+                      <Image
+                        src={currentImage}
+                        alt={`${project.name} screenshot ${activeImgIndex + 1}`}
+                        className="rounded-xl w-full h-full object-contain bg-black/50"
+                        width={1920}
+                        height={1080}
+                        unoptimized
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* Prev / Next Controls */}
+                {galleryImages.length > 1 && (
+                  <>
+                    <button
+                      onClick={handlePrevImage}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
+                      aria-label="Previous screenshot"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={handleNextImage}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
+                      aria-label="Next screenshot"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+
+                    {/* Pagination Pill & Dots */}
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/80 border border-white/10 backdrop-blur-md">
+                      {galleryImages.map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setActiveImgIndex(idx)}
+                          className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                            idx === activeImgIndex
+                              ? "w-6 bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+                              : "w-2 bg-neutral-600 hover:bg-neutral-400"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Mobile-only horizontal thumbnail strip */}
             {galleryImages.length > 1 && (
@@ -434,6 +441,9 @@ export default function ProjectDetailsPage() {
               >
                 {activeTab === "overview" && (
                   <OverviewPanel project={project} />
+                )}
+                {activeTab === "visuals" && (
+                  <VisualsPanel project={project} />
                 )}
                 {activeTab === "architecture" && (
                   <ArchitecturePanel project={project} />
@@ -493,69 +503,70 @@ export default function ProjectDetailsPage() {
 /* ═══════════════════════════════════════════════════════════════ */
 
 function OverviewPanel({ project }: { project: Project }) {
-  const paragraphs = project.longDescription
-    ? project.longDescription.split("\n\n").filter(Boolean)
-    : [project.description];
-
   return (
-    <article className="space-y-10 max-w-4xl font-sans">
-      {/* Executive Overview Header */}
-      <header className="space-y-3 border-b border-gray-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
-          <Sparkles className="w-4 h-4" />
-          Overview
+    <article className="space-y-8 w-full max-w-7xl font-sans">
+      {/* Executive Overview Header Card */}
+      <header className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-blue-500/10 via-neutral-900/60 to-neutral-900/40 border border-blue-500/30 backdrop-blur-xl shadow-xl space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+            <Sparkles className="w-4 h-4" />
+            Executive Summary
+          </div>
+          <span className="text-xs font-mono font-bold text-neutral-400 bg-neutral-800/80 px-3 py-1 rounded-full border border-gray-700">
+            {project.category}
+          </span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          {project.name}
+
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+          {project.description}
         </h2>
       </header>
 
-      {/* Main Paragraphs */}
-      <div className="space-y-6 text-base sm:text-lg text-neutral-300 leading-relaxed font-light">
-        {paragraphs.map((para, idx) => (
-          <p key={idx} className="leading-relaxed">
-            {para}
-          </p>
-        ))}
-      </div>
-
-      {/* Problem & Solution Unboxed Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-gray-800/60">
-        {/* Problem Section */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-mono font-bold text-red-400 uppercase tracking-wider flex items-center gap-2">
-            <AlertCircle className="w-4 h-4" />
+      {/* Problem & Solution Glass Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Problem Card */}
+        <div className="p-6 rounded-2xl bg-red-500/[0.04] border border-red-500/20 backdrop-blur-md space-y-3 shadow-lg">
+          <div className="flex items-center gap-2.5 text-red-400 font-mono font-bold text-xs uppercase tracking-wider">
+            <div className="p-1.5 rounded-lg bg-red-500/10 border border-red-500/20">
+              <AlertCircle className="w-4 h-4" />
+            </div>
             The Challenge
-          </h3>
+          </div>
           <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
             {project.problemStatement}
           </p>
         </div>
 
-        {/* Solution Section */}
-        <div className="space-y-2">
-          <h3 className="text-sm font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4" />
+        {/* Solution Card */}
+        <div className="p-6 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/20 backdrop-blur-md space-y-3 shadow-lg">
+          <div className="flex items-center gap-2.5 text-emerald-400 font-mono font-bold text-xs uppercase tracking-wider">
+            <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <CheckCircle2 className="w-4 h-4" />
+            </div>
             The Engineering Solution
-          </h3>
+          </div>
           <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
             {project.solutionOverview}
           </p>
         </div>
       </div>
 
-      {/* Key Outcomes Unboxed */}
-      {project.metrics && project.metrics.length > 0 && (
-        <div className="pt-6 border-t border-gray-800/60 space-y-4">
-          <h3 className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest flex items-center gap-2">
-            <TrendingUp className="w-4 h-4" />
-            Key Outcomes
-          </h3>
-          <div className="flex flex-wrap gap-x-12 gap-y-6 pt-2">
-            {project.metrics.map((metric, idx) => (
-              <div key={idx} className="space-y-1">
-                <p className="text-4xl font-extrabold text-white font-mono">{metric.value}</p>
-                <p className="text-xs font-bold text-blue-400">{metric.label}</p>
+      {/* Core Capabilities Checklist */}
+      {project.details && project.details.length > 0 && (
+        <div className="p-6 rounded-2xl bg-neutral-900/50 border border-gray-800/80 space-y-4 shadow-lg">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+            <CheckCircle2 className="w-4 h-4" />
+            Core Platform Capabilities
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            {project.details.map((item, idx) => (
+              <div
+                key={idx}
+                className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-950/60 border border-gray-800/50 text-xs sm:text-sm text-neutral-300 font-light leading-relaxed"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0 shadow-[0_0_6px_rgba(96,165,250,0.6)]" />
+                <span>{item}</span>
               </div>
             ))}
           </div>
@@ -565,9 +576,54 @@ function OverviewPanel({ project }: { project: Project }) {
   );
 }
 
+function VisualsPanel({ project }: { project: Project }) {
+  if (!project.galleryDescriptions || Object.keys(project.galleryDescriptions).length === 0) {
+    return (
+      <article className="space-y-4 max-w-4xl font-sans text-neutral-400 text-sm">
+        No visual breakdown recorded for this project.
+      </article>
+    );
+  }
+
+  return (
+    <article className="space-y-6 w-full max-w-7xl font-sans">
+      <header className="space-y-2 border-b border-gray-800/80 pb-5">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <Compass className="w-4 h-4" />
+          Interface Breakdown
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Visual & Interface Highlights
+        </h2>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {Object.entries(project.galleryDescriptions).map(([imgPath, info], idx) => (
+          <div
+            key={imgPath}
+            className="p-5 rounded-2xl bg-neutral-900/60 border border-gray-800/80 hover:border-blue-500/40 transition-all duration-300 space-y-2 group shadow-md"
+          >
+            <div className="flex items-center gap-2.5 text-xs font-mono font-bold text-blue-400">
+              <span className="w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[10px]">
+                0{idx + 1}
+              </span>
+              <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-blue-300 transition-colors">
+                {info.title}
+              </h4>
+            </div>
+            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed pl-8">
+              {info.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 function ArchitecturePanel({ project }: { project: Project }) {
   return (
-    <article className="space-y-8 max-w-4xl font-sans">
+    <article className="space-y-8 w-full max-w-7xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
           <Code2 className="w-4 h-4" />
@@ -597,7 +653,7 @@ function ArchitecturePanel({ project }: { project: Project }) {
 
 function DeliverablesPanel({ project }: { project: Project }) {
   return (
-    <article className="space-y-8 max-w-4xl font-sans">
+    <article className="space-y-8 w-full max-w-7xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-6">
         <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
           <Award className="w-4 h-4" />

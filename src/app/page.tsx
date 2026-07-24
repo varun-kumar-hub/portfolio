@@ -31,6 +31,7 @@ import CustomCursor from "@/components/ui/custom-cursor";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { TextRevealCard } from "@/components/ui/text-reveal-card";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+import { RevealText } from "@/components/ui/reveal-text";
 import {
   IconBrandGithub,
   IconBrandLinkedin,
@@ -330,183 +331,191 @@ export default function Home() {
             className={`relative z-[2] min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
           >
 
-      {/* ─── Header ─── */}
-      <Navbar onReturnToIntro={() => setHasEntered(false)} />
+      {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
+      <div className="relative z-20 bg-[#050607] shadow-[0_35px_60px_rgba(0,0,0,0.95)] border-b border-white/10">
+        {/* ─── Header ─── */}
+        <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
-      {/* ─── Hero ─── */}
-      <section
-        id="home"
-        className="relative w-full min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:py-24"
-      >
-        {/* Main Content — floating on the starfield */}
-        <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
+        {/* ─── Hero ─── */}
+        <section
+          id="home"
+          className="relative w-full min-h-[92vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:py-24"
+        >
+          {/* Main Content — floating on the starfield */}
+          <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
 
-            {/* ── Text Side ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex w-full flex-col space-y-5 text-center sm:space-y-6 md:text-left"
-            >
-              {/* Specialization tag */}
-              <div className="flex justify-center md:justify-start">
-                <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-blue-300/80 backdrop-blur-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(96,165,250,0.6)]" />
-                  {profile.specialization}
-                </span>
-              </div>
+              {/* ── Text Side ── */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="flex w-full flex-col space-y-5 text-center sm:space-y-6 md:text-left"
+              >
+                {/* Specialization tag */}
+                <div className="flex justify-center md:justify-start">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-3 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold text-blue-300/80 backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(96,165,250,0.6)]" />
+                    {profile.specialization}
+                  </span>
+                </div>
 
-              {/* Name & Title in TextRevealCard */}
-              <div className="flex justify-center md:justify-start w-full my-2 overflow-x-hidden">
-                <TextRevealCard
-                  text={profile.name.short}
-                  revealText={profile.role}
-                  className="bg-transparent border-none p-0 w-full shadow-none max-w-4xl lg:max-w-5xl"
-                />
-              </div>
+                {/* Main Hero Headline using RevealText */}
+                <div className="flex justify-center md:justify-start w-full my-2 overflow-x-hidden">
+                  <RevealText
+                    text={profile.name.short}
+                    textColor="text-white"
+                    overlayColor="text-blue-400"
+                    fontSize="text-4xl sm:text-6xl lg:text-7xl"
+                    letterDelay={0.06}
+                    overlayDelay={0.04}
+                    overlayDuration={0.4}
+                    springDuration={500}
+                    className="justify-center md:justify-start"
+                  />
+                </div>
 
-              {/* Animated Flipping Subtitles */}
-              <div className="flex justify-center md:justify-start w-full my-2">
-                <ContainerTextFlip
-                  words={profile.subtitles}
-                  interval={4000}
-                />
-              </div>
+                {/* Animated Flipping Subtitles */}
+                <div className="flex justify-center md:justify-start w-full my-2">
+                  <ContainerTextFlip
+                    words={profile.subtitles}
+                    interval={4000}
+                  />
+                </div>
 
-              {/* Bio */}
-              <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-3xl mx-auto md:mx-0">
-                {profile.bio}
-              </p>
+                {/* Bio */}
+                <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-3xl mx-auto md:mx-0">
+                  {profile.bio}
+                </p>
 
-              {/* Ghost-style CTA buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 justify-center md:justify-start">
-                <a
-                  href="#projects"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-6 py-2.5 text-sm font-semibold text-blue-300 transition-all duration-300 hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_25px_rgba(96,165,250,0.15)] active:scale-95"
-                >
-                  View Projects
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-                <a
-                  href="#contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-700/50 px-6 py-2.5 text-sm font-semibold text-gray-400 transition-all duration-300 hover:border-gray-600 hover:text-gray-300 hover:bg-white/[0.03] active:scale-95"
-                >
-                  Get in Touch
-                </a>
-              </div>
-            </motion.div>
+                {/* Ghost-style CTA buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 justify-center md:justify-start">
+                  <a
+                    href="#projects"
+                    className="group inline-flex items-center justify-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-6 py-2.5 text-sm font-semibold text-blue-300 transition-all duration-300 hover:bg-blue-500/20 hover:border-blue-400/50 hover:shadow-[0_0_25px_rgba(96,165,250,0.15)] active:scale-95"
+                  >
+                    View Projects
+                    <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-700/50 px-6 py-2.5 text-sm font-semibold text-gray-400 transition-all duration-300 hover:border-gray-600 hover:text-gray-300 hover:bg-white/[0.03] active:scale-95"
+                  >
+                    Get in Touch
+                  </a>
+                </div>
+              </motion.div>
 
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── Projects Directory Portal ─── */}
-      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
-        <SectionHeading eyebrow="Project Directory" title="Categorized Engineering Work" icon={<FolderGit2 size={16} />}>
-          Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
-        </SectionHeading>
+        {/* ─── Projects Directory Portal ─── */}
+        <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
+          <SectionHeading eyebrow="Project Directory" title="Categorized Engineering Work" icon={<FolderGit2 size={16} />}>
+            Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
+          </SectionHeading>
 
-
-        {/* Horizontal Swiper Carousel for Project Cards */}
-        <div className="w-full flex justify-center items-center">
-          <style>{`
-            .projects-swiper {
-              width: 100%;
-              padding-top: 10px;
-              padding-bottom: 50px;
-              perspective: 1200px;
-            }
-            .projects-swiper .swiper-wrapper {
-              transform-style: preserve-3d;
-            }
-            .projects-swiper .swiper-slide {
-              height: auto;
-              opacity: 0.45;
-              transition: opacity 0.3s ease;
-            }
-            .projects-swiper .swiper-slide-active {
-              opacity: 1;
-            }
-            .projects-swiper .swiper-pagination-bullet-active {
-              background: var(--accent) !important;
-            }
-            .projects-swiper .swiper-button-next,
-            .projects-swiper .swiper-button-prev {
-              color: var(--accent);
-            }
-          `}</style>
-          <div className="w-full max-w-5xl">
-            <Swiper
-              className="projects-swiper"
-              spaceBetween={25}
-              autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-              }}
-              effect={"coverflow"}
-              grabCursor={true}
-              centeredSlides={true}
-              loop={projects.length > 1}
-              slidesPerView={1.1}
-              breakpoints={{
-                640: {
-                  slidesPerView: 1.6,
-                  spaceBetween: 25,
-                },
-                768: {
-                  slidesPerView: 2.2,
-                  spaceBetween: 30,
-                },
-                1024: {
-                  slidesPerView: 2.8,
-                  spaceBetween: 30,
-                }
-              }}
-              coverflowEffect={{
-                rotate: 15,
-                stretch: -10,
-                depth: 120,
-                modifier: 1,
-                slideShadows: false,
-              }}
-              pagination={{ clickable: true }}
-              navigation={true}
-              modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
-            >
-              {projects.map((project, idx) => (
-                  <SwiperSlide key={project.slug}>
-                    <ProjectCard project={project} index={idx} />
-                  </SwiperSlide>
-                ))}
-            </Swiper>
+          {/* Horizontal Swiper Carousel for Project Cards */}
+          <div className="w-full flex justify-center items-center">
+            <style>{`
+              .projects-swiper {
+                width: 100%;
+                padding-top: 10px;
+                padding-bottom: 50px;
+                perspective: 1200px;
+              }
+              .projects-swiper .swiper-wrapper {
+                transform-style: preserve-3d;
+              }
+              .projects-swiper .swiper-slide {
+                height: auto;
+                opacity: 0.45;
+                transition: opacity 0.3s ease;
+              }
+              .projects-swiper .swiper-slide-active {
+                opacity: 1;
+              }
+              .projects-swiper .swiper-pagination-bullet-active {
+                background: var(--accent) !important;
+              }
+              .projects-swiper .swiper-button-next,
+              .projects-swiper .swiper-button-prev {
+                color: var(--accent);
+              }
+            `}</style>
+            <div className="w-full max-w-5xl">
+              <Swiper
+                className="projects-swiper"
+                spaceBetween={25}
+                autoplay={{
+                  delay: 3500,
+                  disableOnInteraction: false,
+                }}
+                effect={"coverflow"}
+                grabCursor={true}
+                centeredSlides={true}
+                loop={projects.length > 1}
+                slidesPerView={1.1}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 1.6,
+                    spaceBetween: 25,
+                  },
+                  768: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 30,
+                  },
+                  1024: {
+                    slidesPerView: 2.8,
+                    spaceBetween: 30,
+                  }
+                }}
+                coverflowEffect={{
+                  rotate: 15,
+                  stretch: -10,
+                  depth: 120,
+                  modifier: 1,
+                  slideShadows: false,
+                }}
+                pagination={{ clickable: true }}
+                navigation={true}
+                modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
+              >
+                {projects.map((project, idx) => (
+                    <SwiperSlide key={project.slug}>
+                      <ProjectCard project={project} index={idx} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ─── Skills ─── */}
-      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
-            Languages, frameworks, database managers, and DevOps tools in my stack.
-          </SectionHeading>
-          <SkillsBento />
-        </div>
-      </section>
+        {/* ─── Skills ─── */}
+        <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
+              Languages, frameworks, database managers, and DevOps tools in my stack.
+            </SectionHeading>
+            <SkillsBento />
+          </div>
+        </section>
 
-      {/* ─── Experience ─── */}
-      <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
-        <div className="mx-auto max-w-6xl">
-          <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
-            Professional contributions and developer roles in tech groups.
-          </SectionHeading>
-          <ExperienceBento />
-        </div>
-      </section>
+        {/* ─── Experience ─── */}
+        <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
+          <div className="mx-auto max-w-6xl">
+            <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
+              Professional contributions and developer roles in tech groups.
+            </SectionHeading>
+            <ExperienceBento />
+          </div>
+        </section>
+      </div>
 
-      {/* ─── Footer with Integrated Contact Section ─── */}
+      {/* ─── Footer with Integrated Contact Section (Curtain Reveal Underneath) ─── */}
       <Footer profileName={profile.name.full} socialDockItems={socialDockItems} />
         </motion.main>
       ) : null}
