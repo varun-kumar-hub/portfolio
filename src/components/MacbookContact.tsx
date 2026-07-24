@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send } from "lucide-react";
+import { Send, X } from "lucide-react";
 
 interface MacbookContactProps {
   className?: string;
@@ -13,6 +13,8 @@ export default function MacbookContact({ className }: MacbookContactProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [isClickedOpen, setIsClickedOpen] = useState(false);
+  const [isManuallyClosed, setIsManuallyClosed] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Submit Handler connecting to `/api/contact`
@@ -50,12 +52,16 @@ export default function MacbookContact({ className }: MacbookContactProps) {
 
       const data = await response.json();
       if (response.ok && data.success) {
-        setStatusMessage({ type: "success", text: "Message sent! Confirmation email sent." });
+        setStatusMessage({ type: "success", text: "Message sent successfully!" });
+        setFormData({ name: "", email: "", message: "" });
         setTimeout(() => {
           setStatusMessage(null);
         }, 6000);
       } else {
-        setStatusMessage({ type: "error", text: data.error || "Failed to send message. Please try again." });
+        const errorText = data.error && data.error.length > 60
+          ? "Failed to send message (SMTP configuration error)."
+          : data.error || "Failed to send message. Please try again.";
+        setStatusMessage({ type: "error", text: errorText });
         setTimeout(() => setStatusMessage(null), 5000);
       }
     } catch (error: any) {
@@ -81,7 +87,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
   };
 
   const isTyping = Boolean(formData.name.trim() || formData.email.trim() || formData.message.trim());
-  const isOpen = isHovered || isFocused || isTyping || isSubmitting || Boolean(statusMessage);
+  const isOpen = (isHovered || isFocused || isTyping || isSubmitting || Boolean(statusMessage) || isClickedOpen) && !isManuallyClosed;
 
   // Mock keyboard rows to match design
   const keyboardRows = [
@@ -95,9 +101,19 @@ export default function MacbookContact({ className }: MacbookContactProps) {
 
   return (
     <div 
-      className={`relative w-full max-w-[420px] sm:max-w-[440px] lg:max-w-[460px] mx-auto py-1 ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
+      className={`relative w-full max-w-[420px] sm:max-w-[440px] lg:max-w-[460px] mx-auto py-1 cursor-pointer select-none ${className}`}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setIsManuallyClosed(false);
+      }}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => {
+        if (isManuallyClosed) {
+          setIsManuallyClosed(false);
+        } else {
+          setIsClickedOpen((prev) => !prev);
+        }
+      }}
     >
       {/* 3D Scene Wrapper */}
       <div 
@@ -164,14 +180,34 @@ export default function MacbookContact({ className }: MacbookContactProps) {
               {/* macOS Style Window Titlebar */}
               <div className="h-6 w-full bg-[#18181b] border-b border-white/[0.04] px-3 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#ef4444]/80" />
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsManuallyClosed(true);
+                    }}
+                    title="Close Macbook Lid"
+                    className="w-2.5 h-2.5 rounded-full bg-[#ef4444] hover:bg-[#dc2626] transition-colors cursor-pointer border-none flex items-center justify-center p-0 group"
+                  >
+                    <X className="w-1.5 h-1.5 text-black opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </button>
                   <div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/80" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80" />
                 </div>
                 <span className="text-[9px] font-sans font-medium text-neutral-500 tracking-wider">
                   mail://varunkumar.dev
                 </span>
-                <div className="w-10" />
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsManuallyClosed(true);
+                  }}
+                  className="flex items-center gap-1 text-[8px] font-mono font-bold text-neutral-400 hover:text-red-400 transition-colors cursor-pointer px-1.5 py-0.5 rounded bg-neutral-800/80 border border-white/10"
+                >
+                  <X className="w-2.5 h-2.5" />
+                  <span>Close</span>
+                </button>
               </div>
 
               {/* Display Content: Form */}

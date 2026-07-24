@@ -26,6 +26,7 @@ export interface Project {
   live: string;
   image: string;
   gallery: string[];
+  galleryDescriptions?: Record<string, { title: string; description: string }>;
 }
 
 export const projects: Project[] = [
@@ -34,28 +35,47 @@ export const projects: Project[] = [
     name: "LearnX",
     category: "AI & EdTech",
     featured: true,
-    description: "An AI-driven educational platform using the Google Gemini API that served 200+ users, improving concept retention by 30% through automated visual knowledge graphs.",
-    longDescription: "LearnX is an interactive, AI-powered learning environment engineered to help students grasp complex subjects faster. By parsing dynamic course materials with the Google Gemini API, the platform builds responsive, visual knowledge graphs that reveal connections between concepts. The application includes a dashboard with gamified learning streaks, dynamic quiz generation, and collaborative card decks for seamless peer study.",
-    problemStatement: "Students frequently struggle with dense, unstructured academic text and isolated concepts, leading to fragmented learning habits, poor exam retention, and inefficient study preparation.",
-    solutionOverview: "LearnX bridges the gap between passive reading and active mastery. Powered by the Google Gemini API, it automatically parses syllabus documents, textbooks, and notes into structured JSON Directed Acyclic Graphs (DAGs) rendered as visual knowledge maps. It pairs these graphs with adaptive active-recall quizzes and gamified streaks to keep learners engaged.",
+    description: "An AI-powered learning platform that brings everything together in one place — creating structured learning paths for any subject with interactive knowledge graphs, AI-guided study, and community collaboration.",
+    longDescription: "Learning a new topic usually means switching between YouTube videos, blogs, PDFs, documentation, and many different websites. Since the information is scattered, learning becomes confusing and unorganized. LearnX solves this by bringing everything together in one intelligent platform. Instead of searching across multiple resources, LearnX creates structured learning paths for any subject — making learning simpler, faster, and more effective. It features AI-powered knowledge graphs, adaptive quizzes, flashcards, a learning analytics dashboard, and community-driven content sharing.",
+    problemStatement: "Learning a new topic usually means switching between YouTube videos, blogs, PDFs, documentation, and many different websites. This takes a lot of time, and since the information is scattered, learning can become confusing and unorganized.",
+    solutionOverview: "LearnX is an AI-powered learning platform that brings everything together in one place. Instead of searching across multiple resources, LearnX creates a structured learning path for any subject, making learning simpler, faster, and more effective. It gives students one intelligent platform where they can learn, practice, revise, track their progress, and truly understand concepts in a structured way.",
     architecture: [
       {
-        title: "Visual Knowledge Graph Engine",
-        description: "Parses course material using Gemini Flash to extract concept nodes, relationships, and hierarchies, rendering interactive force-directed graphs."
+        title: "AI Knowledge Graph Engine",
+        description: "Converts any topic into an interactive visual map, helping students understand how concepts are connected through force-directed graph rendering."
       },
       {
-        title: "Adaptive Active-Recall Quiz Generator",
-        description: "Synthesizes multi-difficulty multiple choice and open-ended questions on the fly, tracking user accuracy and suggesting review nodes."
+        title: "Structured Learning Paths",
+        description: "Generates detailed explanations, diagrams, images, and examples so learners always know what to study next in a logical progression."
       },
       {
-        title: "Collaborative Study Deck Hub",
-        description: "Allows students to publish, fork, and share custom card decks and visual notes with peer groups in real time."
+        title: "AI Learning Assistant",
+        description: "Answers questions, explains difficult concepts, clears doubts, and guides students throughout their learning journey with contextual help."
+      },
+      {
+        title: "Quiz & Flashcard Engine",
+        description: "AI-generated quizzes with multiple difficulty levels and instant feedback, plus flashcards for quick revision and better memory retention through active recall."
+      },
+      {
+        title: "Learning Analytics Dashboard",
+        description: "Tracks quiz scores, accuracy, learning history, strengths, weaknesses, completed topics, mastered concepts, and overall progress."
+      },
+      {
+        title: "Community Learning Hub",
+        description: "Users can publish, discover, and clone learning paths and knowledge graphs shared by others, enabling collaborative learning at scale."
       }
     ],
     details: [
-      "Generated dynamic quizzes with instant feedback and performance tracking.",
-      "Engineered interactive dashboards tracking progress, daily activity, and learning streaks.",
-      "Supported community sharing, allowing users to publish and clone learning content."
+      "AI Knowledge Graph that converts any topic into an interactive visual map showing how concepts are connected.",
+      "Structured Learning Paths with detailed explanations, diagrams, images, and examples.",
+      "AI Learning Assistant that answers questions, explains difficult concepts, and guides students throughout their journey.",
+      "AI-Generated Quizzes with multiple difficulty levels and instant feedback to test understanding.",
+      "Flashcards for quick revision and better memory retention through active recall.",
+      "Learning Analytics Dashboard to track quiz scores, accuracy, learning history, strengths, and weaknesses.",
+      "Progress Tracking showing completed topics, mastered concepts, topics in progress, and overall completion percentage.",
+      "Community Learning where users can publish, discover, and clone learning paths and knowledge graphs shared by others.",
+      "Subject Management to create unlimited subjects, organize learning materials, and build a personalized learning library.",
+      "Personal API Key Integration allowing users to securely add their own AI API key for more control and personalized AI-powered learning."
     ],
     metrics: [
       { label: "Active Users", value: "200+", description: "Students served during initial campus release" },
@@ -78,9 +98,18 @@ export const projects: Project[] = [
       "/projects/learnx/img-5.png",
       "/projects/learnx/img-6.png",
       "/projects/learnx/img-7.png",
-      "/projects/learnx/img-8.png",
-      "/projects/learnx/img-9.png"
-    ]
+      "/projects/learnx/img-8.png"
+    ],
+    galleryDescriptions: {
+      "/projects/learnx/img-1.png": { title: "LearnX Landing Page & Hero Header", description: "Landing hero featuring the tagline 'Turn Any Topic Into a Structured Knowledge Graph', platform navigation, 'Go to Dashboard' CTA, and PWA mobile app install prompt." },
+      "/projects/learnx/img-2.png": { title: "My Subjects Dashboard & Learning Library", description: "User dashboard organizing active learning subjects ('Curriculum SDG Mapping', 'predictive analysis', 'Software engineering', 'Binomial theorem', 'sql') with public visibility toggles and 'Ask AI Tutor' widget." },
+      "/projects/learnx/img-3.png": { title: "Subject Analytics & Learning Overview", description: "Detailed Subject Overview for 'Curriculum SDG Mapping' tracking unlocked topics (12 total), learning status, weekly study activity chart, and 'Up Next' recommended modules." },
+      "/projects/learnx/img-4.png": { title: "Structured Learning Topic Reader", description: "In-depth concept lesson reader featuring numbered sub-sections ('1. Understanding SDGs', '2. What is Curriculum SDG Mapping?'), highlighted callouts, real-world examples, and AI assistant." },
+      "/projects/learnx/img-5.png": { title: "Comparative Matrix & Analytical Content", description: "Lesson reader comparison table contrasting 'Traditional Curriculum' vs 'SDG-Mapped Curriculum' across Primary Focus, Relevance, Outcomes, and Student Role." },
+      "/projects/learnx/img-6.png": { title: "Interactive Flashcard Revision Deck", description: "Flip-to-reveal flashcard revision mode for active recall, card counter ('Card 2 / 7'), and instant self-assessment controls." },
+      "/projects/learnx/img-7.png": { title: "Quiz Performance Analytics & Score Hub", description: "Comprehensive Quiz Dashboard showing recorded attempts (5), average score (43%), best score (60%), difficulty rating (2.8/5), recent score bar chart, and 'Attempt Quiz' trigger." },
+      "/projects/learnx/img-8.png": { title: "Community Sharing & Knowledge Path Cloning", description: "Public Community Hub where users search, explore, and clone public knowledge graphs shared by peer learners ('DBMS', 'HTML', 'Software Engineering')." }
+    }
   },
   {
     slug: "resume-analyzer",
@@ -132,39 +161,69 @@ export const projects: Project[] = [
       "/projects/resume-analyzer/img-7.png",
       "/projects/resume-analyzer/img-8.png",
       "/projects/resume-analyzer/img-9.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/resume-analyzer/img-1.png": { title: "Resume AI Landing Page", description: "Landing hero featuring the tagline 'Optimize your resume for ATS & Humans', feature callouts ('ATS Parsing', 'Skill Gap Analysis', 'Instant Feedback'), and 'Analyze My Resume' CTA." },
+      "/projects/resume-analyzer/img-2.png": { title: "Resume AI Dashboard & Upload Portal", description: "User dashboard displaying total parsed resumes (11), average ATS score (73%), drag-and-drop file upload interface supporting PDF and DOCX formats." },
+      "/projects/resume-analyzer/img-3.png": { title: "ATS Compatibility Score & Improvement Areas", description: "ATS Compatibility Score report (75/100) detailing completeness, keywords, formatting rating, improvement warnings (missing phone number/LinkedIn), and section highlights." },
+      "/projects/resume-analyzer/img-4.png": { title: "Extracted Resume Sections & Skill Tags", description: "NLP text extraction breakdown showing Summary, Experience, Education, and parsed skill badges with character counts." },
+      "/projects/resume-analyzer/img-5.png": { title: "My Resumes Library & Scan History", description: "Grid view of saved user resume scans ('varun resume.pdf', 'Professional_Resume', 'Sample_AI_ML_Resume') showing ATS score badges and scan timestamps." },
+      "/projects/resume-analyzer/img-6.png": { title: "Job Application Kanban Tracker", description: "Job Application Tracker categorizing applications into Applied, Interviewing, Offer, and Rejected columns with salary target markers." },
+      "/projects/resume-analyzer/img-7.png": { title: "AI Resume Tailor & Cover Letter Generator", description: "AI Resume Tailor comparing candidate resume against a target job description to generate bullet point rewrites and AI cover letters." },
+      "/projects/resume-analyzer/img-8.png": { title: "Generative AI Cover Letter Synthesis", description: "Cover letter generator crafting a custom application cover letter tailored specifically to the target role's key technical requirements." },
+      "/projects/resume-analyzer/img-9.png": { title: "Target Job Description Match & Missing Keywords", description: "Job Description Vector Matcher detailing JD Match Score (31%), Matched Skills (5), Missing Skills (11), and explicit missing keyword tags ('adobe', 'backend', 'html', 'javascript', 'sql')." }
+    }
   },
   {
     slug: "researchx-ai",
     name: "ResearchX AI",
     category: "Multi-Agent Autonomous AI",
     featured: true,
-    description: "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research.",
-    longDescription: "ResearchX AI is a Multi-Agent Research & Verification Platform designed for autonomous research. It understands query intent, runs parallel multi-source searches, extracts and deduplicates data, cross-verifies facts, and generates comprehensive research reports with confidence scores. Features an interactive dashboard, personal API key management, and conversational follow-ups.",
-    problemStatement: "Conducting thorough technical or business research across the web requires manually opening dozens of tabs, cross-verifying unverified claims, filtering promotional content, and synthesizing disorganized notes.",
-    solutionOverview: "ResearchX AI automates end-to-end research by deploying a swarm of specialized AI agents: Query Intent Planner, Parallel Web Crawler, Deduplication Engine, Multi-Source Fact Verifier, and AI Analyst Report Synthesizer. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks facts across distinct sources, and generates fully cited Markdown reports.",
+    description: "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research with confidence scores and source citations.",
+    longDescription: "ResearchX AI is a Multi-Agent Research & Verification Platform built for the AI Business Research Challenge. Unlike traditional web scrapers, it understands user intent, performs parallel multi-source research, extracts structured information, verifies facts, resolves conflicting data, removes duplicate records, and generates comprehensive research reports with confidence scores and source citations. It supports Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research — all through an interactive dashboard with conversational AI follow-ups.",
+    problemStatement: "Conducting thorough technical or business research across the web requires manually opening dozens of tabs, cross-verifying unverified claims, filtering promotional content, and synthesizing disorganized notes — a process that wastes 10+ hours per research project.",
+    solutionOverview: "ResearchX AI automates end-to-end research by deploying a pipeline of 8 specialized AI agents. From query understanding to final report generation, each agent handles a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks facts across independent sources, and generates fully cited Markdown reports with an interactive AI Analyst for follow-up questions.",
     architecture: [
       {
-        title: "Intent Decomposition & Query Planner",
-        description: "Breaks down complex user questions into distinct search sub-queries across multiple angles and source types."
+        title: "Query Understanding Agent",
+        description: "Intent classification, entity detection, query validation, and research planning to understand exactly what the user needs."
       },
       {
-        title: "Parallel Multi-Provider Discovery",
-        description: "Executes asynchronous concurrent queries across Serper, Tavily, Wikipedia, and official public API endpoints."
+        title: "Research Planner Agent",
+        description: "Breaks complex queries into targeted research tasks and selects the most trusted sources for each sub-query."
       },
       {
-        title: "Cross-Verification & Hallucination Guard",
-        description: "Checks claims across independent web sources, calculates credibility confidence scores, and flags conflicting data."
+        title: "Discovery Agent",
+        description: "Performs parallel searches across Google (Serper), Tavily, Wikipedia, LinkedIn, official sites, and public directories simultaneously."
       },
       {
-        title: "Synthesis & Interactive Analyst Chat",
-        description: "Compiles evidence into structured Markdown reports with live inline citations and conversational Q&A capability."
+        title: "Extraction Agent",
+        description: "Extracts structured information from raw web content, cleans data, normalizes formats, and preserves source attribution."
+      },
+      {
+        title: "Deduplication Agent",
+        description: "Detects duplicate entities across multiple sources and intelligently merges records to eliminate redundancy."
+      },
+      {
+        title: "Verification Agent",
+        description: "Cross-verifies facts across independent web sources, detects conflicts, and assigns credibility confidence scores."
+      },
+      {
+        title: "Report Generation Agent",
+        description: "Generates executive summaries and structured research reports with inline citations, evidence links, and confidence metrics."
+      },
+      {
+        title: "AI Analyst Agent",
+        description: "Answers follow-up questions with evidence-backed responses, source citations, and conversational Q&A capability."
       }
     ],
     details: [
-      "Engineered an autonomous multi-agent pipeline: Query Understanding, Research Planner, Discovery, Extraction, Deduplication, Verification, Report Generation, and AI Analyst.",
+      "Engineered an autonomous 8-agent pipeline: Query Understanding → Research Planner → Discovery → Extraction → Deduplication → Verification → Report Generation → AI Analyst.",
       "Implemented parallel search across Google (Serper), Tavily, Wikipedia, LinkedIn, official directories with browser-only API key storage and auto-fallback.",
-      "Built validation mechanisms that cross-verify records, detect conflicts, resolve duplicate entities, and assign confidence scores."
+      "Built cross-verification mechanisms that validate facts across independent sources, detect conflicts, resolve duplicate entities, and assign confidence scores.",
+      "Supports 9 research types: Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research.",
+      "Personal API Key Management — Bring Your Own Gemini API Key with browser-only storage (never stored in DB), auto-fallback to server key, and seamless secure management.",
+      "Interactive dashboard with real-time research progress tracking and conversational AI Analyst for evidence-backed follow-up Q&A."
     ],
     metrics: [
       { label: "Time Saved", value: "10+ hrs", description: "Saved per research project vs manual workflow" },
@@ -186,9 +245,17 @@ export const projects: Project[] = [
       "/projects/researchx-ai/img-4.png",
       "/projects/researchx-ai/img-5.png",
       "/projects/researchx-ai/img-6.png",
-      "/projects/researchx-ai/img-7.png",
-      "/projects/researchx-ai/img-8.png"
-    ]
+      "/projects/researchx-ai/img-7.png"
+    ],
+    galleryDescriptions: {
+      "/projects/researchx-ai/img-1.png": { title: "ResearchX Landing Command Center", description: "Landing interface featuring 'What will you research today?', Gemini 2.5 Flash active model badge, sample query prompts, and research launcher." },
+      "/projects/researchx-ai/img-2.png": { title: "Executive Intelligence Brief & Metrics", description: "Research Campaign Intelligence Brief for 'OSI layers of computer network' showing 140 Facts Found, 136 High Confidence facts, 98% Average Confidence, and Pexels reference image gallery." },
+      "/projects/researchx-ai/img-3.png": { title: "Verified Fact Overview Matrix", description: "Grid breakdown of verified atomic facts extracted from multi-source web scraping with deduplication tags." },
+      "/projects/researchx-ai/img-4.png": { title: "Structured Analytical Categorization", description: "Research breakdown organized by 'Purpose & Significance', 'Comparison with TCP/IP Model', and 'Advantages & Disadvantages'." },
+      "/projects/researchx-ai/img-5.png": { title: "Verification Consensus Audit & Confidence Gauges", description: "Verification Consensus Audit showing overall 98% Score Consensus Gauge, individual verified claims, 95% Confidence rating badges, and citation links." },
+      "/projects/researchx-ai/img-6.png": { title: "Source Verification & Citation Index", description: "Directory of external sources (GeeksforGeeks, Cloudflare, Imperva, AWS, IBM) with domain reliability scores (95%-100%) and direct link triggers." },
+      "/projects/researchx-ai/img-7.png": { title: "Real-Time Agent Execution Console & Pipeline Status", description: "Multi-agent pipeline status window showing 5-step progress (Query → Search → Scrape → Merge → Verify), active campaign target parameters, and live console terminal execution log." }
+    }
   },
   {
     slug: "tripcrafter-pro",
@@ -245,7 +312,16 @@ export const projects: Project[] = [
       "/projects/tripcrafter-pro/img-5.png",
       "/projects/tripcrafter-pro/img-6.png",
       "/projects/tripcrafter-pro/img-7.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/tripcrafter-pro/img-1.png": { title: "TripCrafter Hero & Travel Architect Landing", description: "Immersive landing hero featuring 'Explore the World Your Way' tagline, mountain background visual, and 'Start Planning' quick trigger." },
+      "/projects/tripcrafter-pro/img-2.png": { title: "AI-Powered Smart Planner Form", description: "Smart trip planner input form taking destination ('Kodaikanal'), start/end dates, currency (INR), budget level ('Medium'), group size ('Group of Friends'), and activity interests." },
+      "/projects/tripcrafter-pro/img-3.png": { title: "Custom Generated Trip Itinerary Header", description: "AI-generated trip title ('Misty Peaks & Culinary Heights: Kodaikanal Friends' Escape'), estimated cost range (INR 12,000-18,000/person), pacing info, and Day 1 weather preview." },
+      "/projects/tripcrafter-pro/img-4.png": { title: "Day-by-Day Hour Schedule & Activity Timelines", description: "Hourly breakdown view with time tags (11:30 AM Check-in, 1:00 PM South Indian Lunch, 2:30 PM Boating & Cycling at Kodaikanal Lake), cost estimates, location markers, and photo upload memory capture." },
+      "/projects/tripcrafter-pro/img-5.png": { title: "Interactive Route Map & Multi-Day Geospatial Pinning", description: "Interactive Mapbox route view displaying color-coded pins for each day's route ('Day 1: Lakeside Charm', 'Day 2: Trekking Thrills', 'Day 3: Wilderness Waterfalls')." },
+      "/projects/tripcrafter-pro/img-6.png": { title: "Live Destination Weather & Travel Forecast Widget", description: "Weather Forecast overlay presenting live conditions (12° Sunny/Partly Cloudy), 3-day temperature preview, and AI Travel Tips." },
+      "/projects/tripcrafter-pro/img-7.png": { title: "AI Trip Concierge & Smart Packing Checklist", description: "Trip Concierge floating assistant for on-the-go queries, Smart Packing Suggestions checklist (warm layers, rain gear, trekking shoes, power bank), and multi-day accordion schedule." }
+    }
   },
   {
     slug: "ai-tools-tracker",
@@ -293,7 +369,14 @@ export const projects: Project[] = [
       "/projects/ai-tools-tracker/img-3.png",
       "/projects/ai-tools-tracker/img-4.png",
       "/projects/ai-tools-tracker/img-5.png"
-    ]
+    ],
+    galleryDescriptions: {
+      "/projects/ai-tools-tracker/img-1.png": { title: "FutureTech AI Tools Hero & Metrics Dashboard", description: "Landing hero featuring 'Discover the Best AI Tools Daily', real-time statistics (15,327 Total Tools, 9+ Categories, 105 Added Today, 324+ Tags Tracked), search bar, and Latest Arrivals feed." },
+      "/projects/ai-tools-tracker/img-2.png": { title: "Scraped Latest Arrivals Directory", description: "Grid view of freshly scraped tools and articles across Data & Analytics, Code & Development, Productivity & Automation with source domain badges ('Dev.to')." },
+      "/projects/ai-tools-tracker/img-3.png": { title: "Detailed Tool Metadata & External Source Inspector", description: "Individual Tool Details modal for 'a RAG Chatbot with FastAPI and ChromaDB' displaying parsed tags (#ai, #python, #tutorial), category, date added, and 'Visit Website' outbound link." },
+      "/projects/ai-tools-tracker/img-4.png": { title: "Direct Source Web Redirection (Dev.to / ProductHunt)", description: "Seamless web routing directly launching the original publisher page ('Dev.to - Building a RAG Chatbot with FastAPI and ChromaDB') upon clicking." },
+      "/projects/ai-tools-tracker/img-5.png": { title: "Category Navigation Hub & Tool Counts", description: "Explore AI Tools grid organizing tools by category ('Productivity' 42 tools, 'Marketing & Sales' 247, 'Code & Development' 249, 'Design & Creative' 78)." }
+    }
   }
 ];
 

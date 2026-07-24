@@ -155,8 +155,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error("Nodemailer contact error:", error);
+    const errorMessage = error?.message?.includes("535") || error?.message?.includes("INVALID LOGIN")
+      ? "SMTP Authentication Failed. Please check your GMAIL_USER & GMAIL_PASS environment settings."
+      : error?.message || "Failed to send message.";
+
     return NextResponse.json(
-      { error: error?.message || "Failed to send message." },
+      { error: errorMessage },
       { status: 500 }
     );
   }
