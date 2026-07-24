@@ -308,7 +308,7 @@ export default function Footer({ profileName }: FooterProps = {}) {
         style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
       >
         {/* Fixed Footer underneath revealed by curtain scroll */}
-        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-[#05070a] text-white cinematic-footer-wrapper pt-16 md:pt-20 pb-3">
+        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-[#05070a] text-white cinematic-footer-wrapper pt-24 sm:pt-28 md:pt-32 pb-3">
           
           {/* Ambient Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[50vh] w-[70vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
@@ -331,7 +331,7 @@ export default function Footer({ profileName }: FooterProps = {}) {
           </div>
 
           {/* 2. Main Section Content - Dual Column Clean Layout */}
-          <div className="relative z-20 flex flex-1 items-center justify-center px-4 sm:px-6 lg:px-8 w-full max-w-6xl mx-auto my-auto">
+          <div className="relative z-20 flex-1 flex flex-col justify-start pt-6 sm:pt-8 px-4 sm:px-6 lg:px-8 w-full max-w-6xl mx-auto overflow-hidden">
             
             <div ref={contentRef} className="w-full grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-12 items-center">
               
@@ -359,27 +359,6 @@ export default function Footer({ profileName }: FooterProps = {}) {
 
                 {/* Directory Cards */}
                 <div className="space-y-2 mt-1">
-                  {/* Email Card */}
-                  <MagneticButton
-                    as="a"
-                    href={`mailto:${profile.contact.email}`}
-                    className="footer-glass-pill p-3 rounded-xl flex items-center justify-between group text-left"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
-                        <IconMail size={16} />
-                      </div>
-                      <div>
-                        <p className="text-[8px] font-bold text-neutral-500 uppercase tracking-wider">Email</p>
-                        <p className="text-xs font-semibold text-neutral-200 group-hover:text-blue-400 transition-colors">
-                          {profile.contact.email}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="text-[9px] font-bold text-blue-400 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                      Send ↗
-                    </span>
-                  </MagneticButton>
 
                   {/* Location Card */}
                   <div className="footer-glass-pill p-3 rounded-xl flex items-center gap-3">
