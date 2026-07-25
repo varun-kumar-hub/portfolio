@@ -42,11 +42,11 @@ export const Component = () => {
                         </g>
                     </motion.svg>
                     <motion.div 
-                        className='w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center cursor-pointer'
+                        className='w-10 h-10 bg-red-400 rounded-full flex items-center justify-center cursor-pointer'
                         whileHover={{ 
                             scale: 1.1, 
-                            backgroundColor: "#60a5fa",
-                            boxShadow: "0 0 15px rgba(96, 165, 250, 0.7)" 
+                            backgroundColor: "#f87171",
+                            boxShadow: "0 0 15px rgba(248, 113, 113, 0.7)" 
                         }}
                         whileTap={{ scale: 0.95 }}
                     >
@@ -58,7 +58,7 @@ export const Component = () => {
                 </motion.div>
                 <div className='flex flex-col gap-4'>
                     <motion.div 
-                        className="title text-4xl text-center font-bold bg-gradient-to-r from-blue-300 to-purple-400 bg-clip-text text-transparent"
+                        className="title text-4xl text-center font-bold bg-gradient-to-r from-red-300 to-rose-400 bg-clip-text text-transparent"
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.6 }}

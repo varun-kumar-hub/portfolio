@@ -260,7 +260,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 <ContainerTextFlip
                   words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
                   interval={4000}
-                  className="py-1 px-4 text-[11px] border border-blue-500/20 bg-blue-500/5 text-blue-300 font-sans rounded-full tracking-wide shadow-none"
+                  className="py-1 px-4 text-[11px] border border-red-500/30 bg-red-500/10 text-red-200 font-sans rounded-full tracking-wide shadow-none"
                 />
               </motion.div>
             )}
@@ -301,15 +301,15 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                       strokeDashoffset={`${2 * Math.PI * 20 * (1 - progress)}`}
                       style={{
                         transition: "stroke-dashoffset 0.1s linear",
-                        filter: progress > 0 ? "drop-shadow(0 0 4px rgba(96, 165, 250, 0.5))" : "none",
+                        filter: progress > 0 ? "drop-shadow(0 0 4px rgba(239, 68, 68, 0.5))" : "none",
                       }}
                     />
                   </svg>
-                  <span className="absolute text-[9px] font-bold text-blue-400/80 tabular-nums">
+                  <span className="absolute text-[9px] font-bold text-red-400/80 tabular-nums">
                     {progress > 0 ? `${Math.round(progress * 100)}%` : ""}
                   </span>
                 </div>
-                <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${progress > 0 ? "text-blue-400 animate-pulse font-semibold" : "text-neutral-600"}`}>
+                <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${progress > 0 ? "text-red-400 animate-pulse font-semibold" : "text-neutral-600"}`}>
                   {progress > 0 ? "DECRYPTING IDENTITY..." : "HOLD ANYWHERE TO START DECRYPTION"}
                 </p>
               </motion.div>

@@ -64,8 +64,9 @@ export default function MacbookContact({ className }: MacbookContactProps) {
         setStatusMessage({ type: "error", text: errorText });
         setTimeout(() => setStatusMessage(null), 5000);
       }
-    } catch (error: any) {
-      if (error?.name === "AbortError" || error?.name === "TimeoutError") {
+    } catch (error: unknown) {
+      const err = error as { name?: string } | undefined;
+      if (err?.name === "AbortError" || err?.name === "TimeoutError") {
         setStatusMessage({ type: "error", text: "Request timed out. Please try again." });
       } else {
         console.error("Contact form error:", error);
@@ -157,7 +158,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
             }}
           >
             <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500/60 blur-[1px]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500/60 blur-[1px]" />
             </div>
           </div>
 
@@ -171,7 +172,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
             {/* Camera Dot */}
             <div className="w-full h-3 flex items-center justify-center shrink-0">
               <div className="w-1.5 h-1.5 rounded-full bg-[#0d0d0d] border border-white/5 flex items-center justify-center">
-                <div className="w-0.5 h-0.5 rounded-full bg-blue-500/80" />
+                <div className="w-0.5 h-0.5 rounded-full bg-red-500/80" />
               </div>
             </div>
 
@@ -227,7 +228,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         placeholder="Your name"
-                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
+                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
                       />
                     </div>
                     <div className="space-y-0.5">
@@ -243,7 +244,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         placeholder="your.email@example.com"
-                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
+                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
                       />
                     </div>
                   </div>
@@ -260,7 +261,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                       onFocus={handleFocus}
                       onBlur={handleBlur}
                       placeholder="Type your message here..."
-                      className="w-full flex-1 min-h-[44px] bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:bg-neutral-900 transition-all font-sans resize-none relative z-30"
+                      className="w-full flex-1 min-h-[44px] bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans resize-none relative z-30"
                     />
                   </div>
 
@@ -272,7 +273,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                       handleSubmit(e);
                     }}
                     disabled={isSubmitting}
-                    className="w-full py-1.5 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-semibold text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors cursor-pointer border-none relative z-50 pointer-events-auto"
+                    className="w-full py-1.5 rounded-md bg-red-600 hover:bg-red-500 text-white font-semibold text-[10px] uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors cursor-pointer border-none relative z-50 pointer-events-auto"
                   >
                     {isSubmitting ? (
                       <span className="w-3 h-3 rounded-full border-2 border-white/30 border-t-white animate-spin" />

@@ -16,7 +16,6 @@ import {
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  TrendingUp,
   AlertCircle,
   Compass,
 } from "lucide-react";
@@ -62,37 +61,27 @@ export default function ProjectDetailsPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params?.slug as string;
-  const [project, setProject] = useState<Project | null>(null);
+  const project = projects.find((p) => p.slug === slug) || null;
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("overview");
-  const [[tabDirection, prevTabIdx], setTabMeta] = useState<[number, number]>([0, 0]);
+  const [[tabDirection], setTabMeta] = useState<[number, number]>([0, 0]);
 
   useEffect(() => {
-    if (slug) {
-      const found = projects.find((p) => p.slug === slug);
-      if (found) {
-        setProject(found);
-      } else {
-        router.push("/");
-      }
+    if (slug && !project) {
+      router.push("/");
     }
-  }, [slug, router]);
+  }, [slug, project, router]);
 
   if (!project) {
     return (
       <div className="min-h-screen bg-[#040406] flex items-center justify-center">
-        <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin" />
       </div>
     );
   }
 
   const galleryImages = project.gallery && project.gallery.length > 0 ? project.gallery : [project.image];
   const currentImage = galleryImages[activeImgIndex] || project.image;
-
-  const activeCaption = project.galleryDescriptions?.[currentImage] || {
-    title: `${project.name} Feature Overview 0${activeImgIndex + 1}`,
-    description: `Detailed visual walkthrough showing key user interface elements of ${project.name}.`
-  };
 
   // Find next project for bottom navigation
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
@@ -156,18 +145,18 @@ export default function ProjectDetailsPage() {
                     {isActive && (
                       <motion.div
                         layoutId="activeTabPill"
-                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-600/20 to-indigo-600/15 border border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.1)]"
+                        className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-600/20 to-rose-600/15 border border-red-500/30 shadow-[0_0_20px_rgba(239,68,68,0.1)]"
                         transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
                       />
                     )}
                     {isActive && (
                       <motion.div
                         layoutId="activeTabEdge"
-                        className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
+                        className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]"
                         transition={{ type: "spring", duration: 0.5, bounce: 0.2 }}
                       />
                     )}
-                    <span className={`relative z-10 ${isActive ? "text-blue-400" : ""}`}>
+                    <span className={`relative z-10 ${isActive ? "text-red-400" : ""}`}>
                       {tab.icon}
                     </span>
                     <span className="relative z-10">{tab.label}</span>
@@ -177,7 +166,7 @@ export default function ProjectDetailsPage() {
             </div>
 
             {/* Divider */}
-            <div className="hidden md:block my-5 h-px bg-gradient-to-r from-blue-500/15 via-gray-800/40 to-transparent" />
+            <div className="hidden md:block my-5 h-px bg-gradient-to-r from-red-500/15 via-gray-800/40 to-transparent" />
 
             {/* Screenshot Gallery Label */}
             <p className="hidden md:block text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-500 px-1 mb-3">
@@ -194,7 +183,7 @@ export default function ProjectDetailsPage() {
                     onClick={() => setActiveImgIndex(index)}
                     className={`relative shrink-0 w-full aspect-video rounded-xl overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
                       isSelected
-                        ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] scale-[1.02]"
+                        ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)] scale-[1.02]"
                         : "border-gray-800/60 opacity-45 hover:opacity-100 hover:border-gray-600"
                     }`}
                   >
@@ -218,13 +207,13 @@ export default function ProjectDetailsPage() {
             <div className="hidden md:block mt-auto pt-4 border-t border-gray-800/40">
               <Link
                 href={`/projects/${nextProject.slug}`}
-                className="group flex items-center gap-3 p-3 rounded-xl hover:bg-blue-500/5 transition-all duration-300"
+                className="group flex items-center gap-3 p-3 rounded-xl hover:bg-red-500/5 transition-all duration-300"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-[9px] font-mono uppercase tracking-widest text-blue-400 font-bold">Next</p>
-                  <p className="text-sm font-bold text-white group-hover:text-blue-300 transition-colors truncate">{nextProject.name}</p>
+                  <p className="text-[9px] font-mono uppercase tracking-widest text-red-400 font-bold">Next</p>
+                  <p className="text-sm font-bold text-white group-hover:text-red-300 transition-colors truncate">{nextProject.name}</p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-blue-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-red-400 shrink-0 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
 
@@ -246,7 +235,7 @@ export default function ProjectDetailsPage() {
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
               Back
             </Link>
-            <span className="text-xs uppercase font-mono font-bold tracking-widest text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20">
+            <span className="text-xs uppercase font-mono font-bold tracking-widest text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
               {project.category}
             </span>
           </div>
@@ -261,7 +250,7 @@ export default function ProjectDetailsPage() {
             <div className="flex items-center justify-between gap-4 mb-2">
               <div className="flex items-center gap-2">
                 <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
-                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.6)]" />
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
                   Featured Case Study
                 </div>
               </div>
@@ -290,7 +279,7 @@ export default function ProjectDetailsPage() {
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 font-bold text-xs uppercase tracking-wider text-white transition-all duration-300 shadow-[0_0_20px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] cursor-pointer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 font-bold text-xs uppercase tracking-wider text-white transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] cursor-pointer"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Live Application
@@ -318,7 +307,7 @@ export default function ProjectDetailsPage() {
                 <div className="flex-1 max-w-sm mx-4 px-3 py-1 rounded-md bg-neutral-950/80 border border-gray-800 text-[11px] font-mono text-neutral-400 truncate text-center">
                   app.varunkumar.dev / projects / {project.slug}
                 </div>
-                <div className="text-[10px] font-mono text-blue-400 font-bold px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20">
+                <div className="text-[10px] font-mono text-red-400 font-bold px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20">
                   LIVE DEMO
                 </div>
               </div>
@@ -365,14 +354,14 @@ export default function ProjectDetailsPage() {
                   <>
                     <button
                       onClick={handlePrevImage}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
+                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-red-600 hover:border-red-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
                       aria-label="Previous screenshot"
                     >
                       <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={handleNextImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-red-600 hover:border-red-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
                       aria-label="Next screenshot"
                     >
                       <ChevronRight className="w-5 h-5" />
@@ -386,7 +375,7 @@ export default function ProjectDetailsPage() {
                           onClick={() => setActiveImgIndex(idx)}
                           className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                             idx === activeImgIndex
-                              ? "w-6 bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+                              ? "w-6 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
                               : "w-2 bg-neutral-600 hover:bg-neutral-400"
                           }`}
                         />
@@ -408,7 +397,7 @@ export default function ProjectDetailsPage() {
                       onClick={() => setActiveImgIndex(index)}
                       className={`relative shrink-0 w-24 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
                         isSelected
-                          ? "border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)] scale-105"
+                          ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)] scale-105"
                           : "border-gray-800/80 opacity-50 hover:opacity-100 hover:border-gray-600"
                       }`}
                     >
@@ -471,13 +460,13 @@ export default function ProjectDetailsPage() {
               </Link>
               <Link
                 href={`/projects/${nextProject.slug}`}
-                className="group flex items-center justify-between gap-4 p-4 px-6 rounded-2xl border border-blue-500/20 bg-blue-500/5 hover:bg-blue-500/10 hover:border-blue-500/40 transition-all duration-300 min-w-[240px]"
+                className="group flex items-center justify-between gap-4 p-4 px-6 rounded-2xl border border-red-500/20 bg-red-500/5 hover:bg-red-500/10 hover:border-red-500/40 transition-all duration-300 min-w-[240px]"
               >
                 <div className="text-left">
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold">Next Case Study</p>
-                  <p className="text-base font-bold text-white group-hover:text-blue-300 transition-colors">{nextProject.name}</p>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-red-400 font-bold">Next Case Study</p>
+                  <p className="text-base font-bold text-white group-hover:text-red-300 transition-colors">{nextProject.name}</p>
                 </div>
-                <ArrowRight className="w-5 h-5 text-blue-400 group-hover:translate-x-1 transition-transform shrink-0" />
+                <ArrowRight className="w-5 h-5 text-red-400 group-hover:translate-x-1 transition-transform shrink-0" />
               </Link>
             </section>
           </div>
@@ -506,9 +495,9 @@ function OverviewPanel({ project }: { project: Project }) {
   return (
     <article className="space-y-8 w-full max-w-7xl font-sans">
       {/* Executive Overview Header Card */}
-      <header className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-blue-500/10 via-neutral-900/60 to-neutral-900/40 border border-blue-500/30 backdrop-blur-xl shadow-xl space-y-4">
+      <header className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-red-500/10 via-neutral-900/60 to-neutral-900/40 border border-red-500/30 backdrop-blur-xl shadow-xl space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
             <Sparkles className="w-4 h-4" />
             Executive Summary
           </div>
@@ -554,7 +543,7 @@ function OverviewPanel({ project }: { project: Project }) {
       {/* Core Capabilities Checklist */}
       {project.details && project.details.length > 0 && (
         <div className="p-6 rounded-2xl bg-neutral-900/50 border border-gray-800/80 space-y-4 shadow-lg">
-          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
             <CheckCircle2 className="w-4 h-4" />
             Core Platform Capabilities
           </div>
@@ -565,7 +554,7 @@ function OverviewPanel({ project }: { project: Project }) {
                 key={idx}
                 className="flex items-start gap-2.5 p-3 rounded-xl bg-neutral-950/60 border border-gray-800/50 text-xs sm:text-sm text-neutral-300 font-light leading-relaxed"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 shrink-0 shadow-[0_0_6px_rgba(96,165,250,0.6)]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 shrink-0 shadow-[0_0_6px_rgba(248,113,113,0.6)]" />
                 <span>{item}</span>
               </div>
             ))}
@@ -588,7 +577,7 @@ function VisualsPanel({ project }: { project: Project }) {
   return (
     <article className="space-y-6 w-full max-w-7xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-5">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
           <Compass className="w-4 h-4" />
           Interface Breakdown
         </div>
@@ -601,13 +590,13 @@ function VisualsPanel({ project }: { project: Project }) {
         {Object.entries(project.galleryDescriptions).map(([imgPath, info], idx) => (
           <div
             key={imgPath}
-            className="p-5 rounded-2xl bg-neutral-900/60 border border-gray-800/80 hover:border-blue-500/40 transition-all duration-300 space-y-2 group shadow-md"
+            className="p-5 rounded-2xl bg-neutral-900/60 border border-gray-800/80 hover:border-red-500/40 transition-all duration-300 space-y-2 group shadow-md"
           >
-            <div className="flex items-center gap-2.5 text-xs font-mono font-bold text-blue-400">
-              <span className="w-6 h-6 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-[10px]">
+            <div className="flex items-center gap-2.5 text-xs font-mono font-bold text-red-400">
+              <span className="w-6 h-6 rounded-full bg-red-500/10 border border-red-500/20 flex items-center justify-center text-[10px]">
                 0{idx + 1}
               </span>
-              <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-blue-300 transition-colors">
+              <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-red-300 transition-colors">
                 {info.title}
               </h4>
             </div>
@@ -625,7 +614,7 @@ function ArchitecturePanel({ project }: { project: Project }) {
   return (
     <article className="space-y-8 w-full max-w-7xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
           <Code2 className="w-4 h-4" />
           Technical Design
         </div>
@@ -637,7 +626,7 @@ function ArchitecturePanel({ project }: { project: Project }) {
       <div className="space-y-8">
         {project.architecture.map((mod, idx) => (
           <div key={idx} className="space-y-2 pb-6 border-b border-gray-800/40 last:border-0">
-            <span className="text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
+            <span className="text-xs font-mono font-bold text-red-400 uppercase tracking-widest">
               Module 0{idx + 1}
             </span>
             <h3 className="text-xl font-bold text-white">{mod.title}</h3>
@@ -655,7 +644,7 @@ function DeliverablesPanel({ project }: { project: Project }) {
   return (
     <article className="space-y-8 w-full max-w-7xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
           <Award className="w-4 h-4" />
           Features & Capabilities
         </div>
@@ -673,7 +662,7 @@ function DeliverablesPanel({ project }: { project: Project }) {
 
           return (
             <li key={idx} className="flex items-start gap-4 text-neutral-300 text-base font-light leading-relaxed">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2.5 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2.5 shrink-0" />
               <div>
                 {hasTitle ? (
                   <span>
@@ -703,13 +692,12 @@ function ProjectSkillChip({ name }: { name: string }) {
       whileHover={{ y: -2, scale: 1.02 }}
       transition={{ duration: 0.2 }}
       style={{
-        borderColor: isHovered ? color : "rgba(255, 255, 255, 0.1)",
-        boxShadow: isHovered ? `0 0 16px ${color}` : "none",
-        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.1)" : "rgba(255, 255, 255, 0.03)",
+        borderColor: isHovered ? color : undefined,
+        boxShadow: isHovered ? `0 0 14px ${color}` : "none",
       }}
       className={cn(
         "flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
-        "text-gray-200 border-gray-800/40 bg-gray-900/40"
+        "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
       )}
     >
       <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
@@ -765,7 +753,7 @@ function BentoTechCard({ group, index }: { group: { category: string; items: str
       <div className="relative z-10 mb-5">
         <div className="flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gray-950/80 border border-gray-800/40 shadow-sm shrink-0">
-            <Code2 className="w-5 h-5 text-blue-400" />
+            <Code2 className="w-5 h-5 text-red-400" />
           </div>
           <h3 className="text-lg font-extrabold text-white tracking-tight">
             {group.category}
@@ -787,7 +775,7 @@ function TechStackPanel({ project }: { project: Project }) {
   return (
     <article className="space-y-8 max-w-4xl font-sans">
       <header className="space-y-2 border-b border-gray-800/80 pb-6">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-blue-400">
+        <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-400">
           <Layers className="w-4 h-4" />
           Technologies
         </div>

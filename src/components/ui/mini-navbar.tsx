@@ -124,10 +124,10 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   }, [isOpen]);
 
   const logoElement = (
-    <div className="relative w-6 h-6 flex items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)] dark:bg-blue-500/5">
-      <Terminal className="w-3.5 h-3.5 text-blue-500 dark:text-blue-400" strokeWidth={2.5} />
+    <div className="relative w-6 h-6 flex items-center justify-center rounded-lg bg-red-500/10 border border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.2)] dark:bg-red-500/5">
+      <Terminal className="w-3.5 h-3.5 text-red-500 dark:text-red-400" strokeWidth={2.5} />
       {/* Subtle pulsing background glow */}
-      <span className="absolute inset-0 rounded-lg bg-blue-500/15 animate-pulse" />
+      <span className="absolute inset-0 rounded-lg bg-red-500/15 animate-pulse" />
     </div>
   );
 
@@ -153,7 +153,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
        {/* Ambient Glow */}
        <div className="absolute inset-0 -m-1 rounded-full
                      hidden sm:block
-                     bg-gradient-to-r from-blue-500 to-indigo-500
+                     bg-gradient-to-r from-red-500 to-rose-600
                      opacity-40 filter blur-md pointer-events-none
                      transition-all duration-300 ease-out
                      group-hover:opacity-75 group-hover:blur-lg group-hover:-m-2.5"></div>
@@ -165,7 +165,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
          href="/resume.pdf"
          target="_blank"
          rel="noopener noreferrer"
-         className="relative z-10 block text-center px-4.5 py-2 sm:px-3.5 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-full transition-all duration-200 w-full sm:w-auto cursor-pointer shadow-sm"
+         className="relative z-10 block text-center px-4.5 py-2 sm:px-3.5 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-full transition-all duration-200 w-full sm:w-auto cursor-pointer shadow-sm"
        >
          Resume
        </a>
@@ -180,12 +180,12 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                            px-4 sm:pl-6 sm:pr-6 py-2.5 backdrop-blur-md
                            ${headerShapeClass}
                            navbar-shimmer-border
-                           border border-blue-500/10 bg-white/80 dark:border-blue-500/15 dark:bg-[#07070a7a]
-                           shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(59,130,246,0.04)]
+                           border border-red-500/10 bg-white/80 dark:border-red-500/15 dark:bg-[#07070a7a]
+                           shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(239,68,68,0.04)]
                            transition-[border-radius] duration-300 ease-in-out`}>
 
           {/* Gloss reflection line across top edge */}
-          <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent pointer-events-none" />
 
           <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
             <div className="flex items-center gap-2">
@@ -239,13 +239,13 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="sm:hidden fixed inset-0 z-[9999] bg-[#060709]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto"
           >
-            {/* Subtle Top Blue Ambient Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
+            {/* Subtle Top Red Ambient Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             {/* Top Bar inside Menu */}
             <div className="relative z-10 flex justify-between items-center w-full pb-5 border-b border-white/10">
               <div className="flex items-center gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
+                <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
                 <span className="text-sm font-bold tracking-widest text-white uppercase font-heading">VARUN KUMAR</span>
               </div>
 
@@ -277,13 +277,13 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                         onClick={() => setIsOpen(false)}
                         className={`inline-flex items-center gap-2.5 text-2xl sm:text-3xl font-extrabold tracking-tight font-heading transition-all duration-300 ${
                           isActive
-                            ? "text-blue-400 translate-x-1"
+                            ? "text-red-400 translate-x-1"
                             : "text-gray-400 hover:text-white hover:translate-x-1"
                         }`}
                       >
                         <span>{link.label}</span>
                         {isActive && (
-                          <span className="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.9)]" />
+                          <span className="w-2 h-2 rounded-full bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.9)]" />
                         )}
                       </a>
                     </motion.div>
@@ -304,7 +304,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                     }}
                     className="flex items-center justify-center gap-2 w-full px-4 py-3 text-xs font-bold border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-red-400" />
                     Intro Portal
                   </button>
                 </div>
@@ -314,7 +314,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 text-xs font-bold text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-full transition-all duration-300 cursor-pointer shadow-md active:scale-95"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-full transition-all duration-300 cursor-pointer shadow-md active:scale-95"
                   >
                     <FileText className="w-3.5 h-3.5 text-white" />
                     Resume.PDF
@@ -325,8 +325,8 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
               {/* Status footer bar */}
               <div className="flex justify-between items-center text-[11px] text-gray-400 font-medium">
                 <span>AI & ML Engineer</span>
-                <span className="flex items-center gap-1.5 text-blue-400 font-semibold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
+                <span className="flex items-center gap-1.5 text-red-400 font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_6px_rgba(248,113,113,0.8)]" />
                   Available for Roles
                 </span>
               </div>

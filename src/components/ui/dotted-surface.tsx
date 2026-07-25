@@ -89,7 +89,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			points.rotation.x += 0.00006;
 
 			// Handle Particle Gravity Well Collapse (Option 3)
-			const targetProgress = typeof window !== "undefined" ? ((window as any).holdProgress || 0) : 0;
+			const targetProgress = typeof window !== "undefined" ? ((window as unknown as { holdProgress?: number }).holdProgress || 0) : 0;
 			
 			dampedProgress += (targetProgress - dampedProgress) * 0.07; // Smooth damping
 
@@ -108,9 +108,9 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 					const z0 = originalPositions[i + 2];
 
 					// Collapse towards center
-					let x = x0 * ease;
-					let y = y0 * ease;
-					let z = z0 * ease;
+					const x = x0 * ease;
+					const y = y0 * ease;
+					const z = z0 * ease;
 
 					// Swirl around Z-axis
 					const rx = x * cosA - y * sinA;
@@ -152,6 +152,8 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 			animationId,
 		};
 
+		const currentContainer = containerRef.current;
+
 		// Cleanup
 		return () => {
 			window.removeEventListener('resize', handleResize);
@@ -172,8 +174,8 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 
 				sceneRef.current.renderer.dispose();
 
-				if (containerRef.current && sceneRef.current.renderer.domElement) {
-					containerRef.current.removeChild(
+				if (currentContainer && sceneRef.current.renderer.domElement) {
+					currentContainer.removeChild(
 						sceneRef.current.renderer.domElement,
 					);
 				}

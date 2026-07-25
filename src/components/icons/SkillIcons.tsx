@@ -3,13 +3,11 @@ import {
   Brain,
   Cpu,
   Database,
-  GitBranch,
   Network,
   RefreshCw,
   Server,
   Terminal,
   Layers,
-  Container,
 } from "lucide-react";
 
 interface IconProps {
@@ -396,7 +394,7 @@ export function getSkillMeta(skillName: string): {
     case "iot":
       return { icon: <Cpu size={24} className="text-amber-500" />, color: "rgba(245, 158, 11, 0.4)" };
     case "relational databases":
-      return { icon: <Database size={24} className="text-blue-500" />, color: "rgba(59, 130, 246, 0.4)" };
+      return { icon: <Database size={24} className="text-red-500" />, color: "rgba(239, 68, 68, 0.4)" };
     case "big data":
       return { icon: <Server size={24} className="text-teal-500" />, color: "rgba(20, 184, 166, 0.4)" };
     case "data warehousing":

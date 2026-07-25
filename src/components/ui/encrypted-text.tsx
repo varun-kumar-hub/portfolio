@@ -34,18 +34,7 @@ function generateRandomCharacter(charset: string): string {
   return charset.charAt(index);
 }
 
-function generateGibberishPreservingSpaces(
-  original: string,
-  charset: string,
-): string {
-  if (!original) return "";
-  let result = "";
-  for (let i = 0; i < original.length; i += 1) {
-    const ch = original[i];
-    result += ch === " " ? " " : generateRandomCharacter(charset);
-  }
-  return result;
-}
+
 
 export const EncryptedText: React.FC<EncryptedTextProps> = ({
   text,
@@ -61,22 +50,19 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
   const isInView = useInView(ref, { once: true });
 
   const [revealCount, setRevealCount] = useState<number>(0);
+  const [scrambleChars, setScrambleChars] = useState<string[]>(() => {
+    if (!text) return [];
+    return text.split("").map((ch) => (ch === " " ? " " : generateRandomCharacter(charset)));
+  });
   const animationFrameRef = useRef<number | null>(null);
   const startTimeRef = useRef<number>(0);
   const lastFlipTimeRef = useRef<number>(0);
-  const scrambleCharsRef = useRef<string[]>(
-    text ? generateGibberishPreservingSpaces(text, charset).split("") : [],
-  );
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!text || !isInView) return;
 
-    const initial = text
-      ? generateGibberishPreservingSpaces(text, charset)
-      : "";
-    scrambleCharsRef.current = initial.split("");
     startTimeRef.current = performance.now();
-    lastFlipTimeRef.current = startTimeRef.current;
+    lastFlipTimeRef.current = performance.now();
 
     if (progress !== undefined) {
       // If progress is controlled externally, we don't increment it by time, we just scramble
@@ -89,16 +75,15 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
           const totalLength = text.length;
           const currentRevealCount = Math.floor(progress * totalLength);
 
-          for (let index = 0; index < totalLength; index += 1) {
-            if (index >= currentRevealCount) {
-              if (text[index] !== " ") {
-                scrambleCharsRef.current[index] =
-                  generateRandomCharacter(charset);
-              } else {
-                scrambleCharsRef.current[index] = " ";
+          setScrambleChars((prev) => {
+            const next = [...prev];
+            for (let index = 0; index < totalLength; index += 1) {
+              if (index >= currentRevealCount) {
+                next[index] = text[index] === " " ? " " : generateRandomCharacter(charset);
               }
             }
-          }
+            return next;
+          });
           lastFlipTimeRef.current = now;
           setRevealCount(currentRevealCount);
         }
@@ -114,7 +99,6 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
       };
     } else {
       // Time-based auto reveal
-      setRevealCount(0);
       let isCancelled = false;
 
       const update = (now: number) => {
@@ -127,32 +111,29 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
           Math.floor(elapsedMs / Math.max(1, revealDelayMs)),
         );
 
-        setRevealCount(currentRevealCount);
-
-        if (currentRevealCount >= totalLength) {
-          return;
-        }
-
         const timeSinceLastFlip = now - lastFlipTimeRef.current;
+
         if (timeSinceLastFlip >= Math.max(0, flipDelayMs)) {
-          for (let index = 0; index < totalLength; index += 1) {
-            if (index >= currentRevealCount) {
-              if (text[index] !== " ") {
-                scrambleCharsRef.current[index] =
-                  generateRandomCharacter(charset);
-              } else {
-                scrambleCharsRef.current[index] = " ";
+          setScrambleChars((prev) => {
+            const next = [...prev];
+            for (let index = 0; index < totalLength; index += 1) {
+              if (index >= currentRevealCount) {
+                next[index] = text[index] === " " ? " " : generateRandomCharacter(charset);
               }
             }
-          }
+            return next;
+          });
           lastFlipTimeRef.current = now;
         }
 
-        animationFrameRef.current = requestAnimationFrame(update);
+        setRevealCount(currentRevealCount);
+
+        if (currentRevealCount < totalLength) {
+          animationFrameRef.current = requestAnimationFrame(update);
+        }
       };
 
       animationFrameRef.current = requestAnimationFrame(update);
-
       return () => {
         isCancelled = true;
         if (animationFrameRef.current !== null) {
@@ -160,7 +141,7 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
         }
       };
     }
-  }, [isInView, text, revealDelayMs, charset, flipDelayMs, progress]);
+  }, [isInView, text, revealDelayMs, flipDelayMs, charset, progress]);
 
   if (!text) return null;
 
@@ -179,8 +160,7 @@ export const EncryptedText: React.FC<EncryptedTextProps> = ({
           ? char
           : char === " "
             ? " "
-            : (scrambleCharsRef.current[index] ??
-              generateRandomCharacter(charset));
+            : (scrambleChars[index] ?? generateRandomCharacter(charset));
 
         return (
           <span

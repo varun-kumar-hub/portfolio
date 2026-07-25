@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const taglines = [
   "Engineering the AI-Driven Future",
@@ -36,9 +36,11 @@ export default function TypingTagline() {
           setDisplayedText(displayedText.slice(0, -1));
         }, 28);
       } else {
-        // Finished deleting, move to next tagline
-        setCurrentIndex((prev) => (prev + 1) % taglines.length);
-        setIsTyping(true);
+        // Finished deleting, wait brief delay then move to next tagline
+        timeoutRef.current = setTimeout(() => {
+          setCurrentIndex((prev) => (prev + 1) % taglines.length);
+          setIsTyping(true);
+        }, 50);
       }
     }
 
@@ -47,8 +49,6 @@ export default function TypingTagline() {
     };
   }, [displayedText, isTyping, currentIndex]);
 
-  // Extract the highlighted word (first word that has special meaning)
-  const parts = displayedText.split(" ");
   const highlightWords = ["AI-Driven", "Full-Stack", "Intelligent", "Scalable"];
   
   const renderText = () => {
@@ -60,8 +60,8 @@ export default function TypingTagline() {
           {idx > 0 && " "}
           {isHighlight ? (
             <span
-              className="text-blue-400/90"
-              style={{ textShadow: "0 0 12px rgba(96, 165, 250, 0.3)" }}
+              className="text-red-400/90"
+              style={{ textShadow: "0 0 12px rgba(239, 68, 68, 0.3)" }}
             >
               {word}
             </span>
@@ -77,7 +77,7 @@ export default function TypingTagline() {
     <h2 className="text-base sm:text-lg md:text-2xl font-medium text-gray-400 tracking-wide min-h-[1.8em]">
       {renderText()}
       <motion.span
-        className="inline-block w-[2px] h-[1em] bg-blue-400 ml-0.5 align-middle"
+        className="inline-block w-[2px] h-[1em] bg-red-400 ml-0.5 align-middle"
         animate={{ opacity: [1, 0] }}
         transition={{
           duration: 0.6,

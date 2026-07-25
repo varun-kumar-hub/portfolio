@@ -30,11 +30,11 @@ export const TextRevealCard = ({
     }
   }, []);
 
-  function mouseMoveHandler(event: any) {
+  function mouseMoveHandler(event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) {
     event.preventDefault();
 
-    const { clientX } = event;
-    if (cardRef.current) {
+    const clientX = "touches" in event ? event.touches[0]?.clientX : event.clientX;
+    if (cardRef.current && clientX !== undefined) {
       const relativeX = clientX - left;
       const percentage = (relativeX / localWidth) * 100;
       setWidthPercentage(Math.min(112, Math.max(0, percentage)));
@@ -97,7 +97,7 @@ export const TextRevealCard = ({
             style={{
               textShadow: "4px 4px 15px rgba(0,0,0,0.5)",
             }}
-            className="text-lg sm:text-2xl md:text-4xl lg:text-5xl py-2 sm:py-4 md:py-6 font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent select-none whitespace-nowrap font-heading tracking-tight leading-none"
+            className="text-lg sm:text-2xl md:text-4xl lg:text-5xl py-2 sm:py-4 md:py-6 font-extrabold bg-gradient-to-r from-red-400 via-rose-500 to-red-600 bg-clip-text text-transparent select-none whitespace-nowrap font-heading tracking-tight leading-none"
           >
             {revealText}
           </p>
@@ -154,30 +154,47 @@ export const TextRevealCardDescription = ({
   );
 };
 
+interface StarData {
+  top: number;
+  left: number;
+  moveX: number;
+  moveY: number;
+  opacity: number;
+  duration: number;
+}
+
 const Stars = () => {
-  const randomMove = () => Math.random() * 4 - 2;
-  const randomOpacity = () => Math.random();
-  const random = () => Math.random();
+  const [stars] = useState<StarData[]>(() =>
+    Array.from({ length: 80 }, (_, idx) => ({
+      top: (idx * 17) % 100,
+      left: (idx * 29) % 100,
+      moveX: (idx % 5) - 2,
+      moveY: ((idx * 3) % 5) - 2,
+      opacity: (((idx * 7) % 10) + 1) / 10,
+      duration: (idx % 10) + 20,
+    }))
+  );
+
   return (
     <div className="absolute inset-0">
-      {[...Array(80)].map((_, i) => (
+      {stars.map((star, i) => (
         <motion.span
           key={`star-${i}`}
           animate={{
-            top: `calc(${random() * 100}% + ${randomMove()}px)`,
-            left: `calc(${random() * 100}% + ${randomMove()}px)`,
-            opacity: randomOpacity(),
+            top: `calc(${star.top}% + ${star.moveY}px)`,
+            left: `calc(${star.left}% + ${star.moveX}px)`,
+            opacity: star.opacity,
             scale: [1, 1.2, 0],
           }}
           transition={{
-            duration: random() * 10 + 20,
+            duration: star.duration,
             repeat: Infinity,
             ease: "linear",
           }}
           style={{
             position: "absolute",
-            top: `${random() * 100}%`,
-            left: `${random() * 100}%`,
+            top: `${star.top}%`,
+            left: `${star.left}%`,
             width: `2px`,
             height: `2px`,
             backgroundColor: "white",

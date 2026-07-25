@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import {
   IconBrandGithub,
@@ -36,11 +37,12 @@ export default function FloatingDockDemo() {
     {
       title: "Aceternity UI",
       icon: (
-        <img
+        <Image
           src="https://assets.aceternity.com/logo-dark.png"
           width={20}
           height={20}
           alt="Aceternity Logo"
+          unoptimized
         />
       ),
       href: "#",

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Inter } from "next/font/google";
+import { Outfit, Inter, Syne, Space_Grotesk, Orbitron } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 
@@ -12,6 +12,24 @@ const outfit = Outfit({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  display: "swap",
+});
+
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  variable: "--font-orbitron",
   display: "swap",
 });
 
@@ -42,7 +60,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`dark scroll-smooth antialiased ${outfit.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`dark scroll-smooth antialiased ${outfit.variable} ${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${orbitron.variable}`}
+    >
       <body suppressHydrationWarning>
         <ThemeProvider>{children}</ThemeProvider>
       </body>

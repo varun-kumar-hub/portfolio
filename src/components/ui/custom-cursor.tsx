@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useSyncExternalStore } from "react";
 
 interface BurstParticle {
   x: number;
@@ -22,8 +22,10 @@ interface GravityRipple {
   speed: number;
 }
 
+const emptySubscribe = () => () => {};
+
 export default function CustomCursor() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const dotRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
@@ -32,10 +34,6 @@ export default function CustomCursor() {
   const burstParticles = useRef<BurstParticle[]>([]);
   const ripples = useRef<GravityRipple[]>([]);
   const lastRipplePos = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     if (!mounted) return;

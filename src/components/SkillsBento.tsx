@@ -10,11 +10,11 @@ import { cn } from "@/lib/utils";
 const skillCategories = [
   {
     title: "Frontend Development",
-    icon: <Monitor className="w-5 h-5 text-blue-500" />,
+    icon: <Monitor className="w-5 h-5 text-red-500" />,
     colSpan: "md:col-span-3",
     description: "Building responsive, modern, and fluid interfaces with smooth client-side interactions.",
     skills: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
-    glowColor: "rgba(59, 130, 246, 0.07)",
+    glowColor: "rgba(239, 68, 68, 0.07)",
   },
   {
     title: "Backend & Databases",
@@ -78,13 +78,12 @@ function SkillChip({ name }: SkillChipProps) {
       whileHover={{ y: -2, scale: 1.02 }}
       transition={{ duration: 0.2 }}
       style={{
-        borderColor: isHovered ? color : "rgba(229, 231, 235, 0.2)",
-        boxShadow: isHovered ? `0 0 16px ${color}` : "none",
-        backgroundColor: isHovered ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.25)",
+        borderColor: isHovered ? color : undefined,
+        boxShadow: isHovered ? `0 0 14px ${color}` : "none",
       }}
       className={cn(
         "flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
-        "text-gray-800 dark:text-gray-200 border-gray-200/20 dark:border-gray-800/20 dark:bg-gray-900/10 dark:hover:bg-gray-900/40"
+        "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
       )}
     >
       <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">

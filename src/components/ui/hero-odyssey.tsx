@@ -356,7 +356,7 @@ export function HeroSection() {
 
 
   // State for lightning hue
-  const [lightningHue, setLightningHue] = useState(220); // Default to blue
+  const [lightningHue, setLightningHue] = useState(4); // Default to crimson red
 
   // Sync state change to custom property on mount and updates
   useEffect(() => {

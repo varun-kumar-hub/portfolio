@@ -3,6 +3,7 @@
 import { ReactNode, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useOnClickOutside } from 'usehooks-ts';
+import { cn } from '@/lib/utils';
 
 type FloatingButtonProps = {
   className?: string;
@@ -46,14 +47,14 @@ function FloatingButton({ className, children, triggerContent, orientation = 've
   const ref = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useOnClickOutside(ref as any, () => setIsOpen(false));
+  useOnClickOutside(ref as React.RefObject<HTMLElement>, () => setIsOpen(false));
 
   const listClasses = orientation === 'horizontal'
     ? "flex flex-row items-center absolute bottom-14 left-1/2 -translate-x-1/2 gap-2 z-20"
     : "flex flex-col items-center absolute bottom-14 gap-2 z-20";
 
   return (
-    <div className="flex flex-col items-center relative" ref={ref}>
+    <div ref={ref} className={cn("relative inline-block flex flex-col items-center", className)}>
       <AnimatePresence>
         {isOpen && (
           <motion.ul

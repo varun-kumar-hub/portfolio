@@ -19,7 +19,7 @@ interface RevealTextProps {
 export function RevealText({
   text = "STUNNING",
   textColor = "text-white",
-  overlayColor = "text-blue-400",
+  overlayColor = "text-red-400",
   fontSize = "text-4xl sm:text-6xl lg:text-7xl",
   letterDelay = 0.08,
   overlayDelay = 0.05,

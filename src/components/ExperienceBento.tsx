@@ -11,10 +11,10 @@ const contributionCards = [
   {
     title: "Frontend Optimization",
     subtitle: "React & Tailwind Performance",
-    icon: <Monitor className="w-5 h-5 text-blue-500" />,
+    icon: <Monitor className="w-5 h-5 text-red-500" />,
     details: "Optimized performance for 3+ secure web applications, reducing page load times by 20% using React and Tailwind CSS. Engineered responsive, accessible UI elements for 500+ student chapter members.",
     tag: "Performance",
-    glowColor: "rgba(59, 130, 246, 0.08)",
+    glowColor: "rgba(239, 68, 68, 0.08)",
   },
   {
     title: "Security Workshops",

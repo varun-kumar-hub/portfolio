@@ -11,7 +11,6 @@ import {
   IconBrandGithub,
   IconBrandLinkedin,
   IconBrandInstagram,
-  IconMail,
   IconFileText,
   IconMapPin,
 } from "@tabler/icons-react";
@@ -38,10 +37,10 @@ const STYLES = `
   --pill-inset-shadow: rgba(0, 0, 0, 0.8);
   --pill-border: rgba(255, 255, 255, 0.1);
   
-  --pill-bg-1-hover: rgba(59, 130, 246, 0.15);
-  --pill-bg-2-hover: rgba(59, 130, 246, 0.05);
-  --pill-border-hover: rgba(96, 165, 250, 0.4);
-  --pill-shadow-hover: rgba(59, 130, 246, 0.25);
+  --pill-bg-1-hover: rgba(239, 68, 68, 0.15);
+  --pill-bg-2-hover: rgba(239, 68, 68, 0.05);
+  --pill-border-hover: rgba(248, 113, 113, 0.4);
+  --pill-shadow-hover: rgba(239, 68, 68, 0.25);
   --pill-highlight-hover: rgba(255, 255, 255, 0.25);
 }
 
@@ -87,8 +86,8 @@ const STYLES = `
 .footer-aurora {
   background: radial-gradient(
     circle at 50% 50%, 
-    rgba(59, 130, 246, 0.18) 0%, 
-    rgba(99, 102, 241, 0.12) 40%, 
+    rgba(239, 68, 68, 0.18) 0%, 
+    rgba(244, 63, 94, 0.12) 40%, 
     transparent 70%
   );
 }
@@ -134,7 +133,7 @@ const STYLES = `
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0px 0px 15px rgba(59, 130, 246, 0.3));
+  filter: drop-shadow(0px 0px 15px rgba(239, 68, 68, 0.3));
 }
 `;
 
@@ -188,11 +187,13 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
           });
         };
 
-        element.addEventListener("mousemove", handleMouseMove as any);
+        const listener: EventListener = (e) => handleMouseMove(e as MouseEvent);
+
+        element.addEventListener("mousemove", listener);
         element.addEventListener("mouseleave", handleMouseLeave);
 
         return () => {
-          element.removeEventListener("mousemove", handleMouseMove as any);
+          element.removeEventListener("mousemove", listener);
           element.removeEventListener("mouseleave", handleMouseLeave);
         };
       }, element);
@@ -202,10 +203,10 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
 
     return (
       <Component
-        ref={(node: HTMLElement) => {
-          (localRef as any).current = node;
+        ref={(node: HTMLElement | null) => {
+          (localRef as React.MutableRefObject<HTMLElement | null>).current = node;
           if (typeof forwardedRef === "function") forwardedRef(node);
-          else if (forwardedRef) (forwardedRef as any).current = node;
+          else if (forwardedRef) (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = node;
         }}
         className={cn("cursor-pointer", className)}
         {...props}
@@ -222,10 +223,10 @@ MagneticButton.displayName = "MagneticButton";
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-8 px-4">
-    <span>AI ENGINEER & DEVELOPER</span> <span className="text-blue-400">✦</span>
-    <span>FULL STACK SYSTEMS</span> <span className="text-indigo-400">✦</span>
-    <span>NEXT.JS & MACHINE LEARNING</span> <span className="text-blue-400">✦</span>
-    <span>OPEN TO OPPORTUNITIES</span> <span className="text-indigo-400">✦</span>
+    <span>AI ENGINEER & DEVELOPER</span> <span className="text-red-400">✦</span>
+    <span>FULL STACK SYSTEMS</span> <span className="text-rose-400">✦</span>
+    <span>NEXT.JS & MACHINE LEARNING</span> <span className="text-red-400">✦</span>
+    <span>OPEN TO OPPORTUNITIES</span> <span className="text-rose-400">✦</span>
   </div>
 );
 
@@ -238,7 +239,7 @@ export interface FooterProps {
   }>;
 }
 
-export default function Footer({ profileName }: FooterProps = {}) {
+export default function Footer({ profileName = profile.name.full }: FooterProps = {}) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const giantTextRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -284,7 +285,14 @@ export default function Footer({ profileName }: FooterProps = {}) {
       );
     }, wrapperRef);
 
-    return () => ctx.revert();
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+      ctx.revert();
+    };
   }, []);
 
   const scrollToTop = () => {
@@ -345,15 +353,15 @@ export default function Footer({ profileName }: FooterProps = {}) {
                 
                 {/* Header inside Right Column */}
                 <div>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-red-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_6px_rgba(248,113,113,0.8)]" />
                     Get In Touch
                   </span>
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black footer-text-glow tracking-tighter mt-1 leading-tight">
                     Let&apos;s Connect & Build
                   </h2>
                   <p className="mt-1 text-xs text-neutral-400">
-                    Have an internship, collaboration, or opportunity? Drop me a line directly.
+                    Have an internship, collaboration, or opportunity for {profileName}? Drop me a line directly.
                   </p>
                 </div>
 
@@ -362,7 +370,7 @@ export default function Footer({ profileName }: FooterProps = {}) {
 
                   {/* Location Card */}
                   <div className="footer-glass-pill p-3 rounded-xl flex items-center gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
                       <IconMapPin size={16} />
                     </div>
                     <div>
@@ -382,17 +390,17 @@ export default function Footer({ profileName }: FooterProps = {}) {
                     className="footer-glass-pill p-3 rounded-xl flex items-center justify-between group text-left"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 group-hover:scale-110 transition-transform">
                         <IconFileText size={16} />
                       </div>
                       <div>
                         <p className="text-[8px] font-bold text-neutral-500 uppercase tracking-wider">Resume</p>
-                        <p className="text-xs font-semibold text-neutral-200 group-hover:text-blue-400 transition-colors">
+                        <p className="text-xs font-semibold text-neutral-200 group-hover:text-red-400 transition-colors">
                           View Official PDF
                         </p>
                       </div>
                     </div>
-                    <span className="text-[9px] font-bold text-blue-400 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-[9px] font-bold text-red-400 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
                       Open ↗
                     </span>
                   </MagneticButton>
@@ -407,7 +415,7 @@ export default function Footer({ profileName }: FooterProps = {}) {
                     rel="noopener noreferrer"
                     className="footer-glass-pill px-4 py-2 rounded-lg text-neutral-300 font-semibold text-xs flex items-center gap-2"
                   >
-                    <IconBrandGithub className="w-3.5 h-3.5 text-blue-400" />
+                    <IconBrandGithub className="w-3.5 h-3.5 text-red-400" />
                     GitHub
                   </MagneticButton>
 
@@ -418,7 +426,7 @@ export default function Footer({ profileName }: FooterProps = {}) {
                     rel="noopener noreferrer"
                     className="footer-glass-pill px-4 py-2 rounded-lg text-neutral-300 font-semibold text-xs flex items-center gap-2"
                   >
-                    <IconBrandLinkedin className="w-3.5 h-3.5 text-blue-400" />
+                    <IconBrandLinkedin className="w-3.5 h-3.5 text-red-400" />
                     LinkedIn
                   </MagneticButton>
 
