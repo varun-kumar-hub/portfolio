@@ -22,7 +22,7 @@ import { Navbar } from "@/components/ui/mini-navbar";
 import Footer from "@/components/Footer";
 
 import CustomCursor from "@/components/ui/custom-cursor";
-import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+
 import { FullScreenScrollFX, FXSection } from "@/components/ui/full-screen-scroll-fx";
 import {
   IconBrandGithub,
@@ -71,47 +71,87 @@ const heroFxSections: FXSection[] = [
     glowColor: "#ef4444",
   },
 
-  // ── 2ND SLIDE: Profile Bio & Flipping Subtitles ──
+  // ── 2ND SLIDE: Profile Bio & Photo Spotlight ──
   {
     leftLabel: "ABOUT VARUN",
     title: "PROFILE SPOTLIGHT",
     customContent: (
-      <div className="relative z-10 max-w-4xl mx-auto px-4 w-full text-center sm:text-left flex flex-col items-center sm:items-start space-y-3.5 mt-1">
-        {/* Specialization tag */}
-        <span className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3.5 py-1 text-xs font-semibold text-red-200/90 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.15)]">
-          <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
-          {profile.specialization}
-        </span>
+      <div className="relative z-10 max-w-5xl mx-auto px-4 w-full flex flex-col md:flex-row items-center gap-6 sm:gap-10 mt-1">
+        {/* Left Column: Photo Frame */}
+        <div className="relative shrink-0 group">
+          {/* Ambient Glow Ring */}
+          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600/30 via-rose-500/20 to-red-700/30 blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
 
-        {/* Animated Flipping Subtitles */}
-        <div className="space-y-2 w-full flex flex-col items-center sm:items-start pt-1">
-          <ContainerTextFlip words={profile.subtitles} interval={4000} />
-          <div className="w-24 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent"></div>
+          {/* Photo Container */}
+          <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-3xl overflow-hidden border-2 border-red-500/30 bg-neutral-950/80 shadow-[0_0_35px_rgba(239,68,68,0.25)] flex items-center justify-center">
+            <Image
+              src="/profile-varun.png"
+              alt="Varun Kumar"
+              width={300}
+              height={300}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+            {/* Corner Cyber Accents */}
+            <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-red-400/60 pointer-events-none" />
+            <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-red-400/60 pointer-events-none" />
+          </div>
+
+          {/* Status Badge below photo */}
+          <div className="mt-2.5 flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-red-950/60 border border-red-500/30 text-[10px] font-mono text-red-300 backdrop-blur-md shadow-md">
+            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.9)]" />
+            <span>AI & ML SPECIALIST</span>
+          </div>
         </div>
 
-        {/* Bio Paragraph */}
-        <p className="text-xs sm:text-sm text-red-100/80 font-light max-w-2xl leading-relaxed">
-          {profile.bio}
-        </p>
+        {/* Right Column: About Me Bio & Details */}
+        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-3">
+          {/* Subheading */}
+          <h4 className="text-lg sm:text-2xl font-bold tracking-tight text-white leading-snug">
+            Architecting Autonomous AI Systems & High-Performance Cloud Platforms
+          </h4>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3.5 pt-1">
-          <a
-            href="#projects"
-            className="group relative px-6 py-2.5 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider uppercase transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              View Projects →
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/25 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-          </a>
+          {/* Bio Description */}
+          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
+            {profile.bio}
+          </p>
 
-          <a
-            href="#contact"
-            className="px-6 py-2.5 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
-          >
-            Get in Touch
-          </a>
+          {/* Quick Highlight Metrics Pills */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full max-w-lg pt-1">
+            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left">
+              <span className="block text-red-400 text-xs font-mono font-bold">8+ Autonomous</span>
+              <span className="text-[10px] text-neutral-400">AI & Full-Stack Apps</span>
+            </div>
+            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left">
+              <span className="block text-red-400 text-xs font-mono font-bold">95%+ Verified</span>
+              <span className="text-[10px] text-neutral-400">Multi-Source Accuracy</span>
+            </div>
+            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left col-span-2 sm:col-span-1">
+              <span className="block text-red-400 text-xs font-mono font-bold">3rd Year CSE</span>
+              <span className="text-[10px] text-neutral-400">Kalasalingam Academy</span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 pt-2">
+            <a
+              href="#projects"
+              className="group relative px-5 py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider uppercase transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                View Projects →
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/25 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            </a>
+
+            <a
+              href="#contact"
+              className="px-5 py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
+            >
+              Get in Touch
+            </a>
+          </div>
         </div>
       </div>
     ),

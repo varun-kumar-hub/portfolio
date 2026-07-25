@@ -30,7 +30,7 @@ const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) =>
         className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-500/25 bg-black/70 hover:bg-red-950/40 text-neutral-200 hover:text-white text-xs font-semibold backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer"
       >
         <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:rotate-12 transition-transform" />
-        <span>Options</span>
+        <span>Explore</span>
         <ChevronDown className={`w-3 h-3 text-neutral-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-red-400" : ""}`} />
       </button>
 
