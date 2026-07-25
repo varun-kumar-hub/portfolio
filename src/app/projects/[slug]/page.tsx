@@ -14,17 +14,15 @@ import {
   Layers, 
   Sparkles,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   AlertCircle,
   Compass,
 } from "lucide-react";
 import { Github } from "@/components/icons/BrandIcons";
 import { projects, Project } from "@/lib/projects";
 import { SpaceBackground } from "@/components/ui/space-background";
-import CustomCursor from "@/components/ui/custom-cursor";
 import { getSkillMeta } from "@/components/icons/SkillIcons";
 import { cn } from "@/lib/utils";
+import { ProjectCardStack } from "@/components/ui/project-card-stack";
 
 /* ─── Tab Definitions ─── */
 interface TabDef {
@@ -81,33 +79,21 @@ export default function ProjectDetailsPage() {
   }
 
   const galleryImages = project.gallery && project.gallery.length > 0 ? project.gallery : [project.image];
-  const currentImage = galleryImages[activeImgIndex] || project.image;
 
   // Find next project for bottom navigation
   const currentIndex = projects.findIndex((p) => p.slug === project.slug);
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
-  const handlePrevImage = () => {
-    setActiveImgIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
-  };
-
-  const handleNextImage = () => {
-    setActiveImgIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
-  };
-
   const handleTabChange = (tabId: string) => {
     const newIdx = TABS.findIndex((t) => t.id === tabId);
     const oldIdx = TABS.findIndex((t) => t.id === activeTab);
-    setTabMeta([newIdx > oldIdx ? 1 : -1, oldIdx]);
+    const dir = newIdx > oldIdx ? 1 : -1;
+    setTabMeta([dir, newIdx]);
     setActiveTab(tabId);
   };
 
   return (
-    <>
-      {/* Custom cursor animation */}
-      <CustomCursor />
-
-      {/* Space Starfield Sibling Background */}
+    <div className="relative min-h-screen bg-[#040406] text-white selection:bg-red-500/30 selection:text-red-200 overflow-x-hidden font-sans">
       <SpaceBackground />
 
       <div className="relative z-10 min-h-screen text-gray-100 flex flex-col md:flex-row">
@@ -259,9 +245,25 @@ export default function ProjectDetailsPage() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight mb-4">
               {project.name}
             </h1>
-            <p className="text-base sm:text-lg text-neutral-400 leading-relaxed font-light max-w-4xl mb-6">
+            <p className="text-base sm:text-lg text-neutral-400 leading-relaxed font-light max-w-4xl mb-5">
               {project.description}
             </p>
+
+            {/* High-Impact Performance Metric Badges */}
+            <div className="flex flex-wrap items-center gap-2 mb-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-red-500/10 border border-red-500/30 text-red-300 backdrop-blur-md shadow-sm">
+                ⚡ 2.5s Gen Latency
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-neutral-900/90 border border-neutral-700/80 text-neutral-300 backdrop-blur-md shadow-sm">
+                🤖 Google Gemini 2.5
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-neutral-900/90 border border-neutral-700/80 text-neutral-300 backdrop-blur-md shadow-sm">
+                🗺️ Google Maps API
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-500/10 border border-rose-500/30 text-rose-300 backdrop-blur-md shadow-sm">
+                ⭐ Production Live
+              </span>
+            </div>
 
             {/* Action buttons */}
             <div className="flex flex-wrap gap-3">
@@ -295,96 +297,12 @@ export default function ProjectDetailsPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="px-6 sm:px-10 lg:px-12 pb-6"
           >
-            {/* macOS Application Window Frame Showcase */}
-            <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-800/80 shadow-[0_0_50px_rgba(0,0,0,0.8)] group flex flex-col">
-              {/* macOS Window Header Bar */}
-              <div className="flex items-center justify-between px-4 py-2.5 bg-neutral-900/90 border-b border-gray-800/80 z-20 shrink-0">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 transition-colors" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 transition-colors" />
-                </div>
-                <div className="flex-1 max-w-sm mx-4 px-3 py-1 rounded-md bg-neutral-950/80 border border-gray-800 text-[11px] font-mono text-neutral-400 truncate text-center">
-                  app.varunkumar.dev / projects / {project.slug}
-                </div>
-                <div className="text-[10px] font-mono text-red-400 font-bold px-2 py-0.5 rounded bg-red-500/10 border border-red-500/20">
-                  LIVE DEMO
-                </div>
-              </div>
-
-              {/* Window Content */}
-              <div className="relative flex-1 w-full h-full overflow-hidden bg-neutral-950">
-                {/* Ambient background glow */}
-                <div className="absolute inset-0 opacity-25">
-                  <Image
-                    src={currentImage}
-                    alt={`${project.name} background`}
-                    className="w-full h-full object-cover blur-2xl scale-110"
-                    width={1920}
-                    height={1080}
-                    unoptimized
-                  />
-                </div>
-
-                {/* Main crisp display */}
-                <div className="relative z-10 w-full h-full p-2">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentImage}
-                      initial={{ opacity: 0, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.98 }}
-                      transition={{ duration: 0.25 }}
-                      className="w-full h-full"
-                    >
-                      <Image
-                        src={currentImage}
-                        alt={`${project.name} screenshot ${activeImgIndex + 1}`}
-                        className="rounded-xl w-full h-full object-contain bg-black/50"
-                        width={1920}
-                        height={1080}
-                        unoptimized
-                      />
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-
-                {/* Prev / Next Controls */}
-                {galleryImages.length > 1 && (
-                  <>
-                    <button
-                      onClick={handlePrevImage}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-red-600 hover:border-red-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
-                      aria-label="Previous screenshot"
-                    >
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={handleNextImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/80 border border-white/10 text-white hover:bg-red-600 hover:border-red-400 transition-all duration-200 cursor-pointer shadow-xl opacity-0 group-hover:opacity-100"
-                      aria-label="Next screenshot"
-                    >
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-
-                    {/* Pagination Pill & Dots */}
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/80 border border-white/10 backdrop-blur-md">
-                      {galleryImages.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setActiveImgIndex(idx)}
-                          className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                            idx === activeImgIndex
-                              ? "w-6 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"
-                              : "w-2 bg-neutral-600 hover:bg-neutral-400"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
+            <ProjectCardStack
+              images={galleryImages}
+              projectName={project.name}
+              activeImgIndex={activeImgIndex}
+              onIndexChange={setActiveImgIndex}
+            />
 
             {/* Mobile-only horizontal thumbnail strip */}
             {galleryImages.length > 1 && (
@@ -474,7 +392,7 @@ export default function ProjectDetailsPage() {
         </main>
 
       </div>
-    </>
+    </div>
   );
 }
 
