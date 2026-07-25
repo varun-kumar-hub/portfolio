@@ -564,8 +564,12 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
 
               {/* Grid Layout */}
               <div className="fx-grid">
-                {/* Header */}
-                {header && <div className="fx-header">{header}</div>}
+                {/* Header (Visible on Slide 1, smoothly fades out on subsequent slides) */}
+                {header && (
+                  <div className={`fx-header transition-opacity duration-500 ease-out ${index === 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                    {header}
+                  </div>
+                )}
 
                 {/* Content (lists + center) */}
                 <div className="fx-content">
@@ -759,6 +763,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-center {
             display: grid; place-items: center; text-align: center; height: 55vh; overflow: hidden;
             padding: 0 0.5rem;
+            margin-top: clamp(15px, 3vh, 35px);
             z-index: 10;
           }
           .fx-featured { position: absolute; opacity: 0; visibility: hidden; width: 100%; max-width: 100%; }

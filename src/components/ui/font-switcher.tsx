@@ -56,6 +56,13 @@ export const FONT_OPTIONS: FontOption[] = [
     sample: "Challa Varun Kumar — AI & Full Stack",
   },
   {
+    id: "lucida",
+    name: "Lucida Console",
+    variable: '"Lucida Console", "Lucida Sans Typewriter", "Lucida Grande", monospace',
+    category: "Classic High-Tech Terminal",
+    sample: "Challa Varun Kumar — AI & Full Stack",
+  },
+  {
     id: "playfair",
     name: "Playfair Display",
     variable: "var(--font-playfair), serif",
@@ -147,7 +154,7 @@ export function FontSwitcher() {
                 <Sparkles className="w-3.5 h-3.5 text-red-400 animate-pulse" />
                 <span>Select Typography</span>
               </div>
-              <span className="text-[10px] font-mono text-neutral-500">7 Modern Styles</span>
+              <span className="text-[10px] font-mono text-neutral-500">8 Distinct Styles</span>
             </div>
 
             {/* List of 7 Fonts */}
