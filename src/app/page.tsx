@@ -153,30 +153,55 @@ const heroFxSections: FXSection[] = [
     glowColor: "#f43f5e",
   },
 
-  // ── 4TH SLIDE: Other Info, Deployed Impact & Actions ──
+  // ── 4TH SLIDE: Portfolio Overview & Roadmap Index ──
   {
-    leftLabel: "DEPLOYED IMPACT",
-    title: "ENGINEERING IN ACTION",
-    subtitle: "Explore Repositories, Case Studies, or Reach Out for Collaborations",
+    leftLabel: "PORTFOLIO INDEX",
+    title: "PORTFOLIO OVERVIEW",
+    subtitle: "Here is a roadmap of what you will discover as you explore below",
     customContent: (
-      <div className="flex flex-col items-center justify-center space-y-3 mt-2 px-4">
+      <div className="flex flex-col items-center justify-center space-y-3.5 mt-1 px-4 max-w-2xl mx-auto w-full">
+        {/* Section Roadmap Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full text-left">
+          <a href="#projects" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
+              <span>01. PROJECTS DIRECTORY</span>
+              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+            </div>
+            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Autonomous AI Agents, Computer Vision & Full-Stack Apps</p>
+          </a>
+
+          <a href="#skills" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
+              <span>02. TECHNICAL TOOLKIT</span>
+              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+            </div>
+            <p className="text-[11px] text-neutral-300 font-light mt-0.5">PyTorch, Next.js 16, React 19, LangChain & Cloud Stack</p>
+          </a>
+
+          <a href="#experience" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
+              <span>03. WORK EXPERIENCE</span>
+              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+            </div>
+            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Engineering Roles, Hackathons & Developer Contributions</p>
+          </a>
+
+          <a href="#contact" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
+              <span>04. CONNECT & RESUME</span>
+              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+            </div>
+            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Direct Contact, Email & Downloadable PDF Resume</p>
+          </a>
+        </div>
+
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
           <a
             href="#projects"
             className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center gap-2"
           >
-            <span>Explore Projects</span>
-            <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-
-          <a
-            href="#contact"
-            className="px-5 py-2.5 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/50"
-          >
-            Get in Touch
+            <span>Explore Portfolio Below ↓</span>
           </a>
 
           <a
@@ -188,14 +213,9 @@ const heroFxSections: FXSection[] = [
             Download Resume
           </a>
         </div>
-
-        {/* Contact Email Pill */}
-        <div className="text-[11px] font-mono text-neutral-400 pt-1">
-          Direct Email: <a href={`mailto:${profile.contact.email}`} className="text-red-300 hover:underline">{profile.contact.email}</a>
-        </div>
       </div>
     ),
-    rightLabel: "LET'S CONNECT",
+    rightLabel: "PORTFOLIO ROADMAP",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#f87171",
   },
@@ -482,7 +502,7 @@ export default function Home() {
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-[#050607] shadow-[0_35px_60px_rgba(0,0,0,0.95)] border-b border-white/10">
+            <div className="relative z-20 bg-[#040406] shadow-[0_35px_60px_rgba(0,0,0,0.95)] border-b border-white/10">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -506,7 +526,7 @@ export default function Home() {
               </div>
 
               {/* ─── Smooth Transition Bridge: Slides -> Projects ─── */}
-              <div className="relative z-20 w-full bg-[#050607] -mt-16 pt-16">
+              <div className="relative z-20 w-full bg-[#040406] -mt-16 pt-16">
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
               </div>
 
@@ -613,7 +633,7 @@ export default function Home() {
               </section>
 
               {/* ─── Smooth Transition Bridge into Footer ─── */}
-              <div className="relative z-20 w-full bg-gradient-to-b from-[#050607] via-neutral-950 to-black pt-12 border-t border-red-500/20">
+              <div className="relative z-20 w-full bg-gradient-to-b from-[#040406] via-neutral-950 to-black pt-12 border-t border-red-500/20">
                 <div className="flex items-center justify-center gap-4 text-xs font-mono tracking-[0.35em] uppercase text-red-400/60 pb-6">
                   <div className="w-16 h-px bg-gradient-to-r from-transparent to-red-500/40" />
                   <span className="animate-pulse">✦ GET IN TOUCH & CONNECT ✦</span>
