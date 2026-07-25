@@ -441,7 +441,7 @@ export default function ExperienceBento() {
     document.body.style.touchAction = "";
   }, []);
 
-  /* ── Intersection Observer (Finite State Machine Trigger) ── */
+  /* ── Intersection Observer (Finite State Machine Trigger - Narrative Entry Phase) ── */
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el || typeof window === "undefined") return;
@@ -449,7 +449,8 @@ export default function ExperienceBento() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          // Require section to be fully in view (>= 75% ratio) before locking
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
             if (scrollStateRef.current !== "LOCKED") {
               const top = entry.boundingClientRect.top;
               if (top > 0) {
@@ -467,7 +468,7 @@ export default function ExperienceBento() {
           }
         });
       },
-      { threshold: [0.5, 0.7] }
+      { threshold: [0.75, 0.9] }
     );
 
     observer.observe(el);
