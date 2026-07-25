@@ -131,7 +131,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'skills', 'projects', 'experience', 'contact'];
+      const sections = ['home', 'projects', 'skills', 'experience', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -173,8 +173,8 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
   const navLinksData = [
     { label: 'Home', href: '#home' },
-    { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Skills', href: '#skills' },
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
   ];

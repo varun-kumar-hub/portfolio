@@ -35,22 +35,104 @@ import Link from "next/link";
 import { profile } from "@/lib/profile";
 import { Project, projects } from "@/lib/projects";
 
+function ProfileSpotlightCard() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4 w-full flex flex-col-reverse md:flex-row items-center gap-3 sm:gap-10 mt-0 sm:mt-1">
+      {/* Left Column: About Me Bio & Details */}
+      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-1.5 sm:space-y-3">
+        {/* Subheading */}
+        <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-white leading-snug">
+          Architecting <span className="text-red-400">Autonomous AI Systems</span> &amp; <span className="text-red-400">High-Performance Cloud Platforms</span>
+        </h4>
+
+        {/* Bio Description with See More toggle */}
+        <div className="text-[10px] sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
+          <p className={isExpanded ? "" : "line-clamp-2 sm:line-clamp-none"}>
+            {profile.bio}
+          </p>
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="sm:hidden inline-flex items-center gap-0.5 mt-1 text-[10px] font-bold text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+          >
+            <span>{isExpanded ? "See Less ↑" : "See More →"}</span>
+          </button>
+        </div>
+
+        {/* Quick Highlight Metrics Pills */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 w-full max-w-lg pt-0.5">
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-sm">
+            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Autonomous</span>
+            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">AI &amp; Full-Stack Apps</span>
+          </div>
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-sm">
+            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">95%+ Verified</span>
+            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">Multi-Source Accuracy</span>
+          </div>
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left col-span-2 sm:col-span-1 backdrop-blur-md transition-all shadow-sm">
+            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">3rd Year CSE (AI &amp; ML)</span>
+            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">Kalasalingam Academy</span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-0.5">
+          <a
+            href="#projects"
+            className="group relative px-3 py-1 sm:px-5 sm:py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-[10px] sm:text-xs tracking-wider transition-all duration-300 rounded-lg sm:rounded-xl shadow-sm flex items-center gap-1"
+          >
+            <span>View Projects →</span>
+          </a>
+
+          <a
+            href="#contact"
+            className="px-3 py-1 sm:px-5 sm:py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-[10px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
+          >
+            Get in Touch
+          </a>
+        </div>
+      </div>
+
+      {/* Right Column: Scaled Photo Frame for Mobile */}
+      <div className="relative shrink-0 group">
+        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-r from-red-600/40 via-rose-500/30 to-red-700/40 blur-lg opacity-80 transition-opacity" />
+
+        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border-2 border-red-500/40 bg-[#040406] shadow-xl flex items-center justify-center">
+          <Image
+            src="/profile-varun.png"
+            alt="Varun Kumar"
+            width={600}
+            height={800}
+            className="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-500"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#040406]/40 via-transparent to-[#040406]/75 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
+
+          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-t border-l border-red-400/80 pointer-events-none z-10" />
+          <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-b border-r border-red-400/80 pointer-events-none z-10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const heroFxSections: FXSection[] = [
   // ── 1ST SLIDE: Dominating Name & Role Entrance ──
   {
     leftLabel: "The Creator",
     title: profile.name.full,
     customContent: (
-      <div className="flex flex-col items-center justify-center space-y-3 mt-1 max-w-3xl mx-auto text-center px-4">
-        {/* Role Headline (Title Case, Single Line Format) */}
-        <h3 className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-wide text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] leading-snug mt-1 text-center whitespace-nowrap">
+      <div className="flex flex-col items-center justify-center space-y-2.5 sm:space-y-3 mt-1 max-w-3xl mx-auto text-center px-4">
+        {/* Role Headline */}
+        <h3 className="text-sm sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-wide text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] leading-snug mt-1 text-center">
           AI Engineer &amp; Tech Innovator
         </h3>
 
-        {/* Single Relevant Status Badge */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/50 bg-red-950/70 px-6 py-2.5 text-sm sm:text-base font-extrabold backdrop-blur-md shadow-[0_0_25px_rgba(239,68,68,0.35)] mt-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(248,113,113,0.9)]" />
-          <span className="text-red-400 font-extrabold tracking-wider">B.Tech CSE (AI & ML)</span>
+        {/* Status Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-red-500/50 bg-red-950/70 px-4 py-1.5 sm:px-6 sm:py-2.5 text-xs sm:text-base font-extrabold backdrop-blur-md shadow-[0_0_25px_rgba(239,68,68,0.35)] mt-2">
+          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(248,113,113,0.9)]" />
+          <span className="text-red-400 font-extrabold tracking-wider">B.Tech CSE (AI &amp; ML)</span>
         </div>
       </div>
     ),
@@ -63,82 +145,7 @@ const heroFxSections: FXSection[] = [
   {
     leftLabel: "About Varun",
     title: "Profile Spotlight",
-    customContent: (
-      <div className="relative z-10 max-w-5xl mx-auto px-4 w-full flex flex-col-reverse md:flex-row items-center gap-6 sm:gap-10 mt-1">
-        {/* Left Column: About Me Bio & Details */}
-        <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-3">
-          {/* Subheading */}
-          <h4 className="text-lg sm:text-2xl font-bold tracking-tight text-white leading-snug">
-            Architecting <span className="text-red-400">Autonomous AI Systems</span> & <span className="text-red-400">High-Performance Cloud Platforms</span>
-          </h4>
-
-          {/* Bio Description */}
-          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
-            {profile.bio}
-          </p>
-
-          {/* Quick Highlight Metrics Pills */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full max-w-lg pt-1">
-            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left">
-              <span className="block text-red-400 text-xs font-mono font-bold">8+ Autonomous</span>
-              <span className="text-[10px] text-neutral-400">AI & Full-Stack Apps</span>
-            </div>
-            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left">
-              <span className="block text-red-400 text-xs font-mono font-bold">95%+ Verified</span>
-              <span className="text-[10px] text-neutral-400">Multi-Source Accuracy</span>
-            </div>
-            <div className="p-2 sm:p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.08] text-center md:text-left col-span-2 sm:col-span-1">
-              <span className="block text-red-400 text-xs font-mono font-bold">3rd Year CSE</span>
-              <span className="text-[10px] text-neutral-400">Kalasalingam Academy</span>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 pt-2">
-            <a
-              href="#projects"
-              className="group relative px-5 py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                View Projects →
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/25 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-            </a>
-
-            <a
-              href="#contact"
-              className="px-5 py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
-            >
-              Get in Touch
-            </a>
-          </div>
-        </div>
-
-        {/* Right Column: Photo Frame */}
-        <div className="relative shrink-0 group">
-          {/* Ambient Red Glow Ring Matching Hero Section */}
-          <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-red-600/40 via-rose-500/30 to-red-700/40 blur-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-
-          {/* Photo Container (Seamless Hero Section Blend) */}
-          <div className="relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-88 lg:w-80 lg:h-96 rounded-3xl overflow-hidden border-2 border-red-500/40 bg-[#040406] shadow-[0_0_50px_rgba(239,68,68,0.25)] flex items-center justify-center">
-            <Image
-              src="/profile-varun.png"
-              alt="Varun Kumar"
-              width={600}
-              height={800}
-              className="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-500"
-            />
-            {/* Seamless Vignette & Radial Aura Blending to Hero Section Colors */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#040406]/50 via-transparent to-[#040406]/75 pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
-
-            {/* Corner Cyber Accents */}
-            <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-red-400/80 pointer-events-none z-10" />
-            <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-red-400/80 pointer-events-none z-10" />
-          </div>
-        </div>
-      </div>
-    ),
+    customContent: <ProfileSpotlightCard />,
     rightLabel: "Personal Profile",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#e11d48",
@@ -150,49 +157,49 @@ const heroFxSections: FXSection[] = [
     title: "Portfolio Overview",
     subtitle: "Here is a roadmap of what you will discover as you explore below",
     customContent: (
-      <div className="flex flex-col items-center justify-center space-y-3.5 mt-1 px-4 max-w-2xl mx-auto w-full">
+      <div className="flex flex-col items-center justify-center space-y-2.5 mt-1 px-2 sm:px-4 max-w-2xl mx-auto w-full">
         {/* Section Roadmap Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full text-left">
-          <a href="#projects" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full text-left">
+          <a href="#projects" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
               <span>01. Projects Directory</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
-            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Autonomous AI Agents, Computer Vision & Full-Stack Apps</p>
+            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Autonomous AI Agents, Computer Vision &amp; Full-Stack Apps</p>
           </a>
 
-          <a href="#skills" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+          <a href="#skills" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
               <span>02. Technical Toolkit</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
-            <p className="text-[11px] text-neutral-300 font-light mt-0.5">
-              Python • AI & ML • React • Next.js • Node.js • PostgreSQL • Supabase • Docker
+            <p className="text-[10px] text-neutral-300 font-light mt-0.5">
+              Python • AI &amp; ML • React • Next.js • PostgreSQL • Supabase
             </p>
           </a>
 
-          <a href="#experience" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+          <a href="#experience" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
               <span>03. Work Experience</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
-            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Engineering Roles, Hackathons & Developer Contributions</p>
+            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Engineering Roles, Security Workshops &amp; Key Learnings</p>
           </a>
 
-          <a href="#contact" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
-              <span>04. Connect & Resume</span>
+          <a href="#contact" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
+            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
+              <span>04. Connect &amp; Resume</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
-            <p className="text-[11px] text-neutral-300 font-light mt-0.5">Direct Contact, Email & Downloadable PDF Resume</p>
+            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Direct Contact, Email &amp; Downloadable PDF Resume</p>
           </a>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
           <a
             href="#projects"
-            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center gap-2"
+            className="group relative px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-[11px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 shadow-md flex items-center gap-1.5"
           >
             <span>Explore Portfolio Below ↓</span>
           </a>
@@ -201,7 +208,7 @@ const heroFxSections: FXSection[] = [
             href={profile.contact.resumeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
+            className="px-4 py-2 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-[11px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
           >
             Download Resume
           </a>
@@ -277,10 +284,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     >
       <motion.div
         className='w-full min-h-[480px] bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-4 gap-3 overflow-hidden border border-neutral-700/60 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.25)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]'
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: index * 0.08 }}
         whileHover={{ y: -6, scale: 1.01 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -587,6 +590,7 @@ export default function Home() {
                   <div className="w-full max-w-5xl relative z-10">
                     <Swiper
                       className="projects-swiper"
+                      watchSlidesProgress={true}
                       spaceBetween={30}
                       autoplay={{
                         delay: 3500,
@@ -720,8 +724,8 @@ export default function Home() {
                 </div>
 
                 <div className="mx-auto max-w-6xl">
-                  <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
-                    Professional contributions and developer roles in tech groups.
+                  <SectionHeading eyebrow="Experience & Mastery" title="Work History & Engineering Learnings" icon={<Briefcase size={16} />}>
+                    Developer roles in tech chapters alongside practical engineering insights, performance optimizations, and architectural lessons from building production projects.
                   </SectionHeading>
                   <ExperienceBento />
                 </div>

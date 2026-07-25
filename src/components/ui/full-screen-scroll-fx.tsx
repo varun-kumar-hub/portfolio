@@ -792,15 +792,21 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
 
           @media (max-width: 900px) {
-            .fx-header { padding-top: 75px; }
+            .fx-header { padding-top: clamp(100px, 14vh, 125px); }
             .fx-content {
-              grid-template-columns: 1fr; row-gap: 2vh;
+              grid-template-columns: 1fr;
+              padding: 0 1rem;
               place-items: center;
             }
-            .fx-left, .fx-right, .fx-center { height: auto; }
-            .fx-left, .fx-right { justify-items: center; }
-            .fx-track { transform: none !important; }
-            .fx-featured-title { font-size: clamp(1.6rem, 6vw, 2.5rem); }
+            .fx-left, .fx-right { display: none !important; }
+            .fx-center {
+              height: auto;
+              max-height: 68vh;
+              overflow-y: auto;
+              padding: 0;
+              margin-top: clamp(10px, 2vh, 25px);
+            }
+            .fx-featured-title { font-size: clamp(1.3rem, 5vw, 2rem); }
           }
         `}</style>
       </div>
