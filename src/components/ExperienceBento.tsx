@@ -431,14 +431,19 @@ export default function ExperienceBento() {
 
   const lockPageScroll = useCallback(() => {
     if (typeof document === "undefined") return;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = "hidden";
     document.body.style.touchAction = "none";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
   }, []);
 
   const unlockPageScroll = useCallback(() => {
     if (typeof document === "undefined") return;
     document.body.style.overflow = "";
     document.body.style.touchAction = "";
+    document.body.style.paddingRight = "";
   }, []);
 
   /* ── Clean Section Exit Handler ── */
@@ -538,35 +543,39 @@ export default function ExperienceBento() {
 
     const tick = () => {
       const currentState = scrollStateRef.current;
+
+      // Stop polling layout once pinned or outside entering state to avoid shaking
+      if (currentState !== "ENTERING" && currentState !== "ALIGNING") {
+        animFrameId = requestAnimationFrame(tick);
+        return;
+      }
+
       const now = performance.now();
-      const VELOCITY_SAFE_THRESHOLD = 0.55; // px/ms
-      const DEBOUNCE_QUIET_MS = 40;          // 40ms instant response
+      const VELOCITY_SAFE_THRESHOLD = 0.35; // px/ms
+      const DEBOUNCE_QUIET_MS = 60;
 
       const isVelocitySafe = velocityRef.current < VELOCITY_SAFE_THRESHOLD;
       const isInputQuiet = now - lastInputTimeRef.current > DEBOUNCE_QUIET_MS;
 
-      if (currentState === "ENTERING" || currentState === "ALIGNING") {
-        if (wrapperRef.current && !exitCooldownRef.current) {
-          const rect = wrapperRef.current.getBoundingClientRect();
-          const isNearTop = Math.abs(rect.top) < 220; // Within 220px of top boundary
+      if (wrapperRef.current && !exitCooldownRef.current) {
+        const rect = wrapperRef.current.getBoundingClientRect();
+        const isAligned = Math.abs(rect.top) < 60;
 
-          if ((isVelocitySafe && isInputQuiet) || isNearTop) {
-            const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
+        if (isVelocitySafe && isInputQuiet && isAligned) {
+          const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
 
-            // Instantly snap to target position to eliminate sluggish settling
-            window.scrollTo({ top: targetY, behavior: "auto" });
+          // Single clean position lock without subpixel jitter
+          setScrollState("PINNED");
+          scrollStateRef.current = "PINNED";
+          window.scrollTo(0, Math.round(targetY));
+          lockPageScroll();
 
-            if (entryDirectionRef.current === "DOWN") {
-              setActiveIndex(0);
-              activeIndexRef.current = 0;
-            } else {
-              setActiveIndex(total - 1);
-              activeIndexRef.current = total - 1;
-            }
-
-            setScrollState("PINNED");
-            scrollStateRef.current = "PINNED";
-            lockPageScroll();
+          if (entryDirectionRef.current === "DOWN") {
+            setActiveIndex(0);
+            activeIndexRef.current = 0;
+          } else {
+            setActiveIndex(total - 1);
+            activeIndexRef.current = total - 1;
           }
         }
       }
