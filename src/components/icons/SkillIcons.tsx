@@ -8,6 +8,13 @@ import {
   Server,
   Terminal,
   Layers,
+  Sparkles,
+  Bot,
+  Code2,
+  Zap,
+  FileText,
+  Shield,
+  CheckCircle,
 } from "lucide-react";
 
 interface IconProps {
@@ -382,6 +389,32 @@ export function getSkillMeta(skillName: string): {
       return { icon: <GitHubIcon size={24} className="text-gray-900 dark:text-white" />, color: "rgba(128, 128, 128, 0.4)" };
     case "docker":
       return { icon: <DockerIcon size={24} />, color: "rgba(36, 150, 237, 0.4)" };
+
+    // Specialized AI & Real Project Stack Resolvers
+    case "google gemini api":
+    case "gemini api":
+      return { icon: <Sparkles size={24} className="text-rose-400" />, color: "rgba(244, 63, 94, 0.4)" };
+    case "multi-agent systems":
+    case "autonomous ai":
+      return { icon: <Bot size={24} className="text-red-500" />, color: "rgba(239, 68, 68, 0.4)" };
+    case "typescript":
+      return { icon: <Code2 size={24} className="text-blue-400" />, color: "rgba(96, 165, 250, 0.4)" };
+    case "framer motion":
+    case "gsap & animations":
+      return { icon: <Zap size={24} className="text-purple-400" />, color: "rgba(192, 132, 252, 0.4)" };
+    case "force graph 2d":
+    case "knowledge graphs":
+      return { icon: <Network size={24} className="text-rose-400" />, color: "rgba(251, 113, 133, 0.4)" };
+    case "nltk":
+    case "nlp & tf-idf":
+      return { icon: <FileText size={24} className="text-emerald-400" />, color: "rgba(52, 211, 153, 0.4)" };
+    case "owasp top 10":
+    case "web security":
+      return { icon: <Shield size={24} className="text-red-500" />, color: "rgba(239, 68, 68, 0.5)" };
+    case "wcag accessibility":
+      return { icon: <CheckCircle size={24} className="text-sky-400" />, color: "rgba(56, 189, 248, 0.4)" };
+    case "next.js 16":
+      return { icon: <NextjsIcon size={24} className="text-gray-900 dark:text-white" />, color: "rgba(128, 128, 128, 0.4)" };
 
     // Concepts / Lucide icons
     case "artificial intelligence (ai)":

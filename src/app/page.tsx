@@ -123,21 +123,21 @@ const heroFxSections: FXSection[] = [
     leftLabel: "The Creator",
     title: profile.name.full,
     customContent: (
-      <div className="flex flex-col items-center justify-center space-y-2.5 sm:space-y-3 mt-1 max-w-3xl mx-auto text-center px-4">
+      <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 mt-2 max-w-4xl mx-auto text-center px-4">
         {/* Role Headline */}
-        <h3 className="text-sm sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-wide text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] leading-snug mt-1 text-center">
+        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-white drop-shadow-[0_4px_25px_rgba(255,255,255,0.4)] leading-tight mt-1 text-center">
           AI Engineer &amp; Tech Innovator
         </h3>
 
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-red-500/50 bg-red-950/70 px-4 py-1.5 sm:px-6 sm:py-2.5 text-xs sm:text-base font-extrabold backdrop-blur-md shadow-[0_0_25px_rgba(239,68,68,0.35)] mt-2">
-          <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(248,113,113,0.9)]" />
-          <span className="text-red-400 font-extrabold tracking-wider">B.Tech CSE (AI &amp; ML)</span>
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/50 bg-red-950/70 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-black backdrop-blur-md shadow-[0_0_30px_rgba(239,68,68,0.4)] mt-3">
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 animate-pulse shadow-[0_0_12px_rgba(248,113,113,0.9)]" />
+          <span className="text-red-400 font-black tracking-wider">B.Tech CSE (AI &amp; ML)</span>
         </div>
       </div>
     ),
     rightLabel: "AI Innovator",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.16) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
     glowColor: "#ef4444",
   },
 
@@ -147,8 +147,8 @@ const heroFxSections: FXSection[] = [
     title: "Profile Spotlight",
     customContent: <ProfileSpotlightCard />,
     rightLabel: "Personal Profile",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
-    glowColor: "#e11d48",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
+    glowColor: "#ef4444",
   },
 
   // ── 3RD SLIDE: Portfolio Overview & Roadmap Index ──
@@ -157,49 +157,55 @@ const heroFxSections: FXSection[] = [
     title: "Portfolio Overview",
     subtitle: "Here is a roadmap of what you will discover as you explore below",
     customContent: (
-      <div className="flex flex-col items-center justify-center space-y-2.5 mt-1 px-2 sm:px-4 max-w-2xl mx-auto w-full">
+      <div className="flex flex-col items-center justify-center space-y-3.5 mt-2 px-3 sm:px-6 max-w-3xl mx-auto w-full">
         {/* Section Roadmap Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full text-left">
-          <a href="#projects" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full text-left">
+          <a href="#projects" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>01. Projects Directory</span>
-              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Autonomous AI Agents, Computer Vision &amp; Full-Stack Apps</p>
-          </a>
-
-          <a href="#skills" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
-              <span>02. Technical Toolkit</span>
-              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
-            </div>
-            <p className="text-[10px] text-neutral-300 font-light mt-0.5">
-              Python • AI &amp; ML • React • Next.js • PostgreSQL • Supabase
+            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+              ResearchX AI (Multi-Agent Verification), LearnX (AI Knowledge Graphs), Resume Analyzer (NLP ATS Engine) &amp; TripCrafter Pro.
             </p>
           </a>
 
-          <a href="#experience" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
-              <span>03. Work Experience</span>
-              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+          <a href="#skills" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+              <span>02. Technical Toolkit</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Engineering Roles, Security Workshops &amp; Key Learnings</p>
+            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+              Python, Google Gemini API, NLTK/PyTorch, Next.js 16, React, TypeScript, PostgreSQL, Supabase &amp; Vercel.
+            </p>
           </a>
 
-          <a href="#contact" className="p-2.5 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-md">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[10px] sm:text-[11px] font-bold tracking-wide">
-              <span>04. Connect &amp; Resume</span>
-              <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
+          <a href="#experience" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+              <span>03. Work Experience</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[10px] text-neutral-300 font-light mt-0.5">Direct Contact, Email &amp; Downloadable PDF Resume</p>
+            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+              OWASP Student Chapter (Web Development &amp; Technical Coordinator), OWASP Top 10 security workshops &amp; AI system design.
+            </p>
+          </a>
+
+          <a href="#contact" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+              <span>04. Connect &amp; Resume</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
+            </div>
+            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+              Direct email (cvarun713@gmail.com), LinkedIn, GitHub developer profile &amp; downloadable PDF engineering resume.
+            </p>
           </a>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
             href="#projects"
-            className="group relative px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-[11px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 shadow-md flex items-center gap-1.5"
+            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center gap-1.5"
           >
             <span>Explore Portfolio Below ↓</span>
           </a>
@@ -208,7 +214,7 @@ const heroFxSections: FXSection[] = [
             href={profile.contact.resumeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-[11px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
+            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
           >
             Download Resume
           </a>
@@ -216,8 +222,8 @@ const heroFxSections: FXSection[] = [
       </div>
     ),
     rightLabel: "Overview Roadmap",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
-    glowColor: "#f43f5e",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
+    glowColor: "#ef4444",
   },
 ];
 
@@ -446,13 +452,18 @@ export default function Home() {
       if (typeof window !== "undefined") {
         window.holdProgress = 0;
 
+        const handleScrollSave = () => {
+          sessionStorage.setItem("portfolio-scroll-y", window.scrollY.toString());
+        };
+        window.addEventListener("scroll", handleScrollSave, { passive: true });
+        window.addEventListener("beforeunload", handleScrollSave);
+
         const storedScrollY = sessionStorage.getItem("portfolio-scroll-y");
         if (storedScrollY !== null) {
           const scrollY = parseInt(storedScrollY, 10);
           setTimeout(() => {
             window.scrollTo(0, scrollY);
             setIsScrollPositioning(false);
-            sessionStorage.removeItem("portfolio-scroll-y");
           }, 0);
         } else if (window.location.hash) {
           const targetId = window.location.hash.substring(1);
@@ -468,6 +479,11 @@ export default function Home() {
             setIsScrollPositioning(false);
           }, 0);
         }
+
+        return () => {
+          window.removeEventListener("scroll", handleScrollSave);
+          window.removeEventListener("beforeunload", handleScrollSave);
+        };
       }
     } else {
       document.documentElement.style.setProperty("--sphere-opacity", "0.25");

@@ -88,7 +88,7 @@ export default function CustomCursor() {
           radius: 3,
           maxRadius: 38,
           opacity: 0.45,
-          color: "rgba(148, 163, 184, 0.4)",
+          color: "rgba(239, 68, 68, 0.4)",
           speed: 1.1,
         });
         lastRipplePos.current = { x: e.clientX, y: e.clientY };
@@ -106,7 +106,7 @@ export default function CustomCursor() {
       dot.classList.add("clicking");
 
       // Spawn satellite burst particles on click!
-      const colors = ["#cbd5e1", "#94a3b8", "#64748b", "#ffffff"];
+      const colors = ["#ef4444", "#f43f5e", "#fb7185", "#ffffff"];
       for (let i = 0; i < 12; i++) {
         const angle = Math.random() * Math.PI * 2;
         const velocity = Math.random() * 4 + 3;
@@ -206,15 +206,15 @@ export default function CustomCursor() {
         left: 0;
         z-index: 99999;
         pointer-events: none;
-        width: 7px;
-        height: 7px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
-        background-color: rgb(241, 245, 249);
-        box-shadow: 0 0 6px rgba(148, 163, 184, 0.7), 0 0 15px rgba(71, 85, 105, 0.35);
+        background-color: #ef4444;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.9), 0 0 20px rgba(225, 29, 72, 0.5);
         opacity: 0;
         will-change: transform;
         transform: translate3d(-100px, -100px, 0);
-        transition: width 0.15s ease-out, height 0.15s ease-out, opacity 0.15s ease-out, background-color 0.15s ease-out;
+        transition: width 0.15s ease-out, height 0.15s ease-out, opacity 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
       }
       
       .custom-cursor-dot.visible {
@@ -222,17 +222,17 @@ export default function CustomCursor() {
       }
       
       .custom-cursor-dot.hovering {
-        width: 10px;
-        height: 10px;
-        background-color: rgb(96, 165, 250);
+        width: 12px;
+        height: 12px;
+        background-color: #f43f5e;
+        box-shadow: 0 0 16px rgba(244, 63, 94, 1), 0 0 28px rgba(239, 68, 68, 0.7);
       }
       
       .custom-cursor-dot.clicking {
-        width: 4px;
-        height: 4px;
+        width: 5px;
+        height: 5px;
+        background-color: #ffffff;
       }
-
-
     `;
     document.head.appendChild(style);
 
@@ -241,8 +241,6 @@ export default function CustomCursor() {
     
     const animate = () => {
       animFrame = requestAnimationFrame(animate);
-
-
 
       if (canvas && isVisible) {
         const ctx = canvas.getContext("2d");
@@ -258,11 +256,11 @@ export default function CustomCursor() {
           }
 
           trailPoints.current.forEach((point) => {
-            const alpha = Math.max(0, 1 - point.age / 16) * 0.2;
+            const alpha = Math.max(0, 1 - point.age / 16) * 0.25;
             const size = Math.max(0.4, (1 - point.age / 16) * 1.4);
             ctx.beginPath();
             ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(148, 163, 184, ${alpha})`;
+            ctx.fillStyle = `rgba(239, 68, 68, ${alpha})`;
             ctx.fill();
           });
 

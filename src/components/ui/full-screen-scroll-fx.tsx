@@ -486,11 +486,66 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
     // click on list items
     const handleJump = (i: number) => goTo(i);
 
-    // mount entrance
+    // mount entrance & wheel/touch sensitivity
     useEffect(() => {
       measureAndCenterLists(index, false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+      const container = fixedRef.current;
+      if (!container) return;
+
+      let lastScrollTime = 0;
+      let touchStartY = 0;
+
+      const handleWheel = (e: WheelEvent) => {
+        const now = Date.now();
+        if (now - lastScrollTime < 380) return;
+
+        if (Math.abs(e.deltaY) > 10) {
+          if (e.deltaY > 0 && index < total - 1) {
+            lastScrollTime = now;
+            goTo(index + 1);
+          } else if (e.deltaY < 0 && index > 0) {
+            lastScrollTime = now;
+            goTo(index - 1);
+          }
+        }
+      };
+
+      const handleTouchStart = (e: TouchEvent) => {
+        touchStartY = e.touches[0].clientY;
+      };
+
+      const handleTouchEnd = (e: TouchEvent) => {
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchStartY - touchEndY;
+        const now = Date.now();
+
+        if (now - lastScrollTime < 380) return;
+
+        if (Math.abs(deltaY) > 25) {
+          if (deltaY > 0 && index < total - 1) {
+            lastScrollTime = now;
+            goTo(index + 1);
+          } else if (deltaY < 0 && index > 0) {
+            lastScrollTime = now;
+            goTo(index - 1);
+          }
+        }
+      };
+
+      container.addEventListener("wheel", handleWheel, { passive: true });
+      container.addEventListener("touchstart", handleTouchStart, { passive: true });
+      container.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+      return () => {
+        container.removeEventListener("wheel", handleWheel);
+        container.removeEventListener("touchstart", handleTouchStart);
+        container.removeEventListener("touchend", handleTouchEnd);
+      };
+    }, [index, total]);
 
     // CSS vars
     const cssVars: CSSProperties = {
@@ -534,26 +589,20 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                       s.renderBackground(index === i, false)
                     ) : (
                       <div className="relative w-full h-full bg-[#040406] overflow-hidden">
-                        {/* Dynamic Radial Mesh Glow */}
+                        {/* Dynamic Subtle Dark Radial Aura */}
                         <div
                           className="absolute inset-0 transition-all duration-700"
                           style={{
-                            background: s.bgGradient || (i === 0
-                              ? "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.22) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)"
-                              : i === 1
-                              ? "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.22) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)"
-                              : i === 2
-                              ? "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.22) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)"
-                              : "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.22) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)"),
+                            background: s.bgGradient || "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 60%, #040406 100%)",
                           }}
                         />
 
-                        {/* Animated Glowing Cyber Grid Overlay */}
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.04)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-50" />
+                        {/* Subtle Grid Overlay */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40" />
 
-                        {/* Central Pulsing Plasma Core */}
+                        {/* Subtle Soft Ambient Core */}
                         <div
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full blur-[140px] pointer-events-none opacity-40 animate-pulse"
+                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full blur-[140px] pointer-events-none opacity-[0.08]"
                           style={{ backgroundColor: s.glowColor || "#ef4444" }}
                         />
                       </div>
@@ -679,8 +728,27 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: rgba(0,0,0,0.8); color: #ef4444; padding: 6px 8px; font: 12px/1 monospace; border-radius: 4px; border: 1px solid rgba(239,68,68,0.3);
           }
 
-          .fx-fixed-section { height: 400vh; position: relative; }
+          .fx-fixed-section { height: 220vh; position: relative; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
+
+          @media (max-width: 900px) {
+            .fx-fixed-section { height: 160vh; }
+            .fx-header { padding-top: clamp(100px, 14vh, 125px); }
+            .fx-content {
+              grid-template-columns: 1fr;
+              padding: 0 1rem;
+              place-items: center;
+            }
+            .fx-left, .fx-right { display: none !important; }
+            .fx-center {
+              height: auto;
+              max-height: 68vh;
+              overflow-y: auto;
+              padding: 0;
+              margin-top: clamp(10px, 2vh, 25px);
+            }
+            .fx-featured-title { font-size: clamp(1.6rem, 5.5vw, 2.5rem); }
+          }
           .fx-fixed::after {
             content: "";
             position: absolute;
@@ -769,9 +837,9 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-featured.active { opacity: 1; visibility: visible; }
           .fx-featured-title {
             margin: 0; color: #ef4444;
-            font-weight: 900; letter-spacing: -0.02em;
-            font-size: clamp(1.8rem, 4.5vw, 4.2rem);
-            line-height: 1.12;
+            font-weight: 900; letter-spacing: -0.03em;
+            font-size: clamp(3rem, 7vw, 5.8rem);
+            line-height: 1.05;
             padding: 0 0.5rem;
             text-wrap: balance;
             word-break: normal;
@@ -790,24 +858,6 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-progress { width: 180px; height: 2px; margin: 0.8rem auto 0; background: rgba(255,255,255,0.12); position: relative; border-radius: 999px; }
           .fx-progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: linear-gradient(90deg, #ef4444, #f43f5e); height: 100%; transition: width 0.3s ease; border-radius: 999px; }
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
-
-          @media (max-width: 900px) {
-            .fx-header { padding-top: clamp(100px, 14vh, 125px); }
-            .fx-content {
-              grid-template-columns: 1fr;
-              padding: 0 1rem;
-              place-items: center;
-            }
-            .fx-left, .fx-right { display: none !important; }
-            .fx-center {
-              height: auto;
-              max-height: 68vh;
-              overflow-y: auto;
-              padding: 0;
-              margin-top: clamp(10px, 2vh, 25px);
-            }
-            .fx-featured-title { font-size: clamp(1.3rem, 5vw, 2rem); }
-          }
         `}</style>
       </div>
     );

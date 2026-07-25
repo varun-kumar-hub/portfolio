@@ -352,7 +352,7 @@ export default function ExperienceBento() {
               ✦ Engineering Journey ✦
             </span>
             <p className="text-xs text-neutral-400 font-light">
-              Select a milestone to explore
+              Select an engineering track to explore
             </p>
           </div>
 
@@ -386,8 +386,8 @@ export default function ExperienceBento() {
                   </div>
 
                   <div className="flex flex-col">
-                    <span className="text-[10px] font-mono text-neutral-400 font-medium tracking-wider">
-                      MILESTONE {milestone.number}
+                    <span className="text-[10px] font-mono text-red-400/90 font-bold uppercase tracking-wider">
+                      {milestone.number} • {milestone.category}
                     </span>
                     <span
                       className={cn(
