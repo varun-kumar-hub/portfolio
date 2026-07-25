@@ -16,23 +16,23 @@ export function SpaceBackground({ className, style, ...props }: SpaceBackgroundP
     >
       <div className="absolute inset-0 bg-[#040406]" />
       
-      {/* Ambient Crimson Radial Mesh Glow matching Hero Section */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.12)_0%,rgba(15,17,23,0.9)_50%,#040406_100%)]" />
+      {/* Minimal Soft Red Radial Vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.05)_0%,rgba(15,17,23,0.98)_60%,#040406_100%)]" />
 
-      {/* Cyber Grid Lines matching Hero */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(239,68,68,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(239,68,68,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      {/* Subtle Micro-Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(239,68,68,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(239,68,68,0.015)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
 
-      {/* Crimson/Rose Starfield */}
+      {/* Minimal Faint Red Starfield */}
       <Starfield
-        starColor="rgba(248, 113, 113, 0.65)"
-        bgColor="rgba(4, 4, 6, 0.3)"
-        quantity={280}
-        speed={0.28}
-        opacity={0.18}
+        starColor="rgba(248, 113, 113, 0.4)"
+        bgColor="transparent"
+        quantity={160}
+        speed={0.2}
+        opacity={0.12}
         mouseAdjust
         easing={12}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(4,4,6,0.2)_62%,rgba(4,4,6,0.75)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(4,4,6,0.3)_60%,rgba(4,4,6,0.85)_100%)]" />
     </div>
   );
 }

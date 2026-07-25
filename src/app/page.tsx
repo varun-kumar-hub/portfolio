@@ -66,7 +66,7 @@ const heroFxSections: FXSection[] = [
       </div>
     ),
     rightLabel: "AI INNOVATOR",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.28) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.16) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#ef4444",
   },
 
@@ -122,7 +122,7 @@ const heroFxSections: FXSection[] = [
       </div>
     ),
     rightLabel: "PERSONAL PROFILE",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#e11d48",
   },
 
@@ -149,7 +149,7 @@ const heroFxSections: FXSection[] = [
       </div>
     ),
     rightLabel: "CORE ARCHITECTURE",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#f43f5e",
   },
 
@@ -216,7 +216,7 @@ const heroFxSections: FXSection[] = [
       </div>
     ),
     rightLabel: "PORTFOLIO ROADMAP",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#f87171",
   },
 ];
@@ -502,7 +502,7 @@ export default function Home() {
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-[#040406] shadow-[0_35px_60px_rgba(0,0,0,0.95)] border-b border-white/10">
+            <div className="relative z-20 bg-transparent">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -526,12 +526,29 @@ export default function Home() {
               </div>
 
               {/* ─── Smooth Transition Bridge: Slides -> Projects ─── */}
-              <div className="relative z-20 w-full bg-[#040406] -mt-16 pt-16">
+              <div className="relative z-20 w-full bg-transparent -mt-16 pt-16">
                 <div className="w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
               </div>
 
               {/* ─── Projects Directory Portal ─── */}
               <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
+                {/* Purely Visual Red Background Micro-Graphic Accents */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+                  <div className="absolute top-1/4 -left-16 w-64 h-64 bg-red-600/8 rounded-full blur-[90px]" />
+                  <div className="absolute bottom-10 -right-16 w-72 h-72 bg-rose-600/8 rounded-full blur-[100px]" />
+
+                  {/* Left & Right Fine Red Accent Lines & Glowing Micro Nodes */}
+                  <div className="hidden lg:flex flex-col items-center gap-3 absolute left-3 top-24">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-ping" />
+                    <div className="w-px h-28 bg-gradient-to-b from-red-500/30 via-red-500/10 to-transparent" />
+                  </div>
+
+                  <div className="hidden lg:flex flex-col items-center gap-3 absolute right-3 bottom-24">
+                    <div className="w-px h-28 bg-gradient-to-b from-transparent via-rose-500/10 to-rose-500/30" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400/60 shadow-[0_0_8px_rgba(244,63,94,0.6)] animate-pulse" />
+                  </div>
+                </div>
+
                 <SectionHeading eyebrow="Project Directory" title="Categorized Engineering Work" icon={<FolderGit2 size={16} />}>
                   Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
                 </SectionHeading>
@@ -614,6 +631,23 @@ export default function Home() {
 
               {/* ─── Skills ─── */}
               <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="skills">
+                {/* Purely Visual Red Background Micro-Graphic Accents */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+                  <div className="absolute top-1/3 -right-20 w-72 h-72 bg-red-600/8 rounded-full blur-[100px]" />
+                  <div className="absolute bottom-1/4 -left-20 w-64 h-64 bg-rose-600/8 rounded-full blur-[90px]" />
+
+                  {/* Horizontal Fine Accent Trace Lines */}
+                  <div className="hidden lg:flex items-center gap-2 absolute left-4 top-16">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                    <div className="w-32 h-px bg-gradient-to-r from-red-500/30 to-transparent" />
+                  </div>
+
+                  <div className="hidden lg:flex items-center gap-2 absolute right-4 bottom-16">
+                    <div className="w-32 h-px bg-gradient-to-l from-red-500/30 to-transparent" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+                  </div>
+                </div>
+
                 <div className="mx-auto max-w-6xl">
                   <SectionHeading eyebrow="Skills" title="Technical Toolkit" icon={<Wrench size={16} />}>
                     Languages, frameworks, database managers, and DevOps tools in my stack.
@@ -624,6 +658,22 @@ export default function Home() {
 
               {/* ─── Experience ─── */}
               <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
+                {/* Purely Visual Red Background Micro-Graphic Accents */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden z-0">
+                  <div className="absolute top-1/4 -left-20 w-72 h-72 bg-red-600/8 rounded-full blur-[100px]" />
+                  <div className="absolute bottom-12 -right-20 w-64 h-64 bg-rose-600/8 rounded-full blur-[90px]" />
+
+                  <div className="hidden lg:flex flex-col items-center gap-3 absolute left-3 top-20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400/60 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-ping" />
+                    <div className="w-px h-32 bg-gradient-to-b from-red-500/30 via-red-500/10 to-transparent" />
+                  </div>
+
+                  <div className="hidden lg:flex items-center gap-2 absolute right-4 bottom-20">
+                    <div className="w-24 h-px bg-gradient-to-l from-red-500/30 to-transparent" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-400/60 shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
+                  </div>
+                </div>
+
                 <div className="mx-auto max-w-6xl">
                   <SectionHeading eyebrow="Experience" title="Work History" icon={<Briefcase size={16} />}>
                     Professional contributions and developer roles in tech groups.
@@ -633,7 +683,7 @@ export default function Home() {
               </section>
 
               {/* ─── Smooth Transition Bridge into Footer ─── */}
-              <div className="relative z-20 w-full bg-gradient-to-b from-[#040406] via-neutral-950 to-black pt-12 border-t border-red-500/20">
+              <div className="relative z-20 w-full bg-gradient-to-b from-transparent via-neutral-950/80 to-black pt-12 border-t border-red-500/20">
                 <div className="flex items-center justify-center gap-4 text-xs font-mono tracking-[0.35em] uppercase text-red-400/60 pb-6">
                   <div className="w-16 h-px bg-gradient-to-r from-transparent to-red-500/40" />
                   <span className="animate-pulse">✦ GET IN TOUCH & CONNECT ✦</span>

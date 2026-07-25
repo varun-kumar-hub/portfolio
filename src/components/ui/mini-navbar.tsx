@@ -2,12 +2,90 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Sparkles, Terminal, X } from 'lucide-react';
-
+import { FileText, Sparkles, X, ChevronDown } from 'lucide-react';
+import { FontSwitcher } from '@/components/ui/font-switcher';
 
 interface NavbarProps {
   onReturnToIntro: () => void;
 }
+
+const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div ref={dropdownRef} className="relative z-50 inline-block">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-500/25 bg-black/70 hover:bg-red-950/40 text-neutral-200 hover:text-white text-xs font-semibold backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer"
+      >
+        <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:rotate-12 transition-transform" />
+        <span>Options</span>
+        <ChevronDown className={`w-3 h-3 text-neutral-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-red-400" : ""}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute right-0 mt-2 w-72 rounded-2xl bg-neutral-950/95 border border-red-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl p-3.5 z-[100] text-left space-y-3"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between pb-2 border-b border-red-500/20">
+              <span className="text-xs font-mono font-bold text-red-300 uppercase tracking-wider">
+                Navbar Options
+              </span>
+              <span className="text-[10px] font-mono text-neutral-500">Quick Preferences</span>
+            </div>
+
+            {/* Tool 1: Font Switcher */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono text-neutral-400 block uppercase tracking-wider px-1">
+                01. Typography Style
+              </span>
+              <div className="w-full">
+                <FontSwitcher />
+              </div>
+            </div>
+
+            {/* Tool 2: Return to Intro Portal */}
+            <div className="space-y-1.5 pt-1.5 border-t border-white/10">
+              <span className="text-[11px] font-mono text-neutral-400 block uppercase tracking-wider px-1">
+                02. Intro Navigation
+              </span>
+              <button
+                onClick={() => {
+                  onReturnToIntro();
+                  setIsOpen(false);
+                }}
+                className="w-full flex items-center justify-between p-2.5 rounded-xl border border-red-500/25 bg-red-950/30 hover:bg-red-900/50 text-red-200 hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer group shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:scale-110 transition-transform" />
+                  <span>Replay Intro Animation</span>
+                </div>
+                <span className="text-red-400 text-xs font-mono group-hover:translate-x-1 transition-transform">→</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 const AnimatedNavLink = ({
   href,
@@ -42,45 +120,36 @@ const AnimatedNavLink = ({
 
 export function Navbar({ onReturnToIntro }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [headerShapeClass, setHeaderShapeClass] = useState('rounded-full');
   const [activeSection, setActiveSection] = useState('home');
-  const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const headerShapeClass = isOpen ? 'rounded-2xl sm:rounded-3xl' : 'rounded-full';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Track active section via IntersectionObserver
   useEffect(() => {
-    const sectionIds = ['home', 'skills', 'projects', 'experience', 'contact'];
-    const observers: IntersectionObserver[] = [];
+    const handleScroll = () => {
+      const sections = ['home', 'skills', 'projects', 'experience', 'contact'];
+      const scrollPosition = window.scrollY + 200;
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveSection(id);
-            }
-          });
-        },
-        { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
-      );
-
-      observer.observe(el);
-      observers.push(observer);
-    });
-
-    return () => {
-      observers.forEach((obs) => obs.disconnect());
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (isOpen && menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -91,43 +160,13 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
-  // Close mobile menu on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isOpen) setIsOpen(false);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (shapeTimeoutRef.current) {
-      clearTimeout(shapeTimeoutRef.current);
-    }
-
-    if (isOpen) {
-      // On desktop the shape change is irrelevant since the mobile menu is hidden
-      shapeTimeoutRef.current = setTimeout(() => {
-        setHeaderShapeClass('rounded-2xl sm:rounded-full');
-      }, 0);
-    } else {
-      shapeTimeoutRef.current = setTimeout(() => {
-        setHeaderShapeClass('rounded-full');
-      }, 300);
-    }
-
-    return () => {
-      if (shapeTimeoutRef.current) {
-        clearTimeout(shapeTimeoutRef.current);
-      }
-    };
-  }, [isOpen]);
-
   const logoElement = (
-    <div className="relative w-6 h-6 flex items-center justify-center rounded-lg bg-red-500/10 border border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.2)] dark:bg-red-500/5">
-      <Terminal className="w-3.5 h-3.5 text-red-500 dark:text-red-400" strokeWidth={2.5} />
-      {/* Subtle pulsing background glow */}
-      <span className="absolute inset-0 rounded-lg bg-red-500/15 animate-pulse" />
+    <div className="relative w-7 h-7 flex items-center justify-center rounded-xl bg-gradient-to-br from-red-500/25 via-rose-600/15 to-transparent border border-red-500/40 shadow-[0_0_14px_rgba(239,68,68,0.35)] dark:bg-red-950/40 group cursor-pointer transition-all duration-300 hover:scale-105">
+      <span className="text-[11px] font-mono font-black tracking-tighter text-red-300 dark:text-red-200">
+        VK
+      </span>
+      {/* Ambient Pulsing Glow */}
+      <span className="absolute inset-0 rounded-xl bg-red-500/20 animate-pulse pointer-events-none" />
     </div>
   );
 
@@ -138,15 +177,6 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
     { label: 'Experience', href: '#experience' },
     { label: 'Contact', href: '#contact' },
   ];
-
-  const introButtonElement = (
-    <button
-      onClick={onReturnToIntro}
-      className="px-4 py-2 sm:px-3 text-xs font-semibold border border-gray-250/30 bg-white/20 dark:border-[#333] dark:bg-[rgba(31,31,31,0.62)] text-gray-800 dark:text-gray-300 rounded-full hover:border-gray-400 hover:text-gray-950 dark:hover:border-white/50 dark:hover:text-white transition-colors duration-200 w-full sm:w-auto cursor-pointer"
-    >
-      Intro
-    </button>
-  );
 
   const resumeButtonElement = (
     <div className="relative group w-full sm:w-auto overflow-hidden rounded-full p-[1px]">
@@ -174,10 +204,10 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
   return (
     <>
-      <div ref={menuRef} className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] sm:w-auto max-w-4xl flex flex-col items-center">
+      <div ref={menuRef} className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] sm:w-[92%] md:w-[88%] lg:w-[85%] max-w-6xl flex flex-col items-center">
         {/* ─── Top Bar (always visible) ─── */}
         <header className={`w-full flex items-center
-                           px-4 sm:pl-6 sm:pr-6 py-2.5 backdrop-blur-md
+                           px-5 sm:pl-8 sm:pr-8 py-3 backdrop-blur-md
                            ${headerShapeClass}
                            navbar-shimmer-border
                            border border-red-500/10 bg-white/80 dark:border-red-500/15 dark:bg-[#07070a7a]
@@ -185,18 +215,18 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                            transition-[border-radius] duration-300 ease-in-out`}>
 
           {/* Gloss reflection line across top edge */}
-          <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent pointer-events-none" />
 
-          <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-10 lg:gap-x-14">
+            <a href="#home" className="flex items-center gap-2.5 group">
                {logoElement}
-               <span className="text-xs font-bold tracking-[0.15em] text-gray-950 dark:text-white select-none">
-                 VARUN
+               <span className="text-xs sm:text-sm font-black tracking-[0.16em] text-gray-950 dark:text-white select-none transition-colors group-hover:text-red-400">
+                 VARUN KUMAR
                </span>
-            </div>
+            </a>
 
             {/* Desktop nav links */}
-            <nav className="hidden sm:flex items-center space-x-4 sm:space-x-5 text-sm">
+            <nav className="hidden md:flex items-center space-x-6 sm:space-x-8 lg:space-x-10 text-sm">
               {navLinksData.map((link) => (
                 <AnimatedNavLink key={link.href} href={link.href}>
                   {link.label}
@@ -204,9 +234,9 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
               ))}
             </nav>
 
-            {/* Desktop action buttons */}
-            <div className="hidden sm:flex items-center gap-2.5">
-              {introButtonElement}
+            {/* Desktop action buttons with NavOptionsMenu & Resume */}
+            <div className="hidden sm:flex items-center gap-3 sm:gap-4">
+              <NavOptionsMenu onReturnToIntro={onReturnToIntro} />
               {resumeButtonElement}
             </div>
 
@@ -293,16 +323,17 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             </div>
 
             {/* Bottom Actions & Status Footer */}
-            <div className="relative z-10 w-full pt-5 border-t border-white/10 flex flex-col gap-5">
+            <div className="relative z-10 w-full pt-5 border-t border-white/10 flex flex-col gap-4">
               {/* Action Buttons Row */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-between gap-2.5">
+                <FontSwitcher />
                 <div className="flex-1">
                   <button
                     onClick={() => {
                       onReturnToIntro();
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 text-xs font-bold border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+                    className="flex items-center justify-center gap-1.5 w-full px-3 py-2 text-xs font-bold border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-red-400" />
                     Intro Portal

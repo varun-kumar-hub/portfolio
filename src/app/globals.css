@@ -9,14 +9,15 @@
   --accent: hsl(var(--theme-hue), 85%, 60%);
   --accent-hover: hsl(var(--theme-hue), 85%, 50%);
   --accent-glow: hsla(var(--theme-hue), 85%, 60%, 0.15);
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-heading: var(--font-outfit), sans-serif;
+  --active-font: var(--font-space), var(--font-inter), sans-serif;
+  --font-sans: var(--active-font);
+  --font-heading: var(--active-font);
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: var(--font-sans);
-  --font-heading: var(--font-heading);
+  --font-sans: var(--active-font);
+  --font-heading: var(--active-font);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
@@ -26,8 +27,8 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: var(--font-heading) !important;
+body, h1, h2, h3, h4, h5, h6, p, span, button, a, input, textarea, div, .font-heading, .font-space {
+  font-family: var(--active-font);
 }
 
 

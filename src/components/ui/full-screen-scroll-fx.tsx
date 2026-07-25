@@ -702,7 +702,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
 
           .fx-header {
-            grid-column: 1 / 13; align-self: start; padding-top: 85px;
+            grid-column: 1 / 13; align-self: start; padding-top: clamp(115px, 14vh, 155px);
             text-align: center; color: var(--fx-text); z-index: 20;
           }
           .fx-header > * { display: block; }

@@ -1,5 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Inter, Syne, Space_Grotesk, Orbitron } from "next/font/google";
+import {
+  Outfit,
+  Inter,
+  Syne,
+  Space_Grotesk,
+  Orbitron,
+  Plus_Jakarta_Sans,
+  Fira_Code,
+  Playfair_Display,
+} from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 
@@ -33,6 +42,24 @@ const orbitron = Orbitron({
   display: "swap",
 });
 
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+});
+
+const firaCode = Fira_Code({
+  subsets: ["latin"],
+  variable: "--font-fira",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -62,7 +89,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`dark scroll-smooth antialiased ${outfit.variable} ${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${orbitron.variable}`}
+      className={`dark scroll-smooth antialiased ${outfit.variable} ${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${orbitron.variable} ${plusJakarta.variable} ${firaCode.variable} ${playfair.variable}`}
     >
       <body suppressHydrationWarning>
         <ThemeProvider>{children}</ThemeProvider>
