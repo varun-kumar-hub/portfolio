@@ -314,7 +314,7 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
 const cardVariants = {
   enter: (direction: number) => ({
     opacity: 0,
-    y: direction > 0 ? 24 : -24,
+    y: direction > 0 ? 28 : -28,
     filter: "blur(6px)",
   }),
   center: {
@@ -324,22 +324,27 @@ const cardVariants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
-    y: direction > 0 ? -24 : 24,
+    y: direction > 0 ? -28 : 28,
     filter: "blur(6px)",
   }),
 };
+
+type ScrollState = "IDLE_BEFORE" | "LOCKED" | "IDLE_AFTER";
 
 export default function ExperienceBento() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [isInView, setIsInView] = useState<boolean>(false);
+  const [scrollState, setScrollState] = useState<ScrollState>("IDLE_BEFORE");
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const accumulatedDeltaRef = useRef<number>(0);
   const touchStartYRef = useRef<number>(0);
   const isAnimatingRef = useRef<boolean>(false);
   const activeIndexRef = useRef<number>(0);
+  const scrollStateRef = useRef<ScrollState>("IDLE_BEFORE");
+  const lastTriggerTimeRef = useRef<number>(0);
+  const resetAccumulatorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const total = milestones.length;
 
   // Sync refs for event handlers
@@ -350,6 +355,10 @@ export default function ExperienceBento() {
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
+
+  useEffect(() => {
+    scrollStateRef.current = scrollState;
+  }, [scrollState]);
 
   /* ── Deep Linking & URL State Restoring ── */
   useEffect(() => {
@@ -379,6 +388,15 @@ export default function ExperienceBento() {
     window.history.replaceState(null, "", url.toString());
   }, []);
 
+  /* ── Smooth Center Scroll Alignment ── */
+  const centerSectionInViewport = useCallback(() => {
+    if (!wrapperRef.current || typeof window === "undefined") return;
+    const rect = wrapperRef.current.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const targetTop = rect.top + scrollTop - (window.innerHeight - rect.height) / 2;
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+  }, []);
+
   /* ── Step Transition Core Function ── */
   const goToIndex = useCallback((targetIndex: number, newDir?: number) => {
     if (targetIndex < 0 || targetIndex >= total) return;
@@ -391,7 +409,7 @@ export default function ExperienceBento() {
     setActiveIndex(targetIndex);
     updateUrlState(targetIndex);
 
-    // Safety timeout to unlock animation lock
+    // Lock buffer duration
     setTimeout(() => {
       setIsAnimating(false);
       isAnimatingRef.current = false;
@@ -410,7 +428,20 @@ export default function ExperienceBento() {
     }
   }, [goToIndex]);
 
-  /* ── Intersection Observer (70% Viewport Activation) ── */
+  /* ── Lock / Unlock Page Body Scroll Engine ── */
+  const lockPageScroll = useCallback(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+  }, []);
+
+  const unlockPageScroll = useCallback(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = "";
+    document.body.style.touchAction = "";
+  }, []);
+
+  /* ── Intersection Observer (Finite State Machine Trigger) ── */
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el || typeof window === "undefined") return;
@@ -418,121 +449,133 @@ export default function ExperienceBento() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setIsInView(entry.isIntersecting && entry.intersectionRatio >= 0.5);
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            if (scrollStateRef.current !== "LOCKED") {
+              const top = entry.boundingClientRect.top;
+              if (top > 0) {
+                setActiveIndex(0);
+                activeIndexRef.current = 0;
+              } else {
+                setActiveIndex(total - 1);
+                activeIndexRef.current = total - 1;
+              }
+              setScrollState("LOCKED");
+              scrollStateRef.current = "LOCKED";
+              lockPageScroll();
+              centerSectionInViewport();
+            }
+          }
         });
       },
-      { threshold: [0.5, 0.7, 0.9] }
+      { threshold: [0.5, 0.7] }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+      unlockPageScroll();
+    };
+  }, [total, lockPageScroll, unlockPageScroll, centerSectionInViewport]);
 
-  /* ── Wheel Event Accumulator & Lock ── */
+  /* ── Global Wheel Event Engine (Active When LOCKED) ── */
   useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el || typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (!isInView || isAnimatingRef.current) return;
+      if (scrollStateRef.current !== "LOCKED") return;
+      e.preventDefault();
 
-      const delta = e.deltaY;
-      accumulatedDeltaRef.current += delta;
+      const now = Date.now();
+      const COOLDOWN_MS = 450;
 
-      const THRESHOLD = 35;
+      if (now - lastTriggerTimeRef.current < COOLDOWN_MS || isAnimatingRef.current) return;
 
+      accumulatedDeltaRef.current += e.deltaY;
+      if (resetAccumulatorTimeoutRef.current) clearTimeout(resetAccumulatorTimeoutRef.current);
+      resetAccumulatorTimeoutRef.current = setTimeout(() => { accumulatedDeltaRef.current = 0; }, 160);
+
+      const THRESHOLD = 25;
       if (accumulatedDeltaRef.current > THRESHOLD) {
         accumulatedDeltaRef.current = 0;
+        lastTriggerTimeRef.current = now;
         if (activeIndexRef.current < total - 1) {
-          e.preventDefault();
           goToIndex(activeIndexRef.current + 1, 1);
+        } else {
+          setScrollState("IDLE_AFTER");
+          scrollStateRef.current = "IDLE_AFTER";
+          unlockPageScroll();
+          window.scrollBy({ top: 350, behavior: "smooth" });
         }
       } else if (accumulatedDeltaRef.current < -THRESHOLD) {
         accumulatedDeltaRef.current = 0;
+        lastTriggerTimeRef.current = now;
         if (activeIndexRef.current > 0) {
-          e.preventDefault();
           goToIndex(activeIndexRef.current - 1, -1);
+        } else {
+          setScrollState("IDLE_BEFORE");
+          scrollStateRef.current = "IDLE_BEFORE";
+          unlockPageScroll();
+          window.scrollBy({ top: -350, behavior: "smooth" });
         }
       }
     };
 
-    el.addEventListener("wheel", handleWheel, { passive: false });
-    return () => el.removeEventListener("wheel", handleWheel);
-  }, [isInView, total, goToIndex]);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [total, goToIndex, unlockPageScroll]);
 
-  /* ── Mobile Touch Vertical Swipe Handler ── */
+  /* ── Touch Vertical Swipe Engine ── */
   useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el || typeof window === "undefined") return;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartYRef.current = e.touches[0].clientY;
-    };
-
+    if (typeof window === "undefined") return;
+    const handleTouchStart = (e: TouchEvent) => { touchStartYRef.current = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
-      if (!isInView || isAnimatingRef.current) return;
-      const touchY = e.touches[0].clientY;
-      const diff = touchStartYRef.current - touchY;
-
-      const SWIPE_THRESHOLD = 45;
-
-      if (diff > SWIPE_THRESHOLD && activeIndexRef.current < total - 1) {
-        if (e.cancelable) e.preventDefault();
-        touchStartYRef.current = touchY;
-        goToIndex(activeIndexRef.current + 1, 1);
-      } else if (diff < -SWIPE_THRESHOLD && activeIndexRef.current > 0) {
-        if (e.cancelable) e.preventDefault();
-        touchStartYRef.current = touchY;
-        goToIndex(activeIndexRef.current - 1, -1);
+      if (scrollStateRef.current !== "LOCKED") return;
+      if (e.cancelable) e.preventDefault();
+      const diff = touchStartYRef.current - e.touches[0].clientY;
+      const now = Date.now();
+      if (now - lastTriggerTimeRef.current < 450 || isAnimatingRef.current) return;
+      const SWIPE_THRESHOLD = 35;
+      if (diff > SWIPE_THRESHOLD) {
+        touchStartYRef.current = e.touches[0].clientY;
+        lastTriggerTimeRef.current = now;
+        if (activeIndexRef.current < total - 1) goToIndex(activeIndexRef.current + 1, 1);
+        else { setScrollState("IDLE_AFTER"); scrollStateRef.current = "IDLE_AFTER"; unlockPageScroll(); window.scrollBy({ top: 300, behavior: "smooth" }); }
+      } else if (diff < -SWIPE_THRESHOLD) {
+        touchStartYRef.current = e.touches[0].clientY;
+        lastTriggerTimeRef.current = now;
+        if (activeIndexRef.current > 0) goToIndex(activeIndexRef.current - 1, -1);
+        else { setScrollState("IDLE_BEFORE"); scrollStateRef.current = "IDLE_BEFORE"; unlockPageScroll(); window.scrollBy({ top: -300, behavior: "smooth" }); }
       }
     };
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    return () => { window.removeEventListener("touchstart", handleTouchStart); window.removeEventListener("touchmove", handleTouchMove); };
+  }, [total, goToIndex, unlockPageScroll]);
 
-    el.addEventListener("touchstart", handleTouchStart, { passive: true });
-    el.addEventListener("touchmove", handleTouchMove, { passive: false });
-    return () => {
-      el.removeEventListener("touchstart", handleTouchStart);
-      el.removeEventListener("touchmove", handleTouchMove);
-    };
-  }, [isInView, total, goToIndex]);
-
-  /* ── Keyboard Accessibility ── */
+  /* ── Keyboard Accessibility Engine ── */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!isInView || isAnimatingRef.current) return;
-
+      if (scrollStateRef.current !== "LOCKED" || isAnimatingRef.current) return;
       if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) {
-        if (activeIndexRef.current < total - 1) {
-          e.preventDefault();
-          goToIndex(activeIndexRef.current + 1, 1);
-        }
+        e.preventDefault();
+        if (activeIndexRef.current < total - 1) goToIndex(activeIndexRef.current + 1, 1);
+        else { setScrollState("IDLE_AFTER"); scrollStateRef.current = "IDLE_AFTER"; unlockPageScroll(); window.scrollBy({ top: 350, behavior: "smooth" }); }
       } else if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey)) {
-        if (activeIndexRef.current > 0) {
-          e.preventDefault();
-          goToIndex(activeIndexRef.current - 1, -1);
-        }
-      } else if (e.key === "Home") {
         e.preventDefault();
-        goToIndex(0, -1);
-      } else if (e.key === "End") {
-        e.preventDefault();
-        goToIndex(total - 1, 1);
+        if (activeIndexRef.current > 0) goToIndex(activeIndexRef.current - 1, -1);
+        else { setScrollState("IDLE_BEFORE"); scrollStateRef.current = "IDLE_BEFORE"; unlockPageScroll(); window.scrollBy({ top: -350, behavior: "smooth" }); }
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isInView, total, goToIndex]);
+  }, [total, goToIndex, unlockPageScroll]);
 
   const activeMilestone = milestones[activeIndex];
 
   return (
-    <div
-      ref={wrapperRef}
-      className="relative w-full"
-    >
-        <motion.div
-          className="relative min-h-[85vh] lg:min-h-[90vh] w-full bg-[#040406] text-white flex flex-col justify-between py-8 sm:py-12 px-6 sm:px-12 lg:px-16 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-bottom"
-        >
+    <div ref={wrapperRef} className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center">
+      <div className="w-full h-full [perspective:1200px] z-10 flex flex-col justify-center">
+        <motion.div className="relative h-full max-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-6 sm:px-12 lg:px-16 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
           {/* Ambient Radial Background Aura */}
           <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />
@@ -792,5 +835,6 @@ export default function ExperienceBento() {
           </div>
         </motion.div>
       </div>
-    );
-  }
+    </div>
+  );
+}
