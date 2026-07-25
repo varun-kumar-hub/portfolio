@@ -354,6 +354,16 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.description}
           </p>
 
+          {/* Architecture Highlight Pill */}
+          {project.architecture && project.architecture.length > 0 && (
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-300 bg-white/[0.03] border border-white/10 rounded-xl px-2.5 py-1.5 mt-0.5">
+              <Cpu className="w-3.5 h-3.5 text-red-400 shrink-0" />
+              <span className="truncate text-neutral-300 font-medium">
+                <strong className="text-red-400 font-bold">Arch:</strong> {project.architecture[0].title}
+              </span>
+            </div>
+          )}
+
           {/* Tech stack capsules */}
           <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-neutral-800/60">
             {stackItems.slice(0, 3).map((tech) => (
@@ -757,7 +767,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mx-auto max-w-6xl">
+                <div className="mx-auto max-w-[92rem] xl:max-w-[96rem]">
                   <SectionHeading eyebrow="Experience & Mastery" title="Work History & Engineering Learnings" icon={<Briefcase size={16} />}>
                     Developer roles in tech chapters alongside practical engineering insights, performance optimizations, and architectural lessons from building production projects.
                   </SectionHeading>

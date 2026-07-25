@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   Shield,
@@ -99,10 +99,10 @@ const milestones: Milestone[] = [
       { value: "10+ hrs", label: "Time Saved Per Project" },
     ],
     learnings: [
-      "8-agent pipeline design (Intent → Search → Scrape → Merge → Verify)",
-      "Resilient API rate-limit fallbacks across Gemini 2.5 Flash, Tavily & Serper",
-      "Zero-knowledge client-side Gemini API key storage in local browser",
-      "Supabase PostgreSQL schema architecture for verified research reports",
+      "Multi-agent autonomous system design & state machine orchestration",
+      "Parallel web scraping, deduplication & empirical claim verification",
+      "Zero-knowledge client-side API key encryption & browser security",
+      "High-throughput Gemini API streaming & structured JSON schema synthesis",
     ],
     skills: ["Next.js 16", "Gemini 2.5 Flash", "Serper API", "Tavily Search", "Supabase", "TypeScript"],
     link: "/projects/researchx-ai",
@@ -119,14 +119,14 @@ const milestones: Milestone[] = [
     description:
       "Built an AI-orchestrated learning engine converting complex technical subjects into 2D force-directed knowledge graphs at 60 FPS. Synthesizes structured lesson paths, active-recall flashcards, and adaptive diagnostic quizzes.",
     responsibilities: [
-      "Built a unified learning platform that converts multi-topic curricula into structured learning paths.",
-      "Developed an adaptive revision flashcard system and difficulty-tiered self-grading quiz generator.",
-      "Created a public Community Hub allowing learners to share, star, and clone custom study graphs."
+      "Engineered force-directed 2D canvas graphs rendering complex concept hierarchies smoothly at 60 FPS.",
+      "Synthesized AI lesson generators creating structured modules, flashcards, and diagnostic quizzes.",
+      "Designed interactive concept nodes with real-time mastery tracking and progress persistence."
     ],
     architecture: [
-      "Integrated 2D force-directed graph physics engine (Force Graph 2D) rendering concept maps at 60 FPS.",
-      "Ingested subject themes into Gemini 2.5 Flash to synthesize detailed chapter lessons and comparative matrices.",
-      "Designed Supabase PostgreSQL relational schemas tracking student study accuracy and weak spots."
+      "Implemented Canvas2D node-link physics simulation with smooth zoom and pan controls.",
+      "Structured Gemini API prompts for deterministic JSON concept node tree generation.",
+      "Optimized React component re-renders during high-frequency graph drag-and-drop interactions."
     ],
     metrics: [
       { value: "60 FPS", label: "Graph Render Speed" },
@@ -134,10 +134,10 @@ const milestones: Milestone[] = [
       { value: "Adaptive", label: "Quiz Diagnostics Engine" },
     ],
     learnings: [
-      "Force-directed 2D graph engine rendering concept maps at 60fps",
-      "In-context AI conversational tutor providing real-time doubt resolution",
-      "Adaptive quiz engine with difficulty tiers & conceptual weakness radar",
-      "Community hub allowing learners to publish, clone & share study paths",
+      "Interactive 2D canvas physics & high-performance graph visualization",
+      "Prompt engineering for deterministic tree structures & JSON schema validation",
+      "Active-recall flashcard algorithms & spaced-repetition data modeling",
+      "Responsive state management for complex nested interactive UI components",
     ],
     skills: ["React", "Next.js 16", "Force Graph 2D", "Gemini API", "Tailwind CSS", "Vercel"],
     link: "/projects/learnx",
@@ -154,14 +154,14 @@ const milestones: Milestone[] = [
     description:
       "Architected an NLP document intelligence engine using Python & NLTK. Parses PDF/DOCX resumes, tokenizes skill entities, and calculates mathematical TF-IDF vector similarity to boost candidate ATS match scores by 25%.",
     responsibilities: [
-      "Engineered a Python NLP document parsing engine extracting candidate skills, work history, and education.",
-      "Developed an ATS compatibility diagnostic score report evaluating keyword density and formatting.",
-      "Built an application Kanban board tracking job applications across Applied, Interviewing, and Offer stages."
+      "Engineered NLTK text processing pipelines extracting skills, experience timelines, and qualifications.",
+      "Built TF-IDF vector similarity comparison engines scoring candidate resumes against job descriptions.",
+      "Designed clean desktop and web UI interfaces presenting actionable ATS optimization recommendations."
     ],
     architecture: [
-      "Built PyPDF2 text extraction and NLTK tokenization, stop-word filtering, and lemmatization pipeline.",
-      "Calculated mathematical TF-IDF cosine similarity between resume vectors and job listing requirements.",
-      "Synthesized generative AI bullet point rewrites and tailored cover letters aligning applicant achievements."
+      "Developed PyPDF2 and docx document extraction with regex sanitization.",
+      "Implemented TF-IDF cosine similarity scoring to measure semantic keyword alignment.",
+      "Built structured SQLite database schemas storing candidate history and evaluation benchmarks."
     ],
     metrics: [
       { value: "+25%", label: "Average ATS Match Gain" },
@@ -169,10 +169,10 @@ const milestones: Milestone[] = [
       { value: "TF-IDF", label: "Cosine Vector Matcher" },
     ],
     learnings: [
-      "PyPDF2 text extraction & NLTK part-of-speech tokenization pipeline",
-      "Mathematical TF-IDF cosine similarity for candidate-job vector matching",
-      "Generative AI bullet point rewrites & cover letter synthesis",
-      "Job application Kanban tracker categorizing application stages",
+      "Natural Language Processing (NLP), tokenization & entity extraction",
+      "Mathematical vector space models (TF-IDF, Cosine Similarity)",
+      "Document parsing algorithms for unstructured text in PDF/DOCX formats",
+      "Designing actionable feedback dashboards for automated analysis tools",
     ],
     skills: ["Python", "NLTK", "PyPDF2", "TF-IDF", "Tkinter", "SQLite", "React"],
     link: "/projects/resume-analyzer",
@@ -189,14 +189,14 @@ const milestones: Milestone[] = [
     description:
       "Architected TripCrafter Pro (Gemini 2.5 Flash travel planner with interactive Google Maps waypoints & live weather) and automated Python scrapers indexing emerging AI tech tools into PostgreSQL with zero downtime.",
     responsibilities: [
-      "Built TripCrafter Pro, synthesizing day-by-day itineraries complete with GPS waypoints and weather forecasts.",
-      "Created AI Tools Tracker, an automated web scraping pipeline cataloging tech tools into a searchable database.",
-      "Implemented real-time expense tracking with budget pie charts and one-click .ics calendar export."
+      "Architected TripCrafter Pro with Gemini 2.5 Flash AI itinerary generation under 5 seconds.",
+      "Built automated Python scrapers indexing emerging AI tech tools into structured PostgreSQL databases.",
+      "Integrated Google Maps JavaScript API with custom marker clustering and route polyline rendering."
     ],
     architecture: [
-      "Integrated Google Maps API with interactive route markers, distance calculations, and drag-and-drop ordering.",
-      "Built BeautifulSoup Python web scrapers with PostgreSQL indexing and automated deduplication.",
-      "Configured Supabase Auth, Row Level Security (RLS) policies, and serverless Vercel edge API routes."
+      "Engineered serverless API routes with caching layers to keep response times under 100ms.",
+      "Implemented BeautifulSoup & Selenium web scraping pipelines with proxy rotation.",
+      "Configured Supabase PostgreSQL database tables with optimized indexes for fast search queries."
     ],
     metrics: [
       { value: "<5s", label: "Itinerary Synthesis Time" },
@@ -204,10 +204,10 @@ const milestones: Milestone[] = [
       { value: "100%", label: "Serverless Cloud Uptime" },
     ],
     learnings: [
-      "Interactive Google Maps route waypoint pinning & drag-and-drop ordering",
-      "Automated Python BeautifulSoup scrapers with PostgreSQL indexing",
-      "Supabase Auth, PostgreSQL relational schema modeling & RLS security",
-      "Serverless API route optimization and Vercel cloud deployment",
+      "Full-stack serverless architecture & edge caching strategies",
+      "Robust web scraping pipelines with dynamic JavaScript rendering & error handling",
+      "Interactive mapping APIs, custom marker rendering & geospatial visualization",
+      "Relational database schema optimization & SQL index design for fast search",
     ],
     skills: ["TripCrafter Pro", "Google Maps API", "BeautifulSoup", "PostgreSQL", "Supabase", "Vercel"],
     link: "/projects/tripcrafter-pro",
@@ -219,7 +219,7 @@ const milestones: Milestone[] = [
 /* ── 3D Apple-Style Glass Sculpture Component ── */
 function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] }) {
   return (
-    <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 flex items-center justify-center select-none shrink-0">
+    <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-[26rem] lg:h-[26rem] flex items-center justify-center select-none shrink-0">
       {/* Background Soft Aura Ring */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-red-600/15 via-transparent to-red-500/10 blur-3xl pointer-events-none" />
 
@@ -227,9 +227,9 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-        className="absolute inset-2 sm:inset-4 rounded-full border border-white/10 [transform-style:preserve-3d] [transform:rotateX(65deg)_rotateY(-15deg)] shadow-[0_0_50px_rgba(239,68,68,0.15)] pointer-events-none"
+        className="absolute inset-2 sm:inset-4 rounded-full border border-white/10 [transform-style:preserve-3d] [transform:rotateX(65deg)_rotateY(-15deg)] shadow-[0_0_60px_rgba(239,68,68,0.2)] pointer-events-none"
       >
-        <span className="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.9)]" />
+        <span className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-red-500/80 shadow-[0_0_18px_rgba(239,68,68,0.9)]" />
       </motion.div>
 
       {/* Inner Counter-Rotating Ring */}
@@ -238,13 +238,13 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
         transition={{ duration: 18, ease: "linear", repeat: Infinity }}
         className="absolute inset-8 sm:inset-12 rounded-full border border-red-500/20 [transform-style:preserve-3d] [transform:rotateX(-55deg)_rotateY(25deg)] pointer-events-none"
       >
-        <span className="absolute bottom-0 right-1/2 translate-x-1/2 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-rose-400 shadow-[0_0_10px_rgba(244,63,94,0.9)]" />
+        <span className="absolute bottom-0 right-1/2 translate-x-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.9)]" />
       </motion.div>
 
       {/* Central Glass Object Container */}
       <motion.div
         animate={{
-          y: [-6, 6, -6],
+          y: [-8, 8, -8],
           rotateY: [-10, 10, -10],
           rotateX: [4, -4, 4],
         }}
@@ -253,11 +253,11 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
           ease: "easeInOut",
           repeat: Infinity,
         }}
-        className="relative z-10 w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl sm:rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] flex items-center justify-center group overflow-hidden"
+        className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex items-center justify-center group overflow-hidden"
       >
         {/* Glass Reflection Highlight Lines */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute -top-12 -left-12 w-24 h-24 sm:w-28 sm:h-28 bg-red-500/20 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-12 -left-12 w-28 h-28 sm:w-36 sm:h-36 bg-red-500/20 rounded-full blur-xl pointer-events-none" />
 
         {/* Dynamic Icon Core Based on Visual Type */}
         <AnimatePresence mode="wait">
@@ -270,339 +270,527 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
             className="relative z-20 flex items-center justify-center text-red-400"
           >
             {visualType === "shield" && (
-              <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <Shield className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 stroke-[1.25] text-red-400 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]" />
-                <span className="text-[9px] sm:text-[10px] font-mono text-neutral-400 tracking-widest uppercase font-semibold">SECURE CORE</span>
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
+                <Shield className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.6)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">SECURE CORE</span>
               </div>
             )}
             {visualType === "speed" && (
-              <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <Zap className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 stroke-[1.25] text-red-400 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]" />
-                <span className="text-[9px] sm:text-[10px] font-mono text-neutral-400 tracking-widest uppercase font-semibold">EDTECH AI</span>
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
+                <Zap className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.6)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">EDTECH AI</span>
               </div>
             )}
             {visualType === "ai" && (
-              <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <Cpu className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 stroke-[1.25] text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.5)]" />
-                <span className="text-[9px] sm:text-[10px] font-mono text-neutral-400 tracking-widest uppercase font-semibold">RESEARCH AI</span>
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
+                <Cpu className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-purple-400 drop-shadow-[0_0_24px_rgba(168,85,247,0.6)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">RESEARCH AI</span>
               </div>
             )}
             {visualType === "data" && (
-              <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <Database className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 stroke-[1.25] text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]" />
-                <span className="text-[9px] sm:text-[10px] font-mono text-neutral-400 tracking-widest uppercase font-semibold">NLP RESUME</span>
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
+                <Database className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-emerald-400 drop-shadow-[0_0_24px_rgba(16,185,129,0.6)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">NLP RESUME</span>
               </div>
             )}
             {visualType === "cloud" && (
-              <div className="flex flex-col items-center gap-1 sm:gap-2">
-                <Cloud className="w-10 h-10 sm:w-14 sm:h-14 lg:w-16 lg:h-16 stroke-[1.25] text-amber-400 drop-shadow-[0_0_20px_rgba(245,158,11,0.5)]" />
-                <span className="text-[9px] sm:text-[10px] font-mono text-neutral-400 tracking-widest uppercase font-semibold">CLOUD STACK</span>
+              <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
+                <Cloud className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-amber-400 drop-shadow-[0_0_24px_rgba(245,158,11,0.6)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">CLOUD STACK</span>
               </div>
             )}
           </motion.div>
         </AnimatePresence>
 
         {/* Ambient Corner Accents */}
-        <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-white/30" />
-        <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-white/30" />
+        <div className="absolute top-3 left-3 w-2.5 h-2.5 border-t border-l border-white/30" />
+        <div className="absolute bottom-3 right-3 w-2.5 h-2.5 border-b border-r border-white/30" />
       </motion.div>
     </div>
   );
 }
 
+/* ── Motion Variants ── */
+const cardVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? 24 : -24,
+    filter: "blur(6px)",
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? -24 : 24,
+    filter: "blur(6px)",
+  }),
+};
+
 export default function ExperienceBento() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [direction, setDirection] = useState<number>(1);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [isInView, setIsInView] = useState<boolean>(false);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const accumulatedDeltaRef = useRef<number>(0);
+  const touchStartYRef = useRef<number>(0);
+  const isAnimatingRef = useRef<boolean>(false);
+  const activeIndexRef = useRef<number>(0);
+  const total = milestones.length;
 
-  // Apple-Style 3D Scroll Depth Unfold & Lift
-  const { scrollYProgress } = useScroll({
-    target: wrapperRef,
-    offset: ["start end", "end start"],
-  });
+  // Sync refs for event handlers
+  useEffect(() => {
+    isAnimatingRef.current = isAnimating;
+  }, [isAnimating]);
 
-  const scale = useTransform(scrollYProgress, [0, 0.4, 0.85, 1], [0.96, 1, 1, 0.93]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.85, 1], [0.8, 1, 1, 0.75]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.85, 1], [2, 0, 0, 4]);
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  /* ── Deep Linking & URL State Restoring ── */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const expParam = urlParams.get("experience") || urlParams.get("item");
+    if (expParam) {
+      const parsed = parseInt(expParam, 10);
+      if (!isNaN(parsed) && parsed >= 0 && parsed < total) {
+        setActiveIndex(parsed);
+      }
+    } else {
+      const hash = window.location.hash;
+      if (hash.includes("item=")) {
+        const hashVal = parseInt(hash.split("item=")[1], 10);
+        if (!isNaN(hashVal) && hashVal >= 0 && hashVal < total) {
+          setActiveIndex(hashVal);
+        }
+      }
+    }
+  }, [total]);
+
+  const updateUrlState = useCallback((idx: number) => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("experience", idx.toString());
+    window.history.replaceState(null, "", url.toString());
+  }, []);
+
+  /* ── Step Transition Core Function ── */
+  const goToIndex = useCallback((targetIndex: number, newDir?: number) => {
+    if (targetIndex < 0 || targetIndex >= total) return;
+    if (targetIndex === activeIndexRef.current) return;
+
+    const calcDir = newDir ?? (targetIndex > activeIndexRef.current ? 1 : -1);
+    setDirection(calcDir);
+    setIsAnimating(true);
+    isAnimatingRef.current = true;
+    setActiveIndex(targetIndex);
+    updateUrlState(targetIndex);
+
+    // Safety timeout to unlock animation lock
+    setTimeout(() => {
+      setIsAnimating(false);
+      isAnimatingRef.current = false;
+    }, 450);
+  }, [total, updateUrlState]);
+
+  const handleNext = useCallback(() => {
+    if (activeIndexRef.current < total - 1) {
+      goToIndex(activeIndexRef.current + 1, 1);
+    }
+  }, [goToIndex, total]);
+
+  const handlePrev = useCallback(() => {
+    if (activeIndexRef.current > 0) {
+      goToIndex(activeIndexRef.current - 1, -1);
+    }
+  }, [goToIndex]);
+
+  /* ── Intersection Observer (70% Viewport Activation) ── */
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting && entry.intersectionRatio >= 0.5);
+        });
+      },
+      { threshold: [0.5, 0.7, 0.9] }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  /* ── Wheel Event Accumulator & Lock ── */
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (!isInView || isAnimatingRef.current) return;
+
+      const delta = e.deltaY;
+      accumulatedDeltaRef.current += delta;
+
+      const THRESHOLD = 35;
+
+      if (accumulatedDeltaRef.current > THRESHOLD) {
+        accumulatedDeltaRef.current = 0;
+        if (activeIndexRef.current < total - 1) {
+          e.preventDefault();
+          goToIndex(activeIndexRef.current + 1, 1);
+        }
+      } else if (accumulatedDeltaRef.current < -THRESHOLD) {
+        accumulatedDeltaRef.current = 0;
+        if (activeIndexRef.current > 0) {
+          e.preventDefault();
+          goToIndex(activeIndexRef.current - 1, -1);
+        }
+      }
+    };
+
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    return () => el.removeEventListener("wheel", handleWheel);
+  }, [isInView, total, goToIndex]);
+
+  /* ── Mobile Touch Vertical Swipe Handler ── */
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el || typeof window === "undefined") return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartYRef.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!isInView || isAnimatingRef.current) return;
+      const touchY = e.touches[0].clientY;
+      const diff = touchStartYRef.current - touchY;
+
+      const SWIPE_THRESHOLD = 45;
+
+      if (diff > SWIPE_THRESHOLD && activeIndexRef.current < total - 1) {
+        if (e.cancelable) e.preventDefault();
+        touchStartYRef.current = touchY;
+        goToIndex(activeIndexRef.current + 1, 1);
+      } else if (diff < -SWIPE_THRESHOLD && activeIndexRef.current > 0) {
+        if (e.cancelable) e.preventDefault();
+        touchStartYRef.current = touchY;
+        goToIndex(activeIndexRef.current - 1, -1);
+      }
+    };
+
+    el.addEventListener("touchstart", handleTouchStart, { passive: true });
+    el.addEventListener("touchmove", handleTouchMove, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [isInView, total, goToIndex]);
+
+  /* ── Keyboard Accessibility ── */
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isInView || isAnimatingRef.current) return;
+
+      if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) {
+        if (activeIndexRef.current < total - 1) {
+          e.preventDefault();
+          goToIndex(activeIndexRef.current + 1, 1);
+        }
+      } else if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey)) {
+        if (activeIndexRef.current > 0) {
+          e.preventDefault();
+          goToIndex(activeIndexRef.current - 1, -1);
+        }
+      } else if (e.key === "Home") {
+        e.preventDefault();
+        goToIndex(0, -1);
+      } else if (e.key === "End") {
+        e.preventDefault();
+        goToIndex(total - 1, 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isInView, total, goToIndex]);
 
   const activeMilestone = milestones[activeIndex];
 
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev < milestones.length - 1 ? prev + 1 : 0));
-  }, []);
-
-  const handlePrev = useCallback(() => {
-    setActiveIndex((prev) => (prev > 0 ? prev - 1 : milestones.length - 1));
-  }, []);
-
-  // Keyboard Navigation (Up/Down Arrows)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
-        handleNext();
-      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
-        handlePrev();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [handleNext, handlePrev]);
-
   return (
-    <div ref={wrapperRef} className="[perspective:1200px] w-full">
-      <motion.div
-        ref={containerRef}
-        style={{ scale, opacity, rotateX }}
-        className="relative min-h-[85vh] lg:min-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-8 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-bottom"
-      >
-      {/* Ambient Radial Background Aura */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[500px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[140px]" />
-      </div>
-
-      {/* ── MOBILE ONLY: Top Horizontal Milestone Selector ── */}
-      <div className="lg:hidden relative z-20 w-full mb-6 pb-3 border-b border-white/10 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-red-400 font-bold">
-            ✦ Engineering Journey ✦
-          </span>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={handlePrev}
-              className="p-1.5 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="text-[11px] font-mono text-neutral-400 px-1">
-              {activeIndex + 1}/{milestones.length}
-            </span>
-            <button
-              onClick={handleNext}
-              className="p-1.5 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-
-        {/* Scrollable Milestone Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-          {milestones.map((milestone, idx) => {
-            const isActive = idx === activeIndex;
-            return (
-              <button
-                key={milestone.id}
-                onClick={() => setActiveIndex(idx)}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0",
-                  isActive
-                    ? "bg-red-500/20 border border-red-500/50 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
-                    : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white"
-                )}
-              >
-                {milestone.number}. {milestone.title.split(" ")[0]}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Main 3-Column Storytelling Grid (Desktop & Tablet) */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center flex-1 py-2 sm:py-6">
-        
-        {/* ── LEFT COLUMN: Vertical Navigation Timeline (Desktop Only 3 Cols) ── */}
-        <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-6 text-left border-r border-white/10 pr-8">
-          <div className="space-y-1">
-            <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-red-400/90 font-bold block">
-              ✦ Engineering Journey ✦
-            </span>
-            <p className="text-xs text-neutral-400 font-light">
-              Select an engineering track to explore
-            </p>
+    <div
+      ref={wrapperRef}
+      className="relative w-full"
+    >
+        <motion.div
+          className="relative min-h-[85vh] lg:min-h-[90vh] w-full bg-[#040406] text-white flex flex-col justify-between py-8 sm:py-12 px-6 sm:px-12 lg:px-16 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-bottom"
+        >
+          {/* Ambient Radial Background Aura */}
+          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />
           </div>
 
-          {/* Timeline Nodes */}
-          <div className="relative space-y-4">
-            <div className="absolute left-[15px] top-4 bottom-4 w-px bg-white/10" />
-
-            {milestones.map((milestone, idx) => {
-              const isActive = idx === activeIndex;
-              return (
+          {/* ── MOBILE ONLY: Top Horizontal Milestone Selector ── */}
+          <div className="lg:hidden relative z-20 w-full mb-6 pb-3 border-b border-white/10 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-red-400 font-bold">
+                ✦ Engineering Journey ✦
+              </span>
+              <div className="flex items-center gap-1.5">
                 <button
-                  key={milestone.id}
-                  onClick={() => setActiveIndex(idx)}
-                  className={cn(
-                    "group relative flex items-center gap-4 w-full text-left transition-all duration-500 py-1.5 focus:outline-none",
-                    isActive ? "opacity-100" : "opacity-40 hover:opacity-80"
-                  )}
+                  onClick={handlePrev}
+                  disabled={activeIndex === 0}
+                  className="p-2 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <div className="relative z-10 flex h-8 w-8 items-center justify-center shrink-0">
-                    <div
-                      className={cn(
-                        "h-3.5 w-3.5 rounded-full transition-all duration-500",
-                        isActive
-                          ? "bg-red-400 shadow-[0_0_16px_rgba(239,68,68,0.9)] scale-125"
-                          : "bg-neutral-600 group-hover:bg-neutral-400"
-                      )}
-                    />
-                    {isActive && (
-                      <span className="absolute inset-0 rounded-full border border-red-500/60 animate-ping opacity-75" />
-                    )}
-                  </div>
-
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono text-red-400/90 font-bold uppercase tracking-wider">
-                      {milestone.number} • {milestone.category}
-                    </span>
-                    <span
-                      className={cn(
-                        "text-sm font-semibold tracking-tight transition-colors duration-300 line-clamp-1",
-                        isActive ? "text-white font-extrabold" : "text-neutral-300"
-                      )}
-                    >
-                      {milestone.title}
-                    </span>
-                  </div>
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-              );
-            })}
+                <span className="text-xs font-mono text-neutral-400 px-1.5">
+                  {activeIndex + 1}/{total}
+                </span>
+                <button
+                  onClick={handleNext}
+                  disabled={activeIndex === total - 1}
+                  className="p-2 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable Milestone Pills */}
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+              {milestones.map((milestone, idx) => {
+                const isActive = idx === activeIndex;
+                return (
+                  <button
+                    key={milestone.id}
+                    onClick={() => goToIndex(idx)}
+                    className={cn(
+                      "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0",
+                      isActive
+                        ? "bg-red-500/20 border border-red-500/50 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
+                        : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white"
+                    )}
+                  >
+                    {milestone.number}. {milestone.title.split(" ")[0]}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-3 pt-4">
-            <button
-              onClick={handlePrev}
-              aria-label="Previous Milestone"
-              className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all"
-            >
-              <ChevronUp className="w-4 h-4" />
-            </button>
-            <button
-              onClick={handleNext}
-              aria-label="Next Milestone"
-              className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all"
-            >
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            <span className="text-[11px] font-mono text-neutral-500">
-              {activeIndex + 1} / {milestones.length}
-            </span>
-          </div>
-        </div>
-
-        {/* ── CENTER COLUMN: Cinematic Storytelling Area (5 Cols on Desktop) ── */}
-        <div className="lg:col-span-5 flex flex-col justify-center text-left space-y-4 sm:space-y-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeMilestone.id}
-              initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="space-y-4 sm:space-y-6"
-            >
-              {/* Header Meta */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-red-500/90 tracking-tighter">
-                    {activeMilestone.number}
-                  </span>
-                  <div className="h-7 sm:h-8 w-px bg-white/10" />
-                  <div>
-                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-red-400 font-bold block">
-                      {activeMilestone.category}
-                    </span>
-                    <span className="text-[11px] sm:text-xs text-neutral-400 font-mono">
-                      {activeMilestone.timeline}
-                    </span>
-                  </div>
-                </div>
-
-                <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug pt-1">
-                  {activeMilestone.title}
-                </h3>
-                <p className="text-xs sm:text-sm font-semibold text-neutral-300 tracking-wide">
-                  {activeMilestone.subtitle}
+          {/* Main 3-Column Storytelling Grid (Desktop & Tablet) */}
+          <div className="relative z-10 max-w-[90rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center flex-1 py-4 sm:py-8">
+            
+            {/* ── LEFT COLUMN: Vertical Navigation Timeline (Desktop Only 3 Cols) ── */}
+            <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-7 text-left border-r border-white/10 pr-10">
+              <div className="space-y-1.5">
+                <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-400/90 font-bold block">
+                  ✦ Engineering Journey ✦
+                </span>
+                <p className="text-xs sm:text-sm text-neutral-400 font-light">
+                  Scroll or click to explore tracks
                 </p>
               </div>
 
-              {/* Mobile Embedded Visual Sculpture Accent */}
-              <div className="lg:hidden flex justify-center py-2">
-                <GlassSculpture visualType={activeMilestone.visualType} />
-              </div>
+              {/* Timeline Nodes */}
+              <div className="relative space-y-5">
+                <div className="absolute left-[17px] top-4 bottom-4 w-px bg-white/10" />
 
-              {/* Brief Concise Story Description */}
-              <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
-                {activeMilestone.description}
-              </p>
-
-              {/* Minimalist Qualitative Metrics */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-white/10 py-3.5 sm:py-4 my-2">
-                {activeMilestone.metrics.map((metric, mIdx) => (
-                  <div key={mIdx} className="space-y-0.5 text-left">
-                    <span className="block text-base sm:text-2xl lg:text-3xl font-extrabold font-mono text-white tracking-tight">
-                      {metric.value}
-                    </span>
-                    <span className="block text-[9px] sm:text-xs text-neutral-400 font-medium leading-tight">
-                      {metric.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Skill Badges & Direct Case Study Link Trigger */}
-              <div className="space-y-3 pt-1">
-                <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                  {activeMilestone.skills.map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-full bg-white/[0.04] border border-white/10 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-mono text-neutral-300"
+                {milestones.map((milestone, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <button
+                      key={milestone.id}
+                      onClick={() => goToIndex(idx)}
+                      className={cn(
+                        "group relative flex items-center gap-4.5 w-full text-left transition-all duration-500 py-2 focus:outline-none",
+                        isActive ? "opacity-100" : "opacity-40 hover:opacity-80"
+                      )}
                     >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+                      <div className="relative z-10 flex h-9 w-9 items-center justify-center shrink-0">
+                        <div
+                          className={cn(
+                            "h-4 w-4 rounded-full transition-all duration-500",
+                            isActive
+                              ? "bg-red-400 shadow-[0_0_20px_rgba(239,68,68,0.9)] scale-125"
+                              : "bg-neutral-600 group-hover:bg-neutral-400"
+                          )}
+                        />
+                        {isActive && (
+                          <span className="absolute inset-0 rounded-full border border-red-500/60 animate-ping opacity-75" />
+                        )}
+                      </div>
 
-                {activeMilestone.link && (
-                  <div className="pt-1.5">
-                    <Link
-                      href={activeMilestone.link}
-                      className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs font-bold font-mono transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.15)] group"
-                    >
-                      <span>{activeMilestone.linkText || "Explore Project Case Study"}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </Link>
-                  </div>
-                )}
+                      <div className="flex flex-col gap-0.5">
+                        <span className="text-xs font-mono text-red-400/90 font-bold uppercase tracking-wider">
+                          {milestone.number} • {milestone.category}
+                        </span>
+                        <span
+                          className={cn(
+                            "text-sm sm:text-base font-semibold tracking-tight transition-colors duration-300 line-clamp-1",
+                            isActive ? "text-white font-extrabold" : "text-neutral-300"
+                          )}
+                        >
+                          {milestone.title}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
 
-        {/* ── RIGHT COLUMN: Minimal 3D Glass Sculpture (Desktop Only 4 Cols) ── */}
-        <div className="hidden lg:flex lg:col-span-4 items-center justify-center">
-          <GlassSculpture visualType={activeMilestone.visualType} />
-        </div>
+              {/* Navigation Controls */}
+              <div className="flex items-center gap-3.5 pt-4">
+                <button
+                  onClick={handlePrev}
+                  disabled={activeIndex === 0}
+                  aria-label="Previous Milestone"
+                  className="p-2.5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronUp className="w-4.5 h-4.5" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  disabled={activeIndex === total - 1}
+                  aria-label="Next Milestone"
+                  className="p-2.5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronDown className="w-4.5 h-4.5" />
+                </button>
+                <span className="text-xs font-mono text-neutral-400 font-semibold">
+                  {activeIndex + 1} / {total}
+                </span>
+              </div>
+            </div>
 
-      </div>
+            {/* ── CENTER COLUMN: Cinematic Storytelling Area (5 Cols on Desktop) ── */}
+            <div className="lg:col-span-5 flex flex-col justify-center text-left space-y-5 sm:space-y-7">
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={activeMilestone.id}
+                  custom={direction}
+                  variants={cardVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  onAnimationComplete={() => {
+                    setIsAnimating(false);
+                    isAnimatingRef.current = false;
+                  }}
+                  className="space-y-5 sm:space-y-7"
+                >
+                  {/* Header Meta */}
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-3.5">
+                      <span className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-mono text-red-500/90 tracking-tighter">
+                        {activeMilestone.number}
+                      </span>
+                      <div className="h-8 sm:h-10 w-px bg-white/10" />
+                      <div>
+                        <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-red-400 font-bold block">
+                          {activeMilestone.category}
+                        </span>
+                        <span className="text-xs sm:text-sm text-neutral-400 font-mono">
+                          {activeMilestone.timeline}
+                        </span>
+                      </div>
+                    </div>
 
-      {/* ── BOTTOM QUOTE: Full-Width Glass Strip ── */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full pt-4 sm:pt-6">
-        <div className="w-full rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2.5">
-            <Sparkles className="w-4 h-4 text-red-400 shrink-0" />
-            <p className="text-xs sm:text-sm text-neutral-300 font-light tracking-wide italic">
-              &ldquo;Every experience became a lesson. Every lesson became better engineering.&rdquo;
-            </p>
+                    <h3 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight pt-1">
+                      {activeMilestone.title}
+                    </h3>
+                    <p className="text-sm sm:text-base lg:text-lg font-semibold text-neutral-300 tracking-wide">
+                      {activeMilestone.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Mobile Embedded Visual Sculpture Accent */}
+                  <div className="lg:hidden flex justify-center py-2">
+                    <GlassSculpture visualType={activeMilestone.visualType} />
+                  </div>
+
+                  {/* Brief Concise Story Description */}
+                  <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl">
+                    {activeMilestone.description}
+                  </p>
+
+                  {/* Minimalist Qualitative Metrics */}
+                  <div className="grid grid-cols-3 gap-3 sm:gap-6 border-y border-white/10 py-4 sm:py-6 my-2">
+                    {activeMilestone.metrics.map((metric, mIdx) => (
+                      <div key={mIdx} className="space-y-1 text-left">
+                        <span className="block text-xl sm:text-3xl lg:text-4xl font-extrabold font-mono text-white tracking-tight">
+                          {metric.value}
+                        </span>
+                        <span className="block text-xs sm:text-sm text-neutral-400 font-medium leading-snug">
+                          {metric.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Skill Badges & Direct Case Study Link Trigger */}
+                  <div className="space-y-3.5 pt-1">
+                    <div className="flex flex-wrap gap-2">
+                      {activeMilestone.skills.map((skill) => (
+                        <span
+                          key={skill}
+                          className="rounded-full bg-white/[0.04] border border-white/10 px-3 sm:px-3.5 py-1 text-xs sm:text-sm font-mono text-neutral-300"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+
+                    {activeMilestone.link && (
+                      <div className="pt-2">
+                        <Link
+                          href={activeMilestone.link}
+                          className="inline-flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs sm:text-sm font-bold font-mono transition-all duration-300 shadow-[0_0_24px_rgba(239,68,68,0.18)] group"
+                        >
+                          <span>{activeMilestone.linkText || "Explore Project Case Study"}</span>
+                          <ArrowUpRight className="w-4 h-4 text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* ── RIGHT COLUMN: Minimal 3D Glass Sculpture (Desktop Only 4 Cols) ── */}
+            <div className="hidden lg:flex lg:col-span-4 items-center justify-center">
+              <GlassSculpture visualType={activeMilestone.visualType} />
+            </div>
+
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-neutral-500 shrink-0">
-            <span>VARUN KUMAR</span>
-            <span>•</span>
-            <span className="text-red-400 font-semibold">AI &amp; FULL-STACK</span>
+
+          {/* ── BOTTOM QUOTE: Full-Width Glass Strip ── */}
+          <div className="relative z-10 max-w-[90rem] mx-auto w-full pt-4 sm:pt-6">
+            <div className="w-full rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md px-6 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-3.5 text-center sm:text-left">
+              <div className="flex items-center gap-3">
+                <Sparkles className="w-5 h-5 text-red-400 shrink-0" />
+                <p className="text-sm sm:text-base text-neutral-300 font-light tracking-wide italic">
+                  &ldquo;Every experience became a lesson. Every lesson became better engineering.&rdquo;
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 shrink-0">
+                <span>VARUN KUMAR</span>
+                <span>•</span>
+                <span className="text-red-400 font-semibold">AI &amp; FULL-STACK</span>
+              </div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </motion.div>
-  </div>
-  );
-}
+    );
+  }

@@ -41,27 +41,27 @@ export const projects: Project[] = [
     solutionOverview: "LearnX unifies learning into an AI-orchestrated environment. Powered by Google Gemini 2.5 Flash, it ingests subject themes and synthesizes interactive knowledge graphs, step-by-step topic paths, adaptive revision flashcards, self-grading quizzes, and community study paths. It provides students with a single intelligent dashboard to learn, practice, analyze weaknesses, and master subjects structurally.",
     architecture: [
       {
-        title: "AI Knowledge Graph Engine",
-        description: "Converts complex multi-topic domains into interactive visual maps using force-directed graph rendering, displaying node dependencies, prerequisite topics, and conceptual relationships."
+        title: "Force-Directed AI Knowledge Graph Engine",
+        description: "Renders complex multi-topic domains into 60 FPS interactive visual maps using Canvas2D force-directed graph physics, displaying node dependencies, prerequisite topic structures, and conceptual relationships."
       },
       {
-        title: "Structured Learning Path Generator",
-        description: "Synthesizes multi-chapter study guides featuring detailed explanations, code snippets, comparative matrices, real-world examples, and step-by-step progression."
+        title: "Structured Learning Path Synthesizer",
+        description: "Synthesizes deterministic multi-chapter study guides featuring detailed markdown explanations, code snippets, comparative matrices, real-world examples, and step-by-step progression via Google Gemini 2.5 Flash."
       },
       {
         title: "Contextual AI Tutor Assistant",
-        description: "In-context AI conversational companion that provides real-time doubt resolution, code explanations, and customized analogical breakdowns based on student queries."
+        description: "In-context conversational AI companion that provides real-time doubt resolution, code explanations, and customized analogical breakdowns based on student queries."
       },
       {
-        title: "Adaptive Quiz & Flashcard Engine",
-        description: "Generates multiple-choice and short-answer quizzes across 3 difficulty tiers with instant score diagnostics, alongside active-recall flashcard decks."
+        title: "Adaptive Quiz & Active-Recall Engine",
+        description: "Generates multiple-choice and short-answer assessment tests across 3 difficulty tiers with instant score diagnostics, alongside spaced-repetition flashcard decks."
       },
       {
         title: "Learning Analytics & Mastery Radar",
-        description: "Tracks student attempt history, score progression charts, time spent per module, identified conceptual weak spots, and overall syllabus completion percentage."
+        description: "Tracks student attempt history, score progression charts, study time per module, identified conceptual weak spots, and overall syllabus completion percentage."
       },
       {
-        title: "Community Knowledge Hub",
+        title: "Community Marketplace & Graph Cloning",
         description: "Enables students to publish, discover, star, and clone custom learning paths and knowledge graphs created by peer learners worldwide."
       }
     ],
@@ -123,19 +123,23 @@ export const projects: Project[] = [
     architecture: [
       {
         title: "Multi-Format Document Ingestion Engine",
-        description: "Parses complex multi-page PDF and DOCX documents, extracting clean text and structural sections while filtering out binary artifacts."
+        description: "Parses complex multi-page PDF and DOCX documents using PyPDF2 and python-docx, extracting clean text and structural sections while filtering binary artifacts."
       },
       {
         title: "NLTK Tokenization & Lemmatization Pipeline",
-        description: "Tokenizes text, strips stop words, performs part-of-speech tagging, and maps terms against an engineering skill taxonomy."
+        description: "Tokenizes text, performs part-of-speech tagging, strips stop words, lemmatizes technical terminology, and maps entities against an engineering taxonomy."
       },
       {
-        title: "TF-IDF Vector Matcher & Keyword Gap Analysis",
-        description: "Calculates mathematical cosine similarity between candidate resume vectors and target job listing requirements."
+        title: "TF-IDF Cosine Vector Similarity Matcher",
+        description: "Calculates mathematical TF-IDF vector cosine similarity between candidate resume profiles and target job listings to isolate critical skill gaps."
+      },
+      {
+        title: "ATS Diagnostic & Audit Engine",
+        description: "Generates a 100-point ATS compatibility score evaluating keyword density, formatting risks, missing contact links, and section completeness."
       },
       {
         title: "AI Cover Letter & Bullet Point Optimizer",
-        description: "Synthesizes tailored application cover letters and suggests high-impact resume bullet point rewrites based on missing keywords."
+        description: "Synthesizes tailored application cover letters and suggests high-impact resume bullet point rewrites based on missing job description keywords."
       }
     ],
     details: [
@@ -193,36 +197,32 @@ export const projects: Project[] = [
     solutionOverview: "ResearchX AI automates end-to-end research by orchestrating an 8-agent autonomous pipeline. From query intent understanding to final report generation, each specialized agent executes a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks claims across independent web sources, and outputs fully cited reports alongside an interactive AI Analyst.",
     architecture: [
       {
-        title: "Query Understanding Agent",
-        description: "Executes intent classification, entity detection, query validation, and scope definition to formulate optimal research queries."
+        title: "Query Understanding & Scope Classifier",
+        description: "Executes intent classification, entity detection, query validation, and scope boundary mapping to formulate optimal research queries."
       },
       {
-        title: "Research Planner Agent",
-        description: "Deconstructs complex research goals into targeted sub-tasks and selects specialized API search providers for each sub-topic."
+        title: "Research Planner Swarm Coordinator",
+        description: "Deconstructs complex research objectives into targeted execution sub-tasks dispatched to specialized API search providers."
       },
       {
-        title: "Discovery Agent",
-        description: "Runs parallel searches across Google (Serper), Tavily, Wikipedia, LinkedIn, official documentation, and public directories."
+        title: "Parallel Multi-Source Discovery Swarm",
+        description: "Queries Google (Serper), Tavily Search, Wikipedia, and public directories concurrently with automated rate-limit fallbacks."
       },
       {
-        title: "Extraction Agent",
-        description: "Parses raw HTML and JSON payloads, extracting atomic facts, cleaning text noise, and preserving exact source URLs."
+        title: "Payload Parsing & Data Normalizer",
+        description: "Parses raw HTML and JSON payloads, extracting atomic facts, cleaning text noise, and preserving origin source URLs."
       },
       {
-        title: "Deduplication Agent",
-        description: "Detects redundant entities across search results and intelligently merges overlapping claims to eliminate duplicate data."
+        title: "Deduplication & Empirical Cross-Verification",
+        description: "Merges duplicate entity claims across independent search providers, detects conflicting data, and assigns 0–100% confidence ratings."
       },
       {
-        title: "Verification Agent",
-        description: "Cross-verifies claims across independent sources, detects conflicting data, and calculates empirical confidence scores."
+        title: "Executive Report & Evidence Synthesizer",
+        description: "Synthesizes executive intelligence briefs, analytical comparison tables, and fully cited Markdown reports with inline source links."
       },
       {
-        title: "Report Generation Agent",
-        description: "Synthesizes executive briefs, analytical breakdowns, and fully cited Markdown reports with inline evidence links."
-      },
-      {
-        title: "AI Analyst Agent",
-        description: "Conversational Q&A assistant answering follow-up queries with evidence-backed insights, citations, and source verification links."
+        title: "Interactive AI Analyst Companion",
+        description: "Conversational Q&A assistant answering follow-up queries with evidence-backed insights, citations, and verification links."
       }
     ],
     details: [
