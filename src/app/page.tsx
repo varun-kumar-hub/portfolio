@@ -12,6 +12,7 @@ import {
   FileText,
   Cpu,
   Terminal,
+  ChevronDown,
 } from "lucide-react";
 import { SpaceBackground } from "@/components/ui/space-background";
 import SkillsBento from "@/components/SkillsBento";
@@ -513,7 +514,7 @@ export default function Home() {
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-transparent">
+            <div className="relative z-20 bg-[#040406] shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -536,9 +537,26 @@ export default function Home() {
                 />
               </div>
 
-              {/* ─── Smooth Transition Bridge: Slides -> Projects ─── */}
-              <div className="relative z-20 w-full bg-transparent -mt-16 pt-16">
-                <div className="w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+              {/* ─── Unique Holographic Portal Transition Bridge: Hero Stage -> Projects Directory ─── */}
+              <div className="relative z-30 w-full bg-gradient-to-b from-transparent via-[#040406]/90 to-[#040406] py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
+                {/* Horizontal Cyber Beam with Moving Laser Pulse */}
+                <div className="relative w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent blur-[3px] animate-pulse" />
+                </div>
+
+                {/* Central Holographic Portal Badge */}
+                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-[#040406] border border-red-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.9)]" />
+                  <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-red-400 font-extrabold">
+                    ✦ ENTERING PRODUCTION DIRECTORY ✦
+                  </span>
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.9)]" />
+                </div>
+
+                {/* Pulsing Directional Indicator */}
+                <div className="mt-3 flex flex-col items-center gap-1 opacity-70">
+                  <ChevronDown className="w-4 h-4 text-red-400 animate-bounce" />
+                </div>
               </div>
 
               {/* ─── Projects Directory Portal ─── */}

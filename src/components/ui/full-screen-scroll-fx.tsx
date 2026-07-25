@@ -753,10 +753,10 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             content: "";
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            height: 100px;
-            background: linear-gradient(to bottom, transparent, rgba(4, 4, 6, 0.95));
+            height: 160px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(4, 4, 6, 0.75) 50%, #040406 100%);
             pointer-events: none;
-            z-index: 15;
+            z-index: 25;
           }
 
           .fx-grid {
