@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
   Shield,
@@ -313,6 +313,17 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
 export default function ExperienceBento() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // Apple-Style 3D Scroll Depth Unfold & Lift
+  const { scrollYProgress } = useScroll({
+    target: wrapperRef,
+    offset: ["start end", "end start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 0.4, 0.85, 1], [0.96, 1, 1, 0.93]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.85, 1], [0.8, 1, 1, 0.75]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.4, 0.85, 1], [2, 0, 0, 4]);
 
   const activeMilestone = milestones[activeIndex];
 
@@ -338,10 +349,12 @@ export default function ExperienceBento() {
   }, [handleNext, handlePrev]);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-[85vh] lg:min-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-8 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-all duration-500 shadow-[0_25px_80px_rgba(0,0,0,0.85)]"
-    >
+    <div ref={wrapperRef} className="[perspective:1200px] w-full">
+      <motion.div
+        ref={containerRef}
+        style={{ scale, opacity, rotateX }}
+        className="relative min-h-[85vh] lg:min-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-8 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-bottom"
+      >
       {/* Ambient Radial Background Aura */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[500px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[140px]" />
@@ -589,6 +602,7 @@ export default function ExperienceBento() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
+  </div>
   );
 }
