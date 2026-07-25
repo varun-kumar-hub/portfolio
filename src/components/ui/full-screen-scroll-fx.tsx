@@ -24,6 +24,7 @@ export type FXSection = {
   title: string | ReactNode;
   subtitle?: ReactNode;
   tags?: string[];
+  customContent?: ReactNode;
   rightLabel?: ReactNode;
   bgGradient?: string;
   glowColor?: string;
@@ -586,7 +587,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                     </div>
                   </div>
 
-                  {/* Center title (masked words if string + optional tags) */}
+                  {/* Center title (masked words + custom visual content) */}
                   <div className="fx-center">
                     {sections.map((s, sIdx) => {
                       const isString = typeof s.title === "string";
@@ -596,12 +597,12 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                             {isString ? splitWords(s.title as string) : s.title}
                           </h2>
                           {s.subtitle && (
-                            <p className="text-xs sm:text-sm text-red-200/80 font-medium tracking-wide mt-2.5 max-w-xl mx-auto drop-shadow-md">
+                            <p className="text-xs sm:text-sm text-red-200/80 font-medium tracking-wide mt-2 max-w-xl mx-auto drop-shadow-md">
                               {s.subtitle}
                             </p>
                           )}
                           {s.tags && s.tags.length > 0 && (
-                            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-3.5">
+                            <div className="flex flex-wrap items-center justify-center gap-1.5 mt-2.5">
                               {s.tags.map((tag, tIdx) => (
                                 <span
                                   key={tIdx}
@@ -611,6 +612,9 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                                 </span>
                               ))}
                             </div>
+                          )}
+                          {s.customContent && (
+                            <div className="mt-3.5 w-full flex justify-center">{s.customContent}</div>
                           )}
                         </div>
                       );
@@ -689,7 +693,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
 
           .fx-header {
-            grid-column: 1 / 13; align-self: start; padding-top: 100px;
+            grid-column: 1 / 13; align-self: start; padding-top: 85px;
             text-align: center; color: var(--fx-text); z-index: 20;
           }
           .fx-header > * { display: block; }
@@ -744,7 +748,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-right-item.active::after { right: 0; }
 
           .fx-center {
-            display: grid; place-items: center; text-align: center; height: 50vh; overflow: hidden;
+            display: grid; place-items: center; text-align: center; height: 55vh; overflow: hidden;
             padding: 0 0.5rem;
             z-index: 10;
           }
@@ -774,7 +778,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
 
           @media (max-width: 900px) {
-            .fx-header { padding-top: 80px; }
+            .fx-header { padding-top: 75px; }
             .fx-content {
               grid-template-columns: 1fr; row-gap: 2vh;
               place-items: center;

@@ -23,7 +23,6 @@ import Footer from "@/components/Footer";
 
 import CustomCursor from "@/components/ui/custom-cursor";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
-import { ParticleHero } from "@/components/ui/particle-hero";
 import { FullScreenScrollFX, FXSection } from "@/components/ui/full-screen-scroll-fx";
 import {
   IconBrandGithub,
@@ -36,40 +35,168 @@ import Link from "next/link";
 import { Project, projects } from "@/lib/projects";
 
 const heroFxSections: FXSection[] = [
+  // ── 1ST SLIDE: Dominating Name & Role Entrance ──
   {
-    leftLabel: "NEURAL NETWORKS",
-    title: "AI & Machine Learning",
-    subtitle: "Architecting Deep Learning Models & Intelligent Vision Pipelines",
-    tags: ["PyTorch", "TensorFlow", "Scikit-Learn", "OpenCV"],
-    rightLabel: "LLM & VISION",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.18) 0%, rgba(15, 17, 23, 0.95) 60%, #040406 100%)",
+    leftLabel: "THE CREATOR",
+    title: profile.name.full.toUpperCase(),
+    customContent: (
+      <div className="flex flex-col items-center justify-center space-y-3 mt-1 max-w-3xl mx-auto text-center px-4">
+        {/* Dominating Role Headline */}
+        <h3 className="text-xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight bg-gradient-to-r from-red-400 via-rose-300 to-red-500 bg-clip-text text-transparent drop-shadow-[0_4px_15px_rgba(239,68,68,0.4)] leading-tight">
+          AI ENGINEER & TECH INNOVATOR
+        </h3>
+
+        {/* Academic Subtitle */}
+        <p className="text-xs sm:text-sm text-red-200/80 font-medium tracking-wide">
+          3rd Year B.Tech CSE (AI & ML) Student • Kalasalingam Academy
+        </p>
+
+        {/* Dominating Feature Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-gradient-to-r from-red-950/70 to-rose-950/70 px-5 py-2 text-xs font-semibold text-red-200 backdrop-blur-md shadow-[0_0_20px_rgba(239,68,68,0.3)] mt-1">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(248,113,113,0.9)]" />
+          <span className="tracking-wider uppercase font-bold">PIONEERING AUTONOMOUS AI & HIGH-PERFORMANCE SYSTEMS</span>
+        </div>
+
+        {/* Status Pill */}
+        <div className="flex items-center gap-3 text-xs font-mono text-neutral-300 pt-1">
+          <span className="text-red-400 font-semibold">● {profile.status.availability}</span>
+          <span className="text-neutral-500">•</span>
+          <span className="text-neutral-400">📍 {profile.status.location}</span>
+        </div>
+      </div>
+    ),
+    rightLabel: "AI INNOVATOR",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.28) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#ef4444",
   },
+
+  // ── 2ND SLIDE: Profile Bio & Flipping Subtitles ──
   {
-    leftLabel: "MULTI-AGENT",
-    title: "Agentic Frameworks",
-    subtitle: "Orchestrating Autonomous Task Automation & Complex Reasoning",
-    tags: ["LangChain", "LlamaIndex", "AutoGen", "Tool Calling"],
-    rightLabel: "AUTONOMOUS FLOWS",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.18) 0%, rgba(15, 17, 23, 0.95) 60%, #040406 100%)",
+    leftLabel: "ABOUT VARUN",
+    title: "PROFILE SPOTLIGHT",
+    customContent: (
+      <div className="relative z-10 max-w-4xl mx-auto px-4 w-full text-center sm:text-left flex flex-col items-center sm:items-start space-y-3.5 mt-1">
+        {/* Specialization tag */}
+        <span className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-3.5 py-1 text-xs font-semibold text-red-200/90 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.15)]">
+          <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
+          {profile.specialization}
+        </span>
+
+        {/* Main Hero Headline C.Varun Kumar */}
+        <h3 className="font-space text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none">
+          <span className="bg-gradient-to-b from-red-300 via-red-500 to-red-800 bg-clip-text text-transparent drop-shadow-2xl">
+            {profile.name.short}
+          </span>
+        </h3>
+
+        {/* Animated Flipping Subtitles */}
+        <div className="space-y-2 w-full flex flex-col items-center sm:items-start">
+          <ContainerTextFlip words={profile.subtitles} interval={4000} />
+          <div className="w-24 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent"></div>
+        </div>
+
+        {/* Bio Paragraph */}
+        <p className="text-xs sm:text-sm text-red-100/80 font-light max-w-2xl leading-relaxed">
+          {profile.bio}
+        </p>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3.5 pt-1">
+          <a
+            href="#projects"
+            className="group relative px-6 py-2.5 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider uppercase transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              View Projects →
+            </span>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/25 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+          </a>
+
+          <a
+            href="#contact"
+            className="px-6 py-2.5 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
+          >
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    ),
+    rightLabel: "PERSONAL PROFILE",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#e11d48",
   },
+
+  // ── 3RD SLIDE: Technical Info & Core Stack ──
   {
-    leftLabel: "NEXT.JS & TURBOPACK",
-    title: "Full-Stack Architecture",
-    subtitle: "Building Ultra-Fast, Responsive Production Web Applications",
-    tags: ["Next.js 16", "React 19", "Node.js", "Supabase", "Tailwind"],
-    rightLabel: "SCALABLE WEB",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.18) 0%, rgba(15, 17, 23, 0.95) 60%, #040406 100%)",
+    leftLabel: "TECHNICAL STACK",
+    title: "AI & FULL-STACK ENGINE",
+    subtitle: "Deep Learning, Agentic Frameworks, and High-Throughput Cloud Web Architecture",
+    tags: ["PyTorch", "TensorFlow", "LangChain", "LlamaIndex", "Next.js 16", "React 19", "Node.js", "Supabase", "Python"],
+    customContent: (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-2xl mx-auto mt-2 px-4 w-full">
+        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
+          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">🧠 AI & Machine Learning</div>
+          <p className="text-[11px] text-neutral-300 font-light">Deep neural architectures, CV object detection, and LLM reasoning pipelines.</p>
+        </div>
+        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
+          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">🤖 Agentic Automation</div>
+          <p className="text-[11px] text-neutral-300 font-light">Autonomous tool-calling agents with multi-turn vector memory stores.</p>
+        </div>
+        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
+          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">⚡ Cloud Web Systems</div>
+          <p className="text-[11px] text-neutral-300 font-light">Sub-100ms API responses, Next.js 16 App Router, edge deployments.</p>
+        </div>
+      </div>
+    ),
+    rightLabel: "CORE ARCHITECTURE",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#f43f5e",
   },
+
+  // ── 4TH SLIDE: Other Info, Deployed Impact & Actions ──
   {
-    leftLabel: "PRODUCTION READY",
-    title: "Real-World Engineering",
-    subtitle: "Deploying Enterprise AI & High-Throughput Data Infrastructure",
-    tags: ["REST & GraphQL", "Cloud Architecture", "Docker", "Edge AI"],
-    rightLabel: "DEPLOYED IMPACT",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.18) 0%, rgba(15, 17, 23, 0.95) 60%, #040406 100%)",
+    leftLabel: "DEPLOYED IMPACT",
+    title: "ENGINEERING IN ACTION",
+    subtitle: "Explore Repositories, Case Studies, or Reach Out for Collaborations",
+    customContent: (
+      <div className="flex flex-col items-center justify-center space-y-3 mt-2 px-4">
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#projects"
+            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center gap-2"
+          >
+            <span>Explore Projects</span>
+            <svg className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+
+          <a
+            href="#contact"
+            className="px-5 py-2.5 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/50"
+          >
+            Get in Touch
+          </a>
+
+          <a
+            href={profile.contact.resumeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
+          >
+            Download Resume
+          </a>
+        </div>
+
+        {/* Contact Email Pill */}
+        <div className="text-[11px] font-mono text-neutral-400 pt-1">
+          Direct Email: <a href={`mailto:${profile.contact.email}`} className="text-red-300 hover:underline">{profile.contact.email}</a>
+        </div>
+      </div>
+    ),
+    rightLabel: "LET'S CONNECT",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.25) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#f87171",
   },
 ];
@@ -376,88 +503,6 @@ export default function Home() {
                   showProgress
                   durations={{ change: 0.6, snap: 700 }}
                 />
-              </div>
-
-              {/* ─── 2nd Section: Personal Hero / About Me ─── */}
-              <div id="about" className="w-full border-t border-red-500/10">
-                <ParticleHero particleCount={15}>
-                  <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 w-full">
-                    <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-5xl w-full">
-
-                      {/* ── Text Side ── */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex w-full flex-col space-y-6 text-center md:text-left"
-                      >
-                        {/* Specialization tag */}
-                        <div className="flex justify-center md:justify-start">
-                          <span className="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-500/10 px-4 py-1.5 text-xs font-semibold text-red-200/90 backdrop-blur-md shadow-[0_0_15px_rgba(239,68,68,0.15)]">
-                            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
-                            {profile.specialization}
-                          </span>
-                        </div>
-
-                        {/* Main Hero Headline using ParticleHero Gradient Title with Space Grotesk Font */}
-                        <div className="flex justify-center md:justify-start w-full my-2">
-                          <h1 className="font-space text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none my-2">
-                            <span className="bg-gradient-to-b from-red-300 via-red-500 to-red-800 bg-clip-text text-transparent drop-shadow-2xl">
-                              {profile.name.short}
-                            </span>
-                          </h1>
-                        </div>
-
-                        {/* Animated Flipping Subtitles */}
-                        <div className="space-y-3 w-full">
-                          <div className="flex justify-center md:justify-start w-full my-2">
-                            <ContainerTextFlip
-                              words={profile.subtitles}
-                              interval={4000}
-                            />
-                          </div>
-                          <div className="w-24 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent mx-auto md:mx-0"></div>
-                        </div>
-
-                        {/* Bio */}
-                        <p className="text-sm sm:text-base md:text-lg text-red-100/70 font-light max-w-3xl leading-relaxed mx-auto md:mx-0">
-                          {profile.bio}
-                        </p>
-
-                        {/* Call to Action Buttons */}
-                        <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4 w-full">
-                          <a
-                            href="#projects"
-                            className="group relative px-8 py-3.5 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-sm tracking-wider uppercase transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center justify-center gap-2"
-                          >
-                            <span className="relative z-10 flex items-center gap-2">
-                              View Projects
-                              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                              </svg>
-                            </span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-red-600/0 via-red-500/25 to-red-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                          </a>
-
-                          <a
-                            href="#contact"
-                            className="px-8 py-3.5 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-sm tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40 flex items-center justify-center"
-                          >
-                            Get in Touch
-                          </a>
-                        </div>
-
-                        {/* Interactive hint */}
-                        <div className="flex items-center justify-center md:justify-start gap-6 text-red-400/40 text-xs uppercase tracking-[0.3em] pt-6">
-                          <div className="w-12 h-px bg-gradient-to-r from-transparent to-red-500/30"></div>
-                          <span className="animate-pulse">Move Cursor to Create Light Flow</span>
-                          <div className="w-12 h-px bg-gradient-to-l from-transparent to-red-500/30"></div>
-                        </div>
-                      </motion.div>
-
-                    </div>
-                  </div>
-                </ParticleHero>
               </div>
 
               {/* ─── Projects Directory Portal ─── */}
