@@ -2,51 +2,51 @@
 
 import React, { useState, useRef } from "react";
 import { motion, Variants } from "framer-motion";
-import { Monitor, Server, Terminal, Brain, GitBranch, Shield } from "lucide-react";
+import { Monitor, Server, Terminal, Brain, GitBranch } from "lucide-react";
 import { getSkillMeta } from "./icons/SkillIcons";
 import { cn } from "@/lib/utils";
 
-// Categorized skills data mapped directly from production projects & experience
+// Categorized skills data
 const skillCategories = [
   {
-    title: "Autonomous AI & Agentic Systems",
-    icon: <Brain className="w-5 h-5 text-red-500" />,
+    title: "Frontend Development",
+    icon: <Monitor className="w-5 h-5 text-red-500" />,
     colSpan: "md:col-span-3",
-    description: "8-agent autonomous research swarms, Gemini 2.5 Flash execution pipelines, fact verification engines & NLP parsing.",
-    skills: ["Google Gemini API", "Multi-Agent Systems", "Python", "NLTK", "NLP & TF-IDF", "Knowledge Graphs"],
-    glowColor: "rgba(239, 68, 68, 0.09)",
+    description: "Building responsive, modern, and fluid interfaces with smooth client-side interactions.",
+    skills: ["React", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
+    glowColor: "rgba(239, 68, 68, 0.07)",
   },
   {
-    title: "Modern Frontend & Web Architecture",
-    icon: <Monitor className="w-5 h-5 text-rose-400" />,
-    colSpan: "md:col-span-3",
-    description: "Building ultra-responsive, accessible Next.js 16 web applications with smooth Framer Motion & GSAP animations.",
-    skills: ["React", "Next.js 16", "TypeScript", "Tailwind CSS", "Framer Motion", "Force Graph 2D"],
-    glowColor: "rgba(244, 63, 94, 0.09)",
-  },
-  {
-    title: "Backend, Data & Cloud Systems",
+    title: "Backend & Databases",
     icon: <Server className="w-5 h-5 text-emerald-500" />,
-    colSpan: "md:col-span-2",
-    description: "Designing relational database schemas, Supabase Realtime synchronization, and Vercel edge deployment.",
-    skills: ["PostgreSQL", "Supabase", "Node.js", "SQLite", "Pandas"],
-    glowColor: "rgba(16, 185, 129, 0.09)",
+    colSpan: "md:col-span-3",
+    description: "Designing structured relational databases, cloud synchronization pipelines, and robust APIs.",
+    skills: ["Node.js", "PostgreSQL", "Supabase", "Relational Databases", "Big Data", "Data Warehousing"],
+    glowColor: "rgba(16, 185, 129, 0.07)",
   },
   {
-    title: "Web Security & Leadership (OWASP)",
-    icon: <Shield className="w-5 h-5 text-amber-500" />,
+    title: "Programming Languages",
+    icon: <Terminal className="w-5 h-5 text-indigo-500" />,
     colSpan: "md:col-span-2",
-    description: "OWASP Student Chapter web security workshops, OWASP Top 10 defensive coding, and WCAG accessibility standards.",
-    skills: ["OWASP Top 10", "Web Security", "WCAG Accessibility"],
-    glowColor: "rgba(245, 158, 11, 0.09)",
+    description: "Writing compiled and interpreted high-performance systems logic.",
+    skills: ["Python", "Java", "C Programming"],
+    glowColor: "rgba(99, 102, 241, 0.07)",
   },
   {
-    title: "Core Languages & Tooling",
-    icon: <GitBranch className="w-5 h-5 text-indigo-500" />,
+    title: "AI & IoT Engineering",
+    icon: <Brain className="w-5 h-5 text-purple-500" />,
     colSpan: "md:col-span-2",
-    description: "Writing high-performance compiled logic, version control workflows, and open-source platform development.",
-    skills: ["Python", "TypeScript", "Java", "C Programming", "Git", "GitHub"],
-    glowColor: "rgba(99, 102, 241, 0.09)",
+    description: "Autonomous agent pipelines, semantic search engines, and integrated hardware networks.",
+    skills: ["Artificial Intelligence (AI)", "Machine Learning (ML)", "Internet of Things (IoT)"],
+    glowColor: "rgba(168, 85, 247, 0.07)",
+  },
+  {
+    title: "DevOps & Tooling",
+    icon: <GitBranch className="w-5 h-5 text-amber-500" />,
+    colSpan: "md:col-span-2",
+    description: "Continuous integration pipelines, version control workflows, and container runtimes.",
+    skills: ["Git", "GitHub", "Docker", "CI/CD Pipelines"],
+    glowColor: "rgba(245, 158, 11, 0.07)",
   },
 ];
 

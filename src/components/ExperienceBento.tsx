@@ -27,6 +27,8 @@ export interface Milestone {
   timeline: string;
   location?: string;
   description: string;
+  responsibilities: string[];
+  architecture: string[];
   metrics: { value: string; label: string }[];
   learnings: string[];
   skills: string[];
@@ -45,7 +47,17 @@ const milestones: Milestone[] = [
     timeline: "Aug 2024 - Present",
     location: "Krishnankoil, TN, India",
     description:
-      "Contributing to the campus tech community under OWASP by engineering secure, accessible web applications, conducting web security workshops on OWASP Top 10 vulnerabilities, and coordinating technical assessment operations.",
+      "Architecting secure web infrastructure for OWASP Student Chapter. Leading technical workshops on OWASP Top 10 web vulnerabilities, implementing WCAG accessibility standards, and orchestrating logistics for campus-wide developer hackathons.",
+    responsibilities: [
+      "Engineered secure, responsive web applications and campus event management portals.",
+      "Coordinated venue mapping, system diagnostics, and server readiness logistics for campus assessments.",
+      "Mentored student developers on web security hygiene and clean UI code practices."
+    ],
+    architecture: [
+      "Facilitated hands-on workshops explaining OWASP Top 10 web vulnerabilities (XSS, CSRF, SQLi).",
+      "Enforced WCAG 2.1 AA accessibility standards across team repositories to eliminate design barriers.",
+      "Formulated secure client-side form validation and defensive API request handling."
+    ],
     metrics: [
       { value: "100%", label: "System & Exam Readiness" },
       { value: "OWASP 10", label: "Defensive Coding Standards" },
@@ -70,10 +82,20 @@ const milestones: Milestone[] = [
     subtitle: "Multi-Agent Autonomous Research & Verification Engine",
     timeline: "2025",
     description:
-      "Engineered an 8-agent autonomous research platform that understands user intent, executes parallel web discovery (Google Serper, Tavily, Wikipedia), cleans raw HTML payloads, deduplicates claims, and verifies facts with empirical confidence scores.",
+      "Engineered an 8-agent autonomous research swarm powered by Gemini 2.5 Flash. Executes parallel multi-provider web scraping, deduplicates claims, and cross-verifies facts across independent sources with 95%+ confidence ratings.",
+    responsibilities: [
+      "Designed an 8-agent autonomous swarm converting query intent into verified business intelligence reports.",
+      "Implemented parallel search execution across Google (Serper), Tavily Search, and Wikipedia APIs.",
+      "Built an interactive progress console with real-time multi-agent execution status tracking."
+    ],
+    architecture: [
+      "Built an 8-agent state machine (Query Intent → Research Plan → Scrape → Deduplicate → Verify → Report).",
+      "Implemented zero-knowledge client-side Gemini API key storage in local browser storage.",
+      "Engineered consensus cross-verification assigning 0–100% empirical confidence scores to claims."
+    ],
     metrics: [
       { value: "95%+", label: "Fact Verification Rate" },
-      { value: "8 Agents", label: "Autonomous Pipeline Swarm" },
+      { value: "8 Agents", label: "Autonomous Swarm Pipeline" },
       { value: "10+ hrs", label: "Time Saved Per Project" },
     ],
     learnings: [
@@ -95,7 +117,17 @@ const milestones: Milestone[] = [
     subtitle: "Interactive Knowledge Graphs & Adaptive Study Engine",
     timeline: "2025",
     description:
-      "Built a unified educational platform powered by Google Gemini 2.5 Flash that converts complex multi-topic domains into interactive 2D force-directed concept graphs, structured study paths, adaptive revision flashcards, and automated quizzes.",
+      "Built an AI-orchestrated learning engine converting complex technical subjects into 2D force-directed knowledge graphs at 60 FPS. Synthesizes structured lesson paths, active-recall flashcards, and adaptive diagnostic quizzes.",
+    responsibilities: [
+      "Built a unified learning platform that converts multi-topic curricula into structured learning paths.",
+      "Developed an adaptive revision flashcard system and difficulty-tiered self-grading quiz generator.",
+      "Created a public Community Hub allowing learners to share, star, and clone custom study graphs."
+    ],
+    architecture: [
+      "Integrated 2D force-directed graph physics engine (Force Graph 2D) rendering concept maps at 60 FPS.",
+      "Ingested subject themes into Gemini 2.5 Flash to synthesize detailed chapter lessons and comparative matrices.",
+      "Designed Supabase PostgreSQL relational schemas tracking student study accuracy and weak spots."
+    ],
     metrics: [
       { value: "60 FPS", label: "Graph Render Speed" },
       { value: "+30%", label: "Concept Retention Boost" },
@@ -120,7 +152,17 @@ const milestones: Milestone[] = [
     subtitle: "NLP Document Parsing & ATS Compatibility Optimizer",
     timeline: "2024 - 2025",
     description:
-      "Architected a document processing application using Python and NLTK that parses PDF and DOCX resume files, tokenizes text, lemmatizes terms, and calculates mathematical TF-IDF vector matching against job listing requirements.",
+      "Architected an NLP document intelligence engine using Python & NLTK. Parses PDF/DOCX resumes, tokenizes skill entities, and calculates mathematical TF-IDF vector similarity to boost candidate ATS match scores by 25%.",
+    responsibilities: [
+      "Engineered a Python NLP document parsing engine extracting candidate skills, work history, and education.",
+      "Developed an ATS compatibility diagnostic score report evaluating keyword density and formatting.",
+      "Built an application Kanban board tracking job applications across Applied, Interviewing, and Offer stages."
+    ],
+    architecture: [
+      "Built PyPDF2 text extraction and NLTK tokenization, stop-word filtering, and lemmatization pipeline.",
+      "Calculated mathematical TF-IDF cosine similarity between resume vectors and job listing requirements.",
+      "Synthesized generative AI bullet point rewrites and tailored cover letters aligning applicant achievements."
+    ],
     metrics: [
       { value: "+25%", label: "Average ATS Match Gain" },
       { value: "98%", label: "NLP Skill Extraction Rate" },
@@ -145,7 +187,17 @@ const milestones: Milestone[] = [
     subtitle: "Full-Stack Cloud Architecture & Scraping Infrastructure",
     timeline: "2024 - Present",
     description:
-      "Architected TripCrafter Pro (Gemini 2.5 Flash travel planner with Google Maps interactive waypoints & Open-Meteo weather) and AI Tools Tracker (automated BeautifulSoup Python scrapers cataloging tech tools into PostgreSQL).",
+      "Architected TripCrafter Pro (Gemini 2.5 Flash travel planner with interactive Google Maps waypoints & live weather) and automated Python scrapers indexing emerging AI tech tools into PostgreSQL with zero downtime.",
+    responsibilities: [
+      "Built TripCrafter Pro, synthesizing day-by-day itineraries complete with GPS waypoints and weather forecasts.",
+      "Created AI Tools Tracker, an automated web scraping pipeline cataloging tech tools into a searchable database.",
+      "Implemented real-time expense tracking with budget pie charts and one-click .ics calendar export."
+    ],
+    architecture: [
+      "Integrated Google Maps API with interactive route markers, distance calculations, and drag-and-drop ordering.",
+      "Built BeautifulSoup Python web scrapers with PostgreSQL indexing and automated deduplication.",
+      "Configured Supabase Auth, Row Level Security (RLS) policies, and serverless Vercel edge API routes."
+    ],
     metrics: [
       { value: "<5s", label: "Itinerary Synthesis Time" },
       { value: "<100ms", label: "API Query Latency" },
@@ -466,15 +518,15 @@ export default function ExperienceBento() {
                 <GlassSculpture visualType={activeMilestone.visualType} />
               </div>
 
-              {/* Story Narrative Paragraph */}
+              {/* Brief Concise Story Description */}
               <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
                 {activeMilestone.description}
               </p>
 
               {/* Minimalist Qualitative Metrics */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-white/10 py-4 sm:py-5 my-1 sm:my-2">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-white/10 py-3.5 sm:py-4 my-2">
                 {activeMilestone.metrics.map((metric, mIdx) => (
-                  <div key={mIdx} className="space-y-0.5 sm:space-y-1 text-left">
+                  <div key={mIdx} className="space-y-0.5 text-left">
                     <span className="block text-base sm:text-2xl lg:text-3xl font-extrabold font-mono text-white tracking-tight">
                       {metric.value}
                     </span>
@@ -485,25 +537,7 @@ export default function ExperienceBento() {
                 ))}
               </div>
 
-              {/* Key Learnings List */}
-              <div className="space-y-2 sm:space-y-3">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-red-400 font-bold block">
-                  ✦ Key Takeaways &amp; Impact
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
-                  {activeMilestone.learnings.map((learning, lIdx) => (
-                    <div
-                      key={lIdx}
-                      className="flex items-start gap-2 text-xs text-neutral-300 font-light leading-snug"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-400/80 shrink-0 mt-1.5 shadow-[0_0_6px_rgba(239,68,68,0.8)]" />
-                      <span>{learning}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Skill Tags & Direct Project Link Trigger */}
+              {/* Skill Badges & Direct Case Study Link Trigger */}
               <div className="space-y-3 pt-1">
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {activeMilestone.skills.map((skill) => (
@@ -517,7 +551,7 @@ export default function ExperienceBento() {
                 </div>
 
                 {activeMilestone.link && (
-                  <div className="pt-1 sm:pt-2">
+                  <div className="pt-1.5">
                     <Link
                       href={activeMilestone.link}
                       className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs font-bold font-mono transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.15)] group"

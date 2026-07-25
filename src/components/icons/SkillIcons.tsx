@@ -15,6 +15,9 @@ import {
   FileText,
   Shield,
   CheckCircle,
+  Globe,
+  Send,
+  Table,
 } from "lucide-react";
 
 interface IconProps {
@@ -415,6 +418,18 @@ export function getSkillMeta(skillName: string): {
       return { icon: <CheckCircle size={24} className="text-sky-400" />, color: "rgba(56, 189, 248, 0.4)" };
     case "next.js 16":
       return { icon: <NextjsIcon size={24} className="text-gray-900 dark:text-white" />, color: "rgba(128, 128, 128, 0.4)" };
+
+    // Developer Tools & Infrastructure Resolvers
+    case "vercel":
+      return { icon: <Globe size={24} className="text-white" />, color: "rgba(255, 255, 255, 0.4)" };
+    case "vs code":
+      return { icon: <Code2 size={24} className="text-blue-500" />, color: "rgba(59, 130, 246, 0.4)" };
+    case "postman":
+      return { icon: <Send size={24} className="text-orange-500" />, color: "rgba(249, 115, 22, 0.4)" };
+    case "sqlite":
+      return { icon: <Database size={24} className="text-sky-400" />, color: "rgba(56, 189, 248, 0.4)" };
+    case "pandas":
+      return { icon: <Table size={24} className="text-indigo-400" />, color: "rgba(129, 140, 248, 0.4)" };
 
     // Concepts / Lucide icons
     case "artificial intelligence (ai)":

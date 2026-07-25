@@ -5,15 +5,13 @@ import { getSkillMeta } from "./icons/SkillIcons";
 import { cn } from "@/lib/utils";
 
 const row1Skills = [
-  "Google Gemini API",
-  "Multi-Agent Systems",
-  "Python",
-  "Next.js 16",
   "React",
-  "TypeScript",
+  "Next.js",
   "Tailwind CSS",
-  "Framer Motion",
   "Node.js",
+  "Java",
+  "Python",
+  "C Programming",
   "HTML5",
   "CSS3",
 ];
@@ -21,16 +19,16 @@ const row1Skills = [
 const row2Skills = [
   "PostgreSQL",
   "Supabase",
-  "OWASP Top 10",
-  "Web Security",
-  "NLTK",
-  "NLP & TF-IDF",
-  "Force Graph 2D",
+  "Relational Databases",
+  "Big Data",
+  "Data Warehousing",
   "Git",
   "GitHub",
-  "Java",
-  "C Programming",
-  "WCAG Accessibility",
+  "Docker",
+  "CI/CD Pipelines",
+  "Artificial Intelligence (AI)",
+  "Machine Learning (ML)",
+  "Internet of Things (IoT)",
 ];
 
 interface SkillCardProps {
