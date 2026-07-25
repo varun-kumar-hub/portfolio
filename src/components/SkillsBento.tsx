@@ -65,41 +65,56 @@ const cardVariants: Variants = {
 
 interface SkillChipProps {
   name: string;
+  isSelected?: boolean;
+  onClick?: () => void;
 }
 
-function SkillChip({ name }: SkillChipProps) {
+function SkillChip({ name, isSelected = false, onClick }: SkillChipProps) {
   const { icon, color } = getSkillMeta(name);
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.div
+    <motion.button
+      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ y: -2, scale: 1.02 }}
+      whileHover={{ y: -2, scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.2 }}
       style={{
-        borderColor: isHovered ? color : undefined,
-        boxShadow: isHovered ? `0 0 14px ${color}` : "none",
+        borderColor: isSelected ? color : isHovered ? color : undefined,
+        boxShadow: isSelected
+          ? `0 0 18px ${color}`
+          : isHovered
+          ? `0 0 12px ${color}`
+          : "none",
       }}
       className={cn(
-        "flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold select-none cursor-default transition-all duration-300",
-        "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
+        "flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold select-none cursor-pointer transition-all duration-300",
+        isSelected
+          ? "bg-red-500/15 border-red-500/50 text-white shadow-lg scale-105"
+          : "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
       )}
     >
       <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
         {icon}
       </div>
       <span>{name}</span>
-    </motion.div>
+      {isSelected && (
+        <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse ml-0.5" />
+      )}
+    </motion.button>
   );
 }
 
 interface BentoCardProps {
   category: typeof skillCategories[number];
   index: number;
+  selectedSkill: string | null;
+  onSkillSelect: (skill: string) => void;
 }
 
-function BentoCard({ category, index }: BentoCardProps) {
+function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -159,7 +174,12 @@ function BentoCard({ category, index }: BentoCardProps) {
       {/* Skills Grid */}
       <div className="relative z-10 flex flex-wrap gap-2">
         {category.skills.map((skill) => (
-          <SkillChip key={skill} name={skill} />
+          <SkillChip
+            key={skill}
+            name={skill}
+            isSelected={selectedSkill === skill}
+            onClick={() => onSkillSelect(skill)}
+          />
         ))}
       </div>
     </motion.div>
@@ -167,6 +187,8 @@ function BentoCard({ category, index }: BentoCardProps) {
 }
 
 export default function SkillsBento() {
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -177,17 +199,84 @@ export default function SkillsBento() {
     },
   };
 
+  // Skill-to-Project Mapping logic
+  const matchingProjects = selectedSkill
+    ? [
+        { slug: "researchx-ai", name: "ResearchX AI", tags: ["Python", "AI", "Machine Learning", "Next.js", "React", "Node.js", "Tailwind CSS", "Supabase", "Git", "GitHub", "Docker", "CI/CD Pipelines", "Artificial Intelligence (AI)", "Machine Learning (ML)"] },
+        { slug: "learnx", name: "LearnX", tags: ["React", "Next.js", "Tailwind CSS", "Node.js", "Git", "GitHub", "Artificial Intelligence (AI)"] },
+        { slug: "tripcrafter-pro", name: "TripCrafter Pro", tags: ["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Git", "GitHub", "Artificial Intelligence (AI)"] },
+        { slug: "resume-analyzer", name: "Resume Analyzer", tags: ["Python", "NLTK", "NLP", "SQLite", "Next.js", "React", "Git", "GitHub"] },
+        { slug: "ai-tools-tracker", name: "AI Tools Tracker", tags: ["Python", "PostgreSQL", "SQLAlchemy", "Web Scraping", "Git", "GitHub", "Docker"] },
+      ].filter((proj) =>
+        proj.tags.some(
+          (t) =>
+            t.toLowerCase().includes(selectedSkill.toLowerCase()) ||
+            selectedSkill.toLowerCase().includes(t.toLowerCase())
+        )
+      )
+    : [];
+
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.05 }}
-      className="grid grid-cols-1 md:grid-cols-6 gap-6 py-12"
-    >
-      {skillCategories.map((category, index) => (
-        <BentoCard key={index} category={category} index={index} />
-      ))}
-    </motion.div>
+    <div className="space-y-6">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+        className="grid grid-cols-1 md:grid-cols-6 gap-6 py-8"
+      >
+        {skillCategories.map((category, index) => (
+          <BentoCard
+            key={index}
+            category={category}
+            index={index}
+            selectedSkill={selectedSkill}
+            onSkillSelect={(skill) =>
+              setSelectedSkill((prev) => (prev === skill ? null : skill))
+            }
+          />
+        ))}
+      </motion.div>
+
+      {/* Selected Skill Projects Banner */}
+      {selectedSkill && (
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 15 }}
+          className="p-5 rounded-2xl bg-neutral-950/90 border border-red-500/30 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl"
+        >
+          <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+            <div>
+              <p className="text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
+                Projects utilizing &quot;{selectedSkill}&quot;
+              </p>
+              <p className="text-xs text-neutral-400">
+                Found {matchingProjects.length} implementation case studies in portfolio:
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            {matchingProjects.map((p) => (
+              <a
+                key={p.slug}
+                href={`/projects/${p.slug}`}
+                className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-600 text-white border border-white/10 hover:border-red-500 text-xs font-bold transition-all duration-300 shadow-md cursor-pointer"
+              >
+                {p.name} →
+              </a>
+            ))}
+            <button
+              onClick={() => setSelectedSkill(null)}
+              className="px-3 py-1.5 rounded-full bg-white/10 text-neutral-400 hover:text-white text-xs font-bold transition-all"
+            >
+              Clear ✕
+            </button>
+          </div>
+        </motion.div>
+      )}
+    </div>
   );
 }

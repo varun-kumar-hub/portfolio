@@ -51,11 +51,11 @@ function FadeSection({
 function SectionLabel({ number, title }: { number: string; title: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
-      <span className="text-xs font-mono font-bold text-red-500/80 tracking-wider">
+      <span className="text-xs font-mono font-bold text-red-500 tracking-wider">
         {number}
       </span>
-      <div className="h-px flex-1 max-w-16 bg-gradient-to-r from-red-500/40 to-transparent" />
-      <span className="text-xs font-mono font-bold uppercase tracking-widest text-neutral-500">
+      <div className="h-px flex-1 max-w-16 bg-gradient-to-r from-red-500/60 to-transparent" />
+      <span className="text-xs font-mono font-bold tracking-widest text-red-400">
         {title}
       </span>
     </div>

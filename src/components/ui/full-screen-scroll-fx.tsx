@@ -671,7 +671,6 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: var(--fx-page-bg);
             color: var(--fx-text);
             font-family: var(--fx-font);
-            text-transform: uppercase;
             letter-spacing: -0.02em;
           }
 
@@ -769,16 +768,17 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-featured { position: absolute; opacity: 0; visibility: hidden; width: 100%; max-width: 100%; }
           .fx-featured.active { opacity: 1; visibility: visible; }
           .fx-featured-title {
-            margin: 0; color: var(--fx-text);
+            margin: 0; color: #ef4444;
             font-weight: 900; letter-spacing: -0.02em;
-            font-size: clamp(1.4rem, 3.2vw, 3.2rem);
-            line-height: 1.15;
+            font-size: clamp(1.8rem, 4.5vw, 4.2rem);
+            line-height: 1.12;
             padding: 0 0.5rem;
             text-wrap: balance;
             word-break: normal;
-            background: linear-gradient(180deg, #ffffff 0%, #d4d4d4 100%);
+            background: linear-gradient(180deg, #ff6b6b 0%, #ef4444 55%, #dc2626 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 20px rgba(239, 68, 68, 0.45));
           }
           .fx-word-mask { display: inline-block; overflow: hidden; vertical-align: middle; }
           .fx-word { display: inline-block; vertical-align: middle; will-change: transform, opacity; }

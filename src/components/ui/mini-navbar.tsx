@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Sparkles, X, ChevronDown } from 'lucide-react';
 import { FontSwitcher } from '@/components/ui/font-switcher';
@@ -178,28 +179,100 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
     { label: 'Contact', href: '#contact' },
   ];
 
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isResumeModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isResumeModalOpen]);
+
   const resumeButtonElement = (
-    <div className="relative group w-full sm:w-auto overflow-hidden rounded-full p-[1px]">
-       {/* Ambient Glow */}
-       <div className="absolute inset-0 -m-1 rounded-full
-                     hidden sm:block
-                     bg-gradient-to-r from-red-500 to-rose-600
-                     opacity-40 filter blur-md pointer-events-none
-                     transition-all duration-300 ease-out
-                     group-hover:opacity-75 group-hover:blur-lg group-hover:-m-2.5"></div>
-       
-       {/* Sliding Shimmer Highlight */}
-       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none z-20" />
-       
-       <a
-         href="/resume.pdf"
-         target="_blank"
-         rel="noopener noreferrer"
-         className="relative z-10 block text-center px-4.5 py-2 sm:px-3.5 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-full transition-all duration-200 w-full sm:w-auto cursor-pointer shadow-sm"
-       >
-         Resume
-       </a>
-    </div>
+    <>
+      <div className="relative group w-full sm:w-auto overflow-hidden rounded-full p-[1px]">
+        {/* Ambient Glow */}
+        <div className="absolute inset-0 -m-1 rounded-full
+                      hidden sm:block
+                      bg-gradient-to-r from-red-500 to-rose-600
+                      opacity-40 filter blur-md pointer-events-none
+                      transition-all duration-300 ease-out
+                      group-hover:opacity-75 group-hover:blur-lg group-hover:-m-2.5"></div>
+        
+        {/* Sliding Shimmer Highlight */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none z-20" />
+        
+        <button
+          onClick={() => setIsResumeModalOpen(true)}
+          className="relative z-10 block text-center px-4.5 py-2 sm:px-3.5 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 rounded-full transition-all duration-200 w-full sm:w-auto cursor-pointer shadow-sm"
+        >
+          Resume
+        </button>
+      </div>
+
+      {/* Resume PDF Viewer Modal (Rendered via Portal onto document.body) */}
+      {isResumeModalOpen && typeof document !== "undefined" && createPortal(
+        <AnimatePresence>
+          <motion.div
+            key="resume-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[999999] bg-[#040406]/95 backdrop-blur-2xl flex flex-col p-3 sm:p-6"
+            onClick={() => setIsResumeModalOpen(false)}
+          >
+            {/* Modal Header Bar */}
+            <div
+              className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-neutral-900/90 border border-white/15 backdrop-blur-md shadow-2xl shrink-0 cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-3 select-none">
+                <div className="p-2 rounded-xl bg-red-500/15 border border-red-500/30 text-red-400">
+                  <FileText className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-bold text-white tracking-wide">
+                    Challa Varun Kumar — Resume PDF
+                  </h3>
+                  <p className="text-xs text-neutral-400">AI Engineer &amp; Full-Stack Developer</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <a
+                  href="/resume.pdf"
+                  download="Varun_Kumar_Resume.pdf"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs font-bold transition-all shadow-md cursor-pointer hover:scale-105 active:scale-95"
+                >
+                  <span>Download</span>
+                </a>
+                <button
+                  onClick={() => setIsResumeModalOpen(false)}
+                  className="p-2 rounded-full bg-white/10 hover:bg-red-600 text-white transition-all cursor-pointer hover:scale-105 active:scale-95"
+                  title="Close (ESC)"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* PDF Viewer Body */}
+            <div
+              className="flex-1 w-full mt-4 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <iframe
+                src="/resume.pdf#toolbar=1"
+                className="w-full h-full border-none"
+                title="Varun Kumar Resume PDF"
+              />
+            </div>
+          </motion.div>
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
   );
 
   return (

@@ -38,78 +38,38 @@ import { Project, projects } from "@/lib/projects";
 const heroFxSections: FXSection[] = [
   // ── 1ST SLIDE: Dominating Name & Role Entrance ──
   {
-    leftLabel: "THE CREATOR",
-    title: profile.name.full.toUpperCase(),
+    leftLabel: "The Creator",
+    title: profile.name.full,
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3 mt-1 max-w-3xl mx-auto text-center px-4">
-        {/* Dominating Role Headline */}
-        <h3 className="text-xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight bg-gradient-to-r from-red-400 via-rose-300 to-red-500 bg-clip-text text-transparent drop-shadow-[0_4px_15px_rgba(239,68,68,0.4)] leading-tight">
-          AI ENGINEER & TECH INNOVATOR
+        {/* Role Headline (Title Case, Single Line Format) */}
+        <h3 className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-wide text-white drop-shadow-[0_4px_20px_rgba(255,255,255,0.3)] leading-snug mt-1 text-center whitespace-nowrap">
+          AI Engineer &amp; Tech Innovator
         </h3>
 
-        {/* Academic Subtitle */}
-        <p className="text-xs sm:text-sm text-red-200/80 font-medium tracking-wide">
-          3rd Year B.Tech CSE (AI & ML) Student • Kalasalingam Academy
-        </p>
-
-        {/* Dominating Feature Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-gradient-to-r from-red-950/70 to-rose-950/70 px-5 py-2 text-xs font-semibold text-red-200 backdrop-blur-md shadow-[0_0_20px_rgba(239,68,68,0.3)] mt-1">
+        {/* Single Relevant Status Badge */}
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/50 bg-red-950/70 px-6 py-2.5 text-sm sm:text-base font-extrabold backdrop-blur-md shadow-[0_0_25px_rgba(239,68,68,0.35)] mt-3">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(248,113,113,0.9)]" />
-          <span className="tracking-wider uppercase font-bold">PIONEERING AUTONOMOUS AI & HIGH-PERFORMANCE SYSTEMS</span>
-        </div>
-
-        {/* Status Pill */}
-        <div className="flex items-center gap-3 text-xs font-mono text-neutral-300 pt-1">
-          <span className="text-red-400 font-semibold">● {profile.status.availability}</span>
-          <span className="text-neutral-500">•</span>
-          <span className="text-neutral-400">📍 {profile.status.location}</span>
+          <span className="text-red-400 font-extrabold tracking-wider">B.Tech CSE (AI & ML)</span>
         </div>
       </div>
     ),
-    rightLabel: "AI INNOVATOR",
+    rightLabel: "AI Innovator",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.16) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#ef4444",
   },
 
   // ── 2ND SLIDE: Profile Bio & Photo Spotlight ──
   {
-    leftLabel: "ABOUT VARUN",
-    title: "PROFILE SPOTLIGHT",
+    leftLabel: "About Varun",
+    title: "Profile Spotlight",
     customContent: (
-      <div className="relative z-10 max-w-5xl mx-auto px-4 w-full flex flex-col md:flex-row items-center gap-6 sm:gap-10 mt-1">
-        {/* Left Column: Photo Frame */}
-        <div className="relative shrink-0 group">
-          {/* Ambient Glow Ring */}
-          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-red-600/30 via-rose-500/20 to-red-700/30 blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500" />
-
-          {/* Photo Container */}
-          <div className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 rounded-3xl overflow-hidden border-2 border-red-500/30 bg-neutral-950/80 shadow-[0_0_35px_rgba(239,68,68,0.25)] flex items-center justify-center">
-            <Image
-              src="/profile-varun.png"
-              alt="Varun Kumar"
-              width={300}
-              height={300}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-            {/* Corner Cyber Accents */}
-            <div className="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-red-400/60 pointer-events-none" />
-            <div className="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-red-400/60 pointer-events-none" />
-          </div>
-
-          {/* Status Badge below photo */}
-          <div className="mt-2.5 flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-red-950/60 border border-red-500/30 text-[10px] font-mono text-red-300 backdrop-blur-md shadow-md">
-            <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.9)]" />
-            <span>AI & ML SPECIALIST</span>
-          </div>
-        </div>
-
-        {/* Right Column: About Me Bio & Details */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 w-full flex flex-col-reverse md:flex-row items-center gap-6 sm:gap-10 mt-1">
+        {/* Left Column: About Me Bio & Details */}
         <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-3">
           {/* Subheading */}
           <h4 className="text-lg sm:text-2xl font-bold tracking-tight text-white leading-snug">
-            Architecting Autonomous AI Systems & High-Performance Cloud Platforms
+            Architecting <span className="text-red-400">Autonomous AI Systems</span> & <span className="text-red-400">High-Performance Cloud Platforms</span>
           </h4>
 
           {/* Bio Description */}
@@ -137,7 +97,7 @@ const heroFxSections: FXSection[] = [
           <div className="flex flex-wrap items-center justify-center md:justify-start gap-3.5 pt-2">
             <a
               href="#projects"
-              className="group relative px-5 py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider uppercase transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
+              className="group relative px-5 py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-xs tracking-wider transition-all duration-500 overflow-hidden rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.2)] flex items-center gap-2"
             >
               <span className="relative z-10 flex items-center gap-2">
                 View Projects →
@@ -147,55 +107,81 @@ const heroFxSections: FXSection[] = [
 
             <a
               href="#contact"
-              className="px-5 py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
+              className="px-5 py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
             >
               Get in Touch
             </a>
           </div>
         </div>
+
+        {/* Right Column: Photo Frame */}
+        <div className="relative shrink-0 group">
+          {/* Ambient Red Glow Ring Matching Hero Section */}
+          <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-red-600/40 via-rose-500/30 to-red-700/40 blur-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* Photo Container (Seamless Hero Section Blend) */}
+          <div className="relative w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-88 lg:w-80 lg:h-96 rounded-3xl overflow-hidden border-2 border-red-500/40 bg-[#040406] shadow-[0_0_50px_rgba(239,68,68,0.25)] flex items-center justify-center">
+            <Image
+              src="/profile-varun.png"
+              alt="Varun Kumar"
+              width={600}
+              height={800}
+              className="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-500"
+            />
+            {/* Seamless Vignette & Radial Aura Blending to Hero Section Colors */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#040406]/50 via-transparent to-[#040406]/75 pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
+
+            {/* Corner Cyber Accents */}
+            <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-red-400/80 pointer-events-none z-10" />
+            <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-red-400/80 pointer-events-none z-10" />
+          </div>
+        </div>
       </div>
     ),
-    rightLabel: "PERSONAL PROFILE",
+    rightLabel: "Personal Profile",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(225, 29, 72, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
     glowColor: "#e11d48",
   },
 
   // ── 3RD SLIDE: Portfolio Overview & Roadmap Index ──
   {
-    leftLabel: "PORTFOLIO INDEX",
-    title: "PORTFOLIO OVERVIEW",
+    leftLabel: "Portfolio Index",
+    title: "Portfolio Overview",
     subtitle: "Here is a roadmap of what you will discover as you explore below",
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3.5 mt-1 px-4 max-w-2xl mx-auto w-full">
         {/* Section Roadmap Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full text-left">
           <a href="#projects" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
-              <span>01. PROJECTS DIRECTORY</span>
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+              <span>01. Projects Directory</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
             <p className="text-[11px] text-neutral-300 font-light mt-0.5">Autonomous AI Agents, Computer Vision & Full-Stack Apps</p>
           </a>
 
           <a href="#skills" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
-              <span>02. TECHNICAL TOOLKIT</span>
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+              <span>02. Technical Toolkit</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
-            <p className="text-[11px] text-neutral-300 font-light mt-0.5">PyTorch, Next.js 16, React 19, LangChain & Cloud Stack</p>
+            <p className="text-[11px] text-neutral-300 font-light mt-0.5">
+              Python • AI & ML • React • Next.js • Node.js • PostgreSQL • Supabase • Docker
+            </p>
           </a>
 
           <a href="#experience" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
-              <span>03. WORK EXPERIENCE</span>
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+              <span>03. Work Experience</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
             <p className="text-[11px] text-neutral-300 font-light mt-0.5">Engineering Roles, Hackathons & Developer Contributions</p>
           </a>
 
           <a href="#contact" className="p-3 rounded-xl bg-black/70 border border-red-500/25 hover:border-red-400 backdrop-blur-md transition-all group shadow-lg">
-            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold uppercase tracking-wider">
-              <span>04. CONNECT & RESUME</span>
+            <div className="flex items-center justify-between text-red-400 font-mono text-[11px] font-bold tracking-wide">
+              <span>04. Connect & Resume</span>
               <span className="group-hover:translate-x-1 transition-transform text-red-300">→</span>
             </div>
             <p className="text-[11px] text-neutral-300 font-light mt-0.5">Direct Contact, Email & Downloadable PDF Resume</p>
@@ -206,7 +192,7 @@ const heroFxSections: FXSection[] = [
         <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
           <a
             href="#projects"
-            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center gap-2"
+            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.4)] flex items-center gap-2"
           >
             <span>Explore Portfolio Below ↓</span>
           </a>
@@ -215,16 +201,16 @@ const heroFxSections: FXSection[] = [
             href={profile.contact.resumeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs tracking-wider uppercase rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
+            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
           >
             Download Resume
           </a>
         </div>
       </div>
     ),
-    rightLabel: "PORTFOLIO ROADMAP",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(248, 113, 113, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
-    glowColor: "#f87171",
+    rightLabel: "Overview Roadmap",
+    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
+    glowColor: "#f43f5e",
   },
 ];
 
@@ -290,7 +276,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="block w-full select-none text-left"
     >
       <motion.div
-        className='w-full min-h-[480px] bg-black/80 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex flex-col p-4 gap-3 overflow-hidden border border-gray-800/80 hover:border-red-500/40 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)] transition-all duration-300 relative group'
+        className='w-full min-h-[480px] bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-4 gap-3 overflow-hidden border border-neutral-700/60 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.25)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]'
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -518,10 +504,10 @@ export default function Home() {
                   sections={heroFxSections}
                   header={
                     <div className="flex flex-col items-center justify-center space-y-1 max-w-4xl mx-auto px-4">
-                      <span className="text-red-400 text-xs sm:text-sm font-mono tracking-[0.35em] font-bold block mb-1 opacity-90">
-                        ✦ ENGINEERING HORIZON & DISCIPLINES ✦
+                      <span className="text-red-400 text-xs sm:text-sm font-mono tracking-widest font-bold block mb-1 opacity-90">
+                        ✦ Engineering Horizon & Disciplines ✦
                       </span>
-                      <span className="text-white/60 text-xs tracking-widest font-sans font-medium uppercase">
+                      <span className="text-neutral-400 text-xs tracking-wide font-sans font-medium">
                         Scroll to explore technical capabilities
                       </span>
                     </div>
@@ -559,42 +545,46 @@ export default function Home() {
                   Explore dedicated case studies for AI systems, multi-agent frameworks, NLP tools, and data engineering pipelines.
                 </SectionHeading>
 
-                {/* Horizontal Swiper Carousel for Project Cards */}
-                <div className="w-full flex justify-center items-center">
+                {/* Horizontal Swiper Carousel for Project Cards (3D Earth Revolving Orbit) */}
+                <div className="w-full flex justify-center items-center relative py-6">
+                  {/* Glowing 3D Planetary Orbit Ring Graphic Accents */}
+                  <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[98%] max-w-5xl h-52 sm:h-64 border border-red-500/25 rounded-[100%] blur-[0.5px] shadow-[0_0_40px_rgba(239,68,68,0.15)] z-0 [transform:rotateX(72deg)]" />
+                  <div aria-hidden="true" className="pointer-events-none absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[85%] max-w-4xl h-40 sm:h-48 border border-rose-500/15 rounded-[100%] blur-[1px] z-0 [transform:rotateX(75deg)]" />
+
                   <style>{`
-              .projects-swiper {
-                width: 100%;
-                padding-top: 25px;
-                padding-bottom: 60px;
-                perspective: 1400px;
-              }
-              .projects-swiper .swiper-wrapper {
-                transform-style: preserve-3d;
-              }
-              .projects-swiper .swiper-slide {
-                height: auto;
-                opacity: 0.35;
-                transition: opacity 0.4s ease, transform 0.4s ease;
-                transform-style: preserve-3d;
-              }
-              .projects-swiper .swiper-slide-active {
-                opacity: 1;
-                transform: scale(1.04);
-              }
-              .projects-swiper .swiper-slide-shadow-left,
-              .projects-swiper .swiper-slide-shadow-right {
-                border-radius: 24px;
-                background-image: linear-gradient(to right, rgba(4, 4, 6, 0.8), transparent) !important;
-              }
-              .projects-swiper .swiper-pagination-bullet-active {
-                background: var(--accent) !important;
-              }
-              .projects-swiper .swiper-button-next,
-              .projects-swiper .swiper-button-prev {
-                color: var(--accent);
-              }
-            `}</style>
-                  <div className="w-full max-w-5xl">
+                    .projects-swiper {
+                      width: 100%;
+                      padding-top: 35px;
+                      padding-bottom: 75px;
+                      perspective: 1200px;
+                    }
+                    .projects-swiper .swiper-wrapper {
+                      transform-style: preserve-3d;
+                    }
+                    .projects-swiper .swiper-slide {
+                      height: auto;
+                      transform-style: preserve-3d;
+                      will-change: transform, opacity;
+                      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+                    }
+                    .projects-swiper.swiper-touching .swiper-slide {
+                      transition: none !important;
+                    }
+                    .projects-swiper .swiper-pagination-bullet-active {
+                      background: var(--accent) !important;
+                      box-shadow: 0 0 14px var(--accent);
+                    }
+                    .projects-swiper .swiper-button-next,
+                    .projects-swiper .swiper-button-prev {
+                      color: var(--accent);
+                      transition: transform 0.2s ease, opacity 0.2s ease;
+                    }
+                    .projects-swiper .swiper-button-next:hover,
+                    .projects-swiper .swiper-button-prev:hover {
+                      transform: scale(1.15);
+                    }
+                  `}</style>
+                  <div className="w-full max-w-5xl relative z-10">
                     <Swiper
                       className="projects-swiper"
                       spaceBetween={30}
@@ -602,7 +592,6 @@ export default function Home() {
                         delay: 3500,
                         disableOnInteraction: false,
                       }}
-                      effect={"coverflow"}
                       grabCursor={true}
                       centeredSlides={true}
                       loop={projects.length > 1}
@@ -621,16 +610,59 @@ export default function Home() {
                           spaceBetween: 40,
                         }
                       }}
-                      coverflowEffect={{
-                        rotate: 35,
-                        stretch: -20,
-                        depth: 220,
-                        modifier: 1.25,
-                        slideShadows: true,
+                      onProgress={(swiper) => {
+                        swiper.slides.forEach((slideEl) => {
+                          const progress = (slideEl as any).progress || 0;
+                          const absProgress = Math.abs(progress);
+                          
+                          // Angle along 3D revolving orbital trajectory (in radians)
+                          const angle = progress * 0.55; 
+                          
+                          // Focus card (progress === 0): rotateY = 0, rotateX = 0 (faces user directly on screen)
+                          // Side cards: revolve in 3D spatial orbit (Yaw, Pitch, Roll)
+                          const rotateY = progress * 36; 
+                          const rotateX = -Math.sin(angle) * 11;
+                          const rotateZ = -progress * 2.5; 
+                          
+                          // 3D Orbital Coordinates (X, Y, Z - Earth Revolving Path)
+                          const translateY = Math.sin(angle) * 18 + Math.pow(absProgress, 1.6) * 16;
+                          const translateZ = (Math.cos(angle) - 1) * 380 - absProgress * 45;
+                          
+                          // 3D Scale & Opacity Decay
+                          const scale = Math.max(0.72, Math.cos(angle) * 0.98);
+                          const opacity = Math.max(0.2, 1 - absProgress * 0.35);
+                          const zIndex = Math.round(200 + translateZ);
+
+                          slideEl.style.transform = `translate3d(0px, ${translateY.toFixed(2)}px, ${translateZ.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                          slideEl.style.opacity = opacity.toFixed(3);
+                          slideEl.style.zIndex = zIndex.toString();
+                        });
+                      }}
+                      onSetTranslate={(swiper) => {
+                        swiper.slides.forEach((slideEl) => {
+                          const progress = (slideEl as any).progress || 0;
+                          const absProgress = Math.abs(progress);
+                          
+                          const angle = progress * 0.55; 
+                          const rotateY = progress * 36; 
+                          const rotateX = -Math.sin(angle) * 11;
+                          const rotateZ = -progress * 2.5; 
+                          
+                          const translateY = Math.sin(angle) * 18 + Math.pow(absProgress, 1.6) * 16;
+                          const translateZ = (Math.cos(angle) - 1) * 380 - absProgress * 45;
+                          
+                          const scale = Math.max(0.72, Math.cos(angle) * 0.98);
+                          const opacity = Math.max(0.2, 1 - absProgress * 0.35);
+                          const zIndex = Math.round(200 + translateZ);
+
+                          slideEl.style.transform = `translate3d(0px, ${translateY.toFixed(2)}px, ${translateZ.toFixed(2)}px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) rotateZ(${rotateZ.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+                          slideEl.style.opacity = opacity.toFixed(3);
+                          slideEl.style.zIndex = zIndex.toString();
+                        });
                       }}
                       pagination={{ clickable: true }}
                       navigation={true}
-                      modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
+                      modules={[Autoplay, Pagination, Navigation]}
                     >
                       {projects.map((project, idx) => (
                         <SwiperSlide key={project.slug}>
