@@ -405,16 +405,12 @@ export default function ExperienceBento() {
 
     const calcDir = newDir ?? (targetIndex > activeIndexRef.current ? 1 : -1);
     setDirection(calcDir);
+    setActiveIndex(targetIndex);
+    activeIndexRef.current = targetIndex;
     setIsAnimating(true);
     isAnimatingRef.current = true;
-    setActiveIndex(targetIndex);
 
-    // Defer URL update until after animation frame completes
-    setTimeout(() => {
-      updateUrlState(targetIndex);
-      setIsAnimating(false);
-      isAnimatingRef.current = false;
-    }, 450);
+    updateUrlState(targetIndex);
   }, [total, updateUrlState]);
 
   const handleNext = useCallback(() => {
@@ -734,8 +730,10 @@ export default function ExperienceBento() {
                   <button
                     key={milestone.id}
                     onClick={() => goToIndex(idx)}
+                    onMouseEnter={() => goToIndex(idx)}
+                    onFocus={() => goToIndex(idx)}
                     className={cn(
-                      "px-3 py-1 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0",
+                      "px-3 py-1 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0 cursor-pointer",
                       isActive
                         ? "bg-red-500/20 border border-red-500/50 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
                         : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white"
@@ -758,7 +756,7 @@ export default function ExperienceBento() {
                   ✦ Engineering Journey ✦
                 </span>
                 <p className="text-xs text-neutral-400 font-light">
-                  Scroll or click to explore tracks
+                  Scroll or hover to explore tracks
                 </p>
               </div>
 
@@ -772,8 +770,10 @@ export default function ExperienceBento() {
                     <button
                       key={milestone.id}
                       onClick={() => goToIndex(idx)}
+                      onMouseEnter={() => goToIndex(idx)}
+                      onFocus={() => goToIndex(idx)}
                       className={cn(
-                        "group relative flex items-center gap-3.5 w-full text-left transition-all duration-500 py-1.5 focus:outline-none",
+                        "group relative flex items-center gap-3.5 w-full text-left transition-all duration-500 py-1.5 focus:outline-none cursor-pointer",
                         isActive ? "opacity-100" : "opacity-40 hover:opacity-80"
                       )}
                     >
