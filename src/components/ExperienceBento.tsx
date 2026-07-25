@@ -340,7 +340,7 @@ export default function ExperienceBento() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-[85vh] lg:min-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-8 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden"
+      className="relative min-h-[85vh] lg:min-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-4 sm:px-8 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl sm:rounded-[2.5rem] lg:rounded-[3rem] border border-white/10 hover:border-red-500/30 transition-all duration-500 shadow-[0_25px_80px_rgba(0,0,0,0.85)]"
     >
       {/* Ambient Radial Background Aura */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
