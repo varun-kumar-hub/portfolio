@@ -32,6 +32,7 @@ import {
   IconFileText,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { profile } from "@/lib/profile";
 import { Project, projects } from "@/lib/projects";
 
 const heroFxSections: FXSection[] = [
@@ -82,15 +83,8 @@ const heroFxSections: FXSection[] = [
           {profile.specialization}
         </span>
 
-        {/* Main Hero Headline C.Varun Kumar */}
-        <h3 className="font-space text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-none">
-          <span className="bg-gradient-to-b from-red-300 via-red-500 to-red-800 bg-clip-text text-transparent drop-shadow-2xl">
-            {profile.name.short}
-          </span>
-        </h3>
-
         {/* Animated Flipping Subtitles */}
-        <div className="space-y-2 w-full flex flex-col items-center sm:items-start">
+        <div className="space-y-2 w-full flex flex-col items-center sm:items-start pt-1">
           <ContainerTextFlip words={profile.subtitles} interval={4000} />
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-red-400 to-transparent"></div>
         </div>
@@ -126,34 +120,7 @@ const heroFxSections: FXSection[] = [
     glowColor: "#e11d48",
   },
 
-  // ── 3RD SLIDE: Technical Info & Core Stack ──
-  {
-    leftLabel: "TECHNICAL STACK",
-    title: "AI & FULL-STACK ENGINE",
-    subtitle: "Deep Learning, Agentic Frameworks, and High-Throughput Cloud Web Architecture",
-    tags: ["PyTorch", "TensorFlow", "LangChain", "LlamaIndex", "Next.js 16", "React 19", "Node.js", "Supabase", "Python"],
-    customContent: (
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-2xl mx-auto mt-2 px-4 w-full">
-        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
-          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">🧠 AI & Machine Learning</div>
-          <p className="text-[11px] text-neutral-300 font-light">Deep neural architectures, CV object detection, and LLM reasoning pipelines.</p>
-        </div>
-        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
-          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">🤖 Agentic Automation</div>
-          <p className="text-[11px] text-neutral-300 font-light">Autonomous tool-calling agents with multi-turn vector memory stores.</p>
-        </div>
-        <div className="p-3 rounded-xl bg-black/60 border border-red-500/20 backdrop-blur-md text-center">
-          <div className="text-red-400 font-mono text-xs font-bold uppercase tracking-wider mb-1">⚡ Cloud Web Systems</div>
-          <p className="text-[11px] text-neutral-300 font-light">Sub-100ms API responses, Next.js 16 App Router, edge deployments.</p>
-        </div>
-      </div>
-    ),
-    rightLabel: "CORE ARCHITECTURE",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.14) 0%, rgba(15, 17, 23, 0.95) 55%, #040406 100%)",
-    glowColor: "#f43f5e",
-  },
-
-  // ── 4TH SLIDE: Portfolio Overview & Roadmap Index ──
+  // ── 3RD SLIDE: Portfolio Overview & Roadmap Index ──
   {
     leftLabel: "PORTFOLIO INDEX",
     title: "PORTFOLIO OVERVIEW",
@@ -220,7 +187,6 @@ const heroFxSections: FXSection[] = [
     glowColor: "#f87171",
   },
 ];
-import { profile } from "@/lib/profile";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";
@@ -558,20 +524,27 @@ export default function Home() {
                   <style>{`
               .projects-swiper {
                 width: 100%;
-                padding-top: 10px;
-                padding-bottom: 50px;
-                perspective: 1200px;
+                padding-top: 25px;
+                padding-bottom: 60px;
+                perspective: 1400px;
               }
               .projects-swiper .swiper-wrapper {
                 transform-style: preserve-3d;
               }
               .projects-swiper .swiper-slide {
                 height: auto;
-                opacity: 0.45;
-                transition: opacity 0.3s ease;
+                opacity: 0.35;
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                transform-style: preserve-3d;
               }
               .projects-swiper .swiper-slide-active {
                 opacity: 1;
+                transform: scale(1.04);
+              }
+              .projects-swiper .swiper-slide-shadow-left,
+              .projects-swiper .swiper-slide-shadow-right {
+                border-radius: 24px;
+                background-image: linear-gradient(to right, rgba(4, 4, 6, 0.8), transparent) !important;
               }
               .projects-swiper .swiper-pagination-bullet-active {
                 background: var(--accent) !important;
@@ -584,7 +557,7 @@ export default function Home() {
                   <div className="w-full max-w-5xl">
                     <Swiper
                       className="projects-swiper"
-                      spaceBetween={25}
+                      spaceBetween={30}
                       autoplay={{
                         delay: 3500,
                         disableOnInteraction: false,
@@ -597,23 +570,23 @@ export default function Home() {
                       breakpoints={{
                         640: {
                           slidesPerView: 1.6,
-                          spaceBetween: 25,
+                          spaceBetween: 30,
                         },
                         768: {
                           slidesPerView: 2.2,
-                          spaceBetween: 30,
+                          spaceBetween: 35,
                         },
                         1024: {
-                          slidesPerView: 2.8,
-                          spaceBetween: 30,
+                          slidesPerView: 2.7,
+                          spaceBetween: 40,
                         }
                       }}
                       coverflowEffect={{
-                        rotate: 15,
-                        stretch: -10,
-                        depth: 120,
-                        modifier: 1,
-                        slideShadows: false,
+                        rotate: 35,
+                        stretch: -20,
+                        depth: 220,
+                        modifier: 1.25,
+                        slideShadows: true,
                       }}
                       pagination={{ clickable: true }}
                       navigation={true}
