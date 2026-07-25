@@ -404,38 +404,37 @@ export function ProjectCardStack({
                   </div>
                 </div>
 
-                {/* Main Pop-up Image Viewer */}
+                {/* Main Pop-up Image Viewer (Fluid Scrollable Container) */}
                 <div
-                  className="relative flex-1 flex items-center justify-center my-2 overflow-auto scrollbar-thin scrollbar-thumb-gray-800"
+                  className="relative flex-1 w-full flex flex-col items-center justify-start my-2 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-700/80 px-2 sm:px-6"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* Prev Button */}
                   {images.length > 1 && (
                     <button
                       onClick={() => {
-                        setIsZoomed(false);
                         setLightboxIndex((prev) =>
                           prev !== null ? (prev - 1 + images.length) % images.length : 0
                         );
                       }}
-                      className="fixed left-4 top-1/2 -translate-y-1/2 z-40 p-3.5 rounded-full bg-black/80 border border-red-500/40 hover:bg-red-600 text-white transition-all cursor-pointer shadow-2xl"
+                      className="fixed left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/80 border border-red-500/40 hover:bg-red-600 text-white transition-all cursor-pointer shadow-2xl"
                       title="Previous Image (←)"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                   )}
 
-                  {/* Animated Popped Card Image */}
+                  {/* Animated Large Popped Image */}
                   <motion.div
                     key={lightboxIndex}
-                    initial={{ scale: 0.9, opacity: 0 }}
+                    initial={{ scale: 0.94, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.9, opacity: 0 }}
+                    exit={{ scale: 0.94, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 220, damping: 25 }}
-                    className={`relative rounded-2xl border border-neutral-800 shadow-[0_0_80px_rgba(239,68,68,0.2)] bg-neutral-950 flex items-center justify-center ${
+                    className={`relative transition-all duration-300 rounded-2xl border border-neutral-800 shadow-[0_0_80px_rgba(239,68,68,0.2)] bg-neutral-950 p-1.5 sm:p-3 my-auto ${
                       isZoomed
-                        ? "w-full max-w-7xl overflow-y-auto max-h-[75vh]"
-                        : "max-w-6xl max-h-[76vh] overflow-hidden"
+                        ? "w-full max-w-full"
+                        : "w-full max-w-[94vw] lg:max-w-7xl max-h-[82vh] flex items-center justify-center overflow-hidden"
                     }`}
                   >
                     <Image
@@ -447,7 +446,7 @@ export function ProjectCardStack({
                       className={`block rounded-xl transition-all duration-300 ${
                         isZoomed
                           ? "w-full h-auto object-contain cursor-zoom-out"
-                          : "w-auto h-auto max-h-[74vh] max-w-full object-contain cursor-zoom-in"
+                          : "w-full h-auto max-h-[80vh] object-contain cursor-zoom-in"
                       }`}
                       onClick={() => setIsZoomed((prev) => !prev)}
                     />
@@ -457,12 +456,11 @@ export function ProjectCardStack({
                   {images.length > 1 && (
                     <button
                       onClick={() => {
-                        setIsZoomed(false);
                         setLightboxIndex((prev) =>
                           prev !== null ? (prev + 1) % images.length : 0
                         );
                       }}
-                      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 p-3.5 rounded-full bg-black/80 border border-red-500/40 hover:bg-red-600 text-white transition-all cursor-pointer shadow-2xl"
+                      className="fixed right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-3.5 rounded-full bg-black/80 border border-red-500/40 hover:bg-red-600 text-white transition-all cursor-pointer shadow-2xl"
                       title="Next Image (→)"
                     >
                       <ChevronRight className="w-6 h-6" />

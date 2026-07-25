@@ -37,54 +37,54 @@ export const projects: Project[] = [
     featured: true,
     description: "An AI-powered learning platform that brings everything together in one place — creating structured learning paths for any subject with interactive knowledge graphs, AI-guided study, and community collaboration.",
     longDescription: "Learning a new topic usually means switching between YouTube videos, blogs, PDFs, documentation, and many different websites. Since the information is scattered, learning becomes confusing and unorganized. LearnX solves this by bringing everything together in one intelligent platform. Instead of searching across multiple resources, LearnX creates structured learning paths for any subject — making learning simpler, faster, and more effective. It features AI-powered knowledge graphs, adaptive quizzes, flashcards, a learning analytics dashboard, and community-driven content sharing.",
-    problemStatement: "Learning a new topic usually means switching between YouTube videos, blogs, PDFs, documentation, and many different websites. This takes a lot of time, and since the information is scattered, learning can become confusing and unorganized.",
-    solutionOverview: "LearnX is an AI-powered learning platform that brings everything together in one place. Instead of searching across multiple resources, LearnX creates a structured learning path for any subject, making learning simpler, faster, and more effective. It gives students one intelligent platform where they can learn, practice, revise, track their progress, and truly understand concepts in a structured way.",
+    problemStatement: "Self-directed learning across technical subjects often fails due to fragmented educational resources. Students spend over 40% of their study time switching between unstructured YouTube playlists, technical blogs, raw documentation, and static PDFs — leading to cognitive overload, information gaps, and lack of visual concept hierarchy.",
+    solutionOverview: "LearnX unifies learning into an AI-orchestrated environment. Powered by Google Gemini 2.5 Flash, it ingests subject themes and synthesizes interactive knowledge graphs, step-by-step topic paths, adaptive revision flashcards, self-grading quizzes, and community study paths. It provides students with a single intelligent dashboard to learn, practice, analyze weaknesses, and master subjects structurally.",
     architecture: [
       {
         title: "AI Knowledge Graph Engine",
-        description: "Converts any topic into an interactive visual map, helping students understand how concepts are connected through force-directed graph rendering."
+        description: "Converts complex multi-topic domains into interactive visual maps using force-directed graph rendering, displaying node dependencies, prerequisite topics, and conceptual relationships."
       },
       {
-        title: "Structured Learning Paths",
-        description: "Generates detailed explanations, diagrams, images, and examples so learners always know what to study next in a logical progression."
+        title: "Structured Learning Path Generator",
+        description: "Synthesizes multi-chapter study guides featuring detailed explanations, code snippets, comparative matrices, real-world examples, and step-by-step progression."
       },
       {
-        title: "AI Learning Assistant",
-        description: "Answers questions, explains difficult concepts, clears doubts, and guides students throughout their learning journey with contextual help."
+        title: "Contextual AI Tutor Assistant",
+        description: "In-context AI conversational companion that provides real-time doubt resolution, code explanations, and customized analogical breakdowns based on student queries."
       },
       {
-        title: "Quiz & Flashcard Engine",
-        description: "AI-generated quizzes with multiple difficulty levels and instant feedback, plus flashcards for quick revision and better memory retention through active recall."
+        title: "Adaptive Quiz & Flashcard Engine",
+        description: "Generates multiple-choice and short-answer quizzes across 3 difficulty tiers with instant score diagnostics, alongside active-recall flashcard decks."
       },
       {
-        title: "Learning Analytics Dashboard",
-        description: "Tracks quiz scores, accuracy, learning history, strengths, weaknesses, completed topics, mastered concepts, and overall progress."
+        title: "Learning Analytics & Mastery Radar",
+        description: "Tracks student attempt history, score progression charts, time spent per module, identified conceptual weak spots, and overall syllabus completion percentage."
       },
       {
-        title: "Community Learning Hub",
-        description: "Users can publish, discover, and clone learning paths and knowledge graphs shared by others, enabling collaborative learning at scale."
+        title: "Community Knowledge Hub",
+        description: "Enables students to publish, discover, star, and clone custom learning paths and knowledge graphs created by peer learners worldwide."
       }
     ],
     details: [
-      "AI Knowledge Graph that converts any topic into an interactive visual map showing how concepts are connected.",
-      "Structured Learning Paths with detailed explanations, diagrams, images, and examples.",
-      "AI Learning Assistant that answers questions, explains difficult concepts, and guides students throughout their journey.",
-      "AI-Generated Quizzes with multiple difficulty levels and instant feedback to test understanding.",
-      "Flashcards for quick revision and better memory retention through active recall.",
-      "Learning Analytics Dashboard to track quiz scores, accuracy, learning history, strengths, and weaknesses.",
-      "Progress Tracking showing completed topics, mastered concepts, topics in progress, and overall completion percentage.",
-      "Community Learning where users can publish, discover, and clone learning paths and knowledge graphs shared by others.",
-      "Subject Management to create unlimited subjects, organize learning materials, and build a personalized learning library.",
-      "Personal API Key Integration allowing users to securely add their own AI API key for more control and personalized AI-powered learning."
+      "AI Knowledge Graph Engine: Converts any subject or technical domain into an interactive visual graph map showing how concepts connect.",
+      "Structured Learning Paths: Generates multi-chapter lesson paths complete with detailed explanations, comparative matrices, and practical examples.",
+      "Contextual AI Study Companion: Real-time AI tutor answering questions, explaining complex formulas, and clearing doubts within lessons.",
+      "Adaptive Quiz Generator: Automated quiz engine creating difficulty-calibrated assessment tests with instant answer explanations.",
+      "Active-Recall Flashcards: Spaced-repetition card decks designed to optimize memory retention and facilitate fast exam revision.",
+      "Learning Analytics Dashboard: Visual charts tracking quiz scores, accuracy percentages, completed topics, and conceptual weak points.",
+      "Granular Progress Tracking: Progress indicators detailing completed modules, mastered topics, in-progress lessons, and overall syllabus percentage.",
+      "Community Learning Marketplace: Public hub where students publish, discover, and clone curated knowledge graphs and study paths.",
+      "Subject & Library Management: Organize study materials by subject, store custom notes, and build a personalized digital learning library.",
+      "BYO API Key Integration: Secure client-side storage allowing users to connect personal Gemini API keys for zero-rate-limit access."
     ],
     metrics: [
-      { label: "Active Users", value: "200+", description: "Students served during initial campus release" },
-      { label: "Retention Boost", value: "+30%", description: "Measured concept retention improvement" },
-      { label: "Quizzes Completed", value: "1,500+", description: "Automated retention checks generated" }
+      { label: "Active Learners", value: "200+", description: "Students onboarded during initial release" },
+      { label: "Retention Boost", value: "+30%", description: "Improvement in test concept retention" },
+      { label: "Quizzes Generated", value: "1,500+", description: "Automated revision assessments taken" }
     ],
     stack: [
-      { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-      { category: "AI & APIs", items: ["Google Gemini API"] },
+      { category: "Frontend", items: ["React", "Next.js 16", "TypeScript", "Tailwind CSS", "Framer Motion"] },
+      { category: "AI & APIs", items: ["Google Gemini API", "Force Graph 2D"] },
       { category: "Backend & DevOps", items: ["Node.js", "Lucide React", "Vercel"] }
     ],
     github: "https://github.com/dinesh6473/WONDERS-OF-AI-3.0.git",
@@ -118,35 +118,43 @@ export const projects: Project[] = [
     featured: true,
     description: "A resume parsing tool using Python and NLP that identifies key skill gaps, helping users improve their ATS match rate by an average of 25%.",
     longDescription: "Resume Analyzer is a high-performance NLP application designed to streamline the job application process. Built with Python and NLTK, it parses complex PDF and Word resumes to extract structured skill representations. The system uses a specialized ATS optimization algorithm to cross-reference resume files against job listings, highlighting missing keywords, advising on word choice, and generating structural suggestions.",
-    problemStatement: "Up to 75% of qualified job applicants are filtered out by automated Applicant Tracking Systems (ATS) due to unextracted skill keywords, non-standard formatting, or missing industry terminology.",
-    solutionOverview: "Resume Analyzer acts as an intelligent career coach. It executes a multi-stage document processing pipeline using PyPDF2 and NLTK tokenization, removing stop words, lemmatizing technical terms, and running TF-IDF keyword extraction. It compares extracted candidate vectors directly against target job descriptions to produce a comprehensive diagnostic report.",
+    problemStatement: "Up to 75% of qualified job applicants are rejected by automated Applicant Tracking Systems (ATS) prior to human review due to unextracted skill keywords, non-standard document formatting, or missing industry terminology.",
+    solutionOverview: "Resume Analyzer acts as an intelligent career coach. It executes a multi-stage document processing pipeline using PyPDF2 and NLTK tokenization, removing stop words, lemmatizing technical terms, and running TF-IDF keyword extraction. It compares candidate vectors directly against target job descriptions to produce a detailed diagnostic score report.",
     architecture: [
       {
-        title: "Multi-Format Document Ingestion",
-        description: "Extracts clean text and structural headings from complex multi-page PDF and DOCX files without losing section context."
+        title: "Multi-Format Document Ingestion Engine",
+        description: "Parses complex multi-page PDF and DOCX documents, extracting clean text and structural sections while filtering out binary artifacts."
       },
       {
-        title: "NLTK Skill & Taxonomy Extractor",
-        description: "Tokenizes, tags parts of speech, and maps phrases against a customized IT and software engineering skill taxonomy."
+        title: "NLTK Tokenization & Lemmatization Pipeline",
+        description: "Tokenizes text, strips stop words, performs part-of-speech tagging, and maps terms against an engineering skill taxonomy."
       },
       {
-        title: "ATS Semantic Match Matrix",
-        description: "Calculates keyword overlap, missing critical skills, and provides real-time formatting recommendations."
+        title: "TF-IDF Vector Matcher & Keyword Gap Analysis",
+        description: "Calculates mathematical cosine similarity between candidate resume vectors and target job listing requirements."
+      },
+      {
+        title: "AI Cover Letter & Bullet Point Optimizer",
+        description: "Synthesizes tailored application cover letters and suggests high-impact resume bullet point rewrites based on missing keywords."
       }
     ],
     details: [
-      "Integrated Natural Language Toolkit (NLTK) to extract and categorize skills, education, and experience from PDF/DOCX files.",
-      "Engineered keyword-matching algorithm comparing candidate profiles against job requirements for automated optimization suggestions."
+      "NLP Skill Extraction: Integrates NLTK tokenization and part-of-speech tagging to extract candidate skills, work history, and education.",
+      "ATS Compatibility Scoring: Calculates a detailed 100-point compatibility score evaluating keyword density, formatting, and completeness.",
+      "Job Description Vector Matching: Cross-references parsed resumes against target job postings to identify matched vs missing critical keywords.",
+      "AI Cover Letter Generator: Automatically synthesizes tailored cover letters aligning applicant achievements with job requirements.",
+      "AI Resume Bullet Tailor: Suggests bullet point rewrites targeting high-value missing industry keywords.",
+      "Application Tracker Kanban: Built-in job application board tracking applications across Applied, Interviewing, Offer, and Rejected stages."
     ],
     metrics: [
-      { label: "Match Increase", value: "+25%", description: "Average increase in candidate ATS match score" },
-      { label: "Resumes Analyzed", value: "500+", description: "Processed with sub-second parsing speed" },
-      { label: "Parsing Accuracy", value: "98%", description: "Key entity & skill extraction accuracy" }
+      { label: "ATS Match Increase", value: "+25%", description: "Average increase in candidate match score" },
+      { label: "Resumes Scanned", value: "500+", description: "Processed with sub-second parsing speed" },
+      { label: "Extraction Accuracy", value: "98%", description: "Key entity and skill extraction accuracy" }
     ],
     stack: [
-      { category: "Core Development", items: ["Python", "Pandas", "Tkinter"] },
-      { category: "NLP & AI", items: ["NLP", "NLTK", "PyPDF2", "Regex"] },
-      { category: "Database", items: ["SQLite"] }
+      { category: "Core Backend", items: ["Python", "Pandas", "Tkinter", "SQLite"] },
+      { category: "NLP & ML", items: ["NLTK", "PyPDF2", "Regex", "TF-IDF"] },
+      { category: "Deployment", items: ["Next.js", "React", "Vercel"] }
     ],
     github: "https://github.com/varun-kumar-hub/Resume-AI.git",
     live: "https://resume-a.vercel.app/",
@@ -181,49 +189,49 @@ export const projects: Project[] = [
     featured: true,
     description: "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research with confidence scores and source citations.",
     longDescription: "ResearchX AI is a Multi-Agent Research & Verification Platform built for the AI Business Research Challenge. Unlike traditional web scrapers, it understands user intent, performs parallel multi-source research, extracts structured information, verifies facts, resolves conflicting data, removes duplicate records, and generates comprehensive research reports with confidence scores and source citations. It supports Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research — all through an interactive dashboard with conversational AI follow-ups.",
-    problemStatement: "Conducting thorough technical or business research across the web requires manually opening dozens of tabs, cross-verifying unverified claims, filtering promotional content, and synthesizing disorganized notes — a process that wastes 10+ hours per research project.",
-    solutionOverview: "ResearchX AI automates end-to-end research by deploying a pipeline of 8 specialized AI agents. From query understanding to final report generation, each agent handles a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks facts across independent sources, and generates fully cited Markdown reports with an interactive AI Analyst for follow-up questions.",
+    problemStatement: "Conducting thorough technical or business research across the web requires manually opening dozens of tabs, cross-verifying unverified claims, filtering promotional fluff, and synthesizing disorganized notes — a tedious process that consumes 10+ hours per research project.",
+    solutionOverview: "ResearchX AI automates end-to-end research by orchestrating an 8-agent autonomous pipeline. From query intent understanding to final report generation, each specialized agent executes a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks claims across independent web sources, and outputs fully cited reports alongside an interactive AI Analyst.",
     architecture: [
       {
         title: "Query Understanding Agent",
-        description: "Intent classification, entity detection, query validation, and research planning to understand exactly what the user needs."
+        description: "Executes intent classification, entity detection, query validation, and scope definition to formulate optimal research queries."
       },
       {
         title: "Research Planner Agent",
-        description: "Breaks complex queries into targeted research tasks and selects the most trusted sources for each sub-query."
+        description: "Deconstructs complex research goals into targeted sub-tasks and selects specialized API search providers for each sub-topic."
       },
       {
         title: "Discovery Agent",
-        description: "Performs parallel searches across Google (Serper), Tavily, Wikipedia, LinkedIn, official sites, and public directories simultaneously."
+        description: "Runs parallel searches across Google (Serper), Tavily, Wikipedia, LinkedIn, official documentation, and public directories."
       },
       {
         title: "Extraction Agent",
-        description: "Extracts structured information from raw web content, cleans data, normalizes formats, and preserves source attribution."
+        description: "Parses raw HTML and JSON payloads, extracting atomic facts, cleaning text noise, and preserving exact source URLs."
       },
       {
         title: "Deduplication Agent",
-        description: "Detects duplicate entities across multiple sources and intelligently merges records to eliminate redundancy."
+        description: "Detects redundant entities across search results and intelligently merges overlapping claims to eliminate duplicate data."
       },
       {
         title: "Verification Agent",
-        description: "Cross-verifies facts across independent web sources, detects conflicts, and assigns credibility confidence scores."
+        description: "Cross-verifies claims across independent sources, detects conflicting data, and calculates empirical confidence scores."
       },
       {
         title: "Report Generation Agent",
-        description: "Generates executive summaries and structured research reports with inline citations, evidence links, and confidence metrics."
+        description: "Synthesizes executive briefs, analytical breakdowns, and fully cited Markdown reports with inline evidence links."
       },
       {
         title: "AI Analyst Agent",
-        description: "Answers follow-up questions with evidence-backed responses, source citations, and conversational Q&A capability."
+        description: "Conversational Q&A assistant answering follow-up queries with evidence-backed insights, citations, and source verification links."
       }
     ],
     details: [
-      "Engineered an autonomous 8-agent pipeline: Query Understanding → Research Planner → Discovery → Extraction → Deduplication → Verification → Report Generation → AI Analyst.",
-      "Implemented parallel search across Google (Serper), Tavily, Wikipedia, LinkedIn, official directories with browser-only API key storage and auto-fallback.",
-      "Built cross-verification mechanisms that validate facts across independent sources, detect conflicts, resolve duplicate entities, and assign confidence scores.",
-      "Supports 9 research types: Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research.",
-      "Personal API Key Management — Bring Your Own Gemini API Key with browser-only storage (never stored in DB), auto-fallback to server key, and seamless secure management.",
-      "Interactive dashboard with real-time research progress tracking and conversational AI Analyst for evidence-backed follow-up Q&A."
+      "Autonomous 8-Agent Architecture: Engineered an autonomous pipeline featuring Query Understanding, Research Planner, Discovery, Extraction, Deduplication, Verification, Report Generation, and AI Analyst agents.",
+      "Parallel Multi-Source Web Discovery: Queries Google (Serper), Tavily Search, Wikipedia, and public directories concurrently with automated rate-limit fallbacks.",
+      "Cross-Verification & Confidence Scoring: Validates facts across independent providers, detects conflicting claims, and assigns 0-100% confidence ratings.",
+      "9 Research Schema Categories: Supports specialized research types including Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research.",
+      "Client-Side API Key Security: Securely stores user Gemini API keys in local browser storage (never sent to database) with seamless fallback to default system keys.",
+      "Interactive Progress Console: Features real-time multi-agent execution status tracking, step progress indicators, and interactive AI Analyst follow-up Q&A."
     ],
     metrics: [
       { label: "Time Saved", value: "10+ hrs", description: "Saved per research project vs manual workflow" },
@@ -264,7 +272,7 @@ export const projects: Project[] = [
     featured: true,
     description: "An AI-powered travel planning app using Google Gemini to generate personalized day-by-day itineraries with interactive maps, expense tracking, and a built-in AI concierge.",
     longDescription: "TripCrafter Pro is an intelligent trip planning application that uses Google's Gemini AI to generate personalized, day-by-day travel itineraries in seconds. Users enter their destination, travel dates, budget, and interests — and the AI crafts a detailed plan complete with activities, timings, cost estimates, insider tips, and geo-coordinates. Features include an interactive Google Maps view with markers and directions, drag-and-drop activity reordering, a real-time AI Travel Concierge chat, photo memories upload, visual expense tracking with pie charts, trip pacing analysis, live weather forecasts, and calendar export.",
-    problemStatement: "Planning multi-day travel requires juggling budgets, destination maps, attraction schedules, transport logistics, weather forecasts, and personal pacing without a single unified tool.",
+    problemStatement: "Planning multi-day travel requires juggling budgets, destination maps, attraction opening hours, transport logistics, weather forecasts, and personal pacing without a single unified tool.",
     solutionOverview: "TripCrafter Pro unifies travel planning into a single intelligent dashboard. Powered by Gemini 2.5 Flash, it synthesizes personalized daily itineraries complete with GPS coordinates, estimated costs, activity durations, and local tips. It integrates Google Maps for visual route exploration, Open-Meteo for live weather, and Supabase for budget management.",
     architecture: [
       {
@@ -280,15 +288,15 @@ export const projects: Project[] = [
         description: "In-trip conversational AI assistant for instant local recommendations, emergency advice, and cultural customs."
       },
       {
-        title: "Expense Analytics & Calendar Sync",
+        title: "Expense Analytics & Calendar Sync Engine",
         description: "Visual pie charts tracking spent vs allocated budget, pacing scores, and one-click .ics calendar export."
       }
     ],
     details: [
-      "Integrated Google Gemini 2.5 Flash to generate tailored multi-day itineraries based on budget, interests (Food, Adventure, History, etc.), and travel dates.",
-      "Built interactive trip view with expandable day-by-day timeline, Google Maps with markers/directions, and drag-and-drop activity reordering.",
-      "Engineered AI Travel Concierge chat assistant for real-time trip Q&A, local customs, and hidden gems discovery.",
-      "Implemented expense tracking with visual pie charts, trip pacing score analysis, live weather forecasts, and .ics calendar export."
+      "Gemini AI Itinerary Generation: Leverages Google Gemini 2.5 Flash to synthesize custom day-by-day travel itineraries complete with activity timings, cost estimates, and local tips.",
+      "Interactive Google Maps Routing: Features interactive Google Maps with custom waypoint markers, route lines, distance estimates, and drag-and-drop activity reordering.",
+      "Real-Time AI Travel Concierge: Floating conversational chat assistant providing context-aware destination advice, local dining spots, and cultural tips.",
+      "Visual Expense & Budget Tracking: Visual pie chart analytics tracking spent vs allocated budget, pacing score analysis, live weather forecasts, and .ics calendar sync."
     ],
     metrics: [
       { label: "Generation Speed", value: "<5s", description: "Average duration to generate a 7-day custom trip" },
@@ -330,25 +338,28 @@ export const projects: Project[] = [
     featured: true,
     description: "Automated web scraping and data collection engine gathering data from major tech channels to reduce manual research by 10+ hours weekly.",
     longDescription: "AI Tools Tracker is a data-aggregation dashboard designed to monitor the fast-moving landscape of artificial intelligence software. It utilizes an automated scraping engine built on BeautifulSoup daily. A PostgreSQL database stores cataloged features, pricing tiers, and tags, enabling a highly-responsive comparisons system.",
-    problemStatement: "With dozens of new AI tools launched daily across ProductHunt, GitHub, and tech news, keeping up with feature updates, pricing changes, and category shifts requires hundreds of manual hours.",
+    problemStatement: "With dozens of new AI tools launched daily across ProductHunt, GitHub, and tech news, keeping up with feature updates, pricing changes, and category shifts requires hundreds of manual research hours.",
     solutionOverview: "AI Tools Tracker runs an automated data aggregation pipeline. Scheduled Python scrapers leverage BeautifulSoup and Requests to monitor top AI repositories and directories, clean and deduplicate payloads, normalize pricing models, and load structured records into PostgreSQL for instant side-by-side comparisons.",
     architecture: [
       {
-        title: "Automated Scraping & Ingestion Engine",
-        description: "Executes scheduled Python BeautifulSoup/Requests web scrapers with custom headers, rate-limiting, and error fallback."
+        title: "Automated Scraping & Ingestion Pipeline",
+        description: "Executes scheduled Python BeautifulSoup and Requests web scrapers with custom HTTP headers, rate-limiting, and error fallback."
       },
       {
-        title: "PostgreSQL Data Normalizer",
-        description: "Cleans unformatted text, extracts pricing tiers, assigns use-case tags, and indexes items using SQLAlchemy ORM."
+        title: "PostgreSQL Data Normalization Engine",
+        description: "Cleans raw HTML text payloads, extracts pricing structures, tags categories, and indexes items using SQLAlchemy ORM."
       },
       {
-        title: "High-Performance Comparison API",
-        description: "Delivers sub-100ms API responses allowing users to filter, sort, and compare 500+ AI resources dynamically."
+        title: "Sub-100ms Comparison & Filtering API",
+        description: "Delivers sub-100ms API responses allowing users to filter, search, and compare 500+ AI resources dynamically by use-case."
       }
     ],
     details: [
-      "Aggregated features and classifications in structured formats using PostgreSQL.",
-      "Built a comparison engine that allows users to explore and filter 500+ AI resources based on specific use cases."
+      "Automated Web Scraping Engine: Built a Python scraping pipeline leveraging BeautifulSoup and Requests to automatically ingest tech tools from 10+ public directories daily.",
+      "PostgreSQL Data Normalization: Cleans unformatted text payloads, extracts pricing tiers, tags categories, and structures catalog records using SQLAlchemy ORM.",
+      "Sub-100ms Search & Filtering: Engineered a high-performance comparison API enabling instant side-by-side evaluation of 500+ AI resources.",
+      "Real-Time Category Indexing: Organizes tools into distinct domain hubs (Code & Dev, Productivity, Design, Marketing) with live tool counter badges.",
+      "Outbound Source Redirection: Direct outbound links routing users straight to verified source publishers and Github repositories."
     ],
     metrics: [
       { label: "Tools Cataloged", value: "500+", description: "Indexed AI products and developer resources" },

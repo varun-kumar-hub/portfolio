@@ -404,8 +404,10 @@ export default function ProjectDetailsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {project.details.slice(0, 6).map((detail, idx) => {
-            const parts = detail.split(" ");
-            const title = parts.slice(0, 3).join(" ");
+            const colonIdx = detail.indexOf(":");
+            const title = colonIdx !== -1 ? detail.slice(0, colonIdx).trim() : detail.split(".")[0].trim();
+            const body = colonIdx !== -1 ? detail.slice(colonIdx + 1).trim() : detail;
+
             const featureIcons = [
               <Zap key="zap" className="w-5 h-5" />,
               <Sparkles key="spark" className="w-5 h-5" />,
@@ -433,8 +435,8 @@ export default function ProjectDetailsPage() {
                   </h3>
 
                   {/* Feature Description */}
-                  <p className="text-sm text-neutral-500 font-light leading-relaxed">
-                    {detail}
+                  <p className="text-sm text-neutral-400 font-light leading-relaxed">
+                    {body}
                   </p>
 
                   {/* Subtle index watermark */}
@@ -451,15 +453,24 @@ export default function ProjectDetailsPage() {
         {project.details.length > 6 && (
           <FadeSection delay={0.3} className="mt-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {project.details.slice(6).map((detail, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.015] border border-white/[0.05] text-sm text-neutral-400 font-light leading-relaxed"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500/60 mt-2 shrink-0" />
-                  <span>{detail}</span>
-                </div>
-              ))}
+              {project.details.slice(6).map((detail, idx) => {
+                const colonIdx = detail.indexOf(":");
+                const title = colonIdx !== -1 ? detail.slice(0, colonIdx).trim() : "";
+                const body = colonIdx !== -1 ? detail.slice(colonIdx + 1).trim() : detail;
+
+                return (
+                  <div
+                    key={idx}
+                    className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.015] border border-white/[0.05] text-sm leading-relaxed"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500/60 mt-2 shrink-0" />
+                    <div>
+                      {title && <span className="font-bold text-white tracking-wide">{title}: </span>}
+                      <span className="text-neutral-400 font-light">{body}</span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </FadeSection>
         )}
