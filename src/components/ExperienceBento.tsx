@@ -216,10 +216,10 @@ const milestones: Milestone[] = [
   },
 ];
 
-/* ── 3D Apple-Style Glass Sculpture Component ── */
-function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] }) {
+/* ── 3D Apple-Style Glass Sculpture ── */
+const GlassSculpture = React.memo(function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] }) {
   return (
-    <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-[26rem] lg:h-[26rem] flex items-center justify-center select-none shrink-0">
+    <div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-[26rem] lg:h-[26rem] flex items-center justify-center select-none shrink-0 [will-change:transform]">
       {/* Background Soft Aura Ring */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-red-600/15 via-transparent to-red-500/10 blur-3xl pointer-events-none" />
 
@@ -253,7 +253,7 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
           ease: "easeInOut",
           repeat: Infinity,
         }}
-        className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex items-center justify-center group overflow-hidden"
+        className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex items-center justify-center group overflow-hidden [backface-visibility:hidden]"
       >
         {/* Glass Reflection Highlight Lines */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent pointer-events-none" />
@@ -308,49 +308,67 @@ function GlassSculpture({ visualType }: { visualType: Milestone["visualType"] })
       </motion.div>
     </div>
   );
-}
+});
 
 /* ── Motion Variants ── */
 const cardVariants = {
   enter: (direction: number) => ({
     opacity: 0,
     y: direction > 0 ? 28 : -28,
-    filter: "blur(6px)",
   }),
   center: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
   },
   exit: (direction: number) => ({
     opacity: 0,
     y: direction > 0 ? -28 : 28,
-    filter: "blur(6px)",
   }),
 };
 
-type ScrollState = "IDLE_BEFORE" | "LOCKED" | "IDLE_AFTER";
+type ScrollFSMState =
+  | "NORMAL_SCROLL"
+  | "ENTERING"
+  | "ALIGNING"
+  | "PINNED"
+  | "EXITING";
 
 export default function ExperienceBento() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [scrollState, setScrollState] = useState<ScrollState>("IDLE_BEFORE");
+  const [scrollState, setScrollState] = useState<ScrollFSMState>("NORMAL_SCROLL");
 
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const accumulatedDeltaRef = useRef<number>(0);
-  const touchStartYRef = useRef<number>(0);
-  const isAnimatingRef = useRef<boolean>(false);
   const activeIndexRef = useRef<number>(0);
-  const scrollStateRef = useRef<ScrollState>("IDLE_BEFORE");
+  const scrollStateRef = useRef<ScrollFSMState>("NORMAL_SCROLL");
+  const isAnimatingRef = useRef<boolean>(false);
+  const accumulatedDeltaRef = useRef<number>(0);
   const lastTriggerTimeRef = useRef<number>(0);
   const resetAccumulatorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const total = milestones.length;
+  const touchStartYRef = useRef<number>(0);
+  const rafIdRef = useRef<number | null>(null);
+  const isPointerInsideRef = useRef<boolean>(false);
 
-  // Sync refs for event handlers
-  useEffect(() => {
-    isAnimatingRef.current = isAnimating;
-  }, [isAnimating]);
+  // Velocity tracking & FSM refs
+  const lastScrollYRef = useRef<number>(0);
+  const lastScrollTimeRef = useRef<number>(0);
+  const velocityRef = useRef<number>(0);
+  const lastInputTimeRef = useRef<number>(0);
+  const entryDirectionRef = useRef<"DOWN" | "UP">("DOWN");
+  const exitCooldownRef = useRef<boolean>(false);
+  const exitCooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  /* ── Pointer Hover Tracking ── */
+  const handleMouseEnter = useCallback(() => {
+    isPointerInsideRef.current = true;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    isPointerInsideRef.current = false;
+  }, []);
+
+  const total = milestones.length;
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -360,23 +378,15 @@ export default function ExperienceBento() {
     scrollStateRef.current = scrollState;
   }, [scrollState]);
 
-  /* ── Deep Linking & URL State Restoring ── */
+  /* ── Sync Deep Link / Query Param on Mount ── */
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const urlParams = new URLSearchParams(window.location.search);
-    const expParam = urlParams.get("experience") || urlParams.get("item");
-    if (expParam) {
+    const params = new URLSearchParams(window.location.search);
+    const expParam = params.get("experience");
+    if (expParam !== null) {
       const parsed = parseInt(expParam, 10);
       if (!isNaN(parsed) && parsed >= 0 && parsed < total) {
         setActiveIndex(parsed);
-      }
-    } else {
-      const hash = window.location.hash;
-      if (hash.includes("item=")) {
-        const hashVal = parseInt(hash.split("item=")[1], 10);
-        if (!isNaN(hashVal) && hashVal >= 0 && hashVal < total) {
-          setActiveIndex(hashVal);
-        }
       }
     }
   }, [total]);
@@ -386,15 +396,6 @@ export default function ExperienceBento() {
     const url = new URL(window.location.href);
     url.searchParams.set("experience", idx.toString());
     window.history.replaceState(null, "", url.toString());
-  }, []);
-
-  /* ── Smooth Center Scroll Alignment ── */
-  const centerSectionInViewport = useCallback(() => {
-    if (!wrapperRef.current || typeof window === "undefined") return;
-    const rect = wrapperRef.current.getBoundingClientRect();
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const targetTop = rect.top + scrollTop - (window.innerHeight - rect.height) / 2;
-    window.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
   }, []);
 
   /* ── Step Transition Core Function ── */
@@ -407,10 +408,10 @@ export default function ExperienceBento() {
     setIsAnimating(true);
     isAnimatingRef.current = true;
     setActiveIndex(targetIndex);
-    updateUrlState(targetIndex);
 
-    // Lock buffer duration
+    // Defer URL update until after animation frame completes
     setTimeout(() => {
+      updateUrlState(targetIndex);
       setIsAnimating(false);
       isAnimatingRef.current = false;
     }, 450);
@@ -428,7 +429,6 @@ export default function ExperienceBento() {
     }
   }, [goToIndex]);
 
-  /* ── Lock / Unlock Page Body Scroll Engine ── */
   const lockPageScroll = useCallback(() => {
     if (typeof document === "undefined") return;
     document.body.style.overflow = "hidden";
@@ -441,7 +441,63 @@ export default function ExperienceBento() {
     document.body.style.touchAction = "";
   }, []);
 
-  /* ── Intersection Observer (Finite State Machine Trigger - Narrative Entry Phase) ── */
+  /* ── Clean Section Exit Handler ── */
+  const exitExperience = useCallback((exitDir: "DOWN" | "UP") => {
+    setScrollState("EXITING");
+    scrollStateRef.current = "EXITING";
+    exitCooldownRef.current = true;
+    unlockPageScroll();
+
+    if (exitCooldownTimerRef.current) clearTimeout(exitCooldownTimerRef.current);
+
+    const scrollNudge = exitDir === "DOWN" ? 350 : -350;
+    window.scrollBy({ top: scrollNudge, behavior: "smooth" });
+
+    setTimeout(() => {
+      setScrollState("NORMAL_SCROLL");
+      scrollStateRef.current = "NORMAL_SCROLL";
+    }, 400);
+
+    exitCooldownTimerRef.current = setTimeout(() => {
+      exitCooldownRef.current = false;
+    }, 900);
+  }, [unlockPageScroll]);
+
+  /* ── Native Scroll Velocity & User Input Tracker ── */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    lastScrollYRef.current = window.scrollY || document.documentElement.scrollTop;
+    lastScrollTimeRef.current = performance.now();
+
+    const handleNativeScroll = () => {
+      const now = performance.now();
+      const currentY = window.scrollY || document.documentElement.scrollTop;
+      const dt = now - lastScrollTimeRef.current;
+      if (dt > 0) {
+        const dist = Math.abs(currentY - lastScrollYRef.current);
+        velocityRef.current = dist / dt; // px/ms
+      }
+      lastScrollYRef.current = currentY;
+      lastScrollTimeRef.current = now;
+    };
+
+    const handleInputActivity = () => {
+      lastInputTimeRef.current = performance.now();
+    };
+
+    window.addEventListener("scroll", handleNativeScroll, { passive: true });
+    window.addEventListener("wheel", handleInputActivity, { passive: true });
+    window.addEventListener("touchstart", handleInputActivity, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleNativeScroll);
+      window.removeEventListener("wheel", handleInputActivity);
+      window.removeEventListener("touchstart", handleInputActivity);
+    };
+  }, []);
+
+  /* ── IntersectionObserver: State Machine Trigger ── */
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el || typeof window === "undefined") return;
@@ -449,26 +505,22 @@ export default function ExperienceBento() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Require section to be fully in view (>= 75% ratio) before locking
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.75) {
-            if (scrollStateRef.current !== "LOCKED") {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+            if (scrollStateRef.current === "NORMAL_SCROLL" && !exitCooldownRef.current) {
               const top = entry.boundingClientRect.top;
-              if (top > 0) {
-                setActiveIndex(0);
-                activeIndexRef.current = 0;
-              } else {
-                setActiveIndex(total - 1);
-                activeIndexRef.current = total - 1;
-              }
-              setScrollState("LOCKED");
-              scrollStateRef.current = "LOCKED";
-              lockPageScroll();
-              centerSectionInViewport();
+              entryDirectionRef.current = top > 0 ? "DOWN" : "UP";
+              setScrollState("ENTERING");
+              scrollStateRef.current = "ENTERING";
+            }
+          } else if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+            if (scrollStateRef.current === "ENTERING" || scrollStateRef.current === "ALIGNING") {
+              setScrollState("NORMAL_SCROLL");
+              scrollStateRef.current = "NORMAL_SCROLL";
             }
           }
         });
       },
-      { threshold: [0.75, 0.9] }
+      { threshold: [0.2, 0.45, 0.75] }
     );
 
     observer.observe(el);
@@ -476,61 +528,110 @@ export default function ExperienceBento() {
       observer.disconnect();
       unlockPageScroll();
     };
-  }, [total, lockPageScroll, unlockPageScroll, centerSectionInViewport]);
+  }, [unlockPageScroll]);
 
-  /* ── Global Wheel Event Engine (Active When LOCKED) ── */
+  /* ── FSM Activation & Ultra-Fast Alignment Synchronization Loop ── */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let animFrameId: number;
+
+    const tick = () => {
+      const currentState = scrollStateRef.current;
+      const now = performance.now();
+      const VELOCITY_SAFE_THRESHOLD = 0.55; // px/ms
+      const DEBOUNCE_QUIET_MS = 40;          // 40ms instant response
+
+      const isVelocitySafe = velocityRef.current < VELOCITY_SAFE_THRESHOLD;
+      const isInputQuiet = now - lastInputTimeRef.current > DEBOUNCE_QUIET_MS;
+
+      if (currentState === "ENTERING" || currentState === "ALIGNING") {
+        if (wrapperRef.current && !exitCooldownRef.current) {
+          const rect = wrapperRef.current.getBoundingClientRect();
+          const isNearTop = Math.abs(rect.top) < 220; // Within 220px of top boundary
+
+          if ((isVelocitySafe && isInputQuiet) || isNearTop) {
+            const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
+
+            // Instantly snap to target position to eliminate sluggish settling
+            window.scrollTo({ top: targetY, behavior: "auto" });
+
+            if (entryDirectionRef.current === "DOWN") {
+              setActiveIndex(0);
+              activeIndexRef.current = 0;
+            } else {
+              setActiveIndex(total - 1);
+              activeIndexRef.current = total - 1;
+            }
+
+            setScrollState("PINNED");
+            scrollStateRef.current = "PINNED";
+            lockPageScroll();
+          }
+        }
+      }
+
+      animFrameId = requestAnimationFrame(tick);
+    };
+
+    animFrameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animFrameId);
+  }, [total, lockPageScroll]);
+
+  /* ── High-Performance Wheel Event Engine (Scoped to PINNED State) ── */
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (scrollStateRef.current !== "LOCKED") return;
+      // ONLY intercept wheel scroll events if section is strictly PINNED & pointer is inside
+      if (scrollStateRef.current !== "PINNED" || !isPointerInsideRef.current) return;
       e.preventDefault();
 
       const now = Date.now();
       const COOLDOWN_MS = 450;
-
       if (now - lastTriggerTimeRef.current < COOLDOWN_MS || isAnimatingRef.current) return;
 
       accumulatedDeltaRef.current += e.deltaY;
       if (resetAccumulatorTimeoutRef.current) clearTimeout(resetAccumulatorTimeoutRef.current);
       resetAccumulatorTimeoutRef.current = setTimeout(() => { accumulatedDeltaRef.current = 0; }, 160);
 
-      const THRESHOLD = 25;
-      if (accumulatedDeltaRef.current > THRESHOLD) {
-        accumulatedDeltaRef.current = 0;
-        lastTriggerTimeRef.current = now;
-        if (activeIndexRef.current < total - 1) {
-          goToIndex(activeIndexRef.current + 1, 1);
-        } else {
-          setScrollState("IDLE_AFTER");
-          scrollStateRef.current = "IDLE_AFTER";
-          unlockPageScroll();
-          window.scrollBy({ top: 350, behavior: "smooth" });
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+
+      rafIdRef.current = requestAnimationFrame(() => {
+        const THRESHOLD = 25;
+        if (accumulatedDeltaRef.current > THRESHOLD) {
+          accumulatedDeltaRef.current = 0;
+          lastTriggerTimeRef.current = Date.now();
+          if (activeIndexRef.current < total - 1) {
+            goToIndex(activeIndexRef.current + 1, 1);
+          } else {
+            exitExperience("DOWN");
+          }
+        } else if (accumulatedDeltaRef.current < -THRESHOLD) {
+          accumulatedDeltaRef.current = 0;
+          lastTriggerTimeRef.current = Date.now();
+          if (activeIndexRef.current > 0) {
+            goToIndex(activeIndexRef.current - 1, -1);
+          } else {
+            exitExperience("UP");
+          }
         }
-      } else if (accumulatedDeltaRef.current < -THRESHOLD) {
-        accumulatedDeltaRef.current = 0;
-        lastTriggerTimeRef.current = now;
-        if (activeIndexRef.current > 0) {
-          goToIndex(activeIndexRef.current - 1, -1);
-        } else {
-          setScrollState("IDLE_BEFORE");
-          scrollStateRef.current = "IDLE_BEFORE";
-          unlockPageScroll();
-          window.scrollBy({ top: -350, behavior: "smooth" });
-        }
-      }
+      });
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [total, goToIndex, unlockPageScroll]);
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, [total, goToIndex, exitExperience]);
 
-  /* ── Touch Vertical Swipe Engine ── */
+  /* ── Touch Vertical Swipe Engine (Scoped to PINNED State) ── */
   useEffect(() => {
     if (typeof window === "undefined") return;
     const handleTouchStart = (e: TouchEvent) => { touchStartYRef.current = e.touches[0].clientY; };
     const handleTouchMove = (e: TouchEvent) => {
-      if (scrollStateRef.current !== "LOCKED") return;
+      if (scrollStateRef.current !== "PINNED") return;
       if (e.cancelable) e.preventDefault();
       const diff = touchStartYRef.current - e.touches[0].clientY;
       const now = Date.now();
@@ -540,50 +641,57 @@ export default function ExperienceBento() {
         touchStartYRef.current = e.touches[0].clientY;
         lastTriggerTimeRef.current = now;
         if (activeIndexRef.current < total - 1) goToIndex(activeIndexRef.current + 1, 1);
-        else { setScrollState("IDLE_AFTER"); scrollStateRef.current = "IDLE_AFTER"; unlockPageScroll(); window.scrollBy({ top: 300, behavior: "smooth" }); }
+        else exitExperience("DOWN");
       } else if (diff < -SWIPE_THRESHOLD) {
         touchStartYRef.current = e.touches[0].clientY;
         lastTriggerTimeRef.current = now;
         if (activeIndexRef.current > 0) goToIndex(activeIndexRef.current - 1, -1);
-        else { setScrollState("IDLE_BEFORE"); scrollStateRef.current = "IDLE_BEFORE"; unlockPageScroll(); window.scrollBy({ top: -300, behavior: "smooth" }); }
+        else exitExperience("UP");
       }
     };
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     return () => { window.removeEventListener("touchstart", handleTouchStart); window.removeEventListener("touchmove", handleTouchMove); };
-  }, [total, goToIndex, unlockPageScroll]);
+  }, [total, goToIndex, exitExperience]);
 
-  /* ── Keyboard Accessibility Engine ── */
+  /* ── Keyboard Accessibility Engine (Scoped to PINNED State) ── */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (scrollStateRef.current !== "LOCKED" || isAnimatingRef.current) return;
+      if (scrollStateRef.current !== "PINNED" || isAnimatingRef.current || !isPointerInsideRef.current) return;
       if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) {
         e.preventDefault();
         if (activeIndexRef.current < total - 1) goToIndex(activeIndexRef.current + 1, 1);
-        else { setScrollState("IDLE_AFTER"); scrollStateRef.current = "IDLE_AFTER"; unlockPageScroll(); window.scrollBy({ top: 350, behavior: "smooth" }); }
+        else exitExperience("DOWN");
       } else if (e.key === "ArrowUp" || e.key === "PageUp" || (e.key === " " && e.shiftKey)) {
         e.preventDefault();
         if (activeIndexRef.current > 0) goToIndex(activeIndexRef.current - 1, -1);
-        else { setScrollState("IDLE_BEFORE"); scrollStateRef.current = "IDLE_BEFORE"; unlockPageScroll(); window.scrollBy({ top: -350, behavior: "smooth" }); }
+        else exitExperience("UP");
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [total, goToIndex, unlockPageScroll]);
+  }, [total, goToIndex, exitExperience]);
 
   const activeMilestone = milestones[activeIndex];
 
   return (
-    <div ref={wrapperRef} className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center">
+    <div
+      ref={wrapperRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onPointerEnter={handleMouseEnter}
+      onPointerLeave={handleMouseLeave}
+      className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center"
+    >
       <div className="w-full h-full [perspective:1200px] z-10 flex flex-col justify-center">
-        <motion.div className="relative h-full max-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-6 sm:py-8 px-6 sm:px-12 lg:px-16 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
+        <motion.div className="relative h-full max-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
           {/* Ambient Radial Background Aura */}
           <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />
           </div>
 
           {/* ── MOBILE ONLY: Top Horizontal Milestone Selector ── */}
-          <div className="lg:hidden relative z-20 w-full mb-6 pb-3 border-b border-white/10 flex flex-col gap-3">
+          <div className="lg:hidden relative z-20 w-full mb-4 pb-2 border-b border-white/10 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-red-400 font-bold">
                 ✦ Engineering Journey ✦
@@ -592,7 +700,7 @@ export default function ExperienceBento() {
                 <button
                   onClick={handlePrev}
                   disabled={activeIndex === 0}
-                  className="p-2 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-1.5 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -602,7 +710,7 @@ export default function ExperienceBento() {
                 <button
                   onClick={handleNext}
                   disabled={activeIndex === total - 1}
-                  className="p-2 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-1.5 rounded-lg border border-white/10 bg-white/5 text-neutral-300 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -618,7 +726,7 @@ export default function ExperienceBento() {
                     key={milestone.id}
                     onClick={() => goToIndex(idx)}
                     className={cn(
-                      "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0",
+                      "px-3 py-1 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0",
                       isActive
                         ? "bg-red-500/20 border border-red-500/50 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
                         : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white"
@@ -632,22 +740,22 @@ export default function ExperienceBento() {
           </div>
 
           {/* Main 3-Column Storytelling Grid (Desktop & Tablet) */}
-          <div className="relative z-10 max-w-[90rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center flex-1 py-4 sm:py-8">
+          <div className="relative z-10 max-w-[90rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center flex-1 py-2 sm:py-4">
             
             {/* ── LEFT COLUMN: Vertical Navigation Timeline (Desktop Only 3 Cols) ── */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-7 text-left border-r border-white/10 pr-10">
-              <div className="space-y-1.5">
+            <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-4 text-left border-r border-white/10 pr-8">
+              <div className="space-y-1">
                 <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-400/90 font-bold block">
                   ✦ Engineering Journey ✦
                 </span>
-                <p className="text-xs sm:text-sm text-neutral-400 font-light">
+                <p className="text-xs text-neutral-400 font-light">
                   Scroll or click to explore tracks
                 </p>
               </div>
 
               {/* Timeline Nodes */}
-              <div className="relative space-y-5">
-                <div className="absolute left-[17px] top-4 bottom-4 w-px bg-white/10" />
+              <div className="relative space-y-3.5">
+                <div className="absolute left-[17px] top-3 bottom-3 w-px bg-white/10" />
 
                 {milestones.map((milestone, idx) => {
                   const isActive = idx === activeIndex;
@@ -656,14 +764,14 @@ export default function ExperienceBento() {
                       key={milestone.id}
                       onClick={() => goToIndex(idx)}
                       className={cn(
-                        "group relative flex items-center gap-4.5 w-full text-left transition-all duration-500 py-2 focus:outline-none",
+                        "group relative flex items-center gap-3.5 w-full text-left transition-all duration-500 py-1.5 focus:outline-none",
                         isActive ? "opacity-100" : "opacity-40 hover:opacity-80"
                       )}
                     >
-                      <div className="relative z-10 flex h-9 w-9 items-center justify-center shrink-0">
+                      <div className="relative z-10 flex h-8 w-8 items-center justify-center shrink-0">
                         <div
                           className={cn(
-                            "h-4 w-4 rounded-full transition-all duration-500",
+                            "h-3.5 w-3.5 rounded-full transition-all duration-500",
                             isActive
                               ? "bg-red-400 shadow-[0_0_20px_rgba(239,68,68,0.9)] scale-125"
                               : "bg-neutral-600 group-hover:bg-neutral-400"
@@ -675,12 +783,12 @@ export default function ExperienceBento() {
                       </div>
 
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-xs font-mono text-red-400/90 font-bold uppercase tracking-wider">
+                        <span className="text-[11px] font-mono text-red-400/90 font-bold uppercase tracking-wider">
                           {milestone.number} • {milestone.category}
                         </span>
                         <span
                           className={cn(
-                            "text-sm sm:text-base font-semibold tracking-tight transition-colors duration-300 line-clamp-1",
+                            "text-xs sm:text-sm font-semibold tracking-tight transition-colors duration-300 line-clamp-1",
                             isActive ? "text-white font-extrabold" : "text-neutral-300"
                           )}
                         >
@@ -693,22 +801,22 @@ export default function ExperienceBento() {
               </div>
 
               {/* Navigation Controls */}
-              <div className="flex items-center gap-3.5 pt-4">
+              <div className="flex items-center gap-3 pt-2">
                 <button
                   onClick={handlePrev}
                   disabled={activeIndex === 0}
                   aria-label="Previous Milestone"
-                  className="p-2.5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <ChevronUp className="w-4.5 h-4.5" />
+                  <ChevronUp className="w-4 h-4" />
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={activeIndex === total - 1}
                   aria-label="Next Milestone"
-                  className="p-2.5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
-                  <ChevronDown className="w-4.5 h-4.5" />
+                  <ChevronDown className="w-4 h-4" />
                 </button>
                 <span className="text-xs font-mono text-neutral-400 font-semibold">
                   {activeIndex + 1} / {total}
@@ -717,7 +825,7 @@ export default function ExperienceBento() {
             </div>
 
             {/* ── CENTER COLUMN: Cinematic Storytelling Area (5 Cols on Desktop) ── */}
-            <div className="lg:col-span-5 flex flex-col justify-center text-left space-y-5 sm:space-y-7">
+            <div className="lg:col-span-5 flex flex-col justify-center text-left space-y-4 sm:space-y-5">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={activeMilestone.id}
@@ -731,51 +839,51 @@ export default function ExperienceBento() {
                     setIsAnimating(false);
                     isAnimatingRef.current = false;
                   }}
-                  className="space-y-5 sm:space-y-7"
+                  className="space-y-4 sm:space-y-5"
                 >
                   {/* Header Meta */}
-                  <div className="space-y-2.5">
-                    <div className="flex items-center gap-3.5">
-                      <span className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-mono text-red-500/90 tracking-tighter">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-red-500/90 tracking-tighter">
                         {activeMilestone.number}
                       </span>
-                      <div className="h-8 sm:h-10 w-px bg-white/10" />
+                      <div className="h-7 sm:h-9 w-px bg-white/10" />
                       <div>
                         <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-red-400 font-bold block">
                           {activeMilestone.category}
                         </span>
-                        <span className="text-xs sm:text-sm text-neutral-400 font-mono">
+                        <span className="text-xs text-neutral-400 font-mono">
                           {activeMilestone.timeline}
                         </span>
                       </div>
                     </div>
 
-                    <h3 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight pt-1">
+                    <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight pt-0.5">
                       {activeMilestone.title}
                     </h3>
-                    <p className="text-sm sm:text-base lg:text-lg font-semibold text-neutral-300 tracking-wide">
+                    <p className="text-xs sm:text-sm lg:text-base font-semibold text-neutral-300 tracking-wide">
                       {activeMilestone.subtitle}
                     </p>
                   </div>
 
                   {/* Mobile Embedded Visual Sculpture Accent */}
-                  <div className="lg:hidden flex justify-center py-2">
+                  <div className="lg:hidden flex justify-center py-1">
                     <GlassSculpture visualType={activeMilestone.visualType} />
                   </div>
 
                   {/* Brief Concise Story Description */}
-                  <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed max-w-2xl">
+                  <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-2xl">
                     {activeMilestone.description}
                   </p>
 
                   {/* Minimalist Qualitative Metrics */}
-                  <div className="grid grid-cols-3 gap-3 sm:gap-6 border-y border-white/10 py-4 sm:py-6 my-2">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-white/10 py-3 sm:py-4 my-1">
                     {activeMilestone.metrics.map((metric, mIdx) => (
-                      <div key={mIdx} className="space-y-1 text-left">
-                        <span className="block text-xl sm:text-3xl lg:text-4xl font-extrabold font-mono text-white tracking-tight">
+                      <div key={mIdx} className="space-y-0.5 text-left">
+                        <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold font-mono text-white tracking-tight">
                           {metric.value}
                         </span>
-                        <span className="block text-xs sm:text-sm text-neutral-400 font-medium leading-snug">
+                        <span className="block text-[11px] sm:text-xs text-neutral-400 font-medium leading-snug">
                           {metric.label}
                         </span>
                       </div>
@@ -783,12 +891,12 @@ export default function ExperienceBento() {
                   </div>
 
                   {/* Skill Badges & Direct Case Study Link Trigger */}
-                  <div className="space-y-3.5 pt-1">
-                    <div className="flex flex-wrap gap-2">
+                  <div className="space-y-3 pt-0.5">
+                    <div className="flex flex-wrap gap-1.5">
                       {activeMilestone.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full bg-white/[0.04] border border-white/10 px-3 sm:px-3.5 py-1 text-xs sm:text-sm font-mono text-neutral-300"
+                          className="rounded-full bg-white/[0.04] border border-white/10 px-2.5 sm:px-3 py-0.5 sm:py-1 text-xs font-mono text-neutral-300"
                         >
                           {skill}
                         </span>
@@ -796,13 +904,13 @@ export default function ExperienceBento() {
                     </div>
 
                     {activeMilestone.link && (
-                      <div className="pt-2">
+                      <div className="pt-1">
                         <Link
                           href={activeMilestone.link}
-                          className="inline-flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs sm:text-sm font-bold font-mono transition-all duration-300 shadow-[0_0_24px_rgba(239,68,68,0.18)] group"
+                          className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs font-bold font-mono transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.18)] group"
                         >
                           <span>{activeMilestone.linkText || "Explore Project Case Study"}</span>
-                          <ArrowUpRight className="w-4 h-4 text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          <ArrowUpRight className="w-3.5 h-3.5 text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </Link>
                       </div>
                     )}
@@ -819,15 +927,15 @@ export default function ExperienceBento() {
           </div>
 
           {/* ── BOTTOM QUOTE: Full-Width Glass Strip ── */}
-          <div className="relative z-10 max-w-[90rem] mx-auto w-full pt-4 sm:pt-6">
-            <div className="w-full rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md px-6 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-3.5 text-center sm:text-left">
-              <div className="flex items-center gap-3">
-                <Sparkles className="w-5 h-5 text-red-400 shrink-0" />
-                <p className="text-sm sm:text-base text-neutral-300 font-light tracking-wide italic">
+          <div className="relative z-10 max-w-[90rem] mx-auto w-full pt-2 sm:pt-3">
+            <div className="w-full rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-md px-5 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center sm:text-left">
+              <div className="flex items-center gap-2.5">
+                <Sparkles className="w-4 h-4 text-red-400 shrink-0" />
+                <p className="text-xs sm:text-sm text-neutral-300 font-light tracking-wide italic">
                   &ldquo;Every experience became a lesson. Every lesson became better engineering.&rdquo;
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 shrink-0">
+              <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-neutral-400 shrink-0">
                 <span>VARUN KUMAR</span>
                 <span>•</span>
                 <span className="text-red-400 font-semibold">AI &amp; FULL-STACK</span>
