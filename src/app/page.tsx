@@ -505,6 +505,11 @@ export default function Home() {
                 />
               </div>
 
+              {/* ─── Smooth Transition Bridge: Slides -> Projects ─── */}
+              <div className="relative z-20 w-full bg-[#050607] -mt-16 pt-16">
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+              </div>
+
               {/* ─── Projects Directory Portal ─── */}
               <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
                 <SectionHeading eyebrow="Project Directory" title="Categorized Engineering Work" icon={<FolderGit2 size={16} />}>
@@ -606,6 +611,15 @@ export default function Home() {
                   <ExperienceBento />
                 </div>
               </section>
+
+              {/* ─── Smooth Transition Bridge into Footer ─── */}
+              <div className="relative z-20 w-full bg-gradient-to-b from-[#050607] via-neutral-950 to-black pt-12 border-t border-red-500/20">
+                <div className="flex items-center justify-center gap-4 text-xs font-mono tracking-[0.35em] uppercase text-red-400/60 pb-6">
+                  <div className="w-16 h-px bg-gradient-to-r from-transparent to-red-500/40" />
+                  <span className="animate-pulse">✦ GET IN TOUCH & CONNECT ✦</span>
+                  <div className="w-16 h-px bg-gradient-to-l from-transparent to-red-500/40" />
+                </div>
+              </div>
             </div>
 
             {/* ─── Footer with Integrated Contact Section (Curtain Reveal Underneath) ─── */}

@@ -678,6 +678,15 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
 
           .fx-fixed-section { height: 400vh; position: relative; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
+          .fx-fixed::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(4, 4, 6, 0.95));
+            pointer-events: none;
+            z-index: 15;
+          }
 
           .fx-grid {
             display: grid;
