@@ -92,12 +92,28 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   const [progress, setProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(false);
+
   const progressRef = useRef(0);
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const hasPlayedChimeRef = useRef(false);
 
   const { playGlitchTick, playSuccessChime } = useSoundEngine();
+
+  // Detect Theme Changes
+  useEffect(() => {
+    const checkTheme = () => {
+      if (typeof window !== "undefined") {
+        setIsLightMode(document.documentElement.classList.contains("light"));
+      }
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     completedRef.current = isCompleted;
@@ -185,9 +201,15 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, y: -40, scale: 0.98 }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#050607] text-white select-none p-6 overflow-hidden cursor-pointer"
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center select-none p-6 overflow-hidden cursor-pointer transition-colors duration-500 ${
+        isLightMode ? "bg-[#f8f9fb] text-slate-900" : "bg-[#050607] text-white"
+      }`}
       style={{
-        background: isHolding
+        background: isLightMode
+          ? isHolding
+            ? "radial-gradient(circle at center, rgba(239, 68, 68, 0.05) 0%, transparent 32rem), #f8f9fb"
+            : "#f8f9fb"
+          : isHolding
           ? "radial-gradient(circle at center, rgba(96, 165, 250, 0.035) 0%, transparent 32rem), #050607"
           : "#050607",
       }}
@@ -197,21 +219,40 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       onTouchStart={handleHoldStart}
       onTouchEnd={handleHoldEnd}
     >
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none opacity-[0.14] mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.78'/%3E%3C/svg%3E")`,
-          backgroundSize: "220px 220px",
-        }}
-      />
-      <div
-        className="absolute inset-0 z-[1] pointer-events-none opacity-[0.09] mix-blend-soft-light"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 520 520' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mottle'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.55'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mottle)'/%3E%3C/svg%3E")`,
-          backgroundSize: "520px 520px",
-        }}
-      />
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.18)_70%,rgba(0,0,0,0.48)_100%)]" />
+      {/* Background Overlays & Textures */}
+      {!isLightMode ? (
+        <>
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none opacity-[0.14] mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.78'/%3E%3C/svg%3E")`,
+              backgroundSize: "220px 220px",
+            }}
+          />
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none opacity-[0.09] mix-blend-soft-light"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 520 520' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='mottle'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.55'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23mottle)'/%3E%3C/svg%3E")`,
+              backgroundSize: "520px 520px",
+            }}
+          />
+          <div className="absolute inset-0 z-[1] pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.18)_70%,rgba(0,0,0,0.48)_100%)]" />
+        </>
+      ) : (
+        <>
+          {/* Light Theme Clean Grid Overlay */}
+          <div
+            className="absolute inset-0 z-[1] pointer-events-none opacity-[0.4]"
+            style={{
+              backgroundImage: `linear-gradient(rgba(15,23,42,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.02) 1px, transparent 1px)`,
+              backgroundSize: "48px 48px",
+              maskImage: "radial-gradient(circle at center, #000 0%, #000 60%, transparent 90%)",
+              WebkitMaskImage: "radial-gradient(circle at center, #000 0%, #000 60%, transparent 90%)",
+            }}
+          />
+          <div className="absolute inset-0 z-[1] pointer-events-none bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.03)_0%,transparent_75%)]" />
+        </>
+      )}
 
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-5xl flex flex-col items-center justify-between h-full py-10 sm:py-16 pointer-events-none">
@@ -222,7 +263,9 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
           
           <div className="h-8 flex items-center justify-center mb-2">
             {!isCompleted && (
-              <span className="text-[10px] font-sans text-neutral-600 tracking-[0.2em] uppercase animate-pulse">
+              <span className={`text-[10px] font-sans tracking-[0.2em] uppercase animate-pulse ${
+                isLightMode ? "text-slate-400 font-semibold" : "text-neutral-600"
+              }`}>
                 {isHolding ? "DECRYPTING IDENTITY..." : "CLICK & HOLD ANYWHERE"}
               </span>
             )}
@@ -233,9 +276,13 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               <EncryptedText
                 text="Challa Varun Kumar"
                 progress={Math.min(1, progress * 1.5)}
-                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-neutral-100 to-neutral-500 select-none block leading-[1.05] whitespace-nowrap"
-                encryptedClassName="text-neutral-800 font-bold"
-                revealedClassName="text-neutral-100"
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-clip-text text-transparent select-none block leading-[1.05] whitespace-nowrap ${
+                  isLightMode
+                    ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-700"
+                    : "bg-gradient-to-b from-white via-neutral-100 to-neutral-500"
+                }`}
+                encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-neutral-800 font-bold"}
+                revealedClassName={isLightMode ? "text-slate-950 font-extrabold" : "text-neutral-100"}
               />
             </div>
 
@@ -243,9 +290,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               <EncryptedText
                 text="AI & ML Engineer"
                 progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
-                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white select-none block leading-[1.05] whitespace-nowrap"
-                encryptedClassName="text-neutral-900 font-bold"
-                revealedClassName="text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
+                  isLightMode ? "text-red-600" : "text-white"
+                }`}
+                encryptedClassName={isLightMode ? "text-slate-200 font-bold" : "text-neutral-900 font-bold"}
+                revealedClassName={isLightMode ? "text-red-600 font-extrabold" : "text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"}
               />
             </div>
           </div>
@@ -260,7 +309,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 <ContainerTextFlip
                   words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
                   interval={4000}
-                  className="py-1 px-4 text-[11px] border border-red-500/30 bg-red-500/10 text-red-200 font-sans rounded-full tracking-wide shadow-none"
+                  className={`py-1 px-4 text-[11px] font-sans rounded-full tracking-wide shadow-none ${
+                    isLightMode
+                      ? "border border-red-500/30 bg-red-500/10 text-red-600 font-bold"
+                      : "border border-red-500/30 bg-red-500/10 text-red-200"
+                  }`}
                 />
               </motion.div>
             )}
@@ -270,9 +323,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
             <EncryptedText
               text="Exploring the limitless potential of Artificial Intelligence while building modern web applications to create impactful solutions."
               progress={Math.max(0, Math.min(1, (progress - 0.6) * 2.5))}
-              className="text-sm sm:text-base md:text-lg text-neutral-450 leading-relaxed font-sans font-normal block"
-              encryptedClassName="text-neutral-800/40"
-              revealedClassName="text-neutral-400"
+              className={`text-sm sm:text-base md:text-lg leading-relaxed font-sans block ${
+                isLightMode ? "text-slate-600 font-medium" : "text-neutral-450 font-normal"
+              }`}
+              encryptedClassName={isLightMode ? "text-slate-300/60" : "text-neutral-800/40"}
+              revealedClassName={isLightMode ? "text-slate-600 font-medium" : "text-neutral-400"}
             />
           </div>
 
@@ -290,26 +345,40 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               >
                 <div className="flex items-center justify-center">
                   <svg width="48" height="48" viewBox="0 0 48 48" className="transform -rotate-90">
-                    <circle cx="24" cy="24" r="20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="2" />
+                    <circle
+                      cx="24" cy="24" r="20" fill="none"
+                      stroke={isLightMode ? "rgba(15,23,42,0.08)" : "rgba(255,255,255,0.06)"}
+                      strokeWidth="2"
+                    />
                     <circle
                       cx="24" cy="24" r="20"
                       fill="none"
-                      stroke={progress > 0 ? "rgba(96, 165, 250, 0.7)" : "transparent"}
+                      stroke={progress > 0 ? (isLightMode ? "rgba(239, 68, 68, 0.9)" : "rgba(96, 165, 250, 0.7)") : "transparent"}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeDasharray={`${2 * Math.PI * 20}`}
                       strokeDashoffset={`${2 * Math.PI * 20 * (1 - progress)}`}
                       style={{
                         transition: "stroke-dashoffset 0.1s linear",
-                        filter: progress > 0 ? "drop-shadow(0 0 4px rgba(239, 68, 68, 0.5))" : "none",
+                        filter: progress > 0
+                          ? isLightMode
+                            ? "drop-shadow(0 0 6px rgba(239, 68, 68, 0.35))"
+                            : "drop-shadow(0 0 4px rgba(239, 68, 68, 0.5))"
+                          : "none",
                       }}
                     />
                   </svg>
-                  <span className="absolute text-[9px] font-bold text-red-400/80 tabular-nums">
+                  <span className={`absolute text-[9px] font-bold tabular-nums ${
+                    isLightMode ? "text-red-600" : "text-red-400/80"
+                  }`}>
                     {progress > 0 ? `${Math.round(progress * 100)}%` : ""}
                   </span>
                 </div>
-                <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${progress > 0 ? "text-red-400 animate-pulse font-semibold" : "text-neutral-600"}`}>
+                <p className={`text-xs sm:text-sm uppercase tracking-[0.25em] font-sans font-medium transition-all duration-300 ${
+                  progress > 0
+                    ? isLightMode ? "text-red-600 animate-pulse font-bold" : "text-red-400 animate-pulse font-semibold"
+                    : isLightMode ? "text-slate-400 font-semibold" : "text-neutral-600"
+                }`}>
                   {progress > 0 ? "DECRYPTING IDENTITY..." : "HOLD ANYWHERE TO START DECRYPTION"}
                 </p>
               </motion.div>
@@ -318,9 +387,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 key="complete-status"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-emerald-500/80 text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] flex items-center gap-2"
+                className={`text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] flex items-center gap-2 ${
+                  isLightMode ? "text-emerald-600 font-bold" : "text-emerald-500/80"
+                }`}
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 ACCESS GRANTED. ENTERING PORTFOLIO...
               </motion.div>
             )}
