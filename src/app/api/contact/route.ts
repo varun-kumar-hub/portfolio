@@ -34,13 +34,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create transporter using service: "gmail"
+    // Create transporter using explicit Gmail SMTP settings
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // SSL
       auth: {
         user: gmailUser,
         pass: gmailPass,
       },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
 
     console.log("Nodemailer: Processing message submission...");
@@ -145,13 +150,18 @@ export async function POST(request: Request) {
       `,
     };
 
-    // Send both emails simultaneously
-    await Promise.all([
-      transporter.sendMail(ownerMailOptions),
-      transporter.sendMail(visitorMailOptions),
-    ]);
+    // 1. Send notification email to site owner
+    await transporter.sendMail(ownerMailOptions);
+    console.log(`Nodemailer: Successfully delivered inquiry notification to site owner (${gmailUser})`);
 
-    console.log(`Nodemailer: Successfully sent notification to owner and confirmation to ${email}`);
+    // 2. Send confirmation copy to visitor (non-blocking fallback)
+    try {
+      await transporter.sendMail(visitorMailOptions);
+      console.log(`Nodemailer: Delivered confirmation receipt to visitor (${email})`);
+    } catch (visitorErr) {
+      console.warn("Nodemailer: Visitor confirmation copy failed to send:", visitorErr);
+    }
+
     return NextResponse.json({ success: true });
   } catch (error: unknown) {
     console.error("Nodemailer contact error:", error);

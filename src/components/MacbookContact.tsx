@@ -58,11 +58,9 @@ export default function MacbookContact({ className }: MacbookContactProps) {
           setStatusMessage(null);
         }, 6000);
       } else {
-        const errorText = data.error && data.error.length > 60
-          ? "Failed to send message (SMTP configuration error)."
-          : data.error || "Failed to send message. Please try again.";
+        const errorText = data.error || "Failed to send message. Please try again.";
         setStatusMessage({ type: "error", text: errorText });
-        setTimeout(() => setStatusMessage(null), 5000);
+        setTimeout(() => setStatusMessage(null), 8000);
       }
     } catch (error: unknown) {
       const err = error as { name?: string } | undefined;
