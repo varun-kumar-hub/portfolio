@@ -9,7 +9,7 @@
   --accent: hsl(var(--theme-hue), 85%, 60%);
   --accent-hover: hsl(var(--theme-hue), 85%, 50%);
   --accent-glow: hsla(var(--theme-hue), 85%, 60%, 0.15);
-  --active-font: var(--font-syne), var(--font-inter), sans-serif;
+  --active-font: var(--font-inter), sans-serif;
   --font-sans: var(--active-font);
   --font-heading: var(--active-font);
   --scrollbar-track: #111827;
