@@ -721,7 +721,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             display: grid; place-items: center; text-align: center; height: 55vh; overflow: hidden;
             padding: 0 0.5rem;
             margin-top: clamp(15px, 3vh, 35px);
-            z-index: 10;
+            z-index: 30;
           }
           .fx-featured { position: absolute; opacity: 0; visibility: hidden; width: 100%; max-width: 100%; }
           .fx-featured.active { opacity: 1; visibility: visible; }
@@ -756,10 +756,15 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx-word { display: inline-block; vertical-align: middle; will-change: transform, opacity; }
 
           .fx-footer {
-            grid-column: 1 / 13; align-self: end; padding-bottom: 3.5vh; text-align: center; z-index: 20;
+            position: absolute;
+            bottom: 1.25rem;
+            left: 0; right: 0;
+            text-align: center;
+            z-index: 20;
+            pointer-events: none;
           }
           .fx-footer-title { color: var(--fx-text); font-size: clamp(1.2rem, 3.5vw, 3.5rem); font-weight: 800; letter-spacing: -0.01em; line-height: 0.9; }
-          .fx-progress { width: 180px; height: 2px; margin: 0.8rem auto 0; background: rgba(0,0,0,0.1); position: relative; border-radius: 999px; }
+          .fx-progress { width: 180px; height: 2px; margin: 0 auto; background: rgba(0,0,0,0.1); position: relative; border-radius: 999px; pointer-events: auto; }
           :global(.dark) .fx-progress { background: rgba(255,255,255,0.12); }
           .fx-progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: linear-gradient(90deg, #ef4444, #f43f5e); height: 100%; transition: width 0.3s ease; border-radius: 999px; }
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
