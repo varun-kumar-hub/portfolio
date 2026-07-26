@@ -409,66 +409,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
     // click on list items
     const handleJump = (i: number) => goTo(i);
 
-    // mount entrance & wheel/touch sensitivity
+    // mount entrance
     useEffect(() => {
       measureAndCenterLists(index, false);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    useEffect(() => {
-      const container = fixedRef.current;
-      if (!container) return;
-
-      let lastScrollTime = 0;
-      let touchStartY = 0;
-
-      const handleWheel = (e: WheelEvent) => {
-        const now = Date.now();
-        if (now - lastScrollTime < 380) return;
-
-        if (Math.abs(e.deltaY) > 10) {
-          if (e.deltaY > 0 && index < total - 1) {
-            lastScrollTime = now;
-            goTo(index + 1);
-          } else if (e.deltaY < 0 && index > 0) {
-            lastScrollTime = now;
-            goTo(index - 1);
-          }
-        }
-      };
-
-      const handleTouchStart = (e: TouchEvent) => {
-        touchStartY = e.touches[0].clientY;
-      };
-
-      const handleTouchEnd = (e: TouchEvent) => {
-        const touchEndY = e.changedTouches[0].clientY;
-        const deltaY = touchStartY - touchEndY;
-        const now = Date.now();
-
-        if (now - lastScrollTime < 380) return;
-
-        if (Math.abs(deltaY) > 25) {
-          if (deltaY > 0 && index < total - 1) {
-            lastScrollTime = now;
-            goTo(index + 1);
-          } else if (deltaY < 0 && index > 0) {
-            lastScrollTime = now;
-            goTo(index - 1);
-          }
-        }
-      };
-
-      container.addEventListener("wheel", handleWheel, { passive: true });
-      container.addEventListener("touchstart", handleTouchStart, { passive: true });
-      container.addEventListener("touchend", handleTouchEnd, { passive: true });
-
-      return () => {
-        container.removeEventListener("wheel", handleWheel);
-        container.removeEventListener("touchstart", handleTouchStart);
-        container.removeEventListener("touchend", handleTouchEnd);
-      };
-    }, [index, total]);
 
     // CSS vars
     const cssVars: CSSProperties = {
@@ -650,7 +595,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: rgba(0,0,0,0.8); color: #ef4444; padding: 6px 8px; font: 12px/1 monospace; border-radius: 4px; border: 1px solid rgba(239,68,68,0.3);
           }
 
-          .fx-fixed-section { height: 220vh; position: relative; background: var(--fx-page-bg); }
+          .fx-fixed-section { height: 380vh; position: relative; background: var(--fx-page-bg); }
           :global(.light) .fx-fixed-section { background: #ffffff; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
           :global(.light) .fx-fixed { background: #ffffff; }
@@ -689,7 +634,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           }
 
           @media (max-width: 900px) {
-            .fx-fixed-section { height: 160vh; }
+            .fx-fixed-section { height: 260vh; }
             .fx-header { padding-top: clamp(100px, 14vh, 125px); }
             .fx-content {
               grid-template-columns: 1fr;
