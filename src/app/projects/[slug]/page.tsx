@@ -51,11 +51,11 @@ function FadeSection({
 function SectionLabel({ number, title }: { number: string; title: string }) {
   return (
     <div className="flex items-center gap-3 mb-4">
-      <span className="text-xs font-mono font-bold text-red-500 tracking-wider">
+      <span className="text-xs font-mono font-bold text-red-600 dark:text-red-500 tracking-wider">
         {number}
       </span>
       <div className="h-px flex-1 max-w-16 bg-gradient-to-r from-red-500/60 to-transparent" />
-      <span className="text-xs font-mono font-bold tracking-widest text-red-400">
+      <span className="text-xs font-mono font-bold tracking-widest text-red-600 dark:text-red-400">
         {title}
       </span>
     </div>
@@ -98,7 +98,6 @@ export default function ProjectDetailsPage() {
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    // Small delay to ensure all section elements are in the DOM
     const timer = setTimeout(() => {
       for (const sec of SIDEBAR_SECTIONS) {
         const el = document.getElementById(sec.id);
@@ -130,7 +129,7 @@ export default function ProjectDetailsPage() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#040406] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fafafb] dark:bg-[#040406] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin" />
       </div>
     );
@@ -154,19 +153,19 @@ export default function ProjectDetailsPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#f6f6f8] dark:bg-[#040406] text-slate-900 dark:text-white selection:bg-red-500/30 selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
+    <div className="relative min-h-screen bg-[#fafafb] dark:bg-[#040406] text-slate-900 dark:text-white selection:bg-red-500/30 selection:text-red-600 dark:selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
       <SpaceBackground />
 
       {/* ═════════════════════════════════════════════════════════════ */}
       {/* ─── FULL-HEIGHT FIXED SIDEBAR ───                            */}
       {/* ═════════════════════════════════════════════════════════════ */}
-      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-slate-200 dark:border-white/[0.04] bg-white/80 dark:bg-[#040406]/80 backdrop-blur-2xl">
+      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-slate-200/90 dark:border-white/[0.04] bg-white/90 dark:bg-[#040406]/80 backdrop-blur-2xl">
         {/* Back Button — top */}
         <div className="pt-6 pb-8 px-4 w-full">
           <Link
             href="/?entered=true#projects"
             scroll={false}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-300 dark:border-neutral-800/60 text-xs font-bold text-slate-700 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-neutral-600 transition-all duration-300 group w-full justify-center"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100/90 dark:bg-white/[0.03] border border-slate-200 dark:border-neutral-800/60 text-xs font-bold text-slate-700 dark:text-neutral-400 hover:text-slate-950 dark:hover:text-white hover:border-slate-300 dark:hover:border-neutral-600 transition-all duration-300 group w-full justify-center shadow-sm"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform duration-300" />
             Back
@@ -183,8 +182,8 @@ export default function ProjectDetailsPage() {
                 onClick={() => scrollToSection(sec.id)}
                 className={`group flex items-center gap-3.5 px-4 py-3 rounded-xl transition-all duration-300 cursor-pointer w-full ${
                   isActive
-                    ? "bg-red-500/10 border border-red-500/30"
-                    : "border border-transparent hover:bg-white/[0.04]"
+                    ? "bg-red-500/10 border border-red-500/30 shadow-sm"
+                    : "border border-transparent hover:bg-slate-100/60 dark:hover:bg-white/[0.04]"
                 }`}
               >
                 {/* Dot indicator */}
@@ -192,15 +191,15 @@ export default function ProjectDetailsPage() {
                   className={`w-2.5 h-2.5 rounded-full shrink-0 transition-all duration-300 ${
                     isActive
                       ? "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.7)] scale-110"
-                      : "bg-neutral-700 group-hover:bg-neutral-500"
+                      : "bg-slate-300 dark:bg-neutral-700 group-hover:bg-slate-400 dark:group-hover:bg-neutral-500"
                   }`}
                 />
                 {/* Label */}
                 <span
                   className={`text-xs font-bold tracking-wide transition-all duration-300 ${
                     isActive
-                      ? "text-red-400"
-                      : "text-neutral-600 group-hover:text-neutral-400"
+                      ? "text-red-600 dark:text-red-400"
+                      : "text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-neutral-200"
                   }`}
                 >
                   {sec.label}
@@ -221,7 +220,7 @@ export default function ProjectDetailsPage() {
         <Link
           href="/?entered=true#projects"
           scroll={false}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-neutral-950/80 border border-neutral-800/80 backdrop-blur-xl text-xs font-bold text-neutral-400 hover:text-white hover:border-neutral-600 transition-all duration-300 group shadow-2xl"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/90 dark:bg-neutral-950/80 border border-slate-200 dark:border-neutral-800/80 backdrop-blur-xl text-xs font-bold text-slate-800 dark:text-neutral-400 hover:text-slate-950 dark:hover:text-white transition-all duration-300 group shadow-lg"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform duration-300" />
           Back
@@ -230,7 +229,7 @@ export default function ProjectDetailsPage() {
 
       {/* ─── Floating Category Badge ─── */}
       <div className="fixed top-6 right-6 z-50">
-        <span className="px-4 py-2 rounded-full bg-neutral-950/80 border border-red-500/30 backdrop-blur-xl text-xs font-mono font-bold uppercase tracking-widest text-red-400 shadow-2xl">
+        <span className="px-4 py-2 rounded-full bg-white/90 dark:bg-neutral-950/80 border border-red-500/30 backdrop-blur-xl text-xs font-mono font-bold uppercase tracking-widest text-red-600 dark:text-red-400 shadow-md">
           {project.category}
         </span>
       </div>
@@ -243,18 +242,18 @@ export default function ProjectDetailsPage() {
           {/* Eyebrow */}
           <div className="flex items-center gap-2 mb-6">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.7)]" />
-            <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-neutral-500">
+            <span className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-slate-500 dark:text-neutral-400">
               Featured Case Study
             </span>
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-white leading-[0.95] mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold tracking-tight text-slate-950 dark:text-white leading-[0.95] mb-6">
             {project.name}
           </h1>
 
           {/* Description */}
-          <p className="text-lg sm:text-xl text-neutral-400 leading-relaxed font-light max-w-3xl mb-8">
+          <p className="text-lg sm:text-xl text-slate-600 dark:text-neutral-300 leading-relaxed font-medium max-w-3xl mb-8">
             {project.description}
           </p>
 
@@ -264,12 +263,12 @@ export default function ProjectDetailsPage() {
               {project.metrics.map((metric, idx) => (
                 <div
                   key={idx}
-                  className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/[0.03] border border-white/[0.08] backdrop-blur-md hover:border-red-500/40 hover:bg-red-500/[0.04] transition-all duration-300"
+                  className="group relative flex items-center gap-2.5 px-4.5 py-3 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/90 dark:border-white/[0.08] backdrop-blur-md shadow-sm hover:border-red-500/40 hover:shadow-[0_4px_20px_rgba(239,68,68,0.12)] transition-all duration-300"
                 >
-                  <span className="text-lg sm:text-xl font-extrabold text-white tracking-tight">
+                  <span className="text-lg sm:text-xl font-extrabold text-slate-950 dark:text-white tracking-tight">
                     {metric.value}
                   </span>
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-slate-500 dark:text-neutral-400 uppercase tracking-wider">
                     {metric.label}
                   </span>
                 </div>
@@ -284,7 +283,7 @@ export default function ProjectDetailsPage() {
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-red-600 hover:bg-red-500 font-bold text-sm tracking-wide text-white transition-all duration-300 shadow-[0_0_30px_rgba(239,68,68,0.25)] hover:shadow-[0_0_40px_rgba(239,68,68,0.4)] cursor-pointer"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 font-bold text-sm tracking-wide text-white transition-all duration-300 shadow-[0_8px_25px_rgba(239,68,68,0.3)] hover:shadow-[0_12px_35px_rgba(239,68,68,0.45)] cursor-pointer"
               >
                 <ExternalLink className="w-4 h-4" />
                 Live Demo
@@ -294,7 +293,7 @@ export default function ProjectDetailsPage() {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-white/[0.12] bg-white/[0.03] hover:bg-white/[0.07] hover:border-white/[0.2] font-bold text-sm tracking-wide text-neutral-300 hover:text-white backdrop-blur-md transition-all duration-300 cursor-pointer"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-slate-300 dark:border-white/[0.12] bg-white dark:bg-white/[0.03] hover:bg-slate-50 dark:hover:bg-white/[0.07] font-bold text-sm tracking-wide text-slate-800 dark:text-neutral-300 hover:text-slate-950 dark:hover:text-white shadow-sm transition-all duration-300 cursor-pointer"
             >
               <Github className="w-4 h-4" />
               View Code
@@ -311,31 +310,31 @@ export default function ProjectDetailsPage() {
           <SectionLabel number="01" title="The Problem" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             {/* Problem */}
-            <div className="space-y-6">
+            <div className="p-7 sm:p-8 rounded-3xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none space-y-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2.5 rounded-2xl bg-red-500/10 border border-red-500/20">
-                  <AlertCircle className="w-5 h-5 text-red-400" />
+                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
                   The Challenge
                 </h2>
               </div>
-              <p className="text-base sm:text-lg text-neutral-400 font-light leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 dark:text-neutral-300 font-medium leading-relaxed">
                 {project.problemStatement}
               </p>
             </div>
 
             {/* Solution */}
-            <div className="space-y-6">
+            <div className="p-7 sm:p-8 rounded-3xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none space-y-4">
               <div className="flex items-center gap-3 mb-2">
                 <div className="p-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white tracking-tight">
                   The Solution
                 </h2>
               </div>
-              <p className="text-base sm:text-lg text-neutral-400 font-light leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 dark:text-neutral-300 font-medium leading-relaxed">
                 {project.solutionOverview}
               </p>
             </div>
@@ -349,7 +348,7 @@ export default function ProjectDetailsPage() {
       <section ref={setSectionRef("showcase")} id="showcase" className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 py-16 max-w-7xl mx-auto">
         <FadeSection>
           <SectionLabel number="02" title="Project Showcase" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-10">
             Visual Highlights
           </h2>
 
@@ -362,7 +361,7 @@ export default function ProjectDetailsPage() {
 
           {/* Thumbnail Strip */}
           {galleryImages.length > 1 && (
-            <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-6 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
+            <div className="flex items-center gap-3 overflow-x-auto pb-2 pt-6 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-800 scrollbar-track-transparent">
               {galleryImages.map((imgSrc, index) => {
                 const isSelected = index === activeImgIndex;
                 return (
@@ -371,8 +370,8 @@ export default function ProjectDetailsPage() {
                     onClick={() => setActiveImgIndex(index)}
                     className={`relative shrink-0 w-20 h-12 sm:w-24 sm:h-14 rounded-xl overflow-hidden border-2 transition-all duration-300 cursor-pointer ${
                       isSelected
-                        ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)] scale-105"
-                        : "border-neutral-800/60 opacity-40 hover:opacity-100 hover:border-neutral-600"
+                        ? "border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.4)] scale-105"
+                        : "border-slate-300 dark:border-neutral-800/60 opacity-60 dark:opacity-40 hover:opacity-100 hover:border-slate-400 dark:hover:border-neutral-600"
                     }`}
                   >
                     <Image
@@ -397,7 +396,7 @@ export default function ProjectDetailsPage() {
       <section ref={setSectionRef("features")} id="features" className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 py-24 max-w-7xl mx-auto">
         <FadeSection>
           <SectionLabel number="03" title="Core Features" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-12">
             What It Does
           </h2>
         </FadeSection>
@@ -422,25 +421,25 @@ export default function ProjectDetailsPage() {
                 <motion.div
                   whileHover={{ y: -4, scale: 1.01 }}
                   transition={{ duration: 0.3 }}
-                  className="group relative p-6 rounded-3xl bg-white/[0.02] border border-white/[0.06] hover:border-red-500/30 hover:bg-red-500/[0.02] backdrop-blur-sm transition-all duration-500 h-full"
+                  className="group relative p-6 rounded-3xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] hover:border-red-500/40 hover:shadow-[0_8px_30px_rgba(239,68,68,0.12)] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none backdrop-blur-sm transition-all duration-500 h-full"
                 >
                   {/* Icon */}
-                  <div className="w-10 h-10 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 mb-4 group-hover:bg-red-500/15 group-hover:border-red-500/30 transition-all duration-300">
+                  <div className="w-10 h-10 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 mb-4 group-hover:bg-red-500/15 group-hover:border-red-500/30 transition-all duration-300">
                     {featureIcons[idx % 6]}
                   </div>
 
                   {/* Feature Title */}
-                  <h3 className="text-base font-bold text-white tracking-tight mb-2 group-hover:text-red-300 transition-colors duration-300">
+                  <h3 className="text-base font-extrabold text-slate-950 dark:text-white tracking-tight mb-2 group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors duration-300">
                     {title}
                   </h3>
 
                   {/* Feature Description */}
-                  <p className="text-sm text-neutral-400 font-light leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-neutral-400 font-medium leading-relaxed">
                     {body}
                   </p>
 
-                  {/* Subtle index watermark */}
-                  <span className="absolute top-4 right-5 text-6xl font-black text-white/[0.02] select-none pointer-events-none group-hover:text-white/[0.04] transition-all duration-500">
+                  {/* Index watermark */}
+                  <span className="absolute top-4 right-5 text-6xl font-black text-slate-100 dark:text-white/[0.02] select-none pointer-events-none group-hover:text-red-500/10 transition-all duration-500">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                 </motion.div>
@@ -461,12 +460,12 @@ export default function ProjectDetailsPage() {
                 return (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.015] border border-white/[0.05] text-sm leading-relaxed"
+                    className="flex items-start gap-3 p-4 rounded-2xl bg-white dark:bg-white/[0.015] border border-slate-200/90 dark:border-white/[0.05] text-sm leading-relaxed shadow-sm"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-red-500/60 mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500/80 mt-2 shrink-0" />
                     <div>
-                      {title && <span className="font-bold text-white tracking-wide">{title}: </span>}
-                      <span className="text-neutral-400 font-light">{body}</span>
+                      {title && <span className="font-extrabold text-slate-900 dark:text-white tracking-wide">{title}: </span>}
+                      <span className="text-slate-600 dark:text-neutral-400 font-medium">{body}</span>
                     </div>
                   </div>
                 );
@@ -482,7 +481,7 @@ export default function ProjectDetailsPage() {
       <section ref={setSectionRef("architecture")} id="architecture" className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 py-24 max-w-7xl mx-auto">
         <FadeSection>
           <SectionLabel number="04" title="Architecture" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-12">
             System Design
           </h2>
         </FadeSection>
@@ -491,20 +490,20 @@ export default function ProjectDetailsPage() {
         <div className="space-y-4">
           {project.architecture.map((mod, idx) => (
             <FadeSection key={idx} delay={idx * 0.1}>
-              <div className="group flex items-start gap-6 p-6 sm:p-8 rounded-3xl bg-white/[0.02] border border-white/[0.06] hover:border-red-500/25 hover:bg-red-500/[0.015] backdrop-blur-sm transition-all duration-500">
+              <div className="group flex items-start gap-6 p-6 sm:p-8 rounded-3xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] hover:border-red-500/30 hover:shadow-[0_8px_30px_rgba(239,68,68,0.1)] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none backdrop-blur-sm transition-all duration-500">
                 {/* Step Number */}
                 <div className="shrink-0 w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-                  <span className="text-sm font-extrabold text-red-400 font-mono">
+                  <span className="text-sm font-extrabold text-red-600 dark:text-red-400 font-mono">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mb-2 group-hover:text-red-300 transition-colors duration-300">
+                  <h3 className="text-lg sm:text-xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-2 group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors duration-300">
                     {mod.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-neutral-500 font-light leading-relaxed">
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-neutral-400 font-medium leading-relaxed">
                     {mod.description}
                   </p>
                 </div>
@@ -512,7 +511,7 @@ export default function ProjectDetailsPage() {
                 {/* Connector Arrow (not on last) */}
                 {idx < project.architecture.length - 1 && (
                   <div className="hidden sm:flex items-center shrink-0 self-center">
-                    <ArrowRight className="w-4 h-4 text-neutral-700" />
+                    <ArrowRight className="w-4 h-4 text-slate-400 dark:text-neutral-700" />
                   </div>
                 )}
               </div>
@@ -522,17 +521,17 @@ export default function ProjectDetailsPage() {
 
         {/* Visual Pipeline Flow */}
         <FadeSection delay={0.3} className="mt-12">
-          <div className="flex flex-wrap items-center justify-center gap-3 p-6 rounded-3xl bg-white/[0.015] border border-white/[0.05]">
+          <div className="flex flex-wrap items-center justify-center gap-3 p-6 rounded-3xl bg-white dark:bg-white/[0.015] border border-slate-200/90 dark:border-white/[0.05] shadow-sm">
             {project.stack
               .flatMap((g) => g.items)
               .slice(0, 6)
               .map((tech, idx, arr) => (
                 <React.Fragment key={tech}>
-                  <span className="px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs font-bold text-neutral-300 tracking-wide">
+                  <span className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-xs font-bold text-slate-800 dark:text-neutral-300 tracking-wide shadow-sm">
                     {tech}
                   </span>
                   {idx < arr.length - 1 && (
-                    <span className="text-neutral-700 text-xs">→</span>
+                    <span className="text-slate-400 dark:text-neutral-700 text-xs font-bold">→</span>
                   )}
                 </React.Fragment>
               ))}
@@ -546,7 +545,7 @@ export default function ProjectDetailsPage() {
       <section ref={setSectionRef("stack")} id="stack" className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 py-24 max-w-7xl mx-auto">
         <FadeSection>
           <SectionLabel number="05" title="Tech Stack" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-12">
             Built With
           </h2>
         </FadeSection>
@@ -566,19 +565,19 @@ export default function ProjectDetailsPage() {
       <section ref={setSectionRef("learnings")} id="learnings" className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 py-24 max-w-7xl mx-auto">
         <FadeSection>
           <SectionLabel number="06" title="Key Learnings" />
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-10">
-            Insights & Challenges
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight mb-10">
+            Insights &amp; Challenges
           </h2>
 
-          <div className="p-8 sm:p-10 rounded-3xl bg-white/[0.02] border border-white/[0.06] backdrop-blur-md space-y-6">
-            <p className="text-base sm:text-lg text-neutral-400 font-light leading-relaxed">
+          <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none backdrop-blur-md space-y-6">
+            <p className="text-base sm:text-lg text-slate-600 dark:text-neutral-300 font-medium leading-relaxed">
               {project.longDescription}
             </p>
 
             {/* Visual Gallery Descriptions as Insights */}
             {project.galleryDescriptions &&
               Object.keys(project.galleryDescriptions).length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/[0.05]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-200 dark:border-white/[0.05]">
                   {Object.entries(project.galleryDescriptions)
                     .slice(0, 4)
                     .map(([, info], idx) => (
@@ -586,14 +585,14 @@ export default function ProjectDetailsPage() {
                         key={idx}
                         className="flex items-start gap-3 text-sm"
                       >
-                        <span className="w-6 h-6 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-[10px] font-mono font-bold text-red-400 shrink-0 mt-0.5">
+                        <span className="w-6 h-6 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-[10px] font-mono font-bold text-red-600 dark:text-red-400 shrink-0 mt-0.5">
                           {String(idx + 1).padStart(2, "0")}
                         </span>
                         <div>
-                          <h4 className="font-bold text-white text-sm mb-0.5">
+                          <h4 className="font-extrabold text-slate-950 dark:text-white text-sm mb-0.5">
                             {info.title}
                           </h4>
-                          <p className="text-neutral-500 font-light leading-relaxed text-xs">
+                          <p className="text-slate-600 dark:text-neutral-400 font-medium leading-relaxed text-xs">
                             {info.description}
                           </p>
                         </div>
@@ -610,18 +609,18 @@ export default function ProjectDetailsPage() {
       {/* ════════════════════════════════════════════════════════ */}
       <section className="relative z-10 px-6 sm:px-12 lg:px-20 xl:px-28 pt-8 pb-20 max-w-7xl mx-auto">
         <FadeSection>
-          <div className="border-t border-white/[0.06] pt-12 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="border-t border-slate-200/90 dark:border-white/[0.06] pt-12 flex flex-col sm:flex-row items-center justify-between gap-6">
             {/* Previous */}
             <Link
               href={`/projects/${prevProject.slug}`}
-              className="group flex items-center gap-4 p-4 px-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-neutral-600/50 hover:bg-white/[0.04] transition-all duration-300 min-w-[200px]"
+              className="group flex items-center gap-4 p-4 px-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-200/90 dark:border-white/[0.06] hover:border-slate-300 dark:hover:border-neutral-600/50 shadow-sm transition-all duration-300 min-w-[200px]"
             >
-              <ArrowLeft className="w-4 h-4 text-neutral-500 group-hover:text-white group-hover:-translate-x-1 transition-all duration-300 shrink-0" />
+              <ArrowLeft className="w-4 h-4 text-slate-500 dark:text-neutral-500 group-hover:text-slate-950 dark:group-hover:text-white group-hover:-translate-x-1 transition-all duration-300 shrink-0" />
               <div className="text-left">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-neutral-600 font-bold">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-600 font-bold">
                   Previous
                 </p>
-                <p className="text-sm font-bold text-neutral-300 group-hover:text-white transition-colors truncate">
+                <p className="text-sm font-extrabold text-slate-900 dark:text-neutral-300 group-hover:text-slate-950 dark:group-hover:text-white transition-colors truncate">
                   {prevProject.name}
                 </p>
               </div>
@@ -631,7 +630,7 @@ export default function ProjectDetailsPage() {
             <Link
               href="/?entered=true#projects"
               scroll={false}
-              className="px-6 py-3 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-bold text-neutral-500 hover:text-white hover:border-white/[0.15] transition-all duration-300"
+              className="px-6 py-3 rounded-full border border-slate-300 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] text-xs font-bold text-slate-700 dark:text-neutral-500 hover:text-slate-950 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/[0.15] shadow-sm transition-all duration-300"
             >
               All Projects
             </Link>
@@ -639,17 +638,17 @@ export default function ProjectDetailsPage() {
             {/* Next */}
             <Link
               href={`/projects/${nextProject.slug}`}
-              className="group flex items-center gap-4 p-4 px-6 rounded-2xl bg-red-500/[0.03] border border-red-500/20 hover:border-red-500/40 hover:bg-red-500/[0.06] transition-all duration-300 min-w-[200px]"
+              className="group flex items-center gap-4 p-4 px-6 rounded-2xl bg-white dark:bg-red-500/[0.03] border border-red-500/25 dark:border-red-500/20 hover:border-red-500/50 shadow-sm transition-all duration-300 min-w-[200px]"
             >
               <div className="text-left flex-1">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-red-500/60 font-bold">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-red-600 dark:text-red-500/60 font-bold">
                   Next
                 </p>
-                <p className="text-sm font-bold text-white group-hover:text-red-300 transition-colors truncate">
+                <p className="text-sm font-extrabold text-slate-950 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors truncate">
                   {nextProject.name}
                 </p>
               </div>
-              <ArrowRight className="w-4 h-4 text-red-400 group-hover:translate-x-1 transition-transform duration-300 shrink-0" />
+              <ArrowRight className="w-4 h-4 text-red-600 dark:text-red-400 group-hover:translate-x-1 transition-transform duration-300 shrink-0" />
             </Link>
           </div>
         </FadeSection>
@@ -673,19 +672,19 @@ function TechStackCard({
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3 }}
-      className="group relative overflow-hidden rounded-3xl border border-white/[0.06] bg-white/[0.02] p-6 sm:p-7 backdrop-blur-sm hover:border-red-500/25 hover:bg-red-500/[0.015] transition-all duration-500"
+      className="group relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] p-6 sm:p-7 backdrop-blur-sm hover:border-red-500/40 hover:shadow-[0_8px_30px_rgba(239,68,68,0.12)] shadow-[0_4px_20px_rgba(15,23,42,0.04)] dark:shadow-none transition-all duration-500"
     >
       {/* Watermark */}
-      <span className="absolute bottom-[-12px] right-3 text-7xl font-black text-white/[0.02] select-none pointer-events-none tracking-tighter group-hover:text-white/[0.04] transition-all duration-500">
+      <span className="absolute bottom-[-12px] right-3 text-7xl font-black text-slate-100 dark:text-white/[0.02] select-none pointer-events-none tracking-tighter group-hover:text-red-500/10 transition-all duration-500">
         {String(index + 1).padStart(2, "0")}
       </span>
 
       {/* Category Header */}
       <div className="flex items-center gap-3 mb-5 relative z-10">
         <div className="w-9 h-9 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center shrink-0">
-          <Code2 className="w-4 h-4 text-red-400" />
+          <Code2 className="w-4 h-4 text-red-600 dark:text-red-400" />
         </div>
-        <h3 className="text-base font-extrabold text-white tracking-tight">
+        <h3 className="text-base font-extrabold text-slate-950 dark:text-white tracking-tight">
           {group.category}
         </h3>
       </div>
@@ -715,8 +714,8 @@ function TechChip({ name }: { name: string }) {
         boxShadow: isHovered ? `0 0 12px ${color}` : "none",
       }}
       className={cn(
-        "flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-semibold select-none cursor-default transition-all duration-300",
-        "text-neutral-300 border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06]"
+        "flex items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-bold select-none cursor-default transition-all duration-300 shadow-sm",
+        "text-slate-700 dark:text-neutral-300 border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.03] hover:bg-white dark:hover:bg-white/[0.06]"
       )}
     >
       <div className="flex h-4 w-4 items-center justify-center shrink-0">

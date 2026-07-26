@@ -172,7 +172,7 @@ export function ProjectCardStack({
   };
 
   return (
-    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800/80 shadow-xl dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
+    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-white dark:bg-neutral-950 border border-slate-200/90 dark:border-neutral-800/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
       {/* Background Animated Subtle Grid */}
       <div className="absolute inset-0 opacity-15 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:24px_24px]" />
