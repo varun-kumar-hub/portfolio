@@ -276,13 +276,13 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               <EncryptedText
                 text="Challa Varun Kumar"
                 progress={Math.min(1, progress * 1.5)}
-                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter bg-clip-text text-transparent select-none block leading-[1.05] whitespace-nowrap ${
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
                   isLightMode
-                    ? "bg-gradient-to-b from-slate-950 via-slate-900 to-slate-700"
-                    : "bg-gradient-to-b from-white via-neutral-100 to-neutral-500"
+                    ? "bg-gradient-to-b from-red-500 via-rose-500 to-red-600 bg-clip-text text-transparent"
+                    : "bg-gradient-to-b from-white via-neutral-100 to-neutral-500 bg-clip-text text-transparent"
                 }`}
                 encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-neutral-800 font-bold"}
-                revealedClassName={isLightMode ? "text-slate-950 font-extrabold" : "text-neutral-100"}
+                revealedClassName={isLightMode ? "text-red-600 font-black" : "text-neutral-100"}
               />
             </div>
 
@@ -291,10 +291,10 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 text="AI & ML Engineer"
                 progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
                 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
-                  isLightMode ? "text-red-600" : "text-white"
+                  isLightMode ? "text-slate-950 font-black" : "text-white"
                 }`}
                 encryptedClassName={isLightMode ? "text-slate-200 font-bold" : "text-neutral-900 font-bold"}
-                revealedClassName={isLightMode ? "text-red-600 font-extrabold" : "text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"}
+                revealedClassName={isLightMode ? "text-slate-950 font-black" : "text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"}
               />
             </div>
           </div>
