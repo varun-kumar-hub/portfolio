@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { EncryptedText } from "@/components/ui/encrypted-text";
 import { ContainerTextFlip } from "@/components/ui/container-text-flip";
+import { profile } from "@/lib/profile";
 
 declare global {
   interface Window {
@@ -82,22 +83,175 @@ function useSoundEngine() {
   return { playGlitchTick, playSuccessChime };
 }
 
-// ─── Main Intro Component ────────────────────────────────────────
 interface PortfolioIntroProps {
   onEnter: () => void;
   onProgressChange: (progress: number) => void;
 }
 
+// ─── Apple-Inspired Dedicated Light Theme Intro ───────────────────
+function LightPortfolioIntro({
+  progress,
+  isHolding,
+  isCompleted,
+  handleHoldStart,
+  handleHoldEnd,
+}: {
+  progress: number;
+  isHolding: boolean;
+  isCompleted: boolean;
+  handleHoldStart: () => void;
+  handleHoldEnd: () => void;
+}) {
+  const getStatusMessage = () => {
+    if (isCompleted) return "INITIALIZATION COMPLETE. WELCOME.";
+    if (progress > 0.75) return "Finalizing System Interface...";
+    if (progress > 0.50) return "Synchronizing Interactive Toolkit...";
+    if (progress > 0.25) return "Loading Engineering Architecture & Projects...";
+    if (progress > 0) return "Initializing System Modules...";
+    return "PRESS & HOLD ANYWHERE TO INITIALIZE";
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, y: -25, scale: 0.98 }}
+      transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f8f9fb] text-slate-900 select-none p-6 overflow-hidden cursor-pointer"
+      onMouseDown={handleHoldStart}
+      onMouseUp={handleHoldEnd}
+      onMouseLeave={handleHoldEnd}
+      onTouchStart={handleHoldStart}
+      onTouchEnd={handleHoldEnd}
+    >
+      {/* Premium Ambient Background Lighting */}
+      <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.045)_0%,rgba(248,249,251,0.85)_65%,#f8f9fb_100%)]" />
+
+      {/* Subtle Micro Grid Pattern */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none opacity-[0.35]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(15,23,42,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.03) 1px, transparent 1px)`,
+          backgroundSize: "48px 48px",
+          maskImage: "radial-gradient(circle at center, #000 0%, #000 60%, transparent 90%)",
+          WebkitMaskImage: "radial-gradient(circle at center, #000 0%, #000 60%, transparent 90%)",
+        }}
+      />
+
+      {/* Interactive Expandable Ripple Ring */}
+      <AnimatePresence>
+        {isHolding && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1.25 }}
+            exit={{ opacity: 0, scale: 1.5 }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
+            className="absolute z-0 w-96 h-96 rounded-full border border-red-500/20 bg-red-500/[0.02] pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Main Content Container */}
+      <div className="relative z-10 w-full max-w-4xl flex flex-col items-center justify-between h-full py-12 sm:py-16 pointer-events-none">
+        
+        {/* Top Header Badge */}
+        <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-red-500/20 shadow-[0_4px_20px_rgba(15,23,42,0.04)] backdrop-blur-md">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+          <span className="text-[10px] sm:text-xs font-mono font-extrabold uppercase tracking-widest text-red-600">
+            ✦ INITIALIZING WORKSPACE ✦
+          </span>
+        </div>
+
+        {/* Center Typography Showcase */}
+        <div className="flex-1 flex flex-col items-center justify-center space-y-4 sm:space-y-6 text-center max-w-3xl my-auto">
+          
+          {/* Main Name */}
+          <motion.h1
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 leading-tight"
+          >
+            {profile.name.full}
+          </motion.h1>
+
+          {/* Subtitle Role */}
+          <motion.h2
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-red-600 leading-tight"
+          >
+            AI &amp; ML Engineer
+          </motion.h2>
+
+          {/* Bio Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xs sm:text-base text-slate-600 font-medium leading-relaxed max-w-xl px-4"
+          >
+            Architecting autonomous AI systems &amp; high-performance cloud platforms.
+          </motion.p>
+        </div>
+
+        {/* Bottom Progress Capsule & Status Indicator */}
+        <div className="w-full flex flex-col items-center justify-center space-y-3 mt-auto">
+          
+          {/* Apple-style Horizontal Progress Capsule */}
+          <div className="relative w-64 sm:w-80 h-3 rounded-full bg-white border border-slate-200/90 p-0.5 shadow-[0_2px_8px_rgba(15,23,42,0.06)] overflow-hidden">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-red-500 via-rose-500 to-red-600 shadow-[0_0_12px_rgba(239,68,68,0.4)]"
+              style={{ width: `${Math.max(4, progress * 100)}%` }}
+              transition={{ ease: "easeOut", duration: 0.1 }}
+            />
+          </div>
+
+          {/* Percentage & Live Message */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-mono font-bold text-red-600">
+              {Math.round(progress * 100)}%
+            </span>
+            <span className="text-slate-400 text-xs font-mono">•</span>
+            <span className={`text-xs font-mono font-bold tracking-wide uppercase transition-colors ${progress > 0 ? "text-red-600 animate-pulse" : "text-slate-500"}`}>
+              {getStatusMessage()}
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Main Intro Component ────────────────────────────────────────
 export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProps) {
   const [progress, setProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(false);
+
   const progressRef = useRef(0);
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const hasPlayedChimeRef = useRef(false);
 
   const { playGlitchTick, playSuccessChime } = useSoundEngine();
+
+  // Theme Detection & Observer
+  useEffect(() => {
+    const checkTheme = () => {
+      if (typeof window !== "undefined") {
+        setIsLightMode(document.documentElement.classList.contains("light"));
+      }
+    };
+    checkTheme();
+
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     completedRef.current = isCompleted;
@@ -107,7 +261,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     onProgressChange(progress);
   }, [progress, onProgressChange]);
 
-  // Hold-to-Decrypt animation loop
+  // Hold-to-Initialize loop
   useEffect(() => {
     if (completedRef.current) return;
 
@@ -125,11 +279,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
       let nextProgress = progressRef.current;
       if (isHolding) {
-        nextProgress = Math.min(1, nextProgress + deltaTime / 1500);
+        nextProgress = Math.min(1, nextProgress + deltaTime / 1400);
 
         tickAccumulator += deltaTime;
         if (tickAccumulator > 60 + Math.random() * 80) {
-          playGlitchTick();
+          if (!isLightMode) playGlitchTick();
           tickAccumulator = 0;
         }
       } else {
@@ -169,7 +323,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isHolding, onEnter, playGlitchTick, playSuccessChime]);
+  }, [isHolding, isLightMode, onEnter, playGlitchTick, playSuccessChime]);
 
   const handleHoldStart = () => {
     if (isCompleted) return;
@@ -180,6 +334,20 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
     setIsHolding(false);
   };
 
+  // Render Light Mode Intro if theme is light
+  if (isLightMode) {
+    return (
+      <LightPortfolioIntro
+        progress={progress}
+        isHolding={isHolding}
+        isCompleted={isCompleted}
+        handleHoldStart={handleHoldStart}
+        handleHoldEnd={handleHoldEnd}
+      />
+    );
+  }
+
+  // Render Dark Mode Decryption Intro if theme is dark
   return (
     <motion.div
       initial={{ opacity: 1 }}
