@@ -596,16 +596,17 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           }
 
           .fx-fixed-section { height: 380vh; position: relative; background: var(--fx-page-bg); }
-          :global(.light) .fx-fixed-section { background: transparent; }
+          :global(.light) .fx-fixed-section { background: #fafafb; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
-          :global(.light) .fx-fixed { background: transparent; }
+          :global(.light) .fx-fixed { background: #fafafb; }
           .fx-scene-bg { background: #040406; }
           :global(.light) .fx-scene-bg {
-            background: transparent;
+            background: #fafafb;
           }
           .fx-light-scene-gradient { display: none; }
           :global(.light) .fx-light-scene-gradient {
-            display: none;
+            display: block;
+            background: radial-gradient(ellipse at top, rgba(239, 68, 68, 0.03) 0%, transparent 60%);
           }
           .fx-scene-grid {
             background-image:
@@ -615,7 +616,12 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             opacity: 0.4;
           }
           :global(.light) .fx-scene-grid {
-            display: none;
+            display: block;
+            background-image:
+              linear-gradient(to right, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+            background-size: 4rem 4rem;
+            opacity: 1;
           }
           .fx-scene-core { opacity: 0.08; }
           :global(.light) .fx-scene-core {
@@ -656,7 +662,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           }
 
           .fx-bgs { position: absolute; inset: 0; background: var(--fx-stage-bg); z-index: 1; }
-          :global(.light) .fx-bgs { background: transparent; }
+          :global(.light) .fx-bgs { background: #fafafb; }
           .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity; transform: translateZ(0); backface-visibility: hidden; }
           .fx-header {
             grid-column: 1 / 13; align-self: start; padding-top: clamp(115px, 14vh, 155px);
