@@ -172,7 +172,7 @@ export function ProjectCardStack({
   };
 
   return (
-    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-white dark:bg-neutral-950 border border-slate-200/90 dark:border-neutral-800/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
+    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-white dark:bg-[#0a0a0f] border border-slate-200/90 dark:border-red-500/25 shadow-[0_8px_30px_rgba(15,23,42,0.06)] dark:shadow-[0_0_30px_rgba(239,68,68,0.08)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
       {/* Background Animated Subtle Grid */}
       <div className="absolute inset-0 opacity-15 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:24px_24px]" />
@@ -265,7 +265,7 @@ export function ProjectCardStack({
                       setLightboxIndex(currentIndex);
                     }
                   }}
-                  className="absolute inset-0 list-none overflow-hidden border-2 border-slate-200 dark:border-neutral-700/80 hover:border-red-500/50 bg-white dark:bg-neutral-900 transition-colors shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+                  className="absolute inset-0 list-none overflow-hidden border-2 border-slate-200 dark:border-red-500/30 hover:border-red-500/60 bg-white dark:bg-[#0d0d12] transition-colors shadow-xl dark:shadow-[0_15px_45px_rgba(0,0,0,0.8)]"
                   style={{
                     borderRadius: `${borderRadius}px`,
                     cursor: isFront ? "pointer" : "auto",

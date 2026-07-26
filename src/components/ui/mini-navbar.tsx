@@ -243,9 +243,9 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                            px-5 sm:pl-8 sm:pr-8 py-3 backdrop-blur-2xl
                            ${headerShapeClass}
                            navbar-shimmer-border
-                           border border-white/80 bg-white/82 dark:border-red-500/15 dark:bg-[#07070a7a]
-                           shadow-[0_18px_55px_-34px_rgba(15,23,42,0.36),_0_1px_2px_rgba(15,23,42,0.04),_inset_0_1px_0_rgba(255,255,255,0.92)]
-                           dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(239,68,68,0.04)]
+                            border border-white/80 bg-white/82 dark:border-red-500/15 dark:bg-[#07070a7a]
+                            shadow-[0_18px_55px_-34px_rgba(15,23,42,0.36),_0_1px_2px_rgba(15,23,42,0.04),_inset_0_1px_0_rgba(255,255,255,0.92)]
+                            dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(239,68,68,0.04)]
                            transition-[border-radius] duration-300 ease-in-out`}>
 
           {/* Gloss reflection line across top edge */}

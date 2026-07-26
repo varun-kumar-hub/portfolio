@@ -207,13 +207,13 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       exit={{ opacity: 0, y: -40, scale: 0.98 }}
       transition={{ duration: 0.85, ease: [0.76, 0, 0.24, 1] }}
       className={`fixed inset-0 z-50 flex flex-col items-center justify-center select-none p-6 overflow-hidden cursor-pointer transition-colors duration-500 ${
-        isLightMode ? "bg-[#f8f9fb] text-slate-900" : "bg-[#050607] text-white"
+        isLightMode ? "bg-[#fafafb] text-slate-900" : "bg-[#050607] text-white"
       }`}
       style={{
         background: isLightMode
           ? isHolding
-            ? "radial-gradient(circle at center, rgba(239, 68, 68, 0.05) 0%, transparent 32rem), #f8f9fb"
-            : "#f8f9fb"
+            ? "radial-gradient(circle at center, rgba(239, 68, 68, 0.05) 0%, transparent 32rem), #fafafb"
+            : "#fafafb"
           : isHolding
           ? "radial-gradient(circle at center, rgba(96, 165, 250, 0.035) 0%, transparent 32rem), #050607"
           : "#050607",
@@ -281,25 +281,25 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               <EncryptedText
                 text="Challa Varun Kumar"
                 progress={Math.min(1, progress * 1.5)}
-                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
+                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
                   isLightMode
                     ? "bg-gradient-to-b from-red-500 via-rose-500 to-red-600 bg-clip-text text-transparent"
-                    : "bg-gradient-to-b from-white via-neutral-100 to-neutral-500 bg-clip-text text-transparent"
+                    : "bg-gradient-to-r from-red-500 via-red-400 to-rose-500 bg-clip-text text-transparent"
                 }`}
-                encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-neutral-800 font-bold"}
-                revealedClassName={isLightMode ? "text-red-600 font-black" : "text-neutral-100"}
+                encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-red-950 font-bold"}
+                revealedClassName={isLightMode ? "text-red-600 font-black" : "text-red-500 font-black drop-shadow-[0_0_35px_rgba(239,68,68,0.5)]"}
               />
             </div>
 
-            <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
+            <div className="min-h-[30px] sm:min-h-[45px] md:min-h-[55px] lg:min-h-[65px] flex items-center justify-center">
               <EncryptedText
                 text="AI & ML Engineer"
                 progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
-                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
-                  isLightMode ? "text-slate-950 font-black" : "text-white"
+                className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight select-none block leading-[1.05] whitespace-nowrap ${
+                  isLightMode ? "text-slate-950 font-bold" : "text-white"
                 }`}
-                encryptedClassName={isLightMode ? "text-slate-200 font-bold" : "text-neutral-900 font-bold"}
-                revealedClassName={isLightMode ? "text-slate-950 font-black" : "text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.15)]"}
+                encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-neutral-700 font-bold"}
+                revealedClassName={isLightMode ? "text-slate-950 font-bold" : "text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"}
               />
             </div>
           </div>

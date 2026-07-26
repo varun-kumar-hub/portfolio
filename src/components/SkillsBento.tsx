@@ -143,7 +143,7 @@ function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardP
           : undefined,
       }}
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-red-500/25 dark:border-gray-800/30 bg-white dark:bg-black/15 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 shadow-[0_10px_30px_rgba(15,23,42,0.05),0_2px_8px_rgba(15,23,42,0.03)] dark:shadow-none hover:shadow-[0_0_35px_rgba(239,68,68,0.22),0_16px_36px_rgba(15,23,42,0.08)] hover:border-red-500/60 dark:hover:border-red-500/50 group",
+        "relative overflow-hidden rounded-3xl border border-red-500/25 dark:border-red-500/30 bg-white dark:bg-[#07070a] p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-[0_0_25px_rgba(0,0,0,0.8)] hover:shadow-[0_0_35px_rgba(239,68,68,0.22)] hover:border-red-500/60 group",
         category.colSpan
       )}
     >

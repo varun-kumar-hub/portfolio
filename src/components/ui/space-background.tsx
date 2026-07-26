@@ -23,11 +23,11 @@ export function SpaceBackground({ className, style, ...props }: SpaceBackgroundP
     >
       <div className="absolute inset-0 bg-[#fafafb] dark:bg-[#040406] transition-colors duration-500" />
       
-      {/* Soft Crimson & Ambient Radial Vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.03)_0%,rgba(250,250,251,0.6)_60%,#fafafb_100%)] dark:bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.05)_0%,rgba(15,17,23,0.98)_60%,#040406_100%)] transition-colors duration-500" />
+      {/* Footer-Style Soft Red Radial Aurora Lighting */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(239,68,68,0.03)_0%,transparent_60%)] dark:bg-[radial-gradient(circle_at_50%_25%,rgba(239,68,68,0.04)_0%,transparent_60%)] transition-colors duration-500" />
 
-      {/* Unified 64px × 64px Engineering Micro-Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.035)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(239,68,68,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(239,68,68,0.015)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+      {/* Footer-Style Grid (60px × 60px in Dark Mode, 56px × 56px in Light Mode) - Dimmed */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(15,23,42,0.025)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,23,42,0.025)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.018)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.018)_1px,transparent_1px)] bg-[size:56px_56px] dark:bg-[size:60px_60px]" />
 
       {/* Minimal Faint Starfield Particles */}
       <Starfield

@@ -546,14 +546,9 @@ export default function Home() {
               </div>
 
               {/* ─── Unique Holographic Portal Transition Bridge: Hero Stage -> Projects Directory ─── */}
-              <div className="relative z-30 w-full bg-transparent py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
-                {/* Horizontal Cyber Beam with Moving Laser Pulse */}
-                <div className="relative w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-red-300/45 dark:via-red-500/60 to-transparent">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-red-300/70 dark:via-rose-400 to-transparent blur-[3px] animate-pulse" />
-                </div>
-
+              <div className="relative z-30 w-full bg-transparent py-8 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
                 {/* Central Holographic Portal Badge */}
-                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-white/92 dark:bg-[#040406] border border-red-500/25 dark:border-red-500/40 px-5 py-2 rounded-full shadow-[0_16px_38px_-26px_rgba(220,38,38,0.38)] dark:shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
+                <div className="relative z-10 flex items-center gap-3 bg-white/92 dark:bg-[#040406] border border-red-500/25 dark:border-red-500/40 px-5 py-2 rounded-full shadow-[0_16px_38px_-26px_rgba(220,38,38,0.38)] dark:shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                   <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-red-400 font-extrabold">
                     ✦ ENTERING PRODUCTION DIRECTORY ✦
@@ -568,7 +563,7 @@ export default function Home() {
               </div>
 
               {/* ─── Projects Directory Portal ─── */}
-              <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
+              <section className="lazy-section mx-auto max-w-6xl px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="projects">
                 {/* Purely Visual Red Background Micro-Graphic Accents */}
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden z-0">
                   <div className="absolute top-1/4 -left-16 w-64 h-64 bg-red-600/8 rounded-full blur-[90px]" />
@@ -748,7 +743,7 @@ export default function Home() {
               </section>
 
               {/* ─── Experience ─── */}
-              <section className="lazy-section border-t border-gray-200/40 dark:border-gray-800/40 bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
+              <section className="lazy-section bg-transparent px-5 py-24 sm:px-6 lg:px-8 relative z-10" id="experience">
                 {/* Purely Visual Red Background Micro-Graphic Accents */}
                 <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden z-0">
                   <div className="absolute top-1/4 -left-20 w-72 h-72 bg-red-600/8 rounded-full blur-[100px]" />

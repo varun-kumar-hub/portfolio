@@ -676,7 +676,7 @@ export default function ExperienceBento() {
       className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center"
     >
       <div className="w-full h-full [perspective:1200px] z-10 flex flex-col justify-center">
-        <motion.div className="relative h-full max-h-screen w-full bg-white dark:bg-[#040406] text-slate-900 dark:text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-xl dark:shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
+        <motion.div className="relative h-full max-h-screen w-full bg-white dark:bg-[#07070a] text-slate-900 dark:text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-slate-200 dark:border-red-500/30 hover:border-red-500/50 transition-colors duration-500 shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.85)] origin-center">
           {/* Ambient Radial Background Aura */}
           <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />

@@ -129,7 +129,7 @@ export default function ProjectDetailsPage() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#fafafb] dark:bg-[#040406] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fafafb] dark:bg-[#071012] flex items-center justify-center">
         <div className="w-12 h-12 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin" />
       </div>
     );
@@ -153,13 +153,13 @@ export default function ProjectDetailsPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#fafafb] dark:bg-[#040406] text-slate-900 dark:text-white selection:bg-red-500/30 selection:text-red-600 dark:selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
+    <div className="relative min-h-screen bg-[#fafafb] dark:bg-[#071012] text-slate-900 dark:text-white selection:bg-red-500/30 selection:text-red-600 dark:selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
       <SpaceBackground />
 
       {/* ═════════════════════════════════════════════════════════════ */}
       {/* ─── FULL-HEIGHT FIXED SIDEBAR ───                            */}
       {/* ═════════════════════════════════════════════════════════════ */}
-      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-slate-200/90 dark:border-white/[0.04] bg-white/90 dark:bg-[#040406]/80 backdrop-blur-2xl">
+      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-slate-200/90 dark:border-white/[0.04] bg-white/90 dark:bg-[#071012]/80 backdrop-blur-2xl">
         {/* Back Button — top */}
         <div className="pt-6 pb-8 px-4 w-full">
           <Link

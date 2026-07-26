@@ -419,9 +419,9 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
     const cssVars: CSSProperties = {
       ["--fx-font" as string]: fontFamily,
       ["--fx-text" as string]: colors.text ?? "rgba(245,245,245,0.95)",
-      ["--fx-overlay" as string]: colors.overlay ?? "rgba(4,4,6,0.5)",
-      ["--fx-page-bg" as string]: colors.pageBg ?? "#040406",
-      ["--fx-stage-bg" as string]: colors.stageBg ?? "#040406",
+      ["--fx-overlay" as string]: colors.overlay ?? "rgba(7,16,18,0.5)",
+      ["--fx-page-bg" as string]: colors.pageBg ?? "#071012",
+      ["--fx-stage-bg" as string]: colors.stageBg ?? "#071012",
       ["--fx-gap" as string]: `${gap}rem`,
       ["--fx-grid-px" as string]: `${gridPaddingX}rem`,
       ["--fx-row-gap" as string]: "14px",
@@ -461,7 +461,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                         <div
                           className="absolute inset-0 transition-all duration-700 dark:block hidden"
                           style={{
-                            background: s.bgGradient || "#040406",
+                            background: "transparent",
                           }}
                         />
                         <div className="fx-light-scene-gradient absolute inset-0 transition-all duration-700" />
@@ -580,7 +580,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           .fx {
             width: 100%;
             overflow: hidden;
-            background: var(--fx-page-bg);
+            background: transparent;
             color: var(--fx-text);
             font-family: var(--fx-font);
             letter-spacing: 0;
@@ -595,11 +595,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: rgba(0,0,0,0.8); color: #ef4444; padding: 6px 8px; font: 12px/1 monospace; border-radius: 4px; border: 1px solid rgba(239,68,68,0.3);
           }
 
-          .fx-fixed-section { height: 380vh; position: relative; background: var(--fx-page-bg); }
+          .fx-fixed-section { height: 380vh; position: relative; background: transparent; }
           :global(.light) .fx-fixed-section { background: #fafafb; }
-          .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
+          .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: transparent; }
           :global(.light) .fx-fixed { background: #fafafb; }
-          .fx-scene-bg { background: #040406; }
+          .fx-scene-bg { background: transparent; }
           :global(.light) .fx-scene-bg {
             background: #fafafb;
           }
@@ -609,11 +609,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: radial-gradient(ellipse at top, rgba(239, 68, 68, 0.03) 0%, transparent 60%);
           }
           .fx-scene-grid {
-            background-image:
-              linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.4;
+            display: none;
           }
           :global(.light) .fx-scene-grid {
             display: block;
@@ -649,19 +645,13 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             .fx-featured-title { font-size: clamp(1.6rem, 5.5vw, 2.5rem); }
           }
           .fx-fixed::after {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 120px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(4, 4, 6, 0.75) 50%, #040406 100%);
-            pointer-events: none;
-            z-index: 1;
+            display: none;
           }
           :global(.light) .fx-fixed::after {
-            background: linear-gradient(to bottom, transparent 0%, rgba(250, 250, 251, 0.2) 60%, transparent 100%);
+            display: none;
           }
 
-          .fx-bgs { position: absolute; inset: 0; background: var(--fx-stage-bg); z-index: 1; }
+          .fx-bgs { position: absolute; inset: 0; background: transparent; z-index: 1; }
           :global(.light) .fx-bgs { background: #fafafb; }
           .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity; transform: translateZ(0); backface-visibility: hidden; }
           .fx-header {

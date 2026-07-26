@@ -32,10 +32,10 @@ const STYLES = `
   --footer-primary: #ffffff;
   --footer-secondary: rgba(212, 212, 216, 0.82);
   --footer-muted: rgba(161, 161, 170, 0.86);
-  --footer-bg: #000000;
-  --footer-marquee-bg: rgba(0, 0, 0, 0.6);
-  --footer-bar-bg: rgba(0, 0, 0, 0.5);
-  --footer-border: rgba(255, 255, 255, 0.1);
+  --footer-bg: #040406;
+  --footer-marquee-bg: rgba(4, 4, 6, 0.9);
+  --footer-bar-bg: rgba(4, 4, 6, 0.95);
+  --footer-border: rgba(239, 68, 68, 0.2);
   
   --pill-bg-1: rgba(255, 255, 255, 0.05);
   --pill-bg-2: rgba(255, 255, 255, 0.02);
