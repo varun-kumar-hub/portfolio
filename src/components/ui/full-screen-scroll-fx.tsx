@@ -596,19 +596,16 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           }
 
           .fx-fixed-section { height: 380vh; position: relative; background: var(--fx-page-bg); }
-          :global(.light) .fx-fixed-section { background: #ffffff; }
+          :global(.light) .fx-fixed-section { background: transparent; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
-          :global(.light) .fx-fixed { background: #ffffff; }
+          :global(.light) .fx-fixed { background: transparent; }
           .fx-scene-bg { background: #040406; }
           :global(.light) .fx-scene-bg {
-            background: #f8f9fb;
+            background: transparent;
           }
           .fx-light-scene-gradient { display: none; }
           :global(.light) .fx-light-scene-gradient {
-            display: block;
-            background:
-              radial-gradient(circle at 50% 28%, rgba(239, 68, 68, 0.03) 0%, transparent 50%),
-              linear-gradient(180deg, #f8f9fb 0%, #f8f9fb 100%);
+            display: none;
           }
           .fx-scene-grid {
             background-image:
@@ -618,13 +615,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             opacity: 0.4;
           }
           :global(.light) .fx-scene-grid {
-            background-image:
-              linear-gradient(rgba(15,23,42,0.028) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(15,23,42,0.028) 1px, transparent 1px);
-            background-size: 48px 48px;
-            opacity: 0.34;
-            mask-image: radial-gradient(circle at center, #000 0%, #000 58%, transparent 88%);
-            -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 58%, transparent 88%);
+            display: none;
           }
           .fx-scene-core { opacity: 0.08; }
           :global(.light) .fx-scene-core {
@@ -661,11 +652,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             z-index: 1;
           }
           :global(.light) .fx-fixed::after {
-            background: linear-gradient(to bottom, transparent 0%, rgba(248, 249, 251, 0.4) 60%, #f8f9fb 100%);
+            background: linear-gradient(to bottom, transparent 0%, rgba(250, 250, 251, 0.2) 60%, transparent 100%);
           }
 
           .fx-bgs { position: absolute; inset: 0; background: var(--fx-stage-bg); z-index: 1; }
-          :global(.light) .fx-bgs { background: #ffffff; }
+          :global(.light) .fx-bgs { background: transparent; }
           .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity; transform: translateZ(0); backface-visibility: hidden; }
           .fx-header {
             grid-column: 1 / 13; align-self: start; padding-top: clamp(115px, 14vh, 155px);

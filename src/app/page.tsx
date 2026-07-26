@@ -518,11 +518,11 @@ export default function Home() {
           <motion.main
             id="top"
             key="portfolio"
-            className={`relative z-[2] min-h-screen overflow-hidden bg-[#f8f9fb] dark:bg-[#040406] text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
+            className={`relative z-[2] min-h-screen overflow-hidden text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-[#f8f9fb] dark:bg-[#040406] shadow-[0_30px_100px_rgba(15,23,42,0.06)] dark:shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
+            <div className="relative z-20 bg-transparent">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -546,7 +546,7 @@ export default function Home() {
               </div>
 
               {/* ─── Unique Holographic Portal Transition Bridge: Hero Stage -> Projects Directory ─── */}
-              <div className="relative z-30 w-full bg-gradient-to-b from-[#f8f9fb] via-[#f8f9fb] to-[#f8f9fb] dark:from-transparent dark:via-[#040406]/90 dark:to-[#040406] py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
+              <div className="relative z-30 w-full bg-transparent py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
                 {/* Horizontal Cyber Beam with Moving Laser Pulse */}
                 <div className="relative w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-red-300/45 dark:via-red-500/60 to-transparent">
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-red-300/70 dark:via-rose-400 to-transparent blur-[3px] animate-pulse" />
