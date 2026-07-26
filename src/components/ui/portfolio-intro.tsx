@@ -92,7 +92,12 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   const [progress, setProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [isLightMode, setIsLightMode] = useState(false);
+  const [isLightMode, setIsLightMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("light");
+    }
+    return false;
+  });
 
   const progressRef = useRef(0);
   const completedRef = useRef(false);
