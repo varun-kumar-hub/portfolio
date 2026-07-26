@@ -29,6 +29,13 @@ const STYLES = `
 .cinematic-footer-wrapper {
   font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
+  --footer-primary: #ffffff;
+  --footer-secondary: rgba(212, 212, 216, 0.82);
+  --footer-muted: rgba(161, 161, 170, 0.86);
+  --footer-bg: #000000;
+  --footer-marquee-bg: rgba(0, 0, 0, 0.6);
+  --footer-bar-bg: rgba(0, 0, 0, 0.5);
+  --footer-border: rgba(255, 255, 255, 0.1);
   
   --pill-bg-1: rgba(255, 255, 255, 0.05);
   --pill-bg-2: rgba(255, 255, 255, 0.02);
@@ -42,6 +49,28 @@ const STYLES = `
   --pill-border-hover: rgba(248, 113, 113, 0.4);
   --pill-shadow-hover: rgba(239, 68, 68, 0.25);
   --pill-highlight-hover: rgba(255, 255, 255, 0.25);
+}
+
+.light .cinematic-footer-wrapper {
+  --footer-primary: #0f172a;
+  --footer-secondary: #475569;
+  --footer-muted: #64748b;
+  --footer-bg: #f6f6f8;
+  --footer-marquee-bg: rgba(255, 255, 255, 0.78);
+  --footer-bar-bg: rgba(255, 255, 255, 0.76);
+  --footer-border: rgba(15, 23, 42, 0.08);
+  --pill-bg-1: rgba(255, 255, 255, 0.95);
+  --pill-bg-2: rgba(248, 250, 252, 0.94);
+  --pill-shadow: rgba(15, 23, 42, 0.09);
+  --pill-highlight: rgba(255, 255, 255, 0.9);
+  --pill-inset-shadow: rgba(0, 0, 0, 0.03);
+  --pill-border: rgba(0, 0, 0, 0.08);
+  
+  --pill-bg-1-hover: rgba(239, 68, 68, 0.12);
+  --pill-bg-2-hover: rgba(239, 68, 68, 0.04);
+  --pill-border-hover: rgba(239, 68, 68, 0.4);
+  --pill-shadow-hover: rgba(239, 68, 68, 0.15);
+  --pill-highlight-hover: rgba(255, 255, 255, 1);
 }
 
 @keyframes footer-breathe {
@@ -82,6 +111,15 @@ const STYLES = `
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
 }
 
+.light .footer-bg-grid {
+  background-size: 56px 56px;
+  background-image:
+    linear-gradient(to right, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at 48% 46%, black 0%, black 52%, transparent 86%);
+  -webkit-mask-image: radial-gradient(circle at 48% 46%, black 0%, black 52%, transparent 86%);
+}
+
 /* Theme-adaptive Aurora Glow */
 .footer-aurora {
   background: radial-gradient(
@@ -90,6 +128,13 @@ const STYLES = `
     rgba(244, 63, 94, 0.12) 40%, 
     transparent 70%
   );
+}
+
+.light .footer-aurora {
+  background:
+    radial-gradient(circle at 62% 34%, rgba(239, 68, 68, 0.16) 0%, rgba(239, 68, 68, 0.07) 34%, transparent 68%),
+    radial-gradient(circle at 24% 68%, rgba(15, 23, 42, 0.08) 0%, transparent 44%);
+  opacity: 0.95;
 }
 
 /* Glass Pill Theming */
@@ -114,6 +159,15 @@ const STYLES = `
   color: #ffffff;
 }
 
+.light .footer-glass-pill {
+  color: var(--footer-secondary);
+}
+
+.light .footer-glass-pill:hover {
+  color: #dc2626;
+  transform: translateY(-2px);
+}
+
 /* Giant Background Text Masking */
 .footer-giant-bg-text {
   font-size: 18vw;
@@ -127,6 +181,13 @@ const STYLES = `
   background-clip: text;
 }
 
+.light .footer-giant-bg-text {
+  -webkit-text-stroke: 1px rgba(15, 23, 42, 0.07);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.06) 0%, rgba(15, 23, 42, 0.018) 58%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 /* Metallic Text Glow */
 .footer-text-glow {
   background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.4) 100%);
@@ -134,6 +195,26 @@ const STYLES = `
   -webkit-text-fill-color: transparent;
   background-clip: text;
   filter: drop-shadow(0px 0px 15px rgba(239, 68, 68, 0.3));
+}
+
+.light .footer-text-glow {
+  background: linear-gradient(180deg, #0f172a 0%, #334155 62%, #64748b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0px 14px 28px rgba(15, 23, 42, 0.1));
+}
+
+.footer-label { color: var(--footer-muted); }
+.footer-copy { color: var(--footer-secondary); }
+.footer-strong { color: var(--footer-primary); }
+.footer-marquee-shell {
+  border-color: var(--footer-border);
+  background: var(--footer-marquee-bg);
+}
+.footer-bottom-bar {
+  border-color: var(--footer-border);
+  background: var(--footer-bar-bg);
 }
 `;
 
@@ -316,7 +397,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
         style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
       >
         {/* Fixed Footer underneath revealed by curtain scroll */}
-        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-black text-white cinematic-footer-wrapper pt-24 sm:pt-28 md:pt-32 pb-3">
+        <footer className="fixed bottom-0 left-0 flex h-screen w-full flex-col justify-between overflow-hidden bg-[var(--footer-bg)] text-[var(--footer-primary)] cinematic-footer-wrapper pt-24 sm:pt-28 md:pt-32 pb-3">
           
           {/* Ambient Light & Grid Background */}
           <div className="footer-aurora absolute left-1/2 top-1/2 h-[50vh] w-[70vw] -translate-x-1/2 -translate-y-1/2 animate-footer-breathe rounded-[50%] blur-[90px] pointer-events-none z-0" />
@@ -331,8 +412,8 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
           </div>
 
           {/* 1. Sleek Top Marquee Banner */}
-          <div className="relative mb-2 left-0 w-full overflow-hidden border-y border-white/10 bg-black/60 backdrop-blur-md py-2 z-10 -rotate-1 scale-105 shadow-xl shrink-0">
-            <div className="flex w-max animate-footer-scroll-marquee text-[11px] font-bold tracking-[0.25em] text-neutral-400 uppercase">
+          <div className="footer-marquee-shell relative mb-2 left-0 w-full overflow-hidden border-y backdrop-blur-md py-2 z-10 -rotate-1 scale-105 shadow-xl shrink-0">
+            <div className="footer-label flex w-max animate-footer-scroll-marquee text-[11px] font-bold tracking-[0.25em] uppercase">
               <MarqueeItem />
               <MarqueeItem />
             </div>
@@ -360,7 +441,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black footer-text-glow tracking-tighter mt-1 leading-tight">
                     Let&apos;s Connect & Build
                   </h2>
-                  <p className="mt-1 text-xs text-neutral-400">
+                  <p className="footer-copy mt-1 text-xs">
                     Have an internship, collaboration, or opportunity for {profileName}? Drop me a line directly.
                   </p>
                 </div>
@@ -374,8 +455,8 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                       <IconMapPin size={16} />
                     </div>
                     <div>
-                      <p className="text-[8px] font-bold text-neutral-500 uppercase tracking-wider">Location</p>
-                      <p className="text-xs font-semibold text-neutral-200">
+                      <p className="footer-label text-[8px] font-bold uppercase tracking-wider">Location</p>
+                      <p className="footer-strong text-xs font-semibold">
                         {profile.contact.location}
                       </p>
                     </div>
@@ -394,8 +475,8 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                         <IconFileText size={16} />
                       </div>
                       <div>
-                        <p className="text-[8px] font-bold text-neutral-500 uppercase tracking-wider">Resume</p>
-                        <p className="text-xs font-semibold text-neutral-200 group-hover:text-red-400 transition-colors">
+                        <p className="footer-label text-[8px] font-bold uppercase tracking-wider">Resume</p>
+                        <p className="footer-strong text-xs font-semibold group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
                           View Official PDF
                         </p>
                       </div>
@@ -413,7 +494,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                     href={profile.socials.github.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="footer-glass-pill px-4 py-2 rounded-lg text-neutral-300 font-semibold text-xs flex items-center gap-2"
+                    className="footer-glass-pill px-4 py-2 rounded-lg font-semibold text-xs flex items-center gap-2"
                   >
                     <IconBrandGithub className="w-3.5 h-3.5 text-red-400" />
                     GitHub
@@ -424,7 +505,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                     href={profile.socials.linkedin.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="footer-glass-pill px-4 py-2 rounded-lg text-neutral-300 font-semibold text-xs flex items-center gap-2"
+                    className="footer-glass-pill px-4 py-2 rounded-lg font-semibold text-xs flex items-center gap-2"
                   >
                     <IconBrandLinkedin className="w-3.5 h-3.5 text-red-400" />
                     LinkedIn
@@ -435,7 +516,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                     href={profile.socials.instagram.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="footer-glass-pill px-4 py-2 rounded-lg text-neutral-300 font-semibold text-xs flex items-center gap-2"
+                    className="footer-glass-pill px-4 py-2 rounded-lg font-semibold text-xs flex items-center gap-2"
                   >
                     <IconBrandInstagram className="w-3.5 h-3.5 text-pink-400" />
                     Instagram
@@ -448,24 +529,24 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
           </div>
 
           {/* 3. Bottom Bar / Credits */}
-          <div className="relative z-20 w-full py-2.5 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3 border-t border-white/10 shrink-0 bg-black/50 backdrop-blur-md">
+          <div className="footer-bottom-bar relative z-20 w-full py-2.5 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3 border-t shrink-0 backdrop-blur-md">
             
             {/* Copyright */}
-            <div className="text-neutral-400 text-[10px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1">
+            <div className="footer-label text-[10px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1">
               © {currentYear} {profile.name.full}. All rights reserved.
             </div>
 
             {/* "Engineered & Built" Badge */}
-            <div className="footer-glass-pill px-4 py-1.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-white/10">
-              <span className="text-neutral-400 text-[10px] md:text-xs font-bold uppercase tracking-widest">Engineered & Built by</span>
-              <span className="text-white font-black text-xs tracking-normal ml-0.5">{profile.name.short}</span>
+            <div className="footer-glass-pill px-4 py-1.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default">
+              <span className="footer-label text-[10px] md:text-xs font-bold uppercase tracking-widest">Engineered & Built by</span>
+              <span className="footer-strong font-black text-xs tracking-normal ml-0.5">{profile.name.short}</span>
             </div>
 
             {/* Back to top */}
             <MagneticButton
               as="button"
               onClick={scrollToTop}
-              className="w-9 h-9 rounded-full footer-glass-pill flex items-center justify-center text-neutral-400 hover:text-white group order-3"
+              className="w-9 h-9 rounded-full footer-glass-pill flex items-center justify-center group order-3"
             >
               <svg className="w-4 h-4 transform group-hover:-translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>

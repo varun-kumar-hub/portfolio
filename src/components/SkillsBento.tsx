@@ -92,7 +92,7 @@ function SkillChip({ name, isSelected = false, onClick }: SkillChipProps) {
       className={cn(
         "flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold select-none cursor-pointer transition-all duration-300",
         isSelected
-          ? "bg-red-500/15 border-red-500/50 text-white shadow-lg scale-105"
+          ? "bg-red-500/15 border-red-500/50 text-red-700 dark:text-white shadow-lg scale-105"
           : "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
       )}
     >
@@ -143,12 +143,12 @@ function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardP
           : undefined,
       }}
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-gray-200/5 dark:hover:shadow-none hover:border-gray-300 dark:hover:border-gray-700/80 group",
+        "relative overflow-hidden rounded-3xl border border-slate-200/80 dark:border-gray-800/30 bg-white dark:bg-black/15 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 shadow-lg shadow-slate-200/50 dark:shadow-none hover:shadow-xl hover:border-slate-300 dark:hover:border-gray-700/80 group",
         category.colSpan
       )}
     >
       {/* Decorative Large Index Number */}
-      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-gray-900/[0.03] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-gray-900/[0.05] dark:group-hover:text-white/[0.05]">
+      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-slate-900/[0.04] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-slate-900/[0.07] dark:group-hover:text-white/[0.05]">
         0{index + 1}
       </div>
 
@@ -158,15 +158,15 @@ function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardP
       <div className="relative z-10">
         {/* Category Header */}
         <div className="flex items-center gap-3.5 mb-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/80 dark:bg-gray-950/80 border border-gray-200/40 dark:border-gray-800/40 shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 dark:bg-gray-950/80 border border-slate-200 dark:border-gray-800/40 shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105">
             {category.icon}
           </div>
-          <h3 className="text-lg font-extrabold text-gray-900 dark:text-white tracking-tight">
+          <h3 className="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight">
             {category.title}
           </h3>
         </div>
         
-        <p className="text-xs text-gray-400 dark:text-gray-500 font-medium mb-6 max-w-xs leading-relaxed">
+        <p className="text-xs text-slate-600 dark:text-gray-400 font-medium mb-6 max-w-xs leading-relaxed">
           {category.description}
         </p>
       </div>
@@ -244,7 +244,7 @@ export default function SkillsBento() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 15 }}
-          className="p-5 rounded-2xl bg-neutral-950/90 border border-red-500/30 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xl"
+          className="p-5 rounded-2xl bg-white/90 dark:bg-neutral-950/90 border border-red-500/25 dark:border-red-500/30 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl dark:shadow-2xl"
         >
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
@@ -252,7 +252,7 @@ export default function SkillsBento() {
               <p className="text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
                 Projects utilizing &quot;{selectedSkill}&quot;
               </p>
-              <p className="text-xs text-neutral-400">
+              <p className="text-xs text-slate-600 dark:text-neutral-400">
                 Found {matchingProjects.length} implementation case studies in portfolio:
               </p>
             </div>
@@ -263,14 +263,14 @@ export default function SkillsBento() {
               <a
                 key={p.slug}
                 href={`/projects/${p.slug}`}
-                className="px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-600 text-white border border-white/10 hover:border-red-500 text-xs font-bold transition-all duration-300 shadow-md cursor-pointer"
+                className="px-3.5 py-1.5 rounded-full bg-slate-100 dark:bg-white/5 hover:bg-red-600 text-slate-800 dark:text-white hover:text-white border border-slate-200 dark:border-white/10 hover:border-red-500 text-xs font-bold transition-all duration-300 shadow-md cursor-pointer"
               >
                 {p.name} →
               </a>
             ))}
             <button
               onClick={() => setSelectedSkill(null)}
-              className="px-3 py-1.5 rounded-full bg-white/10 text-neutral-400 hover:text-white text-xs font-bold transition-all"
+              className="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-neutral-400 hover:text-red-600 dark:hover:text-white text-xs font-bold transition-all"
             >
               Clear ✕
             </button>

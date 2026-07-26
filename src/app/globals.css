@@ -12,7 +12,21 @@
   --active-font: var(--font-space), var(--font-inter), sans-serif;
   --font-sans: var(--active-font);
   --font-heading: var(--active-font);
+  --scrollbar-track: #111827;
+  --scrollbar-thumb: #374151;
+  --scrollbar-thumb-hover: #4b5563;
   color-scheme: dark;
+}
+
+.light {
+  --background: #f6f6f8;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --border: #e2e8f0;
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+  color-scheme: light;
 }
 
 @theme inline {
@@ -26,6 +40,7 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant light (&:where(.light, .light *));
 
 body, h1, h2, h3, h4, h5, h6, p, span, button, a, input, textarea, div, .font-heading, .font-space {
   font-family: var(--active-font);
@@ -50,6 +65,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -62,7 +78,7 @@ a {
 }
 
 ::selection {
-  background: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.25);
   color: var(--foreground);
 }
 
@@ -76,17 +92,17 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #111827;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #374151;
-  border: 3px solid #111827;
+  background: var(--scrollbar-thumb);
+  border: 3px solid var(--scrollbar-track);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #4b5563;
+  background: var(--scrollbar-thumb-hover);
 }
 
 .animate-fade-up {
@@ -207,6 +223,10 @@ a {
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
 }
 
+.light .spotlight-card:hover {
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1), 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
 .spotlight-card::before {
   content: "";
   position: absolute;
@@ -291,5 +311,21 @@ a.group\/btn:active,
 .font-outfit {
   font-family: var(--font-outfit), var(--font-heading), sans-serif !important;
 }
+
+/* View Transition API Circular Clip-Path Theme Reveal */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
 
 

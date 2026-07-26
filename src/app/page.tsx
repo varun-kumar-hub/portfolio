@@ -44,18 +44,18 @@ function ProfileSpotlightCard() {
       {/* Left Column: About Me Bio & Details */}
       <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-1.5 sm:space-y-3">
         {/* Subheading */}
-        <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-white leading-snug">
-          Architecting <span className="text-red-400">Autonomous AI Systems</span> &amp; <span className="text-red-400">High-Performance Cloud Platforms</span>
+        <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-snug">
+          Architecting <span className="text-red-500 dark:text-red-400">Autonomous AI Systems</span> &amp; <span className="text-red-500 dark:text-red-400">High-Performance Cloud Platforms</span>
         </h4>
 
         {/* Bio Description with See More toggle */}
-        <div className="text-[10px] sm:text-sm text-neutral-300 font-light leading-relaxed max-w-xl">
+        <div className="text-[10px] sm:text-sm text-slate-700 dark:text-neutral-300 font-light leading-relaxed max-w-xl">
           <p className={isExpanded ? "" : "line-clamp-2 sm:line-clamp-none"}>
             {profile.bio}
           </p>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="sm:hidden inline-flex items-center gap-0.5 mt-1 text-[10px] font-bold text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+            className="sm:hidden inline-flex items-center gap-0.5 mt-1 text-[10px] font-bold text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer"
           >
             <span>{isExpanded ? "See Less ↑" : "See More →"}</span>
           </button>
@@ -63,17 +63,17 @@ function ProfileSpotlightCard() {
 
         {/* Quick Highlight Metrics Pills */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 w-full max-w-lg pt-0.5">
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-sm">
-            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Autonomous</span>
-            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">AI &amp; Full-Stack Apps</span>
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+            <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Autonomous</span>
+            <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">AI &amp; Full-Stack Apps</span>
           </div>
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-sm">
-            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">95%+ Verified</span>
-            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">Multi-Source Accuracy</span>
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+            <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">95%+ Verified</span>
+            <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">Multi-Source Accuracy</span>
           </div>
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-neutral-900/60 border border-red-500/20 text-center md:text-left col-span-2 sm:col-span-1 backdrop-blur-md transition-all shadow-sm">
-            <span className="block text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">3rd Year CSE (AI &amp; ML)</span>
-            <span className="text-[8px] sm:text-[10px] text-neutral-400 font-medium">Kalasalingam Academy</span>
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left col-span-2 sm:col-span-1 backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+            <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">3rd Year CSE (AI &amp; ML)</span>
+            <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">Kalasalingam Academy</span>
           </div>
         </div>
 
@@ -81,14 +81,14 @@ function ProfileSpotlightCard() {
         <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-0.5">
           <a
             href="#projects"
-            className="group relative px-3 py-1 sm:px-5 sm:py-2 bg-transparent border border-red-500/40 hover:border-red-400 text-red-200 hover:text-white font-medium text-[10px] sm:text-xs tracking-wider transition-all duration-300 rounded-lg sm:rounded-xl shadow-sm flex items-center gap-1"
+            className="group relative px-3 py-1 sm:px-5 sm:py-2 bg-gradient-to-r from-red-600 to-rose-600 dark:from-transparent dark:to-transparent border border-red-500/40 hover:border-red-500 text-white dark:text-red-200 hover:text-white font-semibold text-[10px] sm:text-xs tracking-wider transition-all duration-300 rounded-lg sm:rounded-xl shadow-[0_12px_24px_-12px_rgba(220,38,38,0.6)] dark:shadow-sm flex items-center gap-1"
           >
             <span>View Projects →</span>
           </a>
 
           <a
             href="#contact"
-            className="px-3 py-1 sm:px-5 sm:py-2 border border-white/20 hover:border-red-400 text-white hover:text-red-300 font-semibold text-[10px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-black/40"
+            className="px-3 py-1 sm:px-5 sm:py-2 border border-slate-200 dark:border-white/20 hover:border-red-500 text-slate-800 dark:text-white hover:text-red-600 dark:hover:text-red-300 font-semibold text-[10px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-white/90 dark:bg-black/40 shadow-[0_10px_24px_-14px_rgba(15,23,42,0.24)]"
           >
             Get in Touch
           </a>
@@ -97,9 +97,9 @@ function ProfileSpotlightCard() {
 
       {/* Right Column: Scaled Photo Frame for Mobile */}
       <div className="relative shrink-0 group">
-        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-r from-red-600/40 via-rose-500/30 to-red-700/40 blur-lg opacity-80 transition-opacity" />
+        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-r from-red-500/16 via-rose-400/10 to-slate-300/35 dark:from-red-600/40 dark:via-rose-500/30 dark:to-red-700/40 blur-xl opacity-90 dark:opacity-80 transition-opacity" />
 
-        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border-2 border-red-500/40 bg-[#040406] shadow-xl flex items-center justify-center">
+        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border-2 border-white dark:border-red-500/40 bg-white dark:bg-[#040406] shadow-[0_24px_55px_-22px_rgba(15,23,42,0.38),0_2px_8px_rgba(15,23,42,0.08)] dark:shadow-xl flex items-center justify-center">
           <Image
             src="/profile-varun.png"
             alt="Varun Kumar"
@@ -107,11 +107,11 @@ function ProfileSpotlightCard() {
             height={800}
             className="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#040406]/40 via-transparent to-[#040406]/75 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 dark:from-[#040406]/40 via-transparent to-white/60 dark:to-[#040406]/75 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(246,246,248,0.75)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
 
-          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-t border-l border-red-400/80 pointer-events-none z-10" />
-          <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-b border-r border-red-400/80 pointer-events-none z-10" />
+          <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-t border-l border-red-500/80 dark:border-red-400/80 pointer-events-none z-10" />
+          <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-b border-r border-red-500/80 dark:border-red-400/80 pointer-events-none z-10" />
         </div>
       </div>
     </div>
@@ -126,14 +126,14 @@ const heroFxSections: FXSection[] = [
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 mt-2 max-w-4xl mx-auto text-center px-4">
         {/* Role Headline */}
-        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-white drop-shadow-[0_4px_25px_rgba(255,255,255,0.4)] leading-tight mt-1 text-center">
+        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-900 dark:text-white leading-tight mt-1 text-center">
           AI Engineer &amp; Tech Innovator
         </h3>
 
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/50 bg-red-950/70 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-black backdrop-blur-md shadow-[0_0_30px_rgba(239,68,68,0.4)] mt-3">
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-400 animate-pulse shadow-[0_0_12px_rgba(248,113,113,0.9)]" />
-          <span className="text-red-400 font-black tracking-wider">B.Tech CSE (AI &amp; ML)</span>
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/40 dark:border-red-500/50 bg-red-100/80 dark:bg-red-950/70 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-black backdrop-blur-md shadow-sm dark:shadow-[0_0_30px_rgba(239,68,68,0.4)] mt-3">
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 dark:bg-red-400 animate-pulse shadow-[0_0_12px_rgba(248,113,113,0.9)]" />
+          <span className="text-red-600 dark:text-red-400 font-black tracking-wider">B.Tech CSE (AI &amp; ML)</span>
         </div>
       </div>
     ),
@@ -161,42 +161,42 @@ const heroFxSections: FXSection[] = [
       <div className="flex flex-col items-center justify-center space-y-3.5 mt-2 px-3 sm:px-6 max-w-3xl mx-auto w-full">
         {/* Section Roadmap Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full text-left">
-          <a href="#projects" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+          <a href="#projects" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
             <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>01. Projects Directory</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               ResearchX AI (Multi-Agent Verification), LearnX (AI Knowledge Graphs), Resume Analyzer (NLP ATS Engine) &amp; TripCrafter Pro.
             </p>
           </a>
 
-          <a href="#skills" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+          <a href="#skills" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
             <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>02. Technical Toolkit</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               Python, Google Gemini API, NLTK/PyTorch, Next.js 16, React, TypeScript, PostgreSQL, Supabase &amp; Vercel.
             </p>
           </a>
 
-          <a href="#experience" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+          <a href="#experience" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
             <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>03. Work Experience</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               OWASP Student Chapter (Web Development &amp; Technical Coordinator), OWASP Top 10 security workshops &amp; AI system design.
             </p>
           </a>
 
-          <a href="#contact" className="p-3.5 sm:p-5 rounded-2xl bg-black/80 border border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-xl hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
+          <a href="#contact" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
             <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>04. Connect &amp; Resume</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
             </div>
-            <p className="text-[11px] sm:text-xs text-neutral-300 font-medium mt-1.5 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               Direct email (cvarun713@gmail.com), LinkedIn, GitHub developer profile &amp; downloadable PDF engineering resume.
             </p>
           </a>
@@ -215,7 +215,7 @@ const heroFxSections: FXSection[] = [
             href={profile.contact.resumeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-300 hover:text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-950/30"
+            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-600 dark:text-red-300 hover:text-red-700 dark:hover:text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-50 dark:bg-red-950/30"
           >
             Download Resume
           </a>
@@ -290,7 +290,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="block w-full select-none text-left"
     >
       <motion.div
-        className='w-full min-h-[480px] bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-4 gap-3 overflow-hidden border border-neutral-700/60 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.25)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]'
+        className='w-full min-h-[480px] bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.07),_0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-4 gap-3 overflow-hidden border border-slate-200 dark:border-neutral-700/60 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.18)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]'
         whileHover={{ y: -6, scale: 1.01 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -303,7 +303,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               {project.category}
             </span>
           </div>
-          <div className="flex items-center gap-1 text-xs text-neutral-400 group-hover:text-red-400 font-bold transition-colors">
+          <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-neutral-400 group-hover:text-red-500 dark:group-hover:text-red-400 font-bold transition-colors">
             <span>Explore</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
@@ -311,12 +311,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         {/* Title & Image */}
         <div className='flex flex-col gap-2.5 flex-1 mt-1'>
-          <h3 className="title text-xl font-bold tracking-tight text-white leading-tight flex items-center group-hover:text-red-300 transition-colors">
+          <h3 className="title text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight flex items-center group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors">
             {project.name}
           </h3>
 
           {/* Image with ambient background glow */}
-          <div className="image relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-900 shadow-md">
+          <div className="image relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-900 shadow-md">
             <div className="absolute inset-0 rounded-2xl opacity-30 z-0">
               <motion.div
                 animate={{ scale: isHovered ? 1.08 : 1 }}
@@ -350,22 +350,22 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           </div>
 
           {/* Brief tagline */}
-          <p className="desc text-xs text-neutral-400 font-light leading-relaxed line-clamp-2 mt-1">
+          <p className="desc text-xs text-slate-600 dark:text-neutral-400 font-light leading-relaxed line-clamp-2 mt-1">
             {project.description}
           </p>
 
           {/* Architecture Highlight Pill */}
           {project.architecture && project.architecture.length > 0 && (
-            <div className="flex items-center gap-1.5 text-[10px] font-mono text-neutral-300 bg-white/[0.03] border border-white/10 rounded-xl px-2.5 py-1.5 mt-0.5">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-700 dark:text-neutral-300 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-1.5 mt-0.5">
               <Cpu className="w-3.5 h-3.5 text-red-400 shrink-0" />
-              <span className="truncate text-neutral-300 font-medium">
+              <span className="truncate text-slate-700 dark:text-neutral-300 font-medium">
                 <strong className="text-red-400 font-bold">Arch:</strong> {project.architecture[0].title}
               </span>
             </div>
           )}
 
           {/* Tech stack capsules */}
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-neutral-800/60">
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-slate-200 dark:border-neutral-800/60">
             {stackItems.slice(0, 3).map((tech) => (
               <span
                 className="rounded-full bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 text-[9px] font-semibold text-red-300 backdrop-blur-sm"
@@ -375,7 +375,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </span>
             ))}
             {stackItems.length > 3 && (
-              <span className="rounded-full bg-neutral-900 border border-neutral-800 px-2 py-0.5 text-[9px] font-semibold text-neutral-500">
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 px-2 py-0.5 text-[9px] font-semibold text-slate-500 dark:text-neutral-500">
                 +{stackItems.length - 3} more
               </span>
             )}
@@ -524,7 +524,7 @@ export default function Home() {
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-[#040406] shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
+            <div className="relative z-20 bg-[#f6f6f8] dark:bg-[#040406] shadow-[0_30px_100px_rgba(15,23,42,0.08)] dark:shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -537,7 +537,7 @@ export default function Home() {
                       <span className="text-red-400 text-xs sm:text-sm font-mono tracking-widest font-bold block mb-1 opacity-90">
                         ✦ Engineering Horizon & Disciplines ✦
                       </span>
-                      <span className="text-neutral-400 text-xs tracking-wide font-sans font-medium">
+                      <span className="text-slate-500 dark:text-neutral-400 text-xs tracking-wide font-sans font-medium">
                         Scroll to explore technical capabilities
                       </span>
                     </div>
@@ -555,7 +555,7 @@ export default function Home() {
                 </div>
 
                 {/* Central Holographic Portal Badge */}
-                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-[#040406] border border-red-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
+                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-white/90 dark:bg-[#040406] border border-red-500/35 dark:border-red-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(239,68,68,0.18)] dark:shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.9)]" />
                   <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-red-400 font-extrabold">
                     ✦ ENTERING PRODUCTION DIRECTORY ✦
@@ -776,8 +776,8 @@ export default function Home() {
               </section>
 
               {/* ─── Smooth Transition Bridge into Footer ─── */}
-              <div className="relative z-20 w-full bg-gradient-to-b from-transparent via-neutral-950/80 to-black pt-12 border-t border-red-500/20">
-                <div className="flex items-center justify-center gap-4 text-xs font-mono tracking-[0.35em] uppercase text-red-400/60 pb-6">
+              <div className="relative z-20 w-full bg-gradient-to-b from-transparent via-slate-100/80 dark:via-neutral-950/80 to-[#f6f6f8] dark:to-black pt-12 border-t border-red-500/20">
+                <div className="flex items-center justify-center gap-4 text-xs font-mono tracking-[0.35em] uppercase text-red-600 dark:text-red-400/60 pb-6">
                   <div className="w-16 h-px bg-gradient-to-r from-transparent to-red-500/40" />
                   <span className="animate-pulse">✦ GET IN TOUCH & CONNECT ✦</span>
                   <div className="w-16 h-px bg-gradient-to-l from-transparent to-red-500/40" />

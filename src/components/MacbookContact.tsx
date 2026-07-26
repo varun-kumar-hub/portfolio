@@ -125,7 +125,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
       >
         {/* Ambient shadow underneath the laptop */}
         <div 
-          className="absolute bottom-1 w-[92%] h-[12%] bg-black/60 blur-2xl rounded-full transition-transform duration-700 pointer-events-none"
+          className="absolute bottom-1 w-[92%] h-[12%] bg-slate-500/25 dark:bg-black/60 blur-2xl rounded-full transition-transform duration-700 pointer-events-none"
           style={{
             transform: isOpen ? "scale(1.02, 0.9)" : "scale(0.95, 0.8)",
           }}
@@ -147,39 +147,40 @@ export default function MacbookContact({ className }: MacbookContactProps) {
             transformOrigin: "bottom center",
             transformStyle: "preserve-3d",
           }}
-          className="absolute bottom-[40%] w-[88%] h-[74%] bg-[#1d1d1f] rounded-[14px] border-b-[3px] border-[#0e0e0f] z-20 shadow-[0_-15px_30px_rgba(0,0,0,0.6)]"
+          className="absolute bottom-[40%] w-[88%] h-[74%] bg-gradient-to-br from-slate-100 via-slate-200 to-slate-300 dark:from-[#1d1d1f] dark:via-[#1d1d1f] dark:to-[#1d1d1f] rounded-[14px] border-b-[3px] border-slate-400/70 dark:border-[#0e0e0f] z-20 shadow-[0_-12px_30px_rgba(15,23,42,0.16),0_18px_45px_rgba(15,23,42,0.12)] dark:shadow-[0_-15px_30px_rgba(0,0,0,0.6)]"
         >
           {/* Back side of lid (Metallic Lid Top with Apple-style Logo) */}
           <div 
-            className="absolute inset-0 rounded-[14px] bg-[#1d1d1f] border border-white/5 flex flex-col items-center justify-center"
+            className="absolute inset-0 rounded-[14px] bg-gradient-to-br from-slate-50 via-slate-200 to-slate-300 dark:from-[#1d1d1f] dark:via-[#1d1d1f] dark:to-[#1d1d1f] border border-white/80 dark:border-white/5 flex flex-col items-center justify-center overflow-hidden"
             style={{
               transform: "rotateY(180deg)",
               backfaceVisibility: "hidden",
             }}
           >
-            <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+            <div className="absolute inset-x-4 top-2 h-px bg-white/90 dark:bg-white/10" />
+            <div className="w-8 h-8 rounded-full bg-white/60 dark:bg-white/5 border border-slate-300/70 dark:border-white/10 flex items-center justify-center shadow-inner">
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/60 blur-[1px]" />
             </div>
           </div>
 
           {/* Front side of screen (display bezel & window content) */}
           <div 
-            className="absolute inset-0 rounded-[14px] bg-black p-[6px] flex flex-col border border-[#2d2d30] pointer-events-auto z-30"
+            className="absolute inset-0 rounded-[14px] bg-slate-100 dark:bg-black p-[6px] flex flex-col border border-slate-300 dark:border-[#2d2d30] pointer-events-auto z-30 shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] dark:shadow-none"
             style={{
               backfaceVisibility: "hidden",
             }}
           >
             {/* Camera Dot */}
             <div className="w-full h-3 flex items-center justify-center shrink-0">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#0d0d0d] border border-white/5 flex items-center justify-center">
+              <div className="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-[#0d0d0d] border border-slate-400/50 dark:border-white/5 flex items-center justify-center">
                 <div className="w-0.5 h-0.5 rounded-full bg-red-500/80" />
               </div>
             </div>
 
             {/* Screen Inner Display Area */}
-            <div className="flex-1 w-full bg-[#0c0c0e] rounded-[8px] overflow-hidden border border-white/[0.05] relative flex flex-col text-left pointer-events-auto z-30">
+            <div className="flex-1 w-full bg-white dark:bg-[#0c0c0e] rounded-[8px] overflow-hidden border border-slate-200 dark:border-white/[0.05] relative flex flex-col text-left pointer-events-auto z-30 transition-colors shadow-[inset_0_0_0_1px_rgba(255,255,255,0.8)]">
               {/* macOS Style Window Titlebar */}
-              <div className="h-6 w-full bg-[#18181b] border-b border-white/[0.04] px-3 flex items-center justify-between shrink-0">
+              <div className="h-6 w-full bg-slate-100 dark:bg-[#18181b] border-b border-slate-200 dark:border-white/[0.04] px-3 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
@@ -195,7 +196,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                   <div className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]/80" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80" />
                 </div>
-                <span className="text-[9px] font-sans font-medium text-neutral-500 tracking-wider">
+                <span className="text-[9px] font-sans font-medium text-slate-600 dark:text-neutral-500 tracking-wider">
                   mail://varunkumar.dev
                 </span>
                 <button
@@ -204,7 +205,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                     e.stopPropagation();
                     setIsManuallyClosed(true);
                   }}
-                  className="flex items-center gap-1 text-[8px] font-mono font-bold text-neutral-400 hover:text-red-400 transition-colors cursor-pointer px-1.5 py-0.5 rounded bg-neutral-800/80 border border-white/10"
+                  className="flex items-center gap-1 text-[8px] font-mono font-bold text-slate-600 dark:text-neutral-400 hover:text-red-500 dark:hover:text-red-400 transition-colors cursor-pointer px-1.5 py-0.5 rounded bg-white dark:bg-neutral-800/80 border border-slate-200 dark:border-white/10 shadow-sm"
                 >
                   <X className="w-2.5 h-2.5" />
                   <span>Close</span>
@@ -216,7 +217,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                 <form onSubmit={handleSubmit} className="space-y-2 flex flex-col justify-between h-full relative z-30">
                   <div className="grid grid-cols-2 gap-2">
                     <div className="space-y-0.5">
-                      <label className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest block">
+                      <label className="text-[8px] font-bold text-slate-600 dark:text-neutral-500 uppercase tracking-widest block">
                         Name
                       </label>
                       <input
@@ -228,11 +229,11 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         placeholder="Your name"
-                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
+                        className="w-full bg-white dark:bg-neutral-900/60 border border-slate-200 dark:border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:ring-2 focus:ring-red-500/10 focus:bg-white dark:focus:bg-neutral-900 hover:border-slate-300 transition-all font-sans relative z-30 shadow-sm"
                       />
                     </div>
                     <div className="space-y-0.5">
-                      <label className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest block">
+                      <label className="text-[8px] font-bold text-slate-600 dark:text-neutral-500 uppercase tracking-widest block">
                         Email Address
                       </label>
                       <input
@@ -244,13 +245,13 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                         onFocus={handleFocus}
                         onBlur={handleBlur}
                         placeholder="your.email@example.com"
-                        className="w-full bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans relative z-30"
+                        className="w-full bg-white dark:bg-neutral-900/60 border border-slate-200 dark:border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:ring-2 focus:ring-red-500/10 focus:bg-white dark:focus:bg-neutral-900 hover:border-slate-300 transition-all font-sans relative z-30 shadow-sm"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-0.5 flex-1 flex flex-col">
-                    <label className="text-[8px] font-bold text-neutral-500 uppercase tracking-widest block">
+                    <label className="text-[8px] font-bold text-slate-600 dark:text-neutral-500 uppercase tracking-widest block">
                       Message
                     </label>
                     <textarea
@@ -261,7 +262,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                       onFocus={handleFocus}
                       onBlur={handleBlur}
                       placeholder="Type your message here..."
-                      className="w-full flex-1 min-h-[44px] bg-neutral-900/60 border border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-white placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:bg-neutral-900 transition-all font-sans resize-none relative z-30"
+                      className="w-full flex-1 min-h-[44px] bg-white dark:bg-neutral-900/60 border border-slate-200 dark:border-white/[0.06] rounded-md px-2 py-1 text-[10px] text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-600 focus:outline-none focus:border-red-500/50 focus:ring-2 focus:ring-red-500/10 focus:bg-white dark:focus:bg-neutral-900 hover:border-slate-300 transition-all font-sans resize-none relative z-30 shadow-sm"
                     />
                   </div>
 
@@ -310,14 +311,14 @@ export default function MacbookContact({ className }: MacbookContactProps) {
 
         {/* ─── MACBOOK BASE (Chassis) ─── */}
         <div 
-          className="absolute bottom-[1%] w-[94%] h-[48%] bg-[#1d1d1f] rounded-t-[4px] rounded-b-[24px] origin-bottom shadow-[0_25px_50px_rgba(0,0,0,0.8)] z-10 border-t border-[#3a3a3c] border-b border-black flex flex-col justify-between pointer-events-none"
+          className="absolute bottom-[1%] w-[94%] h-[48%] bg-gradient-to-br from-slate-100 via-slate-200 to-slate-400 dark:from-[#1d1d1f] dark:via-[#1d1d1f] dark:to-[#1d1d1f] rounded-t-[4px] rounded-b-[24px] origin-bottom shadow-[0_28px_55px_rgba(15,23,42,0.22),inset_0_1px_0_rgba(255,255,255,0.85)] dark:shadow-[0_25px_50px_rgba(0,0,0,0.8)] z-10 border-t border-white/80 dark:border-[#3a3a3c] border-b border-slate-500 dark:border-black flex flex-col justify-between pointer-events-none"
           style={{
             transform: "rotateX(62deg)",
             transformStyle: "preserve-3d",
           }}
         >
           {/* Keyboard Recess */}
-          <div className="w-[94%] h-[68%] mx-auto mt-2 rounded-[10px] bg-[#101011] p-1 shadow-[inset_0_4px_12px_rgba(0,0,0,0.9)] flex flex-col justify-between pointer-events-none">
+          <div className="w-[94%] h-[68%] mx-auto mt-2 rounded-[10px] bg-slate-300/80 dark:bg-[#101011] p-1 shadow-[inset_0_2px_8px_rgba(15,23,42,0.18)] dark:shadow-[inset_0_4px_12px_rgba(0,0,0,0.9)] flex flex-col justify-between pointer-events-none">
             {keyboardRows.map((row, rowIdx) => (
               <div key={rowIdx} className="flex w-full justify-between gap-[1.5px] pointer-events-none">
                 {row.map((key, keyIdx) => {
@@ -334,9 +335,9 @@ export default function MacbookContact({ className }: MacbookContactProps) {
                           : "none",
                       }}
                       className={`
-                        h-[12px] rounded-[1.5px] bg-[#18181b] border-t border-white/[0.04] text-[4px] font-sans flex items-center justify-center text-neutral-400 select-none pointer-events-none
+                        h-[12px] rounded-[1.5px] bg-slate-50 dark:bg-[#18181b] border-t border-white/70 dark:border-white/[0.04] text-[4px] font-sans flex items-center justify-center text-slate-500 dark:text-neutral-400 select-none pointer-events-none
                         ${isSpace ? "w-28" : ""}
-                        ${isOpen ? "shadow-[0_0_2px_rgba(255,255,255,0.25)] border-white/[0.08] text-neutral-300" : "text-neutral-600 border-none"}
+                        ${isOpen ? "shadow-[0_1px_2px_rgba(15,23,42,0.12)] dark:shadow-[0_0_2px_rgba(255,255,255,0.25)] border-white/80 dark:border-white/[0.08] text-slate-700 dark:text-neutral-300" : "text-slate-400 dark:text-neutral-600 border-none"}
                         transition-all duration-300
                       `}
                     >
@@ -349,14 +350,14 @@ export default function MacbookContact({ className }: MacbookContactProps) {
           </div>
 
           {/* Trackpad Container */}
-          <div className="w-[28%] h-[24%] mx-auto mb-1 rounded-t-[4px] rounded-b-[8px] border border-white/[0.04] bg-[#222224] shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center shrink-0 pointer-events-none">
-            <div className="w-full h-[1px] bg-white/[0.02]" />
+          <div className="w-[28%] h-[24%] mx-auto mb-1 rounded-t-[4px] rounded-b-[8px] border border-slate-400/40 dark:border-white/[0.04] bg-slate-300/80 dark:bg-[#222224] shadow-[inset_0_1px_4px_rgba(15,23,42,0.12)] dark:shadow-[inset_0_1px_4px_rgba(0,0,0,0.5)] flex flex-col items-center justify-center shrink-0 pointer-events-none">
+            <div className="w-full h-[1px] bg-white/40 dark:bg-white/[0.02]" />
           </div>
         </div>
 
         {/* ─── MACBOOK FRONT EDGE LIP ─── */}
         <div 
-          className="absolute bottom-[1%] w-[94%] h-[6px] bg-[#0c0c0e] rounded-b-[24px] border-t border-[#3a3a3c]/30 z-10 pointer-events-none"
+          className="absolute bottom-[1%] w-[94%] h-[6px] bg-slate-400 dark:bg-[#0c0c0e] rounded-b-[24px] border-t border-white/50 dark:border-[#3a3a3c]/30 z-10 pointer-events-none"
           style={{
             transform: "translateY(19.5px) translateZ(10px)",
           }}
@@ -365,7 +366,7 @@ export default function MacbookContact({ className }: MacbookContactProps) {
       
       {/* Help tooltip underneath */}
       <div className="text-center mt-2 h-4 pointer-events-none">
-        <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-neutral-500 font-semibold">
+        <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-slate-500 dark:text-neutral-500 font-semibold">
           {isOpen ? (isFocused ? "Typing Mode Active" : "Hovering Screen Open") : "Hover to open Macbook screen"}
         </span>
       </div>

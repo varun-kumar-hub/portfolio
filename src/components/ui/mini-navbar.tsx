@@ -3,16 +3,56 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Sparkles, X, ChevronDown } from 'lucide-react';
+import { FileText, Sparkles, X, ChevronDown, Sun, Moon, Monitor } from 'lucide-react';
 import { FontSwitcher } from '@/components/ui/font-switcher';
+import { useTheme } from '@/components/ThemeProvider';
 
 interface NavbarProps {
   onReturnToIntro: () => void;
 }
 
+const ThemeToggleControl = () => {
+  const { resolvedTheme, toggleTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <button
+      onClick={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        toggleTheme(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      }}
+      title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      aria-label="Toggle theme mode"
+      className="group relative flex items-center justify-center w-8 h-8 rounded-full border border-red-500/25 bg-white/85 dark:bg-black/70 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer overflow-hidden"
+    >
+      <motion.div
+        animate={{ rotate: isDark ? 0 : 180 }}
+        transition={{ type: "spring", stiffness: 350, damping: 22 }}
+        className="relative flex h-4 w-4 items-center justify-center"
+      >
+        <motion.span
+          animate={{ opacity: isDark ? 1 : 0, scale: isDark ? 1 : 0.45 }}
+          transition={{ type: "spring", stiffness: 350, damping: 22 }}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <Moon className="w-4 h-4 text-rose-300 group-hover:scale-110 transition-transform" />
+        </motion.span>
+        <motion.span
+          animate={{ opacity: isDark ? 0 : 1, scale: isDark ? 0.45 : 1 }}
+          transition={{ type: "spring", stiffness: 350, damping: 22 }}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <Sun className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />
+        </motion.span>
+      </motion.div>
+    </button>
+  );
+};
+
 const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { theme, setTheme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -28,7 +68,7 @@ const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) =>
     <div ref={dropdownRef} className="relative z-50 inline-block">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-500/25 bg-black/70 hover:bg-red-950/40 text-neutral-200 hover:text-white text-xs font-semibold backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer"
+        className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-500/25 bg-white/85 dark:bg-black/70 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white text-xs font-semibold backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer"
       >
         <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:rotate-12 transition-transform" />
         <span>Explore</span>
@@ -42,37 +82,77 @@ const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) =>
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-72 rounded-2xl bg-neutral-950/95 border border-red-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl p-3.5 z-[100] text-left space-y-3"
+            className="absolute right-0 mt-2 w-72 rounded-2xl bg-white/95 dark:bg-neutral-950/95 border border-red-500/25 dark:border-red-500/30 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.07),_0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl p-3.5 z-[100] text-left space-y-3"
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-2 border-b border-red-500/20">
-              <span className="text-xs font-mono font-bold text-red-300 uppercase tracking-wider">
+              <span className="text-xs font-mono font-bold text-red-600 dark:text-red-300 uppercase tracking-wider">
                 Navbar Options
               </span>
-              <span className="text-[10px] font-mono text-neutral-500">Quick Preferences</span>
+              <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-500">Quick Preferences</span>
             </div>
 
-            {/* Tool 1: Font Switcher */}
+            {/* Tool 1: Theme Selection */}
             <div className="space-y-1.5">
-              <span className="text-[11px] font-mono text-neutral-400 block uppercase tracking-wider px-1">
-                01. Typography Style
+              <span className="text-[11px] font-mono text-slate-500 dark:text-neutral-400 block uppercase tracking-wider px-1">
+                01. Theme Mode
+              </span>
+              <div className="grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-100/90 dark:bg-neutral-900/80 border border-slate-200 dark:border-white/10">
+                <button
+                  onClick={(e) => {
+                    setTheme("dark", e.clientX, e.clientY);
+                  }}
+                  className={`px-2 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                    theme === "dark" ? "bg-red-500/15 dark:bg-red-500/25 text-red-600 dark:text-red-300 border border-red-500/40 dark:border-red-500/50 shadow-sm" : "text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white"
+                  }`}
+                >
+                  <Moon className="w-3 h-3 text-rose-300" />
+                  <span>Dark</span>
+                </button>
+                <button
+                  onClick={(e) => {
+                    setTheme("light", e.clientX, e.clientY);
+                  }}
+                  className={`px-2 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                    theme === "light" ? "bg-red-500/15 dark:bg-red-500/25 text-red-600 dark:text-red-300 border border-red-500/40 dark:border-red-500/50 shadow-sm" : "text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white"
+                  }`}
+                >
+                  <Sun className="w-3 h-3 text-amber-400" />
+                  <span>Light</span>
+                </button>
+                <button
+                  onClick={(e) => setTheme("system", e.clientX, e.clientY)}
+                  className={`px-2 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                    theme === "system" ? "bg-red-500/15 dark:bg-red-500/25 text-red-600 dark:text-red-300 border border-red-500/40 dark:border-red-500/50 shadow-sm" : "text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white"
+                  }`}
+                >
+                  <Monitor className="w-3 h-3 text-indigo-300" />
+                  <span>Auto</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Tool 2: Font Switcher */}
+            <div className="space-y-1.5 pt-1.5 border-t border-white/10">
+              <span className="text-[11px] font-mono text-slate-500 dark:text-neutral-400 block uppercase tracking-wider px-1">
+                02. Typography Style
               </span>
               <div className="w-full">
                 <FontSwitcher />
               </div>
             </div>
 
-            {/* Tool 2: Return to Intro Portal */}
-            <div className="space-y-1.5 pt-1.5 border-t border-white/10">
-              <span className="text-[11px] font-mono text-neutral-400 block uppercase tracking-wider px-1">
-                02. Intro Navigation
+            {/* Tool 3: Return to Intro Portal */}
+            <div className="space-y-1.5 pt-1.5 border-t border-slate-200 dark:border-white/10">
+              <span className="text-[11px] font-mono text-slate-500 dark:text-neutral-400 block uppercase tracking-wider px-1">
+                03. Intro Navigation
               </span>
               <button
                 onClick={() => {
                   onReturnToIntro();
                   setIsOpen(false);
                 }}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl border border-red-500/25 bg-red-950/30 hover:bg-red-900/50 text-red-200 hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer group shadow-sm"
+                className="w-full flex items-center justify-between p-2.5 rounded-xl border border-red-500/25 bg-red-50 dark:bg-red-950/30 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-200 hover:text-red-700 dark:hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer group shadow-sm"
               >
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:scale-110 transition-transform" />
@@ -219,12 +299,12 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[999999] bg-[#040406]/95 backdrop-blur-2xl flex flex-col p-3 sm:p-6"
+            className="fixed inset-0 z-[999999] bg-[#f6f6f8]/95 dark:bg-[#040406]/95 backdrop-blur-2xl flex flex-col p-3 sm:p-6"
             onClick={() => setIsResumeModalOpen(false)}
           >
             {/* Modal Header Bar */}
             <div
-              className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-neutral-900/90 border border-white/15 backdrop-blur-md shadow-2xl shrink-0 cursor-default"
+              className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-white/90 dark:bg-neutral-900/90 border border-slate-200 dark:border-white/15 backdrop-blur-md shadow-2xl shrink-0 cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-3 select-none">
@@ -232,10 +312,10 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-white tracking-wide">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-wide">
                     Challa Varun Kumar — Resume PDF
                   </h3>
-                  <p className="text-xs text-neutral-400">AI Engineer &amp; Full-Stack Developer</p>
+                  <p className="text-xs text-slate-500 dark:text-neutral-400">AI Engineer &amp; Full-Stack Developer</p>
                 </div>
               </div>
 
@@ -259,7 +339,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
 
             {/* PDF Viewer Body */}
             <div
-              className="flex-1 w-full mt-4 rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-950 shadow-2xl"
+              className="flex-1 w-full mt-4 rounded-2xl overflow-hidden border border-slate-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <iframe
@@ -307,27 +387,31 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
               ))}
             </nav>
 
-            {/* Desktop action buttons with NavOptionsMenu & Resume */}
-            <div className="hidden sm:flex items-center gap-3 sm:gap-4">
+            {/* Desktop action buttons with ThemeToggleControl, NavOptionsMenu & Resume */}
+            <div className="hidden sm:flex items-center gap-2.5 sm:gap-3">
+              <ThemeToggleControl />
               <NavOptionsMenu onReturnToIntro={onReturnToIntro} />
               {resumeButtonElement}
             </div>
 
-            {/* Mobile hamburger / close */}
-            <button
-              className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
-              onClick={toggleMenu}
-              aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
-            >
-              <div className="relative w-5 h-5">
-                {/* Top line */}
-                <span className={`absolute left-0 h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'top-[9px] rotate-45' : 'top-[3px] rotate-0'}`} />
-                {/* Middle line */}
-                <span className={`absolute left-0 top-[9px] h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`} />
-                {/* Bottom line */}
-                <span className={`absolute left-0 h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'top-[9px] -rotate-45' : 'top-[15px] rotate-0'}`} />
-              </div>
-            </button>
+            {/* Mobile action button & hamburger */}
+            <div className="sm:hidden flex items-center gap-2">
+              <ThemeToggleControl />
+              <button
+                className="flex items-center justify-center w-9 h-9 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-white/5 transition-colors focus:outline-none cursor-pointer"
+                onClick={toggleMenu}
+                aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
+              >
+                <div className="relative w-5 h-5">
+                  {/* Top line */}
+                  <span className={`absolute left-0 h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'top-[9px] rotate-45' : 'top-[3px] rotate-0'}`} />
+                  {/* Middle line */}
+                  <span className={`absolute left-0 top-[9px] h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'}`} />
+                  {/* Bottom line */}
+                  <span className={`absolute left-0 h-[2px] w-5 bg-current rounded-full transition-all duration-300 ease-out ${isOpen ? 'top-[9px] -rotate-45' : 'top-[15px] rotate-0'}`} />
+                </div>
+              </button>
+            </div>
           </div>
         </header>
       </div>
@@ -340,22 +424,22 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="sm:hidden fixed inset-0 z-[9999] bg-[#060709]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto"
+            className="sm:hidden fixed inset-0 z-[9999] bg-[#f6f6f8]/95 dark:bg-[#060709]/95 backdrop-blur-2xl flex flex-col justify-between p-6 sm:p-8 overflow-y-auto"
           >
             {/* Subtle Top Red Ambient Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-80 h-80 bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             {/* Top Bar inside Menu */}
-            <div className="relative z-10 flex justify-between items-center w-full pb-5 border-b border-white/10">
+            <div className="relative z-10 flex justify-between items-center w-full pb-5 border-b border-slate-200 dark:border-white/10">
               <div className="flex items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse shadow-[0_0_8px_rgba(248,113,113,0.8)]" />
-                <span className="text-sm font-bold tracking-widest text-white uppercase font-heading">VARUN KUMAR</span>
+                <span className="text-sm font-bold tracking-widest text-slate-900 dark:text-white uppercase font-heading">VARUN KUMAR</span>
               </div>
 
               {/* Minimal Circular Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer shadow-lg"
+                className="w-10 h-10 rounded-full border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 hover:bg-red-50 dark:hover:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-white flex items-center justify-center transition-all duration-300 active:scale-95 cursor-pointer shadow-lg"
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
@@ -381,7 +465,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                         className={`inline-flex items-center gap-2.5 text-2xl sm:text-3xl font-extrabold tracking-tight font-heading transition-all duration-300 ${
                           isActive
                             ? "text-red-400 translate-x-1"
-                            : "text-gray-400 hover:text-white hover:translate-x-1"
+                            : "text-slate-500 dark:text-gray-400 hover:text-slate-950 dark:hover:text-white hover:translate-x-1"
                         }`}
                       >
                         <span>{link.label}</span>
@@ -396,7 +480,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             </div>
 
             {/* Bottom Actions & Status Footer */}
-            <div className="relative z-10 w-full pt-5 border-t border-white/10 flex flex-col gap-4">
+            <div className="relative z-10 w-full pt-5 border-t border-slate-200 dark:border-white/10 flex flex-col gap-4">
               {/* Action Buttons Row */}
               <div className="flex items-center justify-between gap-2.5">
                 <FontSwitcher />
@@ -406,7 +490,7 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
                       onReturnToIntro();
                       setIsOpen(false);
                     }}
-                    className="flex items-center justify-center gap-1.5 w-full px-3 py-2 text-xs font-bold border border-white/10 bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
+                    className="flex items-center justify-center gap-1.5 w-full px-3 py-2 text-xs font-bold border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/5 hover:bg-red-50 dark:hover:bg-white/10 text-slate-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-white rounded-full transition-all duration-300 cursor-pointer shadow-sm active:scale-95"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-red-400" />
                     Intro Portal

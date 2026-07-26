@@ -253,10 +253,10 @@ const GlassSculpture = React.memo(function GlassSculpture({ visualType }: { visu
           ease: "easeInOut",
           repeat: Infinity,
         }}
-        className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-3xl border border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex items-center justify-center group overflow-hidden [backface-visibility:hidden]"
+        className="relative z-10 w-32 h-32 sm:w-44 sm:h-44 lg:w-56 lg:h-56 rounded-3xl border border-slate-200 dark:border-white/15 bg-white/80 dark:bg-white/[0.03] backdrop-blur-2xl shadow-xl dark:shadow-[0_25px_70px_rgba(0,0,0,0.85)] flex items-center justify-center group overflow-hidden [backface-visibility:hidden]"
       >
         {/* Glass Reflection Highlight Lines */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/15 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-200/40 dark:from-white/15 via-transparent to-transparent pointer-events-none" />
         <div className="absolute -top-12 -left-12 w-28 h-28 sm:w-36 sm:h-36 bg-red-500/20 rounded-full blur-xl pointer-events-none" />
 
         {/* Dynamic Icon Core Based on Visual Type */}
@@ -267,44 +267,44 @@ const GlassSculpture = React.memo(function GlassSculpture({ visualType }: { visu
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.7, rotate: 20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative z-20 flex items-center justify-center text-red-400"
+            className="relative z-20 flex items-center justify-center text-red-500 dark:text-red-400"
           >
             {visualType === "shield" && (
               <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                <Shield className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.6)]" />
-                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">SECURE CORE</span>
+                <Shield className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-500 dark:text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.4)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 tracking-widest uppercase font-semibold">SECURE CORE</span>
               </div>
             )}
             {visualType === "speed" && (
               <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                <Zap className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.6)]" />
-                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">EDTECH AI</span>
+                <Zap className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-red-500 dark:text-red-400 drop-shadow-[0_0_24px_rgba(239,68,68,0.4)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 tracking-widest uppercase font-semibold">EDTECH AI</span>
               </div>
             )}
             {visualType === "ai" && (
               <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                <Cpu className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-purple-400 drop-shadow-[0_0_24px_rgba(168,85,247,0.6)]" />
-                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">RESEARCH AI</span>
+                <Cpu className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-purple-600 dark:text-purple-400 drop-shadow-[0_0_24px_rgba(168,85,247,0.4)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 tracking-widest uppercase font-semibold">RESEARCH AI</span>
               </div>
             )}
             {visualType === "data" && (
               <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                <Database className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-emerald-400 drop-shadow-[0_0_24px_rgba(16,185,129,0.6)]" />
-                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">NLP RESUME</span>
+                <Database className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-emerald-600 dark:text-emerald-400 drop-shadow-[0_0_24px_rgba(16,185,129,0.4)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 tracking-widest uppercase font-semibold">NLP RESUME</span>
               </div>
             )}
             {visualType === "cloud" && (
               <div className="flex flex-col items-center gap-1.5 sm:gap-2.5">
-                <Cloud className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-amber-400 drop-shadow-[0_0_24px_rgba(245,158,11,0.6)]" />
-                <span className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-widest uppercase font-semibold">CLOUD STACK</span>
+                <Cloud className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 stroke-[1.25] text-amber-600 dark:text-amber-400 drop-shadow-[0_0_24px_rgba(245,158,11,0.4)]" />
+                <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 tracking-widest uppercase font-semibold">CLOUD STACK</span>
               </div>
             )}
           </motion.div>
         </AnimatePresence>
 
         {/* Ambient Corner Accents */}
-        <div className="absolute top-3 left-3 w-2.5 h-2.5 border-t border-l border-white/30" />
-        <div className="absolute bottom-3 right-3 w-2.5 h-2.5 border-b border-r border-white/30" />
+        <div className="absolute top-3 left-3 w-2.5 h-2.5 border-t border-l border-slate-300 dark:border-white/30" />
+        <div className="absolute bottom-3 right-3 w-2.5 h-2.5 border-b border-r border-slate-300 dark:border-white/30" />
       </motion.div>
     </div>
   );
@@ -555,7 +555,7 @@ export default function ExperienceBento() {
 
       if (wrapperRef.current && !exitCooldownRef.current) {
         const rect = wrapperRef.current.getBoundingClientRect();
-        const isAligned = Math.abs(rect.top) < 60;
+        const isAligned = Math.abs(rect.top) < 100;
 
         if (isVelocitySafe && isInputQuiet && isAligned) {
           const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
@@ -588,8 +588,8 @@ export default function ExperienceBento() {
     if (typeof window === "undefined") return;
 
     const handleWheel = (e: WheelEvent) => {
-      // ONLY intercept wheel scroll events if section is strictly PINNED & pointer is inside
-      if (scrollStateRef.current !== "PINNED" || !isPointerInsideRef.current) return;
+      // ONLY intercept wheel scroll events if section is strictly PINNED
+      if (scrollStateRef.current !== "PINNED") return;
       e.preventDefault();
 
       const now = Date.now();
@@ -662,7 +662,7 @@ export default function ExperienceBento() {
   /* ── Keyboard Accessibility Engine (Scoped to PINNED State) ── */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (scrollStateRef.current !== "PINNED" || isAnimatingRef.current || !isPointerInsideRef.current) return;
+      if (scrollStateRef.current !== "PINNED" || isAnimatingRef.current) return;
       if (e.key === "ArrowDown" || e.key === "PageDown" || (e.key === " " && !e.shiftKey)) {
         e.preventDefault();
         if (activeIndexRef.current < total - 1) goToIndex(activeIndexRef.current + 1, 1);
@@ -689,7 +689,7 @@ export default function ExperienceBento() {
       className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center"
     >
       <div className="w-full h-full [perspective:1200px] z-10 flex flex-col justify-center">
-        <motion.div className="relative h-full max-h-screen w-full bg-[#040406] text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
+        <motion.div className="relative h-full max-h-screen w-full bg-white dark:bg-[#040406] text-slate-900 dark:text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 hover:border-red-500/30 transition-colors duration-500 shadow-xl dark:shadow-[0_30px_100px_rgba(0,0,0,0.9)] origin-center">
           {/* Ambient Radial Background Aura */}
           <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />
@@ -735,8 +735,8 @@ export default function ExperienceBento() {
                     className={cn(
                       "px-3 py-1 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all duration-300 shrink-0 cursor-pointer",
                       isActive
-                        ? "bg-red-500/20 border border-red-500/50 text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
-                        : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white"
+                        ? "bg-red-500/20 border border-red-500/50 text-red-600 dark:text-red-300 shadow-[0_0_12px_rgba(239,68,68,0.3)]"
+                        : "bg-white/80 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white"
                     )}
                   >
                     {milestone.number}. {milestone.title.split(" ")[0]}
@@ -750,19 +750,19 @@ export default function ExperienceBento() {
           <div className="relative z-10 max-w-[90rem] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center flex-1 py-2 sm:py-4">
             
             {/* ── LEFT COLUMN: Vertical Navigation Timeline (Desktop Only 3 Cols) ── */}
-            <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-4 text-left border-r border-white/10 pr-8">
+            <div className="hidden lg:flex lg:col-span-3 flex-col justify-center space-y-4 text-left border-r border-slate-200 dark:border-white/10 pr-8">
               <div className="space-y-1">
-                <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-400/90 font-bold block">
+                <span className="text-xs font-mono uppercase tracking-[0.25em] text-red-600 dark:text-red-400/90 font-bold block">
                   ✦ Engineering Journey ✦
                 </span>
-                <p className="text-xs text-neutral-400 font-light">
+                <p className="text-xs text-slate-500 dark:text-neutral-400 font-light">
                   Scroll or hover to explore tracks
                 </p>
               </div>
 
               {/* Timeline Nodes */}
               <div className="relative space-y-3.5">
-                <div className="absolute left-[17px] top-3 bottom-3 w-px bg-white/10" />
+                <div className="absolute left-[17px] top-3 bottom-3 w-px bg-slate-200 dark:bg-white/10" />
 
                 {milestones.map((milestone, idx) => {
                   const isActive = idx === activeIndex;
@@ -774,7 +774,7 @@ export default function ExperienceBento() {
                       onFocus={() => goToIndex(idx)}
                       className={cn(
                         "group relative flex items-center gap-3.5 w-full text-left transition-all duration-500 py-1.5 focus:outline-none cursor-pointer",
-                        isActive ? "opacity-100" : "opacity-40 hover:opacity-80"
+                        isActive ? "opacity-100" : "opacity-50 hover:opacity-90"
                       )}
                     >
                       <div className="relative z-10 flex h-8 w-8 items-center justify-center shrink-0">
@@ -782,8 +782,8 @@ export default function ExperienceBento() {
                           className={cn(
                             "h-3.5 w-3.5 rounded-full transition-all duration-500",
                             isActive
-                              ? "bg-red-400 shadow-[0_0_20px_rgba(239,68,68,0.9)] scale-125"
-                              : "bg-neutral-600 group-hover:bg-neutral-400"
+                              ? "bg-red-500 dark:bg-red-400 shadow-[0_0_20px_rgba(239,68,68,0.9)] scale-125"
+                              : "bg-slate-300 dark:bg-neutral-600 group-hover:bg-slate-400 dark:group-hover:bg-neutral-400"
                           )}
                         />
                         {isActive && (
@@ -792,13 +792,13 @@ export default function ExperienceBento() {
                       </div>
 
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-[11px] font-mono text-red-400/90 font-bold uppercase tracking-wider">
+                        <span className="text-[11px] font-mono text-red-600 dark:text-red-400/90 font-bold uppercase tracking-wider">
                           {milestone.number} • {milestone.category}
                         </span>
                         <span
                           className={cn(
                             "text-xs sm:text-sm font-semibold tracking-tight transition-colors duration-300 line-clamp-1",
-                            isActive ? "text-white font-extrabold" : "text-neutral-300"
+                            isActive ? "text-slate-900 dark:text-white font-extrabold" : "text-slate-600 dark:text-neutral-300"
                           )}
                         >
                           {milestone.title}
@@ -815,7 +815,7 @@ export default function ExperienceBento() {
                   onClick={handlePrev}
                   disabled={activeIndex === 0}
                   aria-label="Previous Milestone"
-                  className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 text-slate-700 dark:text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronUp className="w-4 h-4" />
                 </button>
@@ -823,11 +823,11 @@ export default function ExperienceBento() {
                   onClick={handleNext}
                   disabled={activeIndex === total - 1}
                   aria-label="Next Milestone"
-                  className="p-2 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.08] hover:border-white/20 text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="p-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 text-slate-700 dark:text-neutral-300 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   <ChevronDown className="w-4 h-4" />
                 </button>
-                <span className="text-xs font-mono text-neutral-400 font-semibold">
+                <span className="text-xs font-mono text-slate-600 dark:text-neutral-400 font-semibold">
                   {activeIndex + 1} / {total}
                 </span>
               </div>
@@ -853,24 +853,24 @@ export default function ExperienceBento() {
                   {/* Header Meta */}
                   <div className="space-y-2">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-red-500/90 tracking-tighter">
+                      <span className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-mono text-red-600 dark:text-red-500/90 tracking-tighter">
                         {activeMilestone.number}
                       </span>
-                      <div className="h-7 sm:h-9 w-px bg-white/10" />
+                      <div className="h-7 sm:h-9 w-px bg-slate-200 dark:bg-white/10" />
                       <div>
-                        <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-red-400 font-bold block">
+                        <span className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-red-600 dark:text-red-400 font-bold block">
                           {activeMilestone.category}
                         </span>
-                        <span className="text-xs text-neutral-400 font-mono">
+                        <span className="text-xs text-slate-500 dark:text-neutral-400 font-mono">
                           {activeMilestone.timeline}
                         </span>
                       </div>
                     </div>
 
-                    <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight pt-0.5">
+                    <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight pt-0.5">
                       {activeMilestone.title}
                     </h3>
-                    <p className="text-xs sm:text-sm lg:text-base font-semibold text-neutral-300 tracking-wide">
+                    <p className="text-xs sm:text-sm lg:text-base font-semibold text-slate-700 dark:text-neutral-300 tracking-wide">
                       {activeMilestone.subtitle}
                     </p>
                   </div>
@@ -881,18 +881,18 @@ export default function ExperienceBento() {
                   </div>
 
                   {/* Brief Concise Story Description */}
-                  <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed max-w-2xl">
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-neutral-300 font-light leading-relaxed max-w-2xl">
                     {activeMilestone.description}
                   </p>
 
                   {/* Minimalist Qualitative Metrics */}
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-white/10 py-3 sm:py-4 my-1">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 border-y border-slate-200 dark:border-white/10 py-3 sm:py-4 my-1">
                     {activeMilestone.metrics.map((metric, mIdx) => (
                       <div key={mIdx} className="space-y-0.5 text-left">
-                        <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold font-mono text-white tracking-tight">
+                        <span className="block text-lg sm:text-2xl lg:text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">
                           {metric.value}
                         </span>
-                        <span className="block text-[11px] sm:text-xs text-neutral-400 font-medium leading-snug">
+                        <span className="block text-[11px] sm:text-xs text-slate-500 dark:text-neutral-400 font-medium leading-snug">
                           {metric.label}
                         </span>
                       </div>
@@ -905,7 +905,7 @@ export default function ExperienceBento() {
                       {activeMilestone.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full bg-white/[0.04] border border-white/10 px-2.5 sm:px-3 py-0.5 sm:py-1 text-xs font-mono text-neutral-300"
+                          className="rounded-full bg-white/80 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 px-2.5 sm:px-3 py-0.5 sm:py-1 text-xs font-mono text-slate-700 dark:text-neutral-300 shadow-sm"
                         >
                           {skill}
                         </span>
@@ -916,10 +916,10 @@ export default function ExperienceBento() {
                       <div className="pt-1">
                         <Link
                           href={activeMilestone.link}
-                          className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-300 hover:text-white text-xs font-bold font-mono transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.18)] group"
+                          className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border border-red-500/40 dark:border-red-500/30 bg-red-500/10 hover:bg-red-500/25 text-red-600 dark:text-red-300 hover:text-red-700 dark:hover:text-white text-xs font-bold font-mono transition-all duration-300 shadow-sm dark:shadow-[0_0_20px_rgba(239,68,68,0.18)] group"
                         >
                           <span>{activeMilestone.linkText || "Explore Project Case Study"}</span>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                          <ArrowUpRight className="w-3.5 h-3.5 text-red-500 dark:text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </Link>
                       </div>
                     )}
@@ -937,17 +937,17 @@ export default function ExperienceBento() {
 
           {/* ── BOTTOM QUOTE: Full-Width Glass Strip ── */}
           <div className="relative z-10 max-w-[90rem] mx-auto w-full pt-2 sm:pt-3">
-            <div className="w-full rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur-md px-5 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center sm:text-left">
+            <div className="w-full rounded-xl border border-slate-200 dark:border-white/10 bg-white/80 dark:bg-white/[0.02] backdrop-blur-md px-5 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center sm:text-left shadow-sm">
               <div className="flex items-center gap-2.5">
-                <Sparkles className="w-4 h-4 text-red-400 shrink-0" />
-                <p className="text-xs sm:text-sm text-neutral-300 font-light tracking-wide italic">
+                <Sparkles className="w-4 h-4 text-red-500 dark:text-red-400 shrink-0" />
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-neutral-300 font-light tracking-wide italic">
                   &ldquo;Every experience became a lesson. Every lesson became better engineering.&rdquo;
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-neutral-400 shrink-0">
+              <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-slate-500 dark:text-neutral-400 shrink-0">
                 <span>VARUN KUMAR</span>
                 <span>•</span>
-                <span className="text-red-400 font-semibold">AI &amp; FULL-STACK</span>
+                <span className="text-red-500 dark:text-red-400 font-semibold">AI &amp; FULL-STACK</span>
               </div>
             </div>
           </div>

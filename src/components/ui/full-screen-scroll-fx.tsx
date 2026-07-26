@@ -578,7 +578,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
               {/* Dynamic Animated Ambient Canvas */}
               <AmbientCanvas activeIndex={index} />
 
-              {/* Dark Ambient Gradient Backgrounds */}
+              {/* Theme-adaptive Ambient Gradient Backgrounds */}
               <div className="fx-bgs" aria-hidden="true">
                 {sections.map((s, i) => (
                   <div
@@ -588,21 +588,22 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                     {s.renderBackground ? (
                       s.renderBackground(index === i, false)
                     ) : (
-                      <div className="relative w-full h-full bg-[#040406] overflow-hidden">
-                        {/* Dynamic Subtle Dark Radial Aura */}
+                      <div className="fx-scene-bg relative w-full h-full overflow-hidden">
+                        {/* Dynamic Subtle Radial Aura */}
                         <div
-                          className="absolute inset-0 transition-all duration-700"
+                          className="absolute inset-0 transition-all duration-700 dark:block hidden"
                           style={{
                             background: s.bgGradient || "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 60%, #040406 100%)",
                           }}
                         />
+                        <div className="fx-light-scene-gradient absolute inset-0 transition-all duration-700" />
 
                         {/* Subtle Grid Overlay */}
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none opacity-40" />
+                        <div className="fx-scene-grid absolute inset-0 pointer-events-none" />
 
                         {/* Subtle Soft Ambient Core */}
                         <div
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full blur-[140px] pointer-events-none opacity-[0.08]"
+                          className="fx-scene-core absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full blur-[140px] pointer-events-none"
                           style={{ backgroundColor: s.glowColor || "#ef4444" }}
                         />
                       </div>
@@ -650,7 +651,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                             {isString ? splitWords(s.title as string) : s.title}
                           </h2>
                           {s.subtitle && (
-                            <p className="text-xs sm:text-sm text-red-200/80 font-medium tracking-wide mt-2 max-w-xl mx-auto drop-shadow-md">
+                            <p className="fx-featured-subtitle text-xs sm:text-sm font-semibold tracking-wide mt-2 max-w-xl mx-auto">
                               {s.subtitle}
                             </p>
                           )}
@@ -730,6 +731,42 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
 
           .fx-fixed-section { height: 220vh; position: relative; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
+          .fx-scene-bg { background: #040406; }
+          :global(.light) .fx-scene-bg {
+            background:
+              radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.86) 0%, rgba(246, 246, 248, 0.72) 38%, rgba(246, 246, 248, 0.96) 74%),
+              linear-gradient(180deg, #f8fafc 0%, #f6f6f8 48%, #eef2f7 100%);
+          }
+          .fx-light-scene-gradient { display: none; }
+          :global(.light) .fx-light-scene-gradient {
+            display: block;
+            background:
+              radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.16) 0%, rgba(239, 68, 68, 0.065) 28%, transparent 58%),
+              radial-gradient(circle at 20% 22%, rgba(15, 23, 42, 0.07) 0%, transparent 34%),
+              radial-gradient(circle at 80% 72%, rgba(220, 38, 38, 0.09) 0%, transparent 38%),
+              radial-gradient(circle at center, transparent 0%, rgba(246, 246, 248, 0.24) 58%, rgba(226, 232, 240, 0.8) 100%);
+          }
+          .fx-scene-grid {
+            background-image:
+              linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.4;
+          }
+          :global(.light) .fx-scene-grid {
+            background-image:
+              linear-gradient(rgba(15,23,42,0.045) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(15,23,42,0.045) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.42;
+            mask-image: radial-gradient(circle at center, black 0%, black 58%, transparent 88%);
+            -webkit-mask-image: radial-gradient(circle at center, black 0%, black 58%, transparent 88%);
+          }
+          .fx-scene-core { opacity: 0.08; }
+          :global(.light) .fx-scene-core {
+            opacity: 0.16;
+            filter: saturate(0.8);
+          }
 
           @media (max-width: 900px) {
             .fx-fixed-section { height: 160vh; }
@@ -757,6 +794,9 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: linear-gradient(to bottom, transparent 0%, rgba(4, 4, 6, 0.75) 50%, #040406 100%);
             pointer-events: none;
             z-index: 25;
+          }
+          :global(.light) .fx-fixed::after {
+            background: linear-gradient(to bottom, transparent 0%, rgba(246, 246, 248, 0.75) 50%, #f6f6f8 100%);
           }
 
           .fx-grid {
@@ -805,7 +845,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             letter-spacing: 0.08em;
             line-height: 1.3;
             margin: calc(var(--fx-row-gap) / 2) 0;
-            opacity: 0.25;
+            opacity: 0.35;
             transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
             position: relative;
             font-size: clamp(0.7rem, 1.1vw, 0.95rem);
@@ -813,7 +853,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             cursor: pointer;
             white-space: nowrap;
           }
+          :global(.light) .fx-item {
+            color: #475569;
+          }
           .fx-left-item.active, .fx-right-item.active { opacity: 1; color: #ffffff; }
+          :global(.light) .fx-left-item.active, :global(.light) .fx-right-item.active { opacity: 1; color: #0f172a; }
           .fx-left-item.active { transform: translateX(8px); padding-left: 14px; }
           .fx-right-item.active { transform: translateX(-8px); padding-right: 14px; }
 
@@ -848,6 +892,20 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 4px 20px rgba(239, 68, 68, 0.45));
           }
+          :global(.light) .fx-featured-title {
+            background: linear-gradient(180deg, #fb7185 0%, #ef4444 42%, #b91c1c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 12px 28px rgba(220, 38, 38, 0.14));
+          }
+          .fx-featured-subtitle {
+            color: rgba(254, 202, 202, 0.88);
+            text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+          }
+          :global(.light) .fx-featured-subtitle {
+            color: #334155;
+            text-shadow: none;
+          }
           .fx-word-mask { display: inline-block; overflow: hidden; vertical-align: middle; }
           .fx-word { display: inline-block; vertical-align: middle; will-change: transform, opacity; }
 
@@ -855,7 +913,8 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             grid-column: 1 / 13; align-self: end; padding-bottom: 3.5vh; text-align: center; z-index: 20;
           }
           .fx-footer-title { color: var(--fx-text); font-size: clamp(1.2rem, 3.5vw, 3.5rem); font-weight: 800; letter-spacing: -0.01em; line-height: 0.9; }
-          .fx-progress { width: 180px; height: 2px; margin: 0.8rem auto 0; background: rgba(255,255,255,0.12); position: relative; border-radius: 999px; }
+          .fx-progress { width: 180px; height: 2px; margin: 0.8rem auto 0; background: rgba(0,0,0,0.1); position: relative; border-radius: 999px; }
+          :global(.dark) .fx-progress { background: rgba(255,255,255,0.12); }
           .fx-progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: linear-gradient(90deg, #ef4444, #f43f5e); height: 100%; transition: width 0.3s ease; border-radius: 999px; }
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
         `}</style>

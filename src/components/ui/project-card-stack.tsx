@@ -172,7 +172,7 @@ export function ProjectCardStack({
   };
 
   return (
-    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-neutral-950 border border-neutral-800/80 shadow-[0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
+    <div className="relative w-full aspect-[16/9] min-h-[380px] sm:min-h-[460px] md:min-h-[520px] rounded-2xl bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-800/80 shadow-xl dark:shadow-[0_0_50px_rgba(0,0,0,0.9)] flex items-center justify-center p-4 sm:p-8 overflow-hidden group select-none">
       {/* Background Animated Subtle Grid */}
       <div className="absolute inset-0 opacity-15 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:24px_24px]" />
@@ -183,22 +183,22 @@ export function ProjectCardStack({
         <div className="flex items-center gap-2">
           <motion.button
             onClick={resetCards}
-            className="p-2.5 rounded-full bg-neutral-900/80 border border-neutral-700/80 hover:bg-neutral-800 hover:border-red-500/50 text-neutral-300 hover:text-white backdrop-blur-md transition-colors cursor-pointer shadow-md"
+            className="p-2.5 rounded-full bg-white dark:bg-neutral-900/80 border border-slate-300 dark:border-neutral-700/80 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:border-red-500/50 text-slate-800 dark:text-neutral-300 hover:text-red-600 dark:hover:text-white backdrop-blur-md transition-colors cursor-pointer shadow-md"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             title="Reset Stack"
           >
-            <RotateCcw className="w-4 h-4 text-red-400" />
+            <RotateCcw className="w-4 h-4 text-red-500 dark:text-red-400" />
           </motion.button>
 
           <motion.button
             onClick={shuffleCards}
-            className="p-2.5 rounded-full bg-neutral-900/80 border border-neutral-700/80 hover:bg-neutral-800 hover:border-red-500/50 text-neutral-300 hover:text-white backdrop-blur-md transition-colors cursor-pointer shadow-md"
+            className="p-2.5 rounded-full bg-white dark:bg-neutral-900/80 border border-slate-300 dark:border-neutral-700/80 hover:bg-slate-50 dark:hover:bg-neutral-800 hover:border-red-500/50 text-slate-800 dark:text-neutral-300 hover:text-red-600 dark:hover:text-white backdrop-blur-md transition-colors cursor-pointer shadow-md"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             title="Shuffle Stack"
           >
-            <Shuffle className="w-4 h-4 text-red-400" />
+            <Shuffle className="w-4 h-4 text-red-500 dark:text-red-400" />
           </motion.button>
 
           <motion.button
@@ -214,8 +214,8 @@ export function ProjectCardStack({
         </div>
 
         {/* Counter Badge */}
-        <div className="px-3.5 py-1.5 rounded-full bg-black/80 border border-red-500/30 text-xs font-mono font-bold text-red-300 backdrop-blur-md shadow-lg flex items-center gap-1.5">
-          <Sparkles className="w-3.5 h-3.5 text-red-400 animate-pulse" />
+        <div className="px-3.5 py-1.5 rounded-full bg-white dark:bg-black/80 border border-slate-300 dark:border-red-500/30 text-xs font-mono font-bold text-slate-800 dark:text-red-300 backdrop-blur-md shadow-lg flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-red-500 dark:text-red-400 animate-pulse" />
           <span>
             {currentIndex + 1} / {initialCards.length}
           </span>
@@ -227,11 +227,11 @@ export function ProjectCardStack({
         <motion.button
           onClick={moveToStart}
           aria-label="Previous Slide"
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/80 border border-red-500/30 hover:border-red-400 text-white hover:bg-red-950/60 backdrop-blur-md transition-all z-30 cursor-pointer shadow-2xl"
+          className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white dark:bg-black/80 border border-slate-300 dark:border-red-500/30 hover:border-red-400 text-slate-800 dark:text-white hover:bg-red-50 dark:hover:bg-red-950/60 backdrop-blur-md transition-all z-30 cursor-pointer shadow-xl"
           whileHover={{ scale: 1.1, x: -3 }}
           whileTap={{ scale: 0.9 }}
         >
-          <ChevronLeft className="w-5 h-5 text-red-400" />
+          <ChevronLeft className="w-5 h-5 text-red-500 dark:text-red-400" />
         </motion.button>
       )}
 
@@ -240,11 +240,11 @@ export function ProjectCardStack({
         <motion.button
           onClick={moveToEnd}
           aria-label="Next Slide"
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/80 border border-red-500/30 hover:border-red-400 text-white hover:bg-red-950/60 backdrop-blur-md transition-all z-30 cursor-pointer shadow-2xl"
+          className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white dark:bg-black/80 border border-slate-300 dark:border-red-500/30 hover:border-red-400 text-slate-800 dark:text-white hover:bg-red-50 dark:hover:bg-red-950/60 backdrop-blur-md transition-all z-30 cursor-pointer shadow-xl"
           whileHover={{ scale: 1.1, x: 3 }}
           whileTap={{ scale: 0.9 }}
         >
-          <ChevronRight className="w-5 h-5 text-red-400" />
+          <ChevronRight className="w-5 h-5 text-red-500 dark:text-red-400" />
         </motion.button>
       )}
 
@@ -265,7 +265,7 @@ export function ProjectCardStack({
                       setLightboxIndex(currentIndex);
                     }
                   }}
-                  className="absolute inset-0 list-none overflow-hidden border-2 border-neutral-700/80 hover:border-red-500/50 transition-colors shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+                  className="absolute inset-0 list-none overflow-hidden border-2 border-slate-200 dark:border-neutral-700/80 hover:border-red-500/50 bg-white dark:bg-neutral-900 transition-colors shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
                   style={{
                     borderRadius: `${borderRadius}px`,
                     cursor: isFront ? "pointer" : "auto",

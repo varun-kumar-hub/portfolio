@@ -154,19 +154,19 @@ export default function ProjectDetailsPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#040406] text-white selection:bg-red-500/30 selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
+    <div className="relative min-h-screen bg-[#f6f6f8] dark:bg-[#040406] text-slate-900 dark:text-white selection:bg-red-500/30 selection:text-red-200 overflow-x-hidden lg:pl-52 xl:pl-56">
       <SpaceBackground />
 
       {/* ═════════════════════════════════════════════════════════════ */}
       {/* ─── FULL-HEIGHT FIXED SIDEBAR ───                            */}
       {/* ═════════════════════════════════════════════════════════════ */}
-      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-white/[0.04] bg-[#040406]/80 backdrop-blur-2xl">
+      <aside className="hidden lg:flex fixed left-0 top-0 bottom-0 z-40 w-52 xl:w-56 flex-col items-center border-r border-slate-200 dark:border-white/[0.04] bg-white/80 dark:bg-[#040406]/80 backdrop-blur-2xl">
         {/* Back Button — top */}
         <div className="pt-6 pb-8 px-4 w-full">
           <Link
             href="/?entered=true#projects"
             scroll={false}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.03] border border-neutral-800/60 text-xs font-bold text-neutral-400 hover:text-white hover:border-neutral-600 transition-all duration-300 group w-full justify-center"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-300 dark:border-neutral-800/60 text-xs font-bold text-slate-700 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-neutral-600 transition-all duration-300 group w-full justify-center"
           >
             <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform duration-300" />
             Back
