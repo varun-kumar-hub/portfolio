@@ -378,24 +378,17 @@ export default function ExperienceBento() {
     scrollStateRef.current = scrollState;
   }, [scrollState]);
 
-  /* ── Sync Deep Link / Query Param on Mount ── */
+  /* ── Ensure Reset to Milestone 01 (OWASP) & Clear Stale URL Query Params ── */
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    const expParam = params.get("experience");
-    if (expParam !== null) {
-      const parsed = parseInt(expParam, 10);
-      if (!isNaN(parsed) && parsed >= 0 && parsed < total) {
-        setActiveIndex(parsed);
-      }
+    if (params.has("experience")) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("experience");
+      window.history.replaceState(null, "", url.pathname + (url.hash || ""));
     }
-  }, [total]);
-
-  const updateUrlState = useCallback((idx: number) => {
-    if (typeof window === "undefined") return;
-    const url = new URL(window.location.href);
-    url.searchParams.set("experience", idx.toString());
-    window.history.replaceState(null, "", url.toString());
+    setActiveIndex(0);
+    activeIndexRef.current = 0;
   }, []);
 
   /* ── Step Transition Core Function ── */
@@ -409,9 +402,7 @@ export default function ExperienceBento() {
     activeIndexRef.current = targetIndex;
     setIsAnimating(true);
     isAnimatingRef.current = true;
-
-    updateUrlState(targetIndex);
-  }, [total, updateUrlState]);
+  }, [total]);
 
   const handleNext = useCallback(() => {
     if (activeIndexRef.current < total - 1) {
@@ -566,13 +557,9 @@ export default function ExperienceBento() {
           window.scrollTo(0, Math.round(targetY));
           lockPageScroll();
 
-          if (entryDirectionRef.current === "DOWN") {
-            setActiveIndex(0);
-            activeIndexRef.current = 0;
-          } else {
-            setActiveIndex(total - 1);
-            activeIndexRef.current = total - 1;
-          }
+          // Always reset to Experience 01 (OWASP Student Chapter - Index 0) on fresh section entry
+          setActiveIndex(0);
+          activeIndexRef.current = 0;
         }
       }
 
