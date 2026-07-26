@@ -271,6 +271,15 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
             {/* Desktop action buttons */}
             <div className="hidden sm:flex items-center gap-2.5 sm:gap-3">
               <ThemeToggleControl />
+              <button
+                onClick={onReturnToIntro}
+                title="Return to Intro Animation"
+                aria-label="Return to Intro Animation"
+                className="group relative flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 dark:border-red-500/25 bg-white/88 dark:bg-black/70 hover:bg-white dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white text-xs font-semibold backdrop-blur-xl transition-all duration-300 shadow-[0_8px_18px_-14px_rgba(15,23,42,0.32)] cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:rotate-12 transition-transform" />
+                <span className="hidden md:inline">Intro</span>
+              </button>
               {resumeButtonElement}
             </div>
 
