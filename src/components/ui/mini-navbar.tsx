@@ -23,7 +23,7 @@ const ThemeToggleControl = () => {
       }}
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       aria-label="Toggle theme mode"
-      className="group relative flex items-center justify-center w-8 h-8 rounded-full border border-red-500/25 bg-white/85 dark:bg-black/70 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer overflow-hidden"
+      className="group relative flex items-center justify-center w-8 h-8 rounded-full border border-slate-200/80 dark:border-red-500/25 bg-white/88 dark:bg-black/70 hover:bg-white dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white backdrop-blur-xl transition-all duration-300 shadow-[0_8px_18px_-14px_rgba(15,23,42,0.32)] cursor-pointer overflow-hidden"
     >
       <motion.div
         animate={{ rotate: isDark ? 0 : 180 }}
@@ -52,7 +52,7 @@ const ThemeToggleControl = () => {
 const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { theme, setTheme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,7 +68,7 @@ const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) =>
     <div ref={dropdownRef} className="relative z-50 inline-block">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-500/25 bg-white/85 dark:bg-black/70 hover:bg-red-50 dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white text-xs font-semibold backdrop-blur-md transition-all duration-300 shadow-sm cursor-pointer"
+        className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200/80 dark:border-red-500/25 bg-white/88 dark:bg-black/70 hover:bg-white dark:hover:bg-red-950/40 text-slate-700 dark:text-neutral-200 hover:text-red-600 dark:hover:text-white text-xs font-semibold backdrop-blur-xl transition-all duration-300 shadow-[0_8px_18px_-14px_rgba(15,23,42,0.32)] cursor-pointer"
       >
         <Sparkles className="w-3.5 h-3.5 text-red-400 group-hover:rotate-12 transition-transform" />
         <span>Explore</span>
@@ -82,7 +82,7 @@ const NavOptionsMenu = ({ onReturnToIntro }: { onReturnToIntro: () => void }) =>
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 mt-2 w-72 rounded-2xl bg-white/95 dark:bg-neutral-950/95 border border-red-500/25 dark:border-red-500/30 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.07),_0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl p-3.5 z-[100] text-left space-y-3"
+            className="absolute right-0 mt-2 w-72 rounded-2xl bg-white/96 dark:bg-neutral-950/95 border border-slate-200/90 dark:border-red-500/30 shadow-[0_22px_54px_-34px_rgba(15,23,42,0.34),_0_1px_3px_rgba(15,23,42,0.05)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-2xl p-3.5 z-[100] text-left space-y-3"
           >
             {/* Header */}
             <div className="flex items-center justify-between pb-2 border-b border-red-500/20">
@@ -242,12 +242,12 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   }, [isOpen]);
 
   const logoElement = (
-    <div className="relative w-7 h-7 flex items-center justify-center rounded-xl bg-gradient-to-br from-red-500/25 via-rose-600/15 to-transparent border border-red-500/40 shadow-[0_0_14px_rgba(239,68,68,0.35)] dark:bg-red-950/40 group cursor-pointer transition-all duration-300 hover:scale-105">
-      <span className="text-[11px] font-mono font-black tracking-tighter text-red-300 dark:text-red-200">
+    <div className="relative w-7 h-7 flex items-center justify-center rounded-xl bg-gradient-to-br from-white via-red-50 to-slate-100 dark:from-red-500/25 dark:via-rose-600/15 dark:to-transparent border border-red-500/25 dark:border-red-500/40 shadow-[0_10px_24px_-16px_rgba(220,38,38,0.42)] dark:shadow-[0_0_14px_rgba(239,68,68,0.35)] dark:bg-red-950/40 group cursor-pointer transition-all duration-300 hover:scale-105">
+      <span className="text-[11px] font-mono font-black tracking-tighter text-red-500 dark:text-red-200">
         VK
       </span>
       {/* Ambient Pulsing Glow */}
-      <span className="absolute inset-0 rounded-xl bg-red-500/20 animate-pulse pointer-events-none" />
+      <span className="absolute inset-0 rounded-xl bg-red-500/10 dark:bg-red-500/20 animate-pulse pointer-events-none" />
     </div>
   );
 
@@ -360,15 +360,16 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
       <div ref={menuRef} className="fixed top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] sm:w-[92%] md:w-[88%] lg:w-[85%] max-w-6xl flex flex-col items-center">
         {/* ─── Top Bar (always visible) ─── */}
         <header className={`w-full flex items-center
-                           px-5 sm:pl-8 sm:pr-8 py-3 backdrop-blur-md
+                           px-5 sm:pl-8 sm:pr-8 py-3 backdrop-blur-2xl
                            ${headerShapeClass}
                            navbar-shimmer-border
-                           border border-red-500/10 bg-white/80 dark:border-red-500/15 dark:bg-[#07070a7a]
-                           shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(239,68,68,0.04)]
+                           border border-white/80 bg-white/82 dark:border-red-500/15 dark:bg-[#07070a7a]
+                           shadow-[0_18px_55px_-34px_rgba(15,23,42,0.36),_0_1px_2px_rgba(15,23,42,0.04),_inset_0_1px_0_rgba(255,255,255,0.92)]
+                           dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.08),_0_0_15px_rgba(239,68,68,0.04)]
                            transition-[border-radius] duration-300 ease-in-out`}>
 
           {/* Gloss reflection line across top edge */}
-          <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent pointer-events-none" />
+          <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/95 dark:via-red-500/30 to-transparent pointer-events-none" />
 
           <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-10 lg:gap-x-14">
             <a href="#home" className="flex items-center gap-2.5 group">

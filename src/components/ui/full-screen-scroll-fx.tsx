@@ -106,6 +106,8 @@ const AmbientCanvas = ({ activeIndex }: { activeIndex: number }) => {
     };
     window.addEventListener("resize", handleResize);
 
+    const isLightTheme = document.documentElement.classList.contains("light");
+
     // Particle nodes
     const particleCount = 35;
     const particles = Array.from({ length: particleCount }, () => ({
@@ -132,7 +134,9 @@ const AmbientCanvas = ({ activeIndex }: { activeIndex: number }) => {
         // Draw particle
         ctx.beginPath();
         ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(239, 68, 68, ${p1.alpha})`;
+        ctx.fillStyle = isLightTheme
+          ? `rgba(148, 163, 184, ${p1.alpha * 0.35})`
+          : `rgba(239, 68, 68, ${p1.alpha})`;
         ctx.fill();
 
         for (let j = i + 1; j < particleCount; j++) {
@@ -144,7 +148,9 @@ const AmbientCanvas = ({ activeIndex }: { activeIndex: number }) => {
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(239, 68, 68, ${0.12 * (1 - dist / 120)})`;
+            ctx.strokeStyle = isLightTheme
+              ? `rgba(148, 163, 184, ${0.035 * (1 - dist / 120)})`
+              : `rgba(239, 68, 68, ${0.12 * (1 - dist / 120)})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -347,9 +353,9 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
         if (i === to) {
           gsap.to(bg, { opacity: 1, scale: 1, duration: D, ease: "power2.out", overwrite: "auto" });
         } else if (i === from) {
-          gsap.to(bg, { opacity: 0, scale: 0.98, duration: D, ease: "power2.out", overwrite: "auto" });
+          gsap.to(bg, { opacity: 0, scale: 1, duration: D, ease: "power2.out", overwrite: "auto" });
         } else {
-          gsap.set(bg, { opacity: 0, scale: 1.02 });
+          gsap.set(bg, { opacity: 0, scale: 1 });
         }
       });
 
@@ -593,19 +599,13 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
                         <div
                           className="absolute inset-0 transition-all duration-700 dark:block hidden"
                           style={{
-                            background: s.bgGradient || "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 60%, #040406 100%)",
+                            background: s.bgGradient || "#040406",
                           }}
                         />
                         <div className="fx-light-scene-gradient absolute inset-0 transition-all duration-700" />
 
                         {/* Subtle Grid Overlay */}
                         <div className="fx-scene-grid absolute inset-0 pointer-events-none" />
-
-                        {/* Subtle Soft Ambient Core */}
-                        <div
-                          className="fx-scene-core absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full blur-[140px] pointer-events-none"
-                          style={{ backgroundColor: s.glowColor || "#ef4444" }}
-                        />
                       </div>
                     )}
                   </div>
@@ -721,7 +721,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: var(--fx-page-bg);
             color: var(--fx-text);
             font-family: var(--fx-font);
-            letter-spacing: -0.02em;
+            letter-spacing: 0;
+          }
+          :global(.light) .fx {
+            background: #ffffff;
+            color: #111827;
           }
 
           .fx-debug {
@@ -729,22 +733,20 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             background: rgba(0,0,0,0.8); color: #ef4444; padding: 6px 8px; font: 12px/1 monospace; border-radius: 4px; border: 1px solid rgba(239,68,68,0.3);
           }
 
-          .fx-fixed-section { height: 220vh; position: relative; }
+          .fx-fixed-section { height: 220vh; position: relative; background: var(--fx-page-bg); }
+          :global(.light) .fx-fixed-section { background: #ffffff; }
           .fx-fixed { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: var(--fx-page-bg); }
+          :global(.light) .fx-fixed { background: #ffffff; }
           .fx-scene-bg { background: #040406; }
           :global(.light) .fx-scene-bg {
-            background:
-              radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.86) 0%, rgba(246, 246, 248, 0.72) 38%, rgba(246, 246, 248, 0.96) 74%),
-              linear-gradient(180deg, #f8fafc 0%, #f6f6f8 48%, #eef2f7 100%);
+            background: #f8f9fb;
           }
           .fx-light-scene-gradient { display: none; }
           :global(.light) .fx-light-scene-gradient {
             display: block;
             background:
-              radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.16) 0%, rgba(239, 68, 68, 0.065) 28%, transparent 58%),
-              radial-gradient(circle at 20% 22%, rgba(15, 23, 42, 0.07) 0%, transparent 34%),
-              radial-gradient(circle at 80% 72%, rgba(220, 38, 38, 0.09) 0%, transparent 38%),
-              radial-gradient(circle at center, transparent 0%, rgba(246, 246, 248, 0.24) 58%, rgba(226, 232, 240, 0.8) 100%);
+              radial-gradient(circle at 50% 28%, rgba(239, 68, 68, 0.03) 0%, transparent 50%),
+              linear-gradient(180deg, #f8f9fb 0%, #f8f9fb 100%);
           }
           .fx-scene-grid {
             background-image:
@@ -755,17 +757,18 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           }
           :global(.light) .fx-scene-grid {
             background-image:
-              linear-gradient(rgba(15,23,42,0.045) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(15,23,42,0.045) 1px, transparent 1px);
+              linear-gradient(rgba(15,23,42,0.028) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(15,23,42,0.028) 1px, transparent 1px);
             background-size: 48px 48px;
-            opacity: 0.42;
-            mask-image: radial-gradient(circle at center, black 0%, black 58%, transparent 88%);
-            -webkit-mask-image: radial-gradient(circle at center, black 0%, black 58%, transparent 88%);
+            opacity: 0.34;
+            mask-image: radial-gradient(circle at center, #000 0%, #000 58%, transparent 88%);
+            -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 58%, transparent 88%);
           }
           .fx-scene-core { opacity: 0.08; }
           :global(.light) .fx-scene-core {
-            opacity: 0.16;
-            filter: saturate(0.8);
+            background-color: #e5e7eb !important;
+            opacity: 0.2;
+            filter: saturate(0);
           }
 
           @media (max-width: 900px) {
@@ -790,28 +793,18 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             content: "";
             position: absolute;
             bottom: 0; left: 0; right: 0;
-            height: 160px;
+            height: 120px;
             background: linear-gradient(to bottom, transparent 0%, rgba(4, 4, 6, 0.75) 50%, #040406 100%);
             pointer-events: none;
-            z-index: 25;
+            z-index: 1;
           }
           :global(.light) .fx-fixed::after {
-            background: linear-gradient(to bottom, transparent 0%, rgba(246, 246, 248, 0.75) 50%, #f6f6f8 100%);
-          }
-
-          .fx-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: var(--fx-gap);
-            padding: 0 var(--fx-grid-px);
-            position: relative;
-            height: 100%;
-            z-index: 2;
+            background: linear-gradient(to bottom, transparent 0%, rgba(248, 249, 251, 0.4) 60%, #f8f9fb 100%);
           }
 
           .fx-bgs { position: absolute; inset: 0; background: var(--fx-stage-bg); z-index: 1; }
-          .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity, transform; }
-
+          :global(.light) .fx-bgs { background: #ffffff; }
+          .fx-bg { position: absolute; inset: 0; opacity: 0; will-change: opacity; transform: translateZ(0); backface-visibility: hidden; }
           .fx-header {
             grid-column: 1 / 13; align-self: start; padding-top: clamp(115px, 14vh, 155px);
             text-align: center; color: var(--fx-text); z-index: 20;
@@ -893,10 +886,10 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             filter: drop-shadow(0 4px 20px rgba(239, 68, 68, 0.45));
           }
           :global(.light) .fx-featured-title {
-            background: linear-gradient(180deg, #fb7185 0%, #ef4444 42%, #b91c1c 100%);
+            background: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 12px 28px rgba(220, 38, 38, 0.14));
+            filter: drop-shadow(0 10px 24px rgba(220, 38, 38, 0.1));
           }
           .fx-featured-subtitle {
             color: rgba(254, 202, 202, 0.88);

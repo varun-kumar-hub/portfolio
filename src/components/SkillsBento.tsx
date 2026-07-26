@@ -93,7 +93,7 @@ function SkillChip({ name, isSelected = false, onClick }: SkillChipProps) {
         "flex items-center gap-2 rounded-xl border px-3.5 py-2 text-xs font-semibold select-none cursor-pointer transition-all duration-300",
         isSelected
           ? "bg-red-500/15 border-red-500/50 text-red-700 dark:text-white shadow-lg scale-105"
-          : "text-gray-700 dark:text-gray-300 border-gray-200/50 dark:border-white/10 bg-gray-100/50 dark:bg-white/[0.04] hover:bg-gray-200/50 dark:hover:bg-white/[0.08]"
+          : "text-slate-700 dark:text-gray-300 border-slate-200/80 dark:border-white/10 bg-slate-50/90 dark:bg-white/[0.04] hover:bg-red-50/60 dark:hover:bg-white/[0.08] hover:border-red-400/60 hover:text-red-600 shadow-sm"
       )}
     >
       <div className="flex h-5 w-5 items-center justify-center shrink-0 transition-transform duration-300">
@@ -135,20 +135,23 @@ function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardP
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       variants={cardVariants}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -4, scale: 1.008 }}
       transition={{ duration: 0.3 }}
       style={{
         backgroundImage: isHovered
-          ? `radial-gradient(320px circle at ${coords.x}px ${coords.y}px, ${category.glowColor}, transparent 80%)`
+          ? `radial-gradient(360px circle at ${coords.x}px ${coords.y}px, rgba(239,68,68,0.08), transparent 80%)`
           : undefined,
       }}
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-slate-200/80 dark:border-gray-800/30 bg-white dark:bg-black/15 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 shadow-lg shadow-slate-200/50 dark:shadow-none hover:shadow-xl hover:border-slate-300 dark:hover:border-gray-700/80 group",
+        "relative overflow-hidden rounded-3xl border border-red-500/25 dark:border-gray-800/30 bg-white dark:bg-black/15 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between transition-all duration-300 shadow-[0_10px_30px_rgba(15,23,42,0.05),0_2px_8px_rgba(15,23,42,0.03)] dark:shadow-none hover:shadow-[0_0_35px_rgba(239,68,68,0.22),0_16px_36px_rgba(15,23,42,0.08)] hover:border-red-500/60 dark:hover:border-red-500/50 group",
         category.colSpan
       )}
     >
+      {/* Ambient Red Glow Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-red-500/[0.04] via-transparent to-transparent pointer-events-none" />
+
       {/* Decorative Large Index Number */}
-      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-slate-900/[0.04] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-slate-900/[0.07] dark:group-hover:text-white/[0.05]">
+      <div className="absolute bottom-[-16px] right-2 text-8xl font-black text-red-500/[0.08] dark:text-white/[0.03] select-none pointer-events-none font-sans tracking-tighter transition-all duration-300 group-hover:scale-105 group-hover:text-red-500/[0.18] dark:group-hover:text-white/[0.05]">
         0{index + 1}
       </div>
 
@@ -158,7 +161,7 @@ function BentoCard({ category, index, selectedSkill, onSkillSelect }: BentoCardP
       <div className="relative z-10">
         {/* Category Header */}
         <div className="flex items-center gap-3.5 mb-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 dark:bg-gray-950/80 border border-slate-200 dark:border-gray-800/40 shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-105">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-500/10 dark:bg-gray-950/80 border border-red-500/25 dark:border-gray-800/40 shadow-sm shrink-0 transition-all duration-300 group-hover:scale-105 group-hover:border-red-500/50 group-hover:bg-red-500/15">
             {category.icon}
           </div>
           <h3 className="text-lg font-extrabold text-slate-900 dark:text-white tracking-tight">

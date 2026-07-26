@@ -54,7 +54,7 @@ export default function EducationTimeline() {
             </span>
 
             {/* Timeline Card */}
-            <SpotlightCard className="relative overflow-hidden rounded-3xl border border-gray-200/40 bg-white/30 p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md transition-all duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-700/80 group">
+            <SpotlightCard className="relative overflow-hidden rounded-3xl border border-red-500/25 bg-white p-6 sm:p-8 dark:border-gray-800/30 dark:bg-black/15 backdrop-blur-md transition-all duration-300 shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:shadow-[0_0_35px_rgba(239,68,68,0.2),0_15px_35px_rgba(15,23,42,0.08)] hover:border-red-500/60 dark:hover:border-red-500/50 group">
               
               {/* Top Row: Degree & Duration */}
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-4">

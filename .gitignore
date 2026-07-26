@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
+# temporary QA profiles & scratch scripts
+.edge-qa
+.chrome-qa
+tmp-cdp-qa.js
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

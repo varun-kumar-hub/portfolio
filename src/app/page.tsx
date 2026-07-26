@@ -35,6 +35,12 @@ import {
 import Link from "next/link";
 import { profile } from "@/lib/profile";
 import { Project, projects } from "@/lib/projects";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 function ProfileSpotlightCard() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -42,14 +48,14 @@ function ProfileSpotlightCard() {
   return (
     <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4 w-full flex flex-col-reverse md:flex-row items-center gap-3 sm:gap-10 mt-0 sm:mt-1">
       {/* Left Column: About Me Bio & Details */}
-      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-1.5 sm:space-y-3">
+      <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-2 sm:space-y-4">
         {/* Subheading */}
-        <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-snug">
+        <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-slate-950 dark:text-white leading-snug">
           Architecting <span className="text-red-500 dark:text-red-400">Autonomous AI Systems</span> &amp; <span className="text-red-500 dark:text-red-400">High-Performance Cloud Platforms</span>
         </h4>
 
         {/* Bio Description with See More toggle */}
-        <div className="text-[10px] sm:text-sm text-slate-700 dark:text-neutral-300 font-light leading-relaxed max-w-xl">
+        <div className="text-[10px] sm:text-sm text-slate-600 dark:text-neutral-300 font-light leading-relaxed max-w-xl">
           <p className={isExpanded ? "" : "line-clamp-2 sm:line-clamp-none"}>
             {profile.bio}
           </p>
@@ -63,15 +69,15 @@ function ProfileSpotlightCard() {
 
         {/* Quick Highlight Metrics Pills */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 w-full max-w-lg pt-0.5">
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white dark:bg-neutral-900/60 border border-red-500/20 dark:border-red-500/20 text-center md:text-left backdrop-blur-xl transition-all shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:-translate-y-0.5 hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.18)]">
             <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Autonomous</span>
             <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">AI &amp; Full-Stack Apps</span>
           </div>
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white dark:bg-neutral-900/60 border border-red-500/20 dark:border-red-500/20 text-center md:text-left backdrop-blur-xl transition-all shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:-translate-y-0.5 hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.18)]">
             <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">95%+ Verified</span>
             <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">Multi-Source Accuracy</span>
           </div>
-          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white/90 dark:bg-neutral-900/60 border border-slate-200 dark:border-red-500/20 text-center md:text-left col-span-2 sm:col-span-1 backdrop-blur-md transition-all shadow-[0_10px_30px_-10px_rgba(15,23,42,0.12),0_1px_3px_rgba(15,23,42,0.06)] hover:-translate-y-0.5 hover:border-red-500/35 hover:shadow-[0_16px_34px_-14px_rgba(220,38,38,0.22),0_6px_16px_rgba(15,23,42,0.07)]">
+          <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white dark:bg-neutral-900/60 border border-red-500/20 dark:border-red-500/20 text-center md:text-left col-span-2 sm:col-span-1 backdrop-blur-xl transition-all shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:-translate-y-0.5 hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.18)]">
             <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">3rd Year CSE (AI &amp; ML)</span>
             <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">Kalasalingam Academy</span>
           </div>
@@ -81,14 +87,14 @@ function ProfileSpotlightCard() {
         <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 pt-0.5">
           <a
             href="#projects"
-            className="group relative px-3 py-1 sm:px-5 sm:py-2 bg-gradient-to-r from-red-600 to-rose-600 dark:from-transparent dark:to-transparent border border-red-500/40 hover:border-red-500 text-white dark:text-red-200 hover:text-white font-semibold text-[10px] sm:text-xs tracking-wider transition-all duration-300 rounded-lg sm:rounded-xl shadow-[0_12px_24px_-12px_rgba(220,38,38,0.6)] dark:shadow-sm flex items-center gap-1"
+            className="group relative px-3 py-1 sm:px-5 sm:py-2 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-500 hover:to-red-600 text-white font-semibold text-[10px] sm:text-xs tracking-wider transition-all duration-300 rounded-lg sm:rounded-xl shadow-[0_14px_28px_-16px_rgba(220,38,38,0.55)] flex items-center gap-1"
           >
             <span>View Projects →</span>
           </a>
 
           <a
             href="#contact"
-            className="px-3 py-1 sm:px-5 sm:py-2 border border-slate-200 dark:border-white/20 hover:border-red-500 text-slate-800 dark:text-white hover:text-red-600 dark:hover:text-red-300 font-semibold text-[10px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-white/90 dark:bg-black/40 shadow-[0_10px_24px_-14px_rgba(15,23,42,0.24)]"
+            className="px-3 py-1 sm:px-5 sm:py-2 border border-red-500/25 dark:border-white/20 hover:border-red-500 text-slate-800 dark:text-white hover:text-red-600 dark:hover:text-red-300 font-semibold text-[10px] sm:text-xs tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-white dark:bg-black/40 shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:shadow-[0_0_20px_rgba(239,68,68,0.15)]"
           >
             Get in Touch
           </a>
@@ -96,10 +102,10 @@ function ProfileSpotlightCard() {
       </div>
 
       {/* Right Column: Scaled Photo Frame for Mobile */}
-      <div className="relative shrink-0 group">
-        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-r from-red-500/16 via-rose-400/10 to-slate-300/35 dark:from-red-600/40 dark:via-rose-500/30 dark:to-red-700/40 blur-xl opacity-90 dark:opacity-80 transition-opacity" />
+      <div className="relative z-30 shrink-0 group">
+        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-br from-red-500/20 via-rose-500/15 to-red-600/20 blur-xl opacity-80 pointer-events-none transition-opacity" />
 
-        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border-2 border-white dark:border-red-500/40 bg-white dark:bg-[#040406] shadow-[0_24px_55px_-22px_rgba(15,23,42,0.38),0_2px_8px_rgba(15,23,42,0.08)] dark:shadow-xl flex items-center justify-center">
+        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border border-red-500/40 bg-neutral-900 shadow-[0_15px_35px_rgba(15,23,42,0.1),0_0_25px_rgba(239,68,68,0.15)] flex items-center justify-center">
           <Image
             src="/profile-varun.png"
             alt="Varun Kumar"
@@ -107,8 +113,6 @@ function ProfileSpotlightCard() {
             height={800}
             className="w-full h-full object-cover object-[center_12%] group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 dark:from-[#040406]/40 via-transparent to-white/60 dark:to-[#040406]/75 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(246,246,248,0.75)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,transparent_35%,rgba(4,4,6,0.85)_100%)] pointer-events-none" />
 
           <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-t border-l border-red-500/80 dark:border-red-400/80 pointer-events-none z-10" />
           <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 w-2.5 h-2.5 sm:w-3 sm:h-3 border-b border-r border-red-500/80 dark:border-red-400/80 pointer-events-none z-10" />
@@ -126,20 +130,20 @@ const heroFxSections: FXSection[] = [
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 mt-2 max-w-4xl mx-auto text-center px-4">
         {/* Role Headline */}
-        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-900 dark:text-white leading-tight mt-1 text-center">
+        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-950 dark:text-white leading-tight mt-1 text-center">
           AI Engineer &amp; Tech Innovator
         </h3>
 
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/40 dark:border-red-500/50 bg-red-100/80 dark:bg-red-950/70 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-black backdrop-blur-md shadow-sm dark:shadow-[0_0_30px_rgba(239,68,68,0.4)] mt-3">
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 dark:bg-red-400 animate-pulse shadow-[0_0_12px_rgba(248,113,113,0.9)]" />
-          <span className="text-red-600 dark:text-red-400 font-black tracking-wider">B.Tech CSE (AI &amp; ML)</span>
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-bold backdrop-blur-xl shadow-sm mt-4">
+          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 animate-pulse" />
+          <span className="text-slate-900 dark:text-neutral-200 font-bold tracking-wider">B.Tech CSE (AI &amp; ML)</span>
         </div>
       </div>
     ),
     rightLabel: "AI Innovator",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
-    glowColor: "#ef4444",
+    bgGradient: "#040406",
+    glowColor: "transparent",
   },
 
   // ── 2ND SLIDE: Profile Bio & Photo Spotlight ──
@@ -148,8 +152,8 @@ const heroFxSections: FXSection[] = [
     title: "Profile Spotlight",
     customContent: <ProfileSpotlightCard />,
     rightLabel: "Personal Profile",
-    bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
-    glowColor: "#ef4444",
+    bgGradient: "#040406",
+    glowColor: "transparent",
   },
 
   // ── 3RD SLIDE: Portfolio Overview & Roadmap Index ──
@@ -161,40 +165,40 @@ const heroFxSections: FXSection[] = [
       <div className="flex flex-col items-center justify-center space-y-3.5 mt-2 px-3 sm:px-6 max-w-3xl mx-auto w-full">
         {/* Section Roadmap Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full text-left">
-          <a href="#projects" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
-            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+          <a href="#projects" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
+            <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>01. Projects Directory</span>
-              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               ResearchX AI (Multi-Agent Verification), LearnX (AI Knowledge Graphs), Resume Analyzer (NLP ATS Engine) &amp; TripCrafter Pro.
             </p>
           </a>
 
-          <a href="#skills" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
-            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+          <a href="#skills" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
+            <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>02. Technical Toolkit</span>
-              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               Python, Google Gemini API, NLTK/PyTorch, Next.js 16, React, TypeScript, PostgreSQL, Supabase &amp; Vercel.
             </p>
           </a>
 
-          <a href="#experience" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
-            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+          <a href="#experience" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
+            <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>03. Work Experience</span>
-              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               OWASP Student Chapter (Web Development &amp; Technical Coordinator), OWASP Top 10 security workshops &amp; AI system design.
             </p>
           </a>
 
-          <a href="#contact" className="p-3.5 sm:p-5 rounded-2xl bg-white/[0.92] dark:bg-black/80 border border-slate-200 dark:border-red-500/30 hover:border-red-400 backdrop-blur-xl transition-all group shadow-[0_14px_34px_-18px_rgba(15,23,42,0.28),0_2px_8px_rgba(15,23,42,0.06)] dark:shadow-xl hover:shadow-[0_18px_42px_-18px_rgba(220,38,38,0.28),0_4px_12px_rgba(15,23,42,0.08)] dark:hover:shadow-[0_0_25px_rgba(239,68,68,0.2)]">
-            <div className="flex items-center justify-between text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
+          <a href="#contact" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
+            <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
               <span>04. Connect &amp; Resume</span>
-              <span className="group-hover:translate-x-1.5 transition-transform text-red-300 font-bold text-sm">→</span>
+              <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
               Direct email (cvarun713@gmail.com), LinkedIn, GitHub developer profile &amp; downloadable PDF engineering resume.
@@ -206,7 +210,7 @@ const heroFxSections: FXSection[] = [
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <a
             href="#projects"
-            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center gap-1.5"
+            className="group relative px-5 py-2.5 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-500 hover:to-red-600 text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 shadow-[0_18px_34px_-18px_rgba(220,38,38,0.58)] flex items-center gap-1.5"
           >
             <span>Explore Portfolio Below ↓</span>
           </a>
@@ -215,7 +219,7 @@ const heroFxSections: FXSection[] = [
             href={profile.contact.resumeHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 border border-red-500/30 hover:border-red-400 text-red-600 dark:text-red-300 hover:text-red-700 dark:hover:text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-red-50 dark:bg-red-950/30"
+            className="px-5 py-2.5 border border-red-500/25 hover:border-red-500 text-red-600 dark:text-red-300 hover:text-red-700 dark:hover:text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 backdrop-blur-sm bg-white dark:bg-red-950/30 shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:shadow-[0_0_20px_rgba(239,68,68,0.15)]"
           >
             Download Resume
           </a>
@@ -224,18 +228,9 @@ const heroFxSections: FXSection[] = [
     ),
     rightLabel: "Overview Roadmap",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
-    glowColor: "#ef4444",
+    glowColor: "#e5e7eb",
   },
 ];
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCoverflow, Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-// Projects dataset is imported from '@/lib/projects'
 
 function SectionHeading({
   eyebrow,
@@ -267,16 +262,16 @@ function SectionHeading({
 }
 
 const projectIconMap: Record<string, React.ReactNode> = {
-  "learnx": <GraduationCap className="w-5 h-5 text-red-400" />,
-  "resume-analyzer": <FileText className="w-5 h-5 text-emerald-400" />,
-  "researchx-ai": <Cpu className="w-5 h-5 text-purple-400" />,
-  "tripcrafter-pro": <MapPin className="w-5 h-5 text-amber-400" />,
-  "ai-tools-tracker": <Wrench className="w-5 h-5 text-cyan-400" />
+  "learnx": <GraduationCap className="w-5 h-5 text-red-500" />,
+  "resume-analyzer": <FileText className="w-5 h-5 text-emerald-500" />,
+  "researchx-ai": <Cpu className="w-5 h-5 text-purple-500" />,
+  "tripcrafter-pro": <MapPin className="w-5 h-5 text-amber-500" />,
+  "ai-tools-tracker": <Wrench className="w-5 h-5 text-cyan-500" />
 };
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project }: { project: Project }) {
   const [isHovered, setIsHovered] = useState(false);
-  const Icon = projectIconMap[project.slug] || <FolderGit2 className="w-5 h-5 text-red-400" />;
+  const Icon = projectIconMap[project.slug] || <FolderGit2 className="w-5 h-5 text-red-500" />;
   const stackItems = project.stack.flatMap((group) => group.items);
 
   return (
@@ -290,16 +285,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       className="block w-full select-none text-left"
     >
       <motion.div
-        className='w-full min-h-[480px] bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.07),_0_1px_3px_rgba(0,0,0,0.04)] dark:shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-4 gap-3 overflow-hidden border border-slate-200 dark:border-neutral-700/60 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(239,68,68,0.18)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]'
+        className="w-full min-h-[480px] bg-white dark:bg-neutral-900/90 backdrop-blur-xl rounded-3xl shadow-[0_10px_30px_rgba(15,23,42,0.05),0_2px_8px_rgba(15,23,42,0.03)] dark:shadow-[0_30px_70px_rgba(0,0,0,0.8)] flex flex-col p-5 gap-3.5 overflow-hidden border border-red-500/25 dark:border-neutral-700/60 hover:border-red-500/60 dark:hover:border-red-500/50 hover:shadow-[0_0_35px_rgba(239,68,68,0.22),0_15px_35px_rgba(15,23,42,0.08)] transition-all duration-300 relative group [transform-style:preserve-3d] [backface-visibility:hidden]"
         whileHover={{ y: -6, scale: 1.01 }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
       >
+        {/* Ambient Red Glow Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-red-500/[0.03] via-transparent to-transparent pointer-events-none" />
+
         {/* Top header row */}
-        <div className='flex justify-between items-center px-1'>
+        <div className="flex justify-between items-center px-1 relative z-10">
           <div className="flex items-center gap-2">
             {Icon}
-            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+            <span className="text-[10px] uppercase font-mono font-bold tracking-wider text-red-600 dark:text-red-400 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20">
               {project.category}
             </span>
           </div>
@@ -310,13 +308,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
 
         {/* Title & Image */}
-        <div className='flex flex-col gap-2.5 flex-1 mt-1'>
+        <div className="flex flex-col gap-2.5 flex-1 mt-1 relative z-10">
           <h3 className="title text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight flex items-center group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors">
             {project.name}
           </h3>
 
-          {/* Image with ambient background glow */}
-          <div className="image relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-neutral-950 border border-slate-200 dark:border-neutral-900 shadow-md">
+          {/* Inset Image with ambient background glow */}
+          <div className="image relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-50 dark:bg-neutral-950 border border-slate-200/80 dark:border-neutral-900 shadow-inner">
             <div className="absolute inset-0 rounded-2xl opacity-30 z-0">
               <motion.div
                 animate={{ scale: isHovered ? 1.08 : 1 }}
@@ -356,26 +354,26 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
           {/* Architecture Highlight Pill */}
           {project.architecture && project.architecture.length > 0 && (
-            <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-700 dark:text-neutral-300 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-xl px-2.5 py-1.5 mt-0.5">
-              <Cpu className="w-3.5 h-3.5 text-red-400 shrink-0" />
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-slate-700 dark:text-neutral-300 bg-slate-50 dark:bg-white/[0.03] border border-red-500/20 dark:border-white/10 rounded-xl px-2.5 py-1.5 mt-0.5">
+              <Cpu className="w-3.5 h-3.5 text-red-500 shrink-0" />
               <span className="truncate text-slate-700 dark:text-neutral-300 font-medium">
-                <strong className="text-red-400 font-bold">Arch:</strong> {project.architecture[0].title}
+                <strong className="text-red-600 dark:text-red-400 font-bold">Arch:</strong> {project.architecture[0].title}
               </span>
             </div>
           )}
 
           {/* Tech stack capsules */}
-          <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-slate-200 dark:border-neutral-800/60">
+          <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-slate-200/80 dark:border-neutral-800/60">
             {stackItems.slice(0, 3).map((tech) => (
               <span
-                className="rounded-full bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 text-[9px] font-semibold text-red-300 backdrop-blur-sm"
+                className="rounded-full bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 text-[9px] font-semibold text-red-600 dark:text-red-300 backdrop-blur-sm"
                 key={tech}
               >
                 {tech}
               </span>
             ))}
             {stackItems.length > 3 && (
-              <span className="rounded-full bg-slate-100 dark:bg-neutral-900 border border-slate-200 dark:border-neutral-800 px-2 py-0.5 text-[9px] font-semibold text-slate-500 dark:text-neutral-500">
+              <span className="rounded-full bg-slate-100 dark:bg-neutral-900 border border-slate-200/80 dark:border-neutral-800 px-2 py-0.5 text-[9px] font-semibold text-slate-600 dark:text-neutral-500">
                 +{stackItems.length - 3} more
               </span>
             )}
@@ -520,11 +518,11 @@ export default function Home() {
           <motion.main
             id="top"
             key="portfolio"
-            className={`relative z-[2] min-h-screen overflow-hidden bg-transparent text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
+            className={`relative z-[2] min-h-screen overflow-hidden bg-[#f8f9fb] dark:bg-[#040406] text-gray-900 dark:text-gray-100 transition-colors duration-500 ${isScrollPositioning ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}
           >
 
             {/* ─── Solid Portfolio Content Wrapper (Curtain Page) ─── */}
-            <div className="relative z-20 bg-[#f6f6f8] dark:bg-[#040406] shadow-[0_30px_100px_rgba(15,23,42,0.08)] dark:shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
+            <div className="relative z-20 bg-[#f8f9fb] dark:bg-[#040406] shadow-[0_30px_100px_rgba(15,23,42,0.06)] dark:shadow-[0_30px_100px_rgba(0,0,0,0.95)]">
               {/* ─── Header ─── */}
               <Navbar onReturnToIntro={() => setHasEntered(false)} />
 
@@ -548,19 +546,19 @@ export default function Home() {
               </div>
 
               {/* ─── Unique Holographic Portal Transition Bridge: Hero Stage -> Projects Directory ─── */}
-              <div className="relative z-30 w-full bg-gradient-to-b from-transparent via-[#040406]/90 to-[#040406] py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
+              <div className="relative z-30 w-full bg-gradient-to-b from-[#f8f9fb] via-[#f8f9fb] to-[#f8f9fb] dark:from-transparent dark:via-[#040406]/90 dark:to-[#040406] py-10 flex flex-col items-center justify-center overflow-hidden pointer-events-none">
                 {/* Horizontal Cyber Beam with Moving Laser Pulse */}
-                <div className="relative w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-red-500/60 to-transparent">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent blur-[3px] animate-pulse" />
+                <div className="relative w-full max-w-5xl h-px bg-gradient-to-r from-transparent via-red-300/45 dark:via-red-500/60 to-transparent">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-1 bg-gradient-to-r from-transparent via-red-300/70 dark:via-rose-400 to-transparent blur-[3px] animate-pulse" />
                 </div>
 
                 {/* Central Holographic Portal Badge */}
-                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-white/90 dark:bg-[#040406] border border-red-500/35 dark:border-red-500/40 px-5 py-2 rounded-full shadow-[0_0_25px_rgba(239,68,68,0.18)] dark:shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.9)]" />
+                <div className="relative -mt-3.5 z-10 flex items-center gap-3 bg-white/92 dark:bg-[#040406] border border-red-500/25 dark:border-red-500/40 px-5 py-2 rounded-full shadow-[0_16px_38px_-26px_rgba(220,38,38,0.38)] dark:shadow-[0_0_25px_rgba(239,68,68,0.35)] backdrop-blur-xl">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                   <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-red-400 font-extrabold">
                     ✦ ENTERING PRODUCTION DIRECTORY ✦
                   </span>
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.9)]" />
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                 </div>
 
                 {/* Pulsing Directional Indicator */}
@@ -660,7 +658,7 @@ export default function Home() {
                       }}
                       onProgress={(swiper) => {
                         swiper.slides.forEach((slideEl) => {
-                          const progress = (slideEl as any).progress || 0;
+                          const progress = Number((slideEl as HTMLElement & { progress?: number }).progress || 0);
                           const absProgress = Math.abs(progress);
                           
                           // Angle along 3D revolving orbital trajectory (in radians)
@@ -688,7 +686,7 @@ export default function Home() {
                       }}
                       onSetTranslate={(swiper) => {
                         swiper.slides.forEach((slideEl) => {
-                          const progress = (slideEl as any).progress || 0;
+                          const progress = Number((slideEl as HTMLElement & { progress?: number }).progress || 0);
                           const absProgress = Math.abs(progress);
                           
                           const angle = progress * 0.55; 
@@ -712,9 +710,9 @@ export default function Home() {
                       navigation={true}
                       modules={[Autoplay, Pagination, Navigation]}
                     >
-                      {projects.map((project, idx) => (
+                      {projects.map((project) => (
                         <SwiperSlide key={project.slug}>
-                          <ProjectCard project={project} index={idx} />
+                          <ProjectCard project={project} />
                         </SwiperSlide>
                       ))}
                     </Swiper>

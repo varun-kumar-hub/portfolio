@@ -126,13 +126,13 @@ export function FontSwitcher() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Change Portfolio Font"
-        className="group relative flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full border border-red-500/30 bg-black/70 hover:bg-red-950/40 text-red-200 hover:text-white text-xs font-mono font-medium backdrop-blur-md transition-all duration-300 shadow-[0_0_15px_rgba(239,68,68,0.2)] cursor-pointer"
+        className="group relative flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full border border-slate-200/80 dark:border-red-500/30 bg-white/88 dark:bg-black/70 hover:bg-white dark:hover:bg-red-950/40 text-slate-700 dark:text-red-200 hover:text-red-600 dark:hover:text-white text-xs font-mono font-medium backdrop-blur-xl transition-all duration-300 shadow-[0_8px_18px_-14px_rgba(15,23,42,0.32)] dark:shadow-[0_0_15px_rgba(239,68,68,0.2)] cursor-pointer"
       >
         <Type className="w-3.5 h-3.5 text-red-400 group-hover:scale-110 transition-transform" />
         <span className="hidden sm:inline font-sans text-[11px] font-semibold tracking-wide">
-          Font: <span className="text-white font-bold">{currentFont.name}</span>
+          Font: <span className="text-slate-900 dark:text-white font-bold">{currentFont.name}</span>
         </span>
-        <span className="sm:hidden font-sans text-[11px] font-bold text-white">
+        <span className="sm:hidden font-sans text-[11px] font-bold text-slate-900 dark:text-white">
           {currentFont.name.split(" ")[0]}
         </span>
         <ChevronDown className={`w-3 h-3 text-neutral-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-red-400" : ""}`} />
@@ -146,15 +146,15 @@ export function FontSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 mt-2 w-72 sm:w-80 rounded-2xl bg-neutral-950/95 border border-red-500/30 shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-xl p-3 z-[100] text-left"
+            className="absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 mt-2 w-72 sm:w-80 rounded-2xl bg-white/96 dark:bg-neutral-950/95 border border-slate-200/90 dark:border-red-500/30 shadow-[0_22px_54px_-34px_rgba(15,23,42,0.34),_0_1px_3px_rgba(15,23,42,0.05)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.9)] backdrop-blur-2xl p-3 z-[100] text-left"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-2 pb-2 mb-2 border-b border-red-500/20">
-              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-red-300 uppercase tracking-wider">
+              <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-red-600 dark:text-red-300 uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-red-400 animate-pulse" />
                 <span>Select Typography</span>
               </div>
-              <span className="text-[10px] font-mono text-neutral-500">8 Distinct Styles</span>
+              <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-500">8 Distinct Styles</span>
             </div>
 
             {/* List of 7 Fonts */}
@@ -167,8 +167,8 @@ export function FontSwitcher() {
                     onClick={() => handleSelect(font)}
                     className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-200 group cursor-pointer ${
                       isSelected
-                        ? "bg-gradient-to-r from-red-950/70 to-rose-950/70 border border-red-500/40 text-white shadow-md"
-                        : "hover:bg-neutral-900/80 border border-transparent text-neutral-300 hover:text-white"
+                        ? "bg-red-50 dark:bg-gradient-to-r dark:from-red-950/70 dark:to-rose-950/70 border border-red-500/30 dark:border-red-500/40 text-red-700 dark:text-white shadow-sm dark:shadow-md"
+                        : "hover:bg-slate-50 dark:hover:bg-neutral-900/80 border border-transparent text-slate-700 dark:text-neutral-300 hover:text-slate-950 dark:hover:text-white"
                     }`}
                   >
                     <div className="space-y-0.5 overflow-hidden pr-2">
@@ -180,7 +180,7 @@ export function FontSwitcher() {
                           {font.name}
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono text-neutral-400 block truncate">
+                      <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 block truncate">
                         {font.category}
                       </span>
                     </div>
