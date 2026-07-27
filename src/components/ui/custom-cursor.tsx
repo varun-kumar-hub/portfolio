@@ -185,7 +185,9 @@ export default function CustomCursor() {
       }
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("pointermove", handleMouseMove, { passive: true });
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mouseleave", handleMouseLeave);
@@ -199,12 +201,13 @@ export default function CustomCursor() {
     style.id = "custom-cursor-style";
     style.textContent = `
       *, *::before, *::after { cursor: none !important; }
+      iframe, iframe *, embed, embed * { cursor: auto !important; }
       
       .custom-cursor-dot {
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 99999;
+        z-index: 2147483647;
         pointer-events: none;
         width: 8px;
         height: 8px;
@@ -321,6 +324,8 @@ export default function CustomCursor() {
     animate();
 
     return () => {
+      window.removeEventListener("pointermove", handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mousedown", handleMouseDown);
       document.removeEventListener("mouseup", handleMouseUp);
@@ -345,7 +350,7 @@ export default function CustomCursor() {
     <>
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 z-[99997] pointer-events-none transition-opacity duration-300"
+        className="fixed inset-0 z-[2147483646] pointer-events-none transition-opacity duration-300"
         style={{ opacity: 0 }}
       />
       <div ref={dotRef} className="custom-cursor-dot" />
