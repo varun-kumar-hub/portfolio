@@ -51,7 +51,7 @@ function ProfileSpotlightCard() {
       <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left space-y-2 sm:space-y-4">
         {/* Subheading */}
         <h4 className="text-xs sm:text-2xl font-bold tracking-tight text-slate-950 dark:text-white leading-snug">
-          Architecting <span className="text-red-500 dark:text-red-400">Autonomous AI Systems</span> &amp; <span className="text-red-500 dark:text-red-400">High-Performance Cloud Platforms</span>
+          Building <span className="text-red-500 dark:text-red-400">AI Applications</span> &amp; <span className="text-red-500 dark:text-red-400">Full-Stack Web Systems</span>
         </h4>
 
         {/* Bio Description with See More toggle */}
@@ -70,8 +70,8 @@ function ProfileSpotlightCard() {
         {/* Quick Highlight Metrics Pills */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 w-full max-w-lg pt-0.5">
           <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white dark:bg-neutral-900/60 border border-red-500/20 dark:border-red-500/20 text-center md:text-left backdrop-blur-xl transition-all shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:-translate-y-0.5 hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.18)]">
-            <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Autonomous</span>
-            <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">AI &amp; Full-Stack Apps</span>
+            <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">8+ Software</span>
+            <span className="text-[8px] sm:text-[10px] text-slate-600 dark:text-neutral-400 font-medium">AI &amp; Web Projects</span>
           </div>
           <div className="p-1.5 sm:p-3 rounded-lg sm:rounded-2xl bg-white dark:bg-neutral-900/60 border border-red-500/20 dark:border-red-500/20 text-center md:text-left backdrop-blur-xl transition-all shadow-[0_10px_30px_rgba(15,23,42,0.05)] hover:-translate-y-0.5 hover:border-red-500/50 hover:shadow-[0_0_25px_rgba(239,68,68,0.18)]">
             <span className="block text-red-600 dark:text-red-400 text-[10px] sm:text-xs font-mono font-extrabold tracking-wide">95%+ Verified</span>
@@ -125,13 +125,13 @@ function ProfileSpotlightCard() {
 const heroFxSections: FXSection[] = [
   // ── 1ST SLIDE: Dominating Name & Role Entrance ──
   {
-    leftLabel: "The Creator",
+    leftLabel: "Developer",
     title: profile.name.full,
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 mt-2 max-w-4xl mx-auto text-center px-4">
         {/* Role Headline */}
         <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-950 dark:text-white leading-tight mt-1 text-center">
-          AI Engineer &amp; Tech Innovator
+          AI &amp; Full-Stack Developer
         </h3>
 
         {/* Status Badge */}
@@ -141,33 +141,33 @@ const heroFxSections: FXSection[] = [
         </div>
       </div>
     ),
-    rightLabel: "AI Innovator",
+    rightLabel: "AI & Full-Stack",
     bgGradient: "#040406",
     glowColor: "transparent",
   },
 
   // ── 2ND SLIDE: Profile Bio & Photo Spotlight ──
   {
-    leftLabel: "About Varun",
-    title: "Profile Spotlight",
+    leftLabel: "About Me",
+    title: "Profile & Background",
     customContent: <ProfileSpotlightCard />,
-    rightLabel: "Personal Profile",
+    rightLabel: "Background",
     bgGradient: "#040406",
     glowColor: "transparent",
   },
 
   // ── 3RD SLIDE: Portfolio Overview & Roadmap Index ──
   {
-    leftLabel: "Portfolio Index",
-    title: "Portfolio Overview",
-    subtitle: "Here is a roadmap of what you will discover as you explore below",
+    leftLabel: "Overview",
+    title: "Portfolio Directory",
+    subtitle: "Explore projects, technical skills, campus experience, and contact info below",
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3.5 mt-2 px-3 sm:px-6 max-w-3xl mx-auto w-full">
         {/* Section Roadmap Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full text-left">
           <a href="#projects" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
             <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
-              <span>01. Projects Directory</span>
+              <span>01. Featured Projects</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
@@ -177,31 +177,31 @@ const heroFxSections: FXSection[] = [
 
           <a href="#skills" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
             <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
-              <span>02. Technical Toolkit</span>
+              <span>02. Skills &amp; Tech Stack</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
-              Python, Google Gemini API, NLTK/PyTorch, Next.js 16, React, TypeScript, PostgreSQL, Supabase &amp; Vercel.
+              Python, Next.js 16, React, TypeScript, PostgreSQL, Supabase, Google Gemini API, NLTK &amp; PyTorch.
             </p>
           </a>
 
           <a href="#experience" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
             <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
-              <span>03. Work Experience</span>
+              <span>03. Experience &amp; Leadership</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
-              OWASP Student Chapter (Web Development &amp; Technical Coordinator), OWASP Top 10 security workshops &amp; AI system design.
+              OWASP Student Chapter (Web Development &amp; Technical Coordinator), OWASP Top 10 security workshops &amp; event logistics.
             </p>
           </a>
 
           <a href="#contact" className="p-3.5 sm:p-5 rounded-3xl bg-white dark:bg-black/80 border border-red-500/25 dark:border-red-500/30 hover:border-red-500/60 backdrop-blur-xl transition-all group shadow-[0_10px_30px_rgba(15,23,42,0.05)] dark:shadow-xl hover:shadow-[0_0_30px_rgba(239,68,68,0.2),0_12px_28px_rgba(15,23,42,0.06)]">
             <div className="flex items-center justify-between text-red-600 dark:text-red-400 font-mono text-xs sm:text-sm font-bold tracking-wide">
-              <span>04. Connect &amp; Resume</span>
+              <span>04. Contact &amp; Resume</span>
               <span className="group-hover:translate-x-1.5 transition-transform text-red-500 dark:text-red-300 font-bold text-sm">→</span>
             </div>
             <p className="text-[11px] sm:text-xs text-slate-600 dark:text-neutral-300 font-medium mt-1.5 leading-relaxed">
-              Direct email (cvarun713@gmail.com), LinkedIn, GitHub developer profile &amp; downloadable PDF engineering resume.
+              Email (cvarun713@gmail.com), LinkedIn, GitHub profile &amp; downloadable engineering resume.
             </p>
           </a>
         </div>
@@ -212,7 +212,7 @@ const heroFxSections: FXSection[] = [
             href="#projects"
             className="group relative px-5 py-2.5 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-500 hover:to-red-600 text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 shadow-[0_18px_34px_-18px_rgba(220,38,38,0.58)] flex items-center gap-1.5"
           >
-            <span>Explore Portfolio Below ↓</span>
+            <span>View All Projects ↓</span>
           </a>
 
           <a
@@ -226,7 +226,7 @@ const heroFxSections: FXSection[] = [
         </div>
       </div>
     ),
-    rightLabel: "Overview Roadmap",
+    rightLabel: "Navigation",
     bgGradient: "radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.05) 0%, rgba(10, 10, 14, 0.98) 65%, #040406 100%)",
     glowColor: "#e5e7eb",
   },

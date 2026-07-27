@@ -297,17 +297,16 @@ const MagneticButton = React.forwardRef<HTMLElement, MagneticButtonProps>(
     );
   }
 );
-MagneticButton.displayName = "MagneticButton";
 
 // -------------------------------------------------------------------------
 // 3. MAIN COMPONENT
 // -------------------------------------------------------------------------
 const MarqueeItem = () => (
   <div className="flex items-center space-x-8 px-4">
-    <span>AI ENGINEER & DEVELOPER</span> <span className="text-red-400">✦</span>
-    <span>FULL STACK SYSTEMS</span> <span className="text-rose-400">✦</span>
-    <span>NEXT.JS & MACHINE LEARNING</span> <span className="text-red-400">✦</span>
-    <span>OPEN TO OPPORTUNITIES</span> <span className="text-rose-400">✦</span>
+    <span>AI & FULL-STACK DEVELOPER</span> <span className="text-red-400">✦</span>
+    <span>WEB & DATA PIPELINES</span> <span className="text-rose-400">✦</span>
+    <span>PYTHON, NEXT.JS & SUPABASE</span> <span className="text-red-400">✦</span>
+    <span>OPEN FOR INTERNSHIPS</span> <span className="text-rose-400">✦</span>
   </div>
 );
 
@@ -439,10 +438,10 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                     Get In Touch
                   </span>
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black footer-text-glow tracking-tighter mt-1 leading-tight">
-                    Let&apos;s Connect & Build
+                    Contact & Connect
                   </h2>
                   <p className="footer-copy mt-1 text-xs">
-                    Have an internship, collaboration, or opportunity for {profileName}? Drop me a line directly.
+                    Have an internship opportunity, technical collaboration, or question for {profileName}? Send me a message directly.
                   </p>
                 </div>
 
@@ -477,7 +476,7 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
                       <div>
                         <p className="footer-label text-[8px] font-bold uppercase tracking-wider">Resume</p>
                         <p className="footer-strong text-xs font-semibold group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors">
-                          View Official PDF
+                          View PDF Resume
                         </p>
                       </div>
                     </div>
@@ -527,7 +526,6 @@ export default function Footer({ profileName = profile.name.full }: FooterProps 
 
             </div>
           </div>
-
           {/* 3. Bottom Bar / Credits */}
           <div className="footer-bottom-bar relative z-20 w-full py-2.5 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3 border-t shrink-0 backdrop-blur-md">
             

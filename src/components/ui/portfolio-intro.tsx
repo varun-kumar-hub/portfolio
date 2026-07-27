@@ -271,7 +271,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               <span className={`text-[10px] font-sans tracking-[0.2em] uppercase animate-pulse ${
                 isLightMode ? "text-slate-400 font-semibold" : "text-neutral-600"
               }`}>
-                {isHolding ? "DECRYPTING IDENTITY..." : "CLICK & HOLD ANYWHERE"}
+                {isHolding ? "LOADING PROFILE..." : "HOLD ANYWHERE TO ENTER"}
               </span>
             )}
           </div>
@@ -293,7 +293,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
             <div className="min-h-[30px] sm:min-h-[45px] md:min-h-[55px] lg:min-h-[65px] flex items-center justify-center text-center">
               <EncryptedText
-                text="AI & ML Engineer"
+                text="AI & Full-Stack Developer"
                 progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
                 className={`text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight select-none block leading-[1.05] whitespace-normal sm:whitespace-nowrap break-words text-center ${
                   isLightMode ? "text-slate-950 font-bold" : "text-white"
@@ -312,7 +312,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 transition={{ duration: 0.5 }}
               >
                 <ContainerTextFlip
-                  words={["Tech Innovator", "AI & ML Enthusiast", "B.Tech Student", "Full Stack Developer"]}
+                  words={["AI & ML Student", "Full-Stack Developer", "Multi-Agent Systems", "OWASP Coordinator"]}
                   interval={4000}
                   className={`py-1 px-4 text-[11px] font-sans rounded-full tracking-wide shadow-none ${
                     isLightMode
@@ -326,7 +326,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
 
           <div className="min-h-[45px] sm:min-h-[60px] max-w-2xl px-4 pt-2">
             <EncryptedText
-              text="Exploring the limitless potential of Artificial Intelligence while building modern web applications to create impactful solutions."
+              text="Building multi-agent AI verification tools, NLP document engines, and responsive full-stack web applications."
               progress={Math.max(0, Math.min(1, (progress - 0.6) * 2.5))}
               className={`text-sm sm:text-base md:text-lg leading-relaxed font-sans block ${
                 isLightMode ? "text-slate-600 font-medium" : "text-neutral-450 font-normal"
@@ -384,7 +384,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                     ? isLightMode ? "text-red-600 animate-pulse font-bold" : "text-red-400 animate-pulse font-semibold"
                     : isLightMode ? "text-slate-400 font-semibold" : "text-neutral-600"
                 }`}>
-                  {progress > 0 ? "DECRYPTING IDENTITY..." : "HOLD ANYWHERE TO START DECRYPTION"}
+                  {progress > 0 ? "LOADING PROFILE..." : "HOLD ANYWHERE TO ENTER PORTFOLIO"}
                 </p>
               </motion.div>
             ) : (
@@ -397,7 +397,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
                 }`}
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                ACCESS GRANTED. ENTERING PORTFOLIO...
+                ACCESS GRANTED // ENTERING PORTFOLIO...
               </motion.div>
             )}
           </AnimatePresence>

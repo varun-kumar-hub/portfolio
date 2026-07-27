@@ -33,12 +33,12 @@ export const projects: Project[] = [
   {
     slug: "learnx",
     name: "LearnX",
-    category: "AI & EdTech",
+    category: "EdTech & AI Tools",
     featured: true,
-    description: "An AI-powered learning platform that brings everything together in one place — creating structured learning paths for any subject with interactive knowledge graphs, AI-guided study, and community collaboration.",
-    longDescription: "Learning a new topic usually means switching between YouTube videos, blogs, PDFs, documentation, and many different websites. Since the information is scattered, learning becomes confusing and unorganized. LearnX solves this by bringing everything together in one intelligent platform. Instead of searching across multiple resources, LearnX creates structured learning paths for any subject — making learning simpler, faster, and more effective. It features AI-powered knowledge graphs, adaptive quizzes, flashcards, a learning analytics dashboard, and community-driven content sharing.",
+    description: "An AI learning platform that turns complex subjects into interactive knowledge graphs, step-by-step topic guides, flashcards, and practice quizzes.",
+    longDescription: "Learning technical topics often requires juggling fragmented YouTube videos, technical blogs, and static PDFs. LearnX organizes study topics into a single web application. Powered by Gemini 2.5 Flash, it generates interactive 2D force-directed knowledge graphs, chapter lesson paths, flashcards, and automated quizzes with progress analytics.",
     problemStatement: "Self-directed learning across technical subjects often fails due to fragmented educational resources. Students spend over 40% of their study time switching between unstructured YouTube playlists, technical blogs, raw documentation, and static PDFs — leading to cognitive overload, information gaps, and lack of visual concept hierarchy.",
-    solutionOverview: "LearnX unifies learning into an AI-orchestrated environment. Powered by Google Gemini 2.5 Flash, it ingests subject themes and synthesizes interactive knowledge graphs, step-by-step topic paths, adaptive revision flashcards, self-grading quizzes, and community study paths. It provides students with a single intelligent dashboard to learn, practice, analyze weaknesses, and master subjects structurally.",
+    solutionOverview: "LearnX unifies learning into a single web environment. Powered by Google Gemini 2.5 Flash, it ingests subject themes and synthesizes interactive knowledge graphs, step-by-step topic paths, adaptive revision flashcards, self-grading quizzes, and community study paths. It provides students with a single dashboard to learn, practice, analyze weaknesses, and master subjects structurally.",
     architecture: [
       {
         title: "Force-Directed AI Knowledge Graph Engine",
@@ -114,12 +114,12 @@ export const projects: Project[] = [
   {
     slug: "resume-analyzer",
     name: "Resume Analyzer",
-    category: "NLP & Resume Intelligence",
+    category: "NLP & Document Processing",
     featured: true,
-    description: "A resume parsing tool using Python and NLP that identifies key skill gaps, helping users improve their ATS match rate by an average of 25%.",
-    longDescription: "Resume Analyzer is a high-performance NLP application designed to streamline the job application process. Built with Python and NLTK, it parses complex PDF and Word resumes to extract structured skill representations. The system uses a specialized ATS optimization algorithm to cross-reference resume files against job listings, highlighting missing keywords, advising on word choice, and generating structural suggestions.",
+    description: "An NLP document scanner built with Python and NLTK that parses PDF resumes, calculates ATS compatibility scores, and highlights missing key skills.",
+    longDescription: "Resume Analyzer parses PDF and Word resume files using Python and NLTK to extract skill keywords, experience sections, and contact details. It compares candidate TF-IDF word vectors directly against target job descriptions to calculate an ATS compatibility score, highlight missing technical keywords, and suggest bullet point edits.",
     problemStatement: "Up to 75% of qualified job applicants are rejected by automated Applicant Tracking Systems (ATS) prior to human review due to unextracted skill keywords, non-standard document formatting, or missing industry terminology.",
-    solutionOverview: "Resume Analyzer acts as an intelligent career coach. It executes a multi-stage document processing pipeline using PyPDF2 and NLTK tokenization, removing stop words, lemmatizing technical terms, and running TF-IDF keyword extraction. It compares candidate vectors directly against target job descriptions to produce a detailed diagnostic score report.",
+    solutionOverview: "Resume Analyzer processes document files using PyPDF2 and NLTK tokenization, removing stop words, lemmatizing technical terms, and running TF-IDF keyword extraction. It compares candidate vectors directly against target job descriptions to produce a detailed diagnostic score report.",
     architecture: [
       {
         title: "Multi-Format Document Ingestion Engine",
@@ -189,12 +189,12 @@ export const projects: Project[] = [
   {
     slug: "researchx-ai",
     name: "ResearchX AI",
-    category: "Multi-Agent Autonomous AI",
+    category: "AI Agents & Web Search",
     featured: true,
-    description: "A Multi-Agent Research & Verification Platform that transforms scattered web information into structured, verified, and evidence-backed research with confidence scores and source citations.",
-    longDescription: "ResearchX AI is a Multi-Agent Research & Verification Platform built for the AI Business Research Challenge. Unlike traditional web scrapers, it understands user intent, performs parallel multi-source research, extracts structured information, verifies facts, resolves conflicting data, removes duplicate records, and generates comprehensive research reports with confidence scores and source citations. It supports Company, Founder, Person, Product, Technology, Local Business, Industry, Competitor, and Organization research — all through an interactive dashboard with conversational AI follow-ups.",
+    description: "An 8-agent autonomous research engine that searches multiple web APIs concurrently, cross-verifies facts across independent sources, and generates cited research briefs.",
+    longDescription: "ResearchX AI automates web research using an 8-agent pipeline. It parses user intent, executes parallel search queries across Serper API, Tavily, and Wikipedia, deduplicates entity records, and cross-checks claims to generate verified reports with confidence scores.",
     problemStatement: "Conducting thorough technical or business research across the web requires manually opening dozens of tabs, cross-verifying unverified claims, filtering promotional fluff, and synthesizing disorganized notes — a tedious process that consumes 10+ hours per research project.",
-    solutionOverview: "ResearchX AI automates end-to-end research by orchestrating an 8-agent autonomous pipeline. From query intent understanding to final report generation, each specialized agent executes a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently, cross-checks claims across independent web sources, and outputs fully cited reports alongside an interactive AI Analyst.",
+    solutionOverview: "ResearchX AI automates research by orchestrating an 8-agent pipeline. Each specialized agent executes a distinct phase: intent classification, research planning, multi-source discovery, data extraction, deduplication, cross-verification, confidence scoring, and report synthesis. It queries Serper API, Tavily Search, and Wikipedia concurrently and outputs fully cited Markdown reports.",
     architecture: [
       {
         title: "Query Understanding & Scope Classifier",
@@ -268,12 +268,12 @@ export const projects: Project[] = [
   {
     slug: "tripcrafter-pro",
     name: "TripCrafter Pro",
-    category: "AI Travel & Full-Stack",
+    category: "Full-Stack Web App",
     featured: true,
-    description: "An AI-powered travel planning app using Google Gemini to generate personalized day-by-day itineraries with interactive maps, expense tracking, and a built-in AI concierge.",
-    longDescription: "TripCrafter Pro is an intelligent trip planning application that uses Google's Gemini AI to generate personalized, day-by-day travel itineraries in seconds. Users enter their destination, travel dates, budget, and interests — and the AI crafts a detailed plan complete with activities, timings, cost estimates, insider tips, and geo-coordinates. Features include an interactive Google Maps view with markers and directions, drag-and-drop activity reordering, a real-time AI Travel Concierge chat, photo memories upload, visual expense tracking with pie charts, trip pacing analysis, live weather forecasts, and calendar export.",
+    description: "A full-stack travel planner using Gemini AI and Google Maps to build personalized day-by-day itineraries, track expenses, and show interactive route maps.",
+    longDescription: "TripCrafter Pro generates day-by-day travel itineraries based on destination, budget, group size, and pacing preferences. Powered by Gemini 2.5 Flash and Google Maps, it generates interactive route waypoints, estimated expense breakdowns, live weather updates, and downloadable PDF/calendar exports.",
     problemStatement: "Planning multi-day travel requires juggling budgets, destination maps, attraction opening hours, transport logistics, weather forecasts, and personal pacing without a single unified tool.",
-    solutionOverview: "TripCrafter Pro unifies travel planning into a single intelligent dashboard. Powered by Gemini 2.5 Flash, it synthesizes personalized daily itineraries complete with GPS coordinates, estimated costs, activity durations, and local tips. It integrates Google Maps for visual route exploration, Open-Meteo for live weather, and Supabase for budget management.",
+    solutionOverview: "TripCrafter Pro unifies travel planning into a single web application. Powered by Gemini 2.5 Flash, it generates personalized daily itineraries complete with GPS coordinates, estimated costs, activity durations, and local tips. It integrates Google Maps for visual route exploration and Supabase for backend storage.",
     architecture: [
       {
         title: "Gemini Itinerary Synthesizer",
@@ -334,10 +334,10 @@ export const projects: Project[] = [
   {
     slug: "ai-tools-tracker",
     name: "AI Tools Tracker",
-    category: "Data Engineering & Scraping",
+    category: "Web Scraping & Data Pipelines",
     featured: true,
-    description: "Automated web scraping and data collection engine gathering data from major tech channels to reduce manual research by 10+ hours weekly.",
-    longDescription: "AI Tools Tracker is a data-aggregation dashboard designed to monitor the fast-moving landscape of artificial intelligence software. It utilizes an automated scraping engine built on BeautifulSoup daily. A PostgreSQL database stores cataloged features, pricing tiers, and tags, enabling a highly-responsive comparisons system.",
+    description: "An automated Python web scraping pipeline and database dashboard that monitors, normalizes, and catalogs AI software tools for fast comparisons.",
+    longDescription: "AI Tools Tracker runs scheduled BeautifulSoup Python scrapers to monitor developer directories and AI launch channels. Parsed records are normalized and stored in PostgreSQL, allowing fast category filtering, pricing analysis, and tool comparisons.",
     problemStatement: "With dozens of new AI tools launched daily across ProductHunt, GitHub, and tech news, keeping up with feature updates, pricing changes, and category shifts requires hundreds of manual research hours.",
     solutionOverview: "AI Tools Tracker runs an automated data aggregation pipeline. Scheduled Python scrapers leverage BeautifulSoup and Requests to monitor top AI repositories and directories, clean and deduplicate payloads, normalize pricing models, and load structured records into PostgreSQL for instant side-by-side comparisons.",
     architecture: [

@@ -47,7 +47,7 @@ const milestones: Milestone[] = [
     timeline: "Aug 2024 - Present",
     location: "Krishnankoil, TN, India",
     description:
-      "Architecting secure web infrastructure for OWASP Student Chapter. Leading technical workshops on OWASP Top 10 web vulnerabilities, implementing WCAG accessibility standards, and orchestrating logistics for campus-wide developer hackathons.",
+      "Building web applications and coordinating technical logistics for the OWASP Student Chapter. Leading workshops on OWASP Top 10 web vulnerabilities, implementing WCAG accessibility standards, and organizing campus hackathons.",
     responsibilities: [
       "Engineered secure, responsive web applications and campus event management portals.",
       "Coordinated venue mapping, system diagnostics, and server readiness logistics for campus assessments.",
