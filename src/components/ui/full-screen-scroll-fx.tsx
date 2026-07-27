@@ -161,7 +161,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
       return words.map((w, i) => (
         <span className="fx-word-mask" key={i}>
           <span className="fx-word">{w}</span>
-          {i < words.length - 1 ? "\u00A0" : null}
+          {i < words.length - 1 ? " " : null}
         </span>
       ));
     };
@@ -626,24 +626,6 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             filter: saturate(0);
           }
 
-          @media (max-width: 900px) {
-            .fx-fixed-section { height: 260vh; }
-            .fx-header { padding-top: clamp(100px, 14vh, 125px); }
-            .fx-content {
-              grid-template-columns: 1fr;
-              padding: 0 1rem;
-              place-items: center;
-            }
-            .fx-left, .fx-right { display: none !important; }
-            .fx-center {
-              height: auto;
-              max-height: 68vh;
-              overflow-y: auto;
-              padding: 0;
-              margin-top: clamp(10px, 2vh, 25px);
-            }
-            .fx-featured-title { font-size: clamp(1.6rem, 5.5vw, 2.5rem); }
-          }
           .fx-fixed::after {
             display: none;
           }
@@ -718,8 +700,11 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             padding: 0 0.5rem;
             margin-top: clamp(15px, 3vh, 35px);
             z-index: 30;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
           }
-          .fx-featured { position: absolute; opacity: 0; visibility: hidden; width: 100%; max-width: 100%; }
+          .fx-featured { position: absolute; opacity: 0; visibility: hidden; width: 100%; max-width: 100%; box-sizing: border-box; }
           .fx-featured.active { opacity: 1; visibility: visible; }
           .fx-featured-title {
             margin: 0; color: #ef4444;
@@ -729,6 +714,7 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
             padding: 0 0.5rem;
             text-wrap: balance;
             word-break: normal;
+            overflow-wrap: break-word;
             background: linear-gradient(180deg, #ff6b6b 0%, #ef4444 55%, #dc2626 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -764,6 +750,54 @@ export const FullScreenScrollFX = forwardRef<HTMLDivElement, FullScreenFXProps>(
           :global(.dark) .fx-progress { background: rgba(255,255,255,0.12); }
           .fx-progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: linear-gradient(90deg, #ef4444, #f43f5e); height: 100%; transition: width 0.3s ease; border-radius: 999px; }
           .fx-progress-numbers { position: absolute; inset: auto 0 100% 0; display: flex; justify-content: space-between; font-size: 0.75rem; padding-bottom: 6px; font-family: monospace; }
+
+          @media (max-width: 900px) {
+            .fx-fixed-section { height: 260vh; }
+            .fx-header { padding-top: clamp(75px, 11vh, 105px); }
+            .fx-footer {
+              bottom: 0.75rem;
+              z-index: 40;
+            }
+            .fx-progress {
+              width: 140px;
+            }
+            .fx-content {
+              grid-template-columns: 1fr;
+              padding: 0 0.75rem;
+              place-items: center;
+              width: 100%;
+              max-width: 100%;
+              box-sizing: border-box;
+            }
+            .fx-left, .fx-right { display: none !important; }
+            .fx-center {
+              height: auto;
+              max-height: calc(100vh - 140px);
+              overflow-y: auto;
+              padding: 0 0.25rem 5rem 0.25rem;
+              margin-top: clamp(4px, 1.5vh, 16px);
+              width: 100%;
+              max-width: 100%;
+              box-sizing: border-box;
+              -webkit-overflow-scrolling: touch;
+            }
+            .fx-featured-title {
+              font-size: clamp(2rem, 6.5vw, 3.2rem) !important;
+              line-height: 1.12;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .fx-featured-title {
+              font-size: clamp(1.75rem, 8vw, 2.4rem) !important;
+              line-height: 1.14;
+            }
+            .fx-header { padding-top: clamp(65px, 9vh, 85px); }
+            .fx-center {
+              max-height: calc(100vh - 130px);
+              padding-bottom: 5.5rem;
+            }
+          }
         `}</style>
       </div>
     );

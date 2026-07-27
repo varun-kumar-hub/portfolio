@@ -102,10 +102,10 @@ function ProfileSpotlightCard() {
       </div>
 
       {/* Right Column: Scaled Photo Frame for Mobile */}
-      <div className="relative z-30 shrink-0 group">
-        <div className="absolute -inset-1 sm:-inset-2 rounded-xl sm:rounded-3xl bg-gradient-to-br from-red-500/20 via-rose-500/15 to-red-600/20 blur-xl opacity-80 pointer-events-none transition-opacity" />
+      <div className="relative z-30 shrink-0 group my-1.5 sm:my-0">
+        <div className="absolute -inset-1 sm:-inset-2 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-red-500/20 via-rose-500/15 to-red-600/20 blur-xl opacity-80 pointer-events-none transition-opacity" />
 
-        <div className="relative w-24 h-32 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-xl sm:rounded-3xl overflow-hidden border border-red-500/40 bg-neutral-900 shadow-[0_15px_35px_rgba(15,23,42,0.1),0_0_25px_rgba(239,68,68,0.15)] flex items-center justify-center">
+        <div className="relative w-48 h-64 sm:w-56 sm:h-72 md:w-72 md:h-88 rounded-2xl sm:rounded-3xl overflow-hidden border border-red-500/40 bg-neutral-900 shadow-[0_15px_35px_rgba(15,23,42,0.1),0_0_25px_rgba(239,68,68,0.15)] flex items-center justify-center">
           <Image
             src="/profile-varun.png"
             alt="Varun Kumar"
@@ -130,12 +130,12 @@ const heroFxSections: FXSection[] = [
     customContent: (
       <div className="flex flex-col items-center justify-center space-y-3 sm:space-y-4 mt-2 max-w-4xl mx-auto text-center px-4">
         {/* Role Headline */}
-        <h3 className="text-base sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-950 dark:text-white leading-tight mt-1 text-center">
+        <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-wide text-slate-950 dark:text-white leading-tight mt-1 text-center">
           AI Engineer &amp; Tech Innovator
         </h3>
 
         {/* Status Badge */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-bold backdrop-blur-xl shadow-sm mt-4">
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/80 dark:border-neutral-800 bg-white/90 dark:bg-neutral-900/90 px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-lg font-bold backdrop-blur-xl shadow-sm mt-3 sm:mt-4">
           <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 animate-pulse" />
           <span className="text-slate-900 dark:text-neutral-200 font-bold tracking-wider">B.Tech CSE (AI &amp; ML)</span>
         </div>
@@ -207,7 +207,7 @@ const heroFxSections: FXSection[] = [
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-2 pb-8 sm:pb-2">
           <a
             href="#projects"
             className="group relative px-5 py-2.5 bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-500 hover:to-red-600 text-white font-semibold text-xs sm:text-sm tracking-wider rounded-xl transition-all duration-300 shadow-[0_18px_34px_-18px_rgba(220,38,38,0.58)] flex items-center gap-1.5"

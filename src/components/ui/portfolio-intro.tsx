@@ -277,11 +277,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
           </div>
 
           <div className="flex flex-col space-y-2 sm:space-y-3 font-sans max-w-3xl">
-            <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center">
+            <div className="min-h-[40px] sm:min-h-[60px] md:min-h-[70px] lg:min-h-[85px] flex items-center justify-center text-center">
               <EncryptedText
                 text="Challa Varun Kumar"
                 progress={Math.min(1, progress * 1.5)}
-                className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter select-none block leading-[1.05] whitespace-nowrap ${
+                className={`text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter select-none block leading-[1.05] whitespace-normal sm:whitespace-nowrap break-words text-center ${
                   isLightMode
                     ? "bg-gradient-to-b from-red-500 via-rose-500 to-red-600 bg-clip-text text-transparent"
                     : "bg-gradient-to-r from-red-500 via-red-400 to-rose-500 bg-clip-text text-transparent"
@@ -291,11 +291,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
               />
             </div>
 
-            <div className="min-h-[30px] sm:min-h-[45px] md:min-h-[55px] lg:min-h-[65px] flex items-center justify-center">
+            <div className="min-h-[30px] sm:min-h-[45px] md:min-h-[55px] lg:min-h-[65px] flex items-center justify-center text-center">
               <EncryptedText
                 text="AI & ML Engineer"
                 progress={Math.max(0, Math.min(1, (progress - 0.3) * 1.5))}
-                className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight select-none block leading-[1.05] whitespace-nowrap ${
+                className={`text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight select-none block leading-[1.05] whitespace-normal sm:whitespace-nowrap break-words text-center ${
                   isLightMode ? "text-slate-950 font-bold" : "text-white"
                 }`}
                 encryptedClassName={isLightMode ? "text-slate-300 font-bold" : "text-neutral-700 font-bold"}
