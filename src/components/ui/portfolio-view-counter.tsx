@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
-import { getPortfolioViews } from "@/lib/firebase";
+import { recordPortfolioView } from "@/lib/firebase";
 
 interface PortfolioViewCounterProps {
   className?: string;
@@ -42,7 +42,7 @@ export function PortfolioViewCounter({
 
     async function fetchViews() {
       try {
-        const views = await getPortfolioViews();
+        const views = await recordPortfolioView();
         if (isMounted) {
           if (views !== null) {
             setCount(views);
@@ -83,7 +83,7 @@ export function PortfolioViewCounter({
       </div>
 
       {/* Formatted View Count with smooth animation */}
-      <div className="flex items-baseline gap-1 font-mono">
+      <div className="flex items-center font-mono">
         <AnimatePresence mode="wait">
           <motion.span
             key={formattedValue}
@@ -96,10 +96,6 @@ export function PortfolioViewCounter({
             {formattedValue}
           </motion.span>
         </AnimatePresence>
-
-        <span className="text-[10px] font-sans font-medium uppercase tracking-wider text-slate-500 dark:text-neutral-400 group-hover:text-slate-700 dark:group-hover:text-neutral-200 transition-colors duration-300">
-          Views
-        </span>
       </div>
     </div>
   );
