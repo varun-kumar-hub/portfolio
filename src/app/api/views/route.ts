@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server";
-import { getPortfolioViews, recordPortfolioView } from "@/lib/firebase";
+import { getPortfolioViews } from "@/lib/firebase";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const shouldIncrement = searchParams.get("increment") === "true";
-
+export async function GET() {
   try {
-    const views = shouldIncrement
-      ? await recordPortfolioView()
-      : await getPortfolioViews();
+    const views = await getPortfolioViews();
 
     if (views !== null) {
       return NextResponse.json({ count: views });

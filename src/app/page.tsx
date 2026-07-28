@@ -21,8 +21,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
 import Footer from "@/components/Footer";
-import { recordPortfolioView } from "@/lib/firebase";
-import { PortfolioViewCounter } from "@/components/ui/portfolio-view-counter";
 
 import CustomCursor from "@/components/ui/custom-cursor";
 
@@ -515,12 +513,6 @@ export default function Home() {
             key="intro"
             onEnter={() => {
               setHasEntered(true);
-              if (typeof window !== "undefined") {
-                const sessionKey = "portfolio_view_recorded";
-                if (!sessionStorage.getItem(sessionKey)) {
-                  recordPortfolioView().catch(() => {});
-                }
-              }
             }}
             onProgressChange={() => { }}
           />

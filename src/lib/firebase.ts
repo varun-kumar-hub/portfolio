@@ -7,6 +7,7 @@ import {
   updateDoc,
   increment,
   serverTimestamp,
+  FirestoreError,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -34,7 +35,8 @@ export interface PortfolioStats {
 }
 
 /**
- * Fetch current portfolio view count from Firestore (portfolio/stats)
+ * Fetch current portfolio view count from Firestore (portfolio/stats).
+ * This never initializes or mutates the stats document.
  */
 export async function getPortfolioViews(): Promise<number | null> {
   try {
@@ -44,14 +46,34 @@ export async function getPortfolioViews(): Promise<number | null> {
     if (snap.exists()) {
       const data = snap.data() as PortfolioStats;
       return typeof data.views === "number" ? data.views : 0;
-    } else {
-      // Document doesn't exist yet, initialize it
-      await setDoc(docRef, { views: 1, updatedAt: serverTimestamp() }, { merge: true });
-      return 1;
     }
+    return 0;
   } catch (error) {
     console.warn("Firestore getPortfolioViews notice:", error);
     return null;
+  }
+}
+
+async function incrementPortfolioViews(): Promise<void> {
+  const docRef = doc(db, STATS_COLLECTION, STATS_DOC);
+
+  try {
+    await updateDoc(docRef, {
+      views: increment(1),
+      updatedAt: serverTimestamp(),
+    });
+  } catch (error) {
+    const code = (error as FirestoreError | undefined)?.code;
+
+    if (code !== "not-found") {
+      throw error;
+    }
+
+    await setDoc(
+      docRef,
+      { views: 1, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
   }
 }
 
@@ -65,38 +87,15 @@ export async function recordPortfolioView(): Promise<number | null> {
   const SESSION_KEY = "portfolio_view_recorded";
   const hasRecorded = sessionStorage.getItem(SESSION_KEY);
 
-  const docRef = doc(db, STATS_COLLECTION, STATS_DOC);
-
   try {
     if (!hasRecorded) {
-      // Mark session first to prevent duplicate triggering
       sessionStorage.setItem(SESSION_KEY, "true");
-
-      const snap = await getDoc(docRef);
-
-      if (snap.exists()) {
-        await updateDoc(docRef, {
-          views: increment(1),
-          updatedAt: serverTimestamp(),
-        });
-        const updatedSnap = await getDoc(docRef);
-        const data = updatedSnap.data() as PortfolioStats;
-        return typeof data.views === "number" ? data.views : null;
-      } else {
-        await setDoc(
-          docRef,
-          { views: 1, updatedAt: serverTimestamp() },
-          { merge: true }
-        );
-        return 1;
-      }
-    } else {
-      // Already recorded in this session, return current count without incrementing
-      return await getPortfolioViews();
+      await incrementPortfolioViews();
     }
+
+    return await getPortfolioViews();
   } catch (error) {
     console.warn("Firestore recordPortfolioView notice:", error);
-    // If network or permission error occurred, attempt silent fallback fetch
     return await getPortfolioViews();
   }
 }
