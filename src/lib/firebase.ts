@@ -78,24 +78,15 @@ async function incrementPortfolioViews(): Promise<void> {
 }
 
 /**
- * Atomically increment portfolio view count by 1 in Firestore (portfolio/stats)
- * Enforces one view per browser session using sessionStorage.
+ * Atomically records one completed intro entry in Firestore (portfolio/stats).
+ * Every intentional intro completion increments the global counter once.
  */
-export async function recordPortfolioView(): Promise<number | null> {
-  if (typeof window === "undefined") return null;
-
-  const SESSION_KEY = "portfolio_view_recorded";
-  const hasRecorded = sessionStorage.getItem(SESSION_KEY);
-
+export async function recordPortfolioIntroEntry(): Promise<number | null> {
   try {
-    if (!hasRecorded) {
-      sessionStorage.setItem(SESSION_KEY, "true");
-      await incrementPortfolioViews();
-    }
-
+    await incrementPortfolioViews();
     return await getPortfolioViews();
   } catch (error) {
-    console.warn("Firestore recordPortfolioView notice:", error);
+    console.warn("Firestore recordPortfolioIntroEntry notice:", error);
     return await getPortfolioViews();
   }
 }

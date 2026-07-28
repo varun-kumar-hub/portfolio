@@ -21,6 +21,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
 import Footer from "@/components/Footer";
+import { recordPortfolioIntroEntry } from "@/lib/firebase";
 
 import CustomCursor from "@/components/ui/custom-cursor";
 
@@ -511,6 +512,9 @@ export default function Home() {
         {!hasEntered && isIntroReady ? (
           <PortfolioIntro
             key="intro"
+            onComplete={() => {
+              recordPortfolioIntroEntry().catch(() => {});
+            }}
             onEnter={() => {
               setHasEntered(true);
             }}

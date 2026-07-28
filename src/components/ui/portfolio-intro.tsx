@@ -85,10 +85,11 @@ function useSoundEngine() {
 // ─── Main Intro Component ────────────────────────────────────────
 interface PortfolioIntroProps {
   onEnter: () => void;
+  onComplete?: () => void;
   onProgressChange: (progress: number) => void;
 }
 
-export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProps) {
+export function PortfolioIntro({ onEnter, onComplete, onProgressChange }: PortfolioIntroProps) {
   const [progress, setProgress] = useState(0);
   const [isHolding, setIsHolding] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -103,6 +104,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
   const completedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
   const hasPlayedChimeRef = useRef(false);
+  const hasNotifiedCompleteRef = useRef(false);
 
   const { playGlitchTick, playSuccessChime } = useSoundEngine();
 
@@ -168,6 +170,11 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
       if (nextProgress >= 1) {
         setIsCompleted(true);
 
+        if (!hasNotifiedCompleteRef.current) {
+          hasNotifiedCompleteRef.current = true;
+          onComplete?.();
+        }
+
         if (!hasPlayedChimeRef.current) {
           hasPlayedChimeRef.current = true;
           playSuccessChime();
@@ -190,7 +197,7 @@ export function PortfolioIntro({ onEnter, onProgressChange }: PortfolioIntroProp
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isHolding, onEnter, playGlitchTick, playSuccessChime]);
+  }, [isHolding, onComplete, onEnter, playGlitchTick, playSuccessChime]);
 
   const handleHoldStart = () => {
     if (isCompleted) return;

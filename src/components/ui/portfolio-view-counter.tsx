@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
-import { recordPortfolioView } from "@/lib/firebase";
+import { getPortfolioViews } from "@/lib/firebase";
 
 interface PortfolioViewCounterProps {
   className?: string;
@@ -42,7 +42,7 @@ export function PortfolioViewCounter({
 
     async function fetchViews() {
       try {
-        const views = await recordPortfolioView();
+        const views = await getPortfolioViews();
         if (isMounted) {
           if (views !== null) {
             setCount(views);
