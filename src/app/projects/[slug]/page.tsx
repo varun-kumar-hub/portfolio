@@ -23,6 +23,7 @@ import { SpaceBackground } from "@/components/ui/space-background";
 import { getSkillMeta } from "@/components/icons/SkillIcons";
 import { cn } from "@/lib/utils";
 import { ProjectCardStack } from "@/components/ui/project-card-stack";
+import { ProjectViewCounter } from "@/components/ui/project-view-counter";
 
 /* ─── Scroll-triggered fade-in wrapper ─── */
 function FadeSection({
@@ -207,6 +208,14 @@ export default function ProjectDetailsPage() {
               </button>
             );
           })}
+
+          {/* View count displayed directly under sidebar options */}
+          <div className="pt-5 flex justify-center items-center w-full">
+            <ProjectViewCounter
+              slug={project.slug}
+              className="text-base sm:text-lg font-mono font-extrabold text-slate-700 dark:text-neutral-300 tracking-wider px-4 py-2 rounded-xl bg-slate-100/80 dark:bg-white/[0.04] border border-slate-200/80 dark:border-white/[0.08] shadow-sm"
+            />
+          </div>
         </nav>
 
         {/* Decorative bottom line */}

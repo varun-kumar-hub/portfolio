@@ -511,7 +511,16 @@ export default function Home() {
         {!hasEntered && isIntroReady ? (
           <PortfolioIntro
             key="intro"
-            onEnter={() => setHasEntered(true)}
+            onEnter={() => {
+              setHasEntered(true);
+              if (typeof window !== "undefined") {
+                const sessionKey = "viewed_portfolio_intro";
+                if (!sessionStorage.getItem(sessionKey)) {
+                  sessionStorage.setItem(sessionKey, "true");
+                  fetch("/api/views?slug=portfolio&increment=true").catch(() => {});
+                }
+              }
+            }}
             onProgressChange={() => { }}
           />
         ) : isIntroReady ? (
