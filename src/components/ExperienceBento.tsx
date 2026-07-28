@@ -333,6 +333,17 @@ type ScrollFSMState =
   | "PINNED"
   | "EXITING";
 
+function isExperienceFullyVisible(rect: DOMRect) {
+  const viewportHeight = window.innerHeight;
+  const fitTolerance = 8;
+
+  if (rect.height > viewportHeight) {
+    return rect.top <= fitTolerance && rect.bottom >= viewportHeight - fitTolerance;
+  }
+
+  return rect.top >= -fitTolerance && rect.bottom <= viewportHeight + fitTolerance;
+}
+
 export default function ExperienceBento() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
@@ -497,7 +508,7 @@ export default function ExperienceBento() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+          if (entry.isIntersecting && isExperienceFullyVisible(entry.boundingClientRect)) {
             if (scrollStateRef.current === "NORMAL_SCROLL" && !exitCooldownRef.current) {
               const top = entry.boundingClientRect.top;
               entryDirectionRef.current = top > 0 ? "DOWN" : "UP";
@@ -512,7 +523,7 @@ export default function ExperienceBento() {
           }
         });
       },
-      { threshold: [0.2, 0.45, 0.75] }
+      { threshold: [0.2, 0.75, 0.95, 1] }
     );
 
     observer.observe(el);
@@ -546,9 +557,9 @@ export default function ExperienceBento() {
 
       if (wrapperRef.current && !exitCooldownRef.current) {
         const rect = wrapperRef.current.getBoundingClientRect();
-        const isAligned = Math.abs(rect.top) < 100;
+        const isAligned = Math.abs(rect.top) < 24;
 
-        if (isVelocitySafe && isInputQuiet && isAligned) {
+        if (isVelocitySafe && isInputQuiet && isAligned && isExperienceFullyVisible(rect)) {
           const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
 
           // Single clean position lock without subpixel jitter
