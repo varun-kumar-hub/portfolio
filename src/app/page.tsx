@@ -723,11 +723,6 @@ export default function Home() {
                     </Swiper>
                   </div>
                 </div>
-
-                {/* View Counter Badge inside Projects Directory */}
-                <div className="mt-6 flex justify-center items-center relative z-20">
-                  <PortfolioViewCounter />
-                </div>
               </section>
 
               {/* ─── Skills ─── */}
