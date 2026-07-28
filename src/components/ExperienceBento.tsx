@@ -349,6 +349,7 @@ export default function ExperienceBento() {
   const [direction, setDirection] = useState<number>(1);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [scrollState, setScrollState] = useState<ScrollFSMState>("NORMAL_SCROLL");
+  const [isScrollArmed, setIsScrollArmed] = useState<boolean>(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const activeIndexRef = useRef<number>(0);
@@ -360,6 +361,7 @@ export default function ExperienceBento() {
   const touchStartYRef = useRef<number>(0);
   const rafIdRef = useRef<number | null>(null);
   const isPointerInsideRef = useRef<boolean>(false);
+  const isScrollArmedRef = useRef<boolean>(false);
 
   // Velocity tracking & FSM refs
   const lastScrollYRef = useRef<number>(0);
@@ -369,6 +371,11 @@ export default function ExperienceBento() {
   const entryDirectionRef = useRef<"DOWN" | "UP">("DOWN");
   const exitCooldownRef = useRef<boolean>(false);
   const exitCooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const setScrollArmed = useCallback((armed: boolean) => {
+    setIsScrollArmed(armed);
+    isScrollArmedRef.current = armed;
+  }, []);
 
   /* ── Pointer Hover Tracking ── */
   const handleMouseEnter = useCallback(() => {
@@ -427,6 +434,27 @@ export default function ExperienceBento() {
     }
   }, [goToIndex]);
 
+  const activateExperienceScroll = useCallback(() => {
+    if (typeof window === "undefined" || !wrapperRef.current) return;
+    if (isScrollArmedRef.current || scrollStateRef.current === "PINNED") return;
+
+    setScrollArmed(true);
+    setScrollState("ENTERING");
+    scrollStateRef.current = "ENTERING";
+    velocityRef.current = 0;
+    lastInputTimeRef.current = 0;
+
+    const rect = wrapperRef.current.getBoundingClientRect();
+    const targetY = (window.scrollY || document.documentElement.scrollTop) + rect.top;
+    window.scrollTo({ top: Math.round(targetY), behavior: "smooth" });
+  }, [setScrollArmed]);
+
+  const handleCardClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest("button, a")) return;
+    activateExperienceScroll();
+  }, [activateExperienceScroll]);
+
   const lockPageScroll = useCallback(() => {
     if (typeof document === "undefined") return;
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
@@ -448,6 +476,7 @@ export default function ExperienceBento() {
   const exitExperience = useCallback((exitDir: "DOWN" | "UP") => {
     setScrollState("EXITING");
     scrollStateRef.current = "EXITING";
+    setScrollArmed(false);
     exitCooldownRef.current = true;
     unlockPageScroll();
 
@@ -508,17 +537,11 @@ export default function ExperienceBento() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && isExperienceFullyVisible(entry.boundingClientRect)) {
-            if (scrollStateRef.current === "NORMAL_SCROLL" && !exitCooldownRef.current) {
-              const top = entry.boundingClientRect.top;
-              entryDirectionRef.current = top > 0 ? "DOWN" : "UP";
-              setScrollState("ENTERING");
-              scrollStateRef.current = "ENTERING";
-            }
-          } else if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
             if (scrollStateRef.current === "ENTERING" || scrollStateRef.current === "ALIGNING") {
               setScrollState("NORMAL_SCROLL");
               scrollStateRef.current = "NORMAL_SCROLL";
+              setScrollArmed(false);
             }
           }
         });
@@ -531,7 +554,7 @@ export default function ExperienceBento() {
       observer.disconnect();
       unlockPageScroll();
     };
-  }, [unlockPageScroll]);
+  }, [setScrollArmed, unlockPageScroll]);
 
   /* ── FSM Activation & Ultra-Fast Alignment Synchronization Loop ── */
   useEffect(() => {
@@ -543,7 +566,7 @@ export default function ExperienceBento() {
       const currentState = scrollStateRef.current;
 
       // Stop polling layout once pinned or outside entering state to avoid shaking
-      if (currentState !== "ENTERING" && currentState !== "ALIGNING") {
+      if (!isScrollArmedRef.current || (currentState !== "ENTERING" && currentState !== "ALIGNING")) {
         animFrameId = requestAnimationFrame(tick);
         return;
       }
@@ -687,13 +710,32 @@ export default function ExperienceBento() {
       className="sticky top-0 h-screen max-h-screen w-full overflow-hidden select-none flex flex-col justify-center items-center"
     >
       <div className="w-full h-full [perspective:1200px] z-10 flex flex-col justify-center">
-        <motion.div className="relative h-full max-h-screen w-full bg-white dark:bg-[#07070a] text-slate-900 dark:text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-slate-200 dark:border-red-500/30 hover:border-red-500/50 transition-colors duration-500 shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.85)] origin-center">
+        <motion.div
+          onClick={handleCardClick}
+          className={cn(
+            "relative h-full max-h-screen w-full bg-white dark:bg-[#07070a] text-slate-900 dark:text-white flex flex-col justify-between py-4 sm:py-6 px-5 sm:px-10 lg:px-12 selection:bg-red-500/30 selection:text-white overflow-hidden rounded-3xl border border-slate-200 dark:border-red-500/30 hover:border-red-500/50 transition-colors duration-500 shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.85)] origin-center",
+            !isScrollArmed && scrollState !== "PINNED" && "cursor-pointer"
+          )}
+        >
           {/* Ambient Radial Background Aura */}
           <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[450px] sm:h-[600px] bg-gradient-to-b from-red-600/10 via-rose-950/5 to-transparent rounded-full blur-[160px]" />
           </div>
 
           {/* ── MOBILE ONLY: Top Horizontal Milestone Selector ── */}
+          {!isScrollArmed && scrollState !== "PINNED" && (
+            <div className="absolute bottom-24 left-1/2 z-40 -translate-x-1/2">
+              <button
+                type="button"
+                onClick={activateExperienceScroll}
+                className="group inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-white/90 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-red-600 shadow-lg backdrop-blur-xl transition-all duration-300 hover:border-red-500/60 hover:bg-red-500/10 hover:shadow-[0_0_20px_rgba(239,68,68,0.2)] dark:bg-neutral-950/80 dark:text-red-300"
+              >
+                <Sparkles className="h-3.5 w-3.5 transition-transform duration-300 group-hover:scale-110" />
+                <span>Click anywhere on this card, then scroll</span>
+              </button>
+            </div>
+          )}
+
           <div className="lg:hidden relative z-20 w-full mb-4 pb-2 border-b border-white/10 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono uppercase tracking-[0.2em] text-red-400 font-bold">
