@@ -16,6 +16,8 @@ import {
   Layers,
   BookOpen,
   Code2,
+  Menu,
+  X,
 } from "lucide-react";
 import { Github } from "@/components/icons/BrandIcons";
 import { projects } from "@/lib/projects";
@@ -85,6 +87,8 @@ export default function ProjectDetailsPage() {
   const project = projects.find((p) => p.slug === slug) || null;
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [activeSection, setActiveSection] = useState("hero");
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean | null>(null);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // Register a section ref
@@ -128,6 +132,29 @@ export default function ProjectDetailsPage() {
     }
   }, [slug, project, router]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const handleChange = () => {
+      setIsLargeScreen(mediaQuery.matches);
+      if (mediaQuery.matches) {
+        setIsMobileSidebarOpen(false);
+      }
+    };
+
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileSidebarOpen ? "hidden" : "";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileSidebarOpen]);
+
   if (!project) {
     return (
       <div className="min-h-screen bg-[#fafafb] dark:bg-[#071012] flex items-center justify-center">
@@ -150,6 +177,7 @@ export default function ProjectDetailsPage() {
     const el = document.getElementById(id);
     if (!el) return;
     const y = el.getBoundingClientRect().top + window.scrollY - 80;
+    setIsMobileSidebarOpen(false);
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
@@ -211,7 +239,7 @@ export default function ProjectDetailsPage() {
 
           {/* View count displayed directly under sidebar options */}
           <div className="pt-5 flex justify-center items-center w-full">
-            <PortfolioViewCounter />
+            {isLargeScreen === true && <PortfolioViewCounter />}
           </div>
         </nav>
 
@@ -222,7 +250,7 @@ export default function ProjectDetailsPage() {
       </aside>
 
       {/* Mobile-only back button (visible below lg) */}
-      <div className="fixed top-6 left-6 z-50 lg:hidden">
+      <div className="fixed top-6 left-6 z-[70] flex items-center gap-2 lg:hidden">
         <Link
           href="/?entered=true#projects"
           scroll={false}
@@ -231,9 +259,79 @@ export default function ProjectDetailsPage() {
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform duration-300" />
           Back
         </Link>
+        <button
+          type="button"
+          aria-label={isMobileSidebarOpen ? "Close project navigation" : "Open project navigation"}
+          aria-expanded={isMobileSidebarOpen}
+          onClick={() => setIsMobileSidebarOpen((open) => !open)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 dark:bg-neutral-950/80 border border-slate-200 dark:border-neutral-800/80 backdrop-blur-xl text-slate-800 dark:text-neutral-300 hover:text-red-600 dark:hover:text-red-300 hover:border-red-500/40 transition-all duration-300 shadow-lg"
+        >
+          {isMobileSidebarOpen ? (
+            <X className="h-4 w-4" />
+          ) : (
+            <Menu className="h-4 w-4" />
+          )}
+        </button>
       </div>
 
       {/* ─── Floating Category Badge ─── */}
+      {isMobileSidebarOpen && (
+        <button
+          type="button"
+          aria-label="Close project navigation overlay"
+          onClick={() => setIsMobileSidebarOpen(false)}
+          className="fixed inset-0 z-40 bg-slate-950/35 backdrop-blur-sm lg:hidden"
+        />
+      )}
+
+      <aside
+        className={`fixed left-0 top-0 bottom-0 z-[60] flex w-[min(19rem,calc(100vw-2rem))] flex-col border-r border-slate-200/90 bg-white/95 px-4 pb-6 pt-24 shadow-2xl backdrop-blur-2xl transition-transform duration-300 lg:hidden dark:border-white/[0.06] dark:bg-[#071012]/95 ${
+          isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <nav className="flex flex-1 flex-col gap-2.5">
+          {SIDEBAR_SECTIONS.map((sec) => {
+            const isActive = activeSection === sec.id;
+            return (
+              <button
+                key={sec.id}
+                onClick={() => scrollToSection(sec.id)}
+                className={`group flex w-full items-center gap-3.5 rounded-xl px-4 py-3 transition-all duration-300 ${
+                  isActive
+                    ? "border border-red-500/30 bg-red-500/10 shadow-sm"
+                    : "border border-transparent hover:bg-slate-100/70 dark:hover:bg-white/[0.04]"
+                }`}
+              >
+                <span
+                  className={`h-2.5 w-2.5 shrink-0 rounded-full transition-all duration-300 ${
+                    isActive
+                      ? "scale-110 bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.7)]"
+                      : "bg-slate-300 group-hover:bg-slate-400 dark:bg-neutral-700 dark:group-hover:bg-neutral-500"
+                  }`}
+                />
+                <span
+                  className={`text-xs font-bold tracking-wide transition-colors duration-300 ${
+                    isActive
+                      ? "text-red-600 dark:text-red-400"
+                      : "text-slate-600 group-hover:text-slate-900 dark:text-neutral-400 dark:group-hover:text-neutral-200"
+                  }`}
+                >
+                  {sec.label}
+                </span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="mt-5 flex items-center justify-between border-t border-slate-200/80 pt-5 dark:border-white/[0.06]">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-red-500/20 to-transparent" />
+          <div className="px-4">
+            {isLargeScreen === false && <PortfolioViewCounter />}
+          </div>
+          <div className="h-px flex-1 bg-gradient-to-r from-red-500/20 via-transparent to-transparent" />
+        </div>
+      </aside>
+
       <div className="fixed top-6 right-6 z-50">
         <span className="px-4 py-2 rounded-full bg-white/90 dark:bg-neutral-950/80 border border-red-500/30 backdrop-blur-xl text-xs font-mono font-bold uppercase tracking-widest text-red-600 dark:text-red-400 shadow-md">
           {project.category}
