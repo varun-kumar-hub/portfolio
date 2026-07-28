@@ -22,14 +22,59 @@ export async function POST(request: Request) {
       );
     }
 
-    // Ensure env vars are set
+    // 1. First priority: Check if RESEND_API_KEY is configured (HTTP API, 100% reliable)
+    const resendApiKey = process.env.RESEND_API_KEY?.trim();
+    const recipientEmail = process.env.GMAIL_USER?.trim() || "cvarunkumar455@gmail.com";
+
+    if (resendApiKey) {
+      console.log("Resend API: Processing contact form submission...");
+      
+      const resendRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "Portfolio Contact Form <onboarding@resend.dev>",
+          to: [recipientEmail],
+          reply_to: email,
+          subject: `💼 Portfolio Contact: Message from ${name}`,
+          html: `
+            <div style="background-color: #f8fafc; padding: 40px 20px; font-family: sans-serif; color: #0f172a;">
+              <div style="max-width: 540px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 32px;">
+                <h1 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">New Message from ${name}</h1>
+                <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+                <div style="background: #f8fafc; border-left: 4px solid #4f46e5; padding: 16px; margin: 16px 0; border-radius: 8px;">
+                  <p style="white-space: pre-wrap; margin: 0;">${message}</p>
+                </div>
+              </div>
+            </div>
+          `,
+        }),
+      });
+
+      if (resendRes.ok) {
+        console.log("Resend API: Email sent successfully!");
+        return NextResponse.json({ success: true });
+      } else {
+        const resendErr = (await resendRes.json()) as { message?: string };
+        console.error("Resend API error:", resendErr);
+        return NextResponse.json(
+          { error: resendErr.message || "Failed to deliver email via Resend API." },
+          { status: 500 }
+        );
+      }
+    }
+
+    // 2. Fallback: Nodemailer via Gmail SMTP
     const gmailUser = process.env.GMAIL_USER?.trim();
-    const gmailPass = process.env.GMAIL_PASS?.trim();
+    const gmailPass = process.env.GMAIL_PASS?.replace(/\s+/g, "").trim();
 
     if (!gmailUser || !gmailPass) {
-      console.error("Missing GMAIL_USER or GMAIL_PASS environment variables");
+      console.error("Missing GMAIL_USER / GMAIL_PASS / RESEND_API_KEY environment variables");
       return NextResponse.json(
-        { error: "Email service is not configured. Please contact the site owner." },
+        { error: "Email service is not configured. Please check environment settings." },
         { status: 500 }
       );
     }
