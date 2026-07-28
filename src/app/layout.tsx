@@ -90,6 +90,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`scroll-smooth antialiased ${outfit.variable} ${inter.variable} ${syne.variable} ${spaceGrotesk.variable} ${orbitron.variable} ${plusJakarta.variable} ${firaCode.variable} ${playfair.variable}`}
     >
       <head>

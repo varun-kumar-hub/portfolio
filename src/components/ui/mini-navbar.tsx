@@ -122,12 +122,12 @@ export function Navbar({ onReturnToIntro }: NavbarProps) {
   }, [isOpen]);
 
   const logoElement = (
-    <div className="relative w-7 h-7 flex items-center justify-center rounded-xl bg-gradient-to-br from-white via-red-50 to-slate-100 dark:from-red-500/25 dark:via-rose-600/15 dark:to-transparent border border-red-500/25 dark:border-red-500/40 shadow-[0_10px_24px_-16px_rgba(220,38,38,0.42)] dark:shadow-[0_0_14px_rgba(239,68,68,0.35)] dark:bg-red-950/40 group cursor-pointer transition-all duration-300 hover:scale-105">
-      <span className="text-[11px] font-mono font-black tracking-tighter text-red-500 dark:text-red-200">
+    <div className="relative w-8 h-8 flex items-center justify-center rounded-full bg-gradient-to-br from-[#690915] via-[#4d060e] to-[#2b0307] border border-red-500/80 shadow-[0_0_14px_rgba(239,68,68,0.5)] group cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(239,68,68,0.7)] shrink-0">
+      <span className="text-[11px] font-black tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] select-none">
         VK
       </span>
-      {/* Ambient Pulsing Glow */}
-      <span className="absolute inset-0 rounded-xl bg-red-500/10 dark:bg-red-500/20 animate-pulse pointer-events-none" />
+      {/* Soft Ambient Pulsing Inner Glow */}
+      <span className="absolute inset-0 rounded-full bg-red-500/10 animate-pulse pointer-events-none" />
     </div>
   );
 

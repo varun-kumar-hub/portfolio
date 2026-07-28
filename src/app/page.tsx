@@ -21,6 +21,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { PortfolioIntro } from "@/components/ui/portfolio-intro";
 import { Navbar } from "@/components/ui/mini-navbar";
 import Footer from "@/components/Footer";
+import { recordPortfolioView } from "@/lib/firebase";
+import { PortfolioViewCounter } from "@/components/ui/portfolio-view-counter";
 
 import CustomCursor from "@/components/ui/custom-cursor";
 
@@ -514,10 +516,9 @@ export default function Home() {
             onEnter={() => {
               setHasEntered(true);
               if (typeof window !== "undefined") {
-                const sessionKey = "viewed_portfolio_intro";
+                const sessionKey = "portfolio_view_recorded";
                 if (!sessionStorage.getItem(sessionKey)) {
-                  sessionStorage.setItem(sessionKey, "true");
-                  fetch("/api/views?slug=portfolio&increment=true").catch(() => {});
+                  recordPortfolioView().catch(() => {});
                 }
               }
             }}
@@ -721,6 +722,11 @@ export default function Home() {
                       ))}
                     </Swiper>
                   </div>
+                </div>
+
+                {/* View Counter Badge inside Projects Directory */}
+                <div className="mt-6 flex justify-center items-center relative z-20">
+                  <PortfolioViewCounter />
                 </div>
               </section>
 
